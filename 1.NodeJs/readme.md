@@ -8,6 +8,8 @@ Node.js đã trở thành một trong những công nghệ nổi bật nhất tr
 
 Sau khi được phát hành lần đầu tiên vào năm 2009, Node.js nhanh chóng thu hút sự quan tâm và phát triển đáng kể. Các cập nhật liên tục đã được phát hành, bao gồm việc thêm các tính năng mới và cải tiến hiệu suất. Hiện nay, Node.js được sử dụng rộng rãi trên toàn cầu và là một trong những công nghệ phổ biến nhất trong lĩnh vực phát triển web.
 
+## Node.js có thể làm gì ?
+
 ## Cài đặt
 
 Getting Started: https://nodejs.org/en/
@@ -53,7 +55,7 @@ Khi truy cập vào địa chỉ "http://localhost:3000", trang web sẽ hiển 
 
 ## Node Modules
 
-**Built-in modules (Các modules sẵn có)**
+### **Built-in modules (Các modules sẵn có)**
 
 - assert: Provides a set of assertion tests
 - buffer: To handle binary data
@@ -78,3 +80,31 @@ Khi truy cập vào địa chỉ "http://localhost:3000", trang web sẽ hiển 
 - zlib To compress or decompress files
 
 Chủ yếu đi tìm hiểu các Module có đánh dấu ❤️
+
+### **Include Module**
+
+```js
+const http = require('http');
+```
+
+### **Create Modules**
+
+Sử dụng từ khóa `exports` để xuất module, thì các vị trí sử dụng mới require được.
+
+```js
+//Tạo một file myfirstmodule.js
+exports.myDateTime = function () {
+  return Date();
+};
+```
+
+### **Usage Custom Module**
+
+Gọi tới module đã export
+
+```js
+var dt = require('./myfirstmodule');
+console.log(dt.myDateTime());
+```
+
+=> Đi tìm hiểu chi tiết các Module thường sử dụng nhất thực tế
