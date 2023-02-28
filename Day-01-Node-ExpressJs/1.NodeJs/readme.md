@@ -16,7 +16,70 @@ Nếu như các ứng dụng web truyền thống, các request tạo ra một l
 
 ![](img/node-active.webp)
 
-## 💛 Node.js có thể làm gì ?
+_Mô hình hoạt động của Node.js_
+
+Để cho dễ hiểu, khi bạn connect đến một server truyền thống, chẳng hạn Apache, nó sẽ sinh ra một thread mới để xử lý request. Ở các ngôn ngữ như PHP hay Ruby, mỗi một phép toán I/O (ví dụ truy cập database) sẽ chặn execution trên code của bạn cho đến khi phép toán đó hoàn thành. Nói cách khác, server sẽ đợi cho đến khi database được duyệt xong mới xử lý kết quả. Nếu có những request mới, server lại tiếp tục sinh những thread mới để xử lý chúng. Điều này dẫn đến nguy cơ kém hiệu quả, khi một lượng lớn thread được tạo ra sẽ khiến cho hệ thống trở nên chậm chạp, tệ hơn nữa có thể khiến site bị sập. Cách thông thường để giải quyết tình trạng này là bổ sung thêm server.
+
+CÒN VỚI NODEJS: khi một request được gửi đến, server bắt đầu xử lý nó. Nếu nó gặp phải phép toán I/O, thay vì đợi cho phép toán này kết thúc, nó sẽ đăng ký một callback trước khi tiếp tục xử lý event tiếp theo. Khi phép toán I/O kết thúc, server sẽ chạy callback và tiếp tục làm việc trên request ban đầu.
+Như vậy có một loạt các hoạt động asynchronous (non-blocking) xảy ra đồng thời. Mô hình hoạt động này của Node giúp server có thể xử lý một lượng lớn kết nối đến đồng thời đến server.
+
+## 💛 Những ứng dụng nên viết bằng Node.JS ?
+
+NodeJS được sử dụng để xây dựng rất nhiều loại ứng dụng khác nhau, trong đó phổ biến nhất gồm có:
+
+- Ứng dụng trò chuyện trong thời gian thực: Nhờ vào cấu trúc không đồng bộ đơn luồng, Node.JS rất thích hợp cho mục đích xử lý giao tiếp trong thời gian thực. Nền tảng này có thể dễ dàng mở rộng quy mô và thường dùng để tạo ra các chatbot. Bên cạnh đó, các tính năng liên quan đến ứng dụng trò chuyện như: chat nhiều người, thông báo đẩy,… cũng có thể dễ dàng được bổ sung nhờ NodeJS.
+
+- Internet of Things (IoT): Các ứng dụng IoT thường bao gồm nhiều bộ cảm biến phức tạp để gửi những phần dữ liệu nhỏ. Node.JS là một lựa chọn lý tưởng để xử lý các yêu cầu đồng thời này với tốc độ cực nhanh.
+
+- Truyền dữ liệu: Netflix là một trong số những công ty lớn trên thế giới chuyên sử dụng Node.JS cho mục đích truyền dữ liệu. Sở dĩ vì đây là một nền tảng nhẹ và cực nhanh, đồng thời còn cung cấp một API chuyên dùng để stream.
+
+- Các SPA (Single-page application) phức tạp: Trong SPA, toàn bộ ứng dụng được load vào trong một trang duy nhất, do đó sẽ có một số request được thực hiện trong nền. Vòng lặp sự kiện (event loop) của Node.JS cho phép xử lý các request theo hướng non-blocking.
+
+- Các ứng dụng REST dựa trên API: JavaScript được sử dụng trong cả frontend lẫn backend của trang. Do đó một server có thể dễ dàng giao tiếp với frontend qua REST API bằng Node.js. Bên cạnh đó, Node.JS còn cung cấp nhiều package như Express.js hay Koa để việc xây dựng ứng dụng web trở nên dễ dàng hơn bao giờ hết.
+
+## Ưu điểm NodeJS
+
+- IO hướng sự kiện không đồng bộ, cho phép xử lý nhiều yêu cầu đồng thời.
+- Sử dụng JavaScript – một ngôn ngữ lập trình dễ học.
+- Chia sẻ cùng code ở cả phía client và server.
+- NPM(Node Package Manager) và module Node đang ngày càng phát triển mạnh mẽ.
+- Cộng đồng hỗ trợ tích cực.
+- Cho phép stream các file có kích thước lớn.
+
+## Nhược điểm NodeJS
+
+- Không có khả năng mở rộng, vì vậy không thể tận dụng lợi thế mô hình đa lõi trong các phần cứng cấp server hiện nay.
+- Khó thao tác với cơ sử dữ liệu quan hệ.
+- Mỗi callback sẽ đi kèm với rất nhiều callback lồng nhau khác.
+- Cần có kiến thức tốt về JavaScript.
+- Không phù hợp với các tác vụ đòi hỏi nhiều CPU.
+
+## Một số lý do nên sử dụng NodeJS là gì?
+
+Node.JS là một trong những nền tảng phổ biến nhất hiện nay cho mục đích phát triển ứng dụng mạng phía server. Vậy lý do nên sử dụng NodeJS là gì? Hãy cùng tìm hiểu những đặc điểm khiến Node.JS là lựa chọn hàng đầu cho các developer hiện nay:
+
+- Tốc độ cực nhanh: Được xây dựng dựa trên engine JavaScript V8 của Google Chrome, do đó các thư viện của nó có khả năng thực thi code chỉ rất nhanh.
+- NPM: Với hơn 50,000 package khác nhau, các developer có thể dễ dàng lựa chọn bất kỳ tính năng nào để xây dựng cho ứng dụng của mình.
+- Lập trình không đồng bộ: Mọi API của Node.JS đều có tính không đồng bộ (non-blocking), do đó một server dựa trên Node.JS không cần phải đợi API trả về dữ liệu.
+- Không có buffering: Node.JS giúp tiết kiệm thời gian xử lý file khi cần upload âm thanh hoặc video vì các ứng dụng này không bao giờ buffer dữ liệu mà chỉ xuất dữ liệu theo từng phần (chunk).
+- Đơn luồng: Node.JS sử dụng mô hình đơn luồng với vòng lặp sự kiện. Do đó các ứng dụng có thể xử lý số lượng request lớn hơn rất nhiều so với các server truyền thống như Apache HTTP Server.
+
+## Những công ty lớn nào đang sử dụng NodeJS
+
+
+NodeJS hiện đang được sử dụng bởi rất nhiều gã khổng lồ trên khắp thế giới, nhanh chóng vượt ngưỡng 1 tỉ lượt download từ năm 2018 và hỗ trợ đến khoảng 1.2% tổng số website trên Internet, tương đương với 20 triệu trang.
+
+Một số công ty lớn sử dụng nền tảng này gồm có:
+
+- Netflix: Netflix là một trong những nền tảng giải trí trực tuyến lớn nhất thế giới với hơn 167 triệu người dùng. Nhờ vào khả năng mở rộng và cho phép xây dựng các ứng dụng có yêu cầu sử dụng dữ liệu cao, NodeJS luôn là lựa chọn hàng đầu cho nền tảng này.
+- Walmart: Đây là công ty có doanh thu lớn nhất thế giới với tổng 559 tỷ USD vào năm 2020 (theo Forbest). Walmart lựa chọn NodeJS bởi tính năng I/O không đồng bộ và khả năng xử lý nhiều request đồng thời.
+- Uber: Là một công ty đặt xe có quy mô đa quốc gia, Uber lựa chọn NodeJS làm nền tảng xây dựng ứng dụng bởi I/O không đồng bộ và cộng đồng lớn mạnh.
+- NASA: Đây là một cơ quan độc lập của Chính phủ Liên bang Hoa Kỳ, chịu trách nhiệm về chương trình không gian dân sự và nghiên cứu hàng không, vũ trụ. NASA lựa chọn nền tảng này để hạn chế thời gian truy cập và xử lý các tác vụ có yêu cầu dữ liệu cao để giữ cho server hoạt động 24/7.
+- Paypal: Với thời gian xây dựng cực nhanh và khả năng xử lý dữ liệu lớn, NodeJS là một nền tảng lý tưởng cho một hệ thống thanh toán trực tuyến toàn cầu như PayPal.
+- Medium: Medium là một nền tảng xuất bản trực tuyến vô cùng phổ biến, đồng thời cũng lựa chọn NodeJS để xây dựng ứng dụng hướng dữ liệu và đơn giản hoá quá trình bảo trì server.
+Ngoài ra còn rất nhiều nền tảng lớn khác như: Twitter, Spotify, eBay, Reddit, Linkedin,…
+
+![](img/nhung-ung-dung-cua-nodejs.webp)
 
 ## 💛 Cài đặt
 
