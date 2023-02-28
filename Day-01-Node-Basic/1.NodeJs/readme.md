@@ -20,6 +20,8 @@ _Mô hình hoạt động của Node.js_
 
 Để cho dễ hiểu, khi bạn connect đến một server truyền thống, chẳng hạn Apache, nó sẽ sinh ra một thread mới để xử lý request. Ở các ngôn ngữ như PHP hay Ruby, mỗi một phép toán I/O (ví dụ truy cập database) sẽ chặn execution trên code của bạn cho đến khi phép toán đó hoàn thành. Nói cách khác, server sẽ đợi cho đến khi database được duyệt xong mới xử lý kết quả. Nếu có những request mới, server lại tiếp tục sinh những thread mới để xử lý chúng. Điều này dẫn đến nguy cơ kém hiệu quả, khi một lượng lớn thread được tạo ra sẽ khiến cho hệ thống trở nên chậm chạp, tệ hơn nữa có thể khiến site bị sập. Cách thông thường để giải quyết tình trạng này là bổ sung thêm server.
 
+![](img/node-flow.png)
+
 CÒN VỚI NODEJS: khi một request được gửi đến, server bắt đầu xử lý nó. Nếu nó gặp phải phép toán I/O, thay vì đợi cho phép toán này kết thúc, nó sẽ đăng ký một callback trước khi tiếp tục xử lý event tiếp theo. Khi phép toán I/O kết thúc, server sẽ chạy callback và tiếp tục làm việc trên request ban đầu.
 Như vậy có một loạt các hoạt động asynchronous (non-blocking) xảy ra đồng thời. Mô hình hoạt động này của Node giúp server có thể xử lý một lượng lớn kết nối đến đồng thời đến server.
 
