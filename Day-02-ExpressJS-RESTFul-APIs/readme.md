@@ -121,6 +121,20 @@ app.get(/.*fly$/, (req, res) => {
 });
 ```
 
+Regex rule for route parameter
+
+```js
+app.get('^/users/:userId([0-9]{6})', function (req, res) {
+  res.send('Route match for User ID: ' + req.params.userId);
+});
+```
+
+```js
+app.get('^/users/:username([0-9a-zA-Z]{6,12})', function (req, res) {
+  res.send('Route match for User Name: ' + req.params.username);
+});
+```
+
 ## 💛 Requests and Handling Parameters
 
 ### To get body of request
@@ -186,4 +200,56 @@ The methods on the response object (res) in the following table can send a respo
 
 ## 💛 Serving static files in Express
 
+Khi bạn upload images, CSS files, and JavaScript files lên server thì bạn cần public đường dẫn đến các tài nguyên tĩnh này thì mình sẽ khai báo:
+
+```js
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
+```
+
+Cấu trúc thư mực
+
+```code
+public/
+  ├─ css/
+  ├─ files/
+  ├─ images/
+  ├─ uploads/
+  ├─ js/
+  app.js/
+```
+
+Khi đó bạn có thể truy cập đến các tài nguyên tĩnh
+
+```code
+http://localhost:3000/images/kitten.jpg
+http://localhost:3000/css/style.css
+http://localhost:3000/js/app.js
+http://localhost:3000/images/bg.png
+http://localhost:3000/hello.html
+```
+
+Ngoài ra bạn có thể tạo ra một tiền tố đường dẫn ảo
+
+```js
+app.use('/static', express.static(path.join(__dirname, 'public')));
+```
+
+Bạn truy cập tới các tài nguyên tĩnh bằng tiền tố `/static`
+
+```code
+
+http://localhost:3000/static/images/kitten.jpg
+http://localhost:3000/static/css/style.css
+http://localhost:3000/static/js/app.js
+http://localhost:3000/static/images/bg.png
+http://localhost:3000/static/hello.html
+```
+
+Thực tế không tồn tại thư mục /static trên server
+
 ## 💛 Using template engines with Express
+
+Một số template engines phổ biến làm việc với Express như Pug, Mustache, and EJS.
+
+Xem ví dụ về sử dụng ejs engines ở thư mục Examples/express-ejs-template
