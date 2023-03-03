@@ -81,3 +81,5 @@ my-app/
 ## 💛 Follow cách hoạt động của mô hình cấu trúc dự án
 
 Từng bước xây dựng dự án theo mô hình
+
+![flow](img/flow.png)
