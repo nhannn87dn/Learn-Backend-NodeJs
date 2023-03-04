@@ -83,3 +83,5 @@ my-app/
 Từng bước xây dựng dự án theo mô hình
 
 ![flow](img/flow.png)
+
+### Step 1: Khởi tạo Server
