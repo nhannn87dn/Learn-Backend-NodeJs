@@ -87,60 +87,56 @@ Từng bước xây dựng dự án theo mô hình
 ### Step 1: Khởi tạo dự án
 
 ```bash
-npm init
-```
-Tạo biến môi trường
-
-```js
-//File .env
-NODE_ENV=
-PORT= 3001
-
-PUBLIC_URL = 'http://localhost:3001/'
-
-TIMEZONE_CITY = "Asia/Bangkok"
-TIMEZONE_OFFSET = "+07:00"
-
-MONGO_URI=
-MONGO_COLLECTION = 
-
-REDIS_URL=localhost
-
-JWT_SECURE_KEY = 
-
-NODE_MAIL_HOST = 
-NODE_MAIL_PORT = 
-NODE_MAIL_SSL = 
-NODE_MAIL_USER = 
-NODE_MAIL_PASS = 
-NODE_MAIL_REPLY = 
-
-
-#Upload multer
-STORAGE_IMAGES_DIR = 'uploads/images/'
-# Formart: Number.Unit Ex: 5.KB, 1.MB, 2.GB
-MAX_SIZE_IMAGES_BYTES = '2.MB'
-STORAGE_FILES_DIR = 'uploads/files/'
-# Formart: Number.Unit Ex: 5.KB, 1.MB, 2.GB
-MAX_SIZE_FILES_BYTES = '1.GB'
-
-
+npm init -y
 ```
 
-Tạo file server.js là entry point dự án
+- Tạo biến môi trường
+- Tạo thư mục dự án
+- Tạo server Express  src/app.js
+- Tạo file server.js là entry point dự án
+- Cấu hình lại package.json
 
-```js
-equire('dotenv').config();
-const app = require('./src/app')
+### Step 2: Tạo Route đầu tiên
 
-const {PORT} = process.env;
+- "/": xem phiên bản API hiện tại
+- "api/v1/users": xem danh sách Users
 
 
-const server = app.listen( PORT, () => {
-    console.log(`WSV start with port ${PORT}`);
-})
+### Step 3: Handle Server Express
 
-process.on('SIGINT', () => {
-    server.close( () => console.log(`exits server express`))
-})
-```
+Sử dụng các thư viện phổ biến để làm middleware cho src/app.js
+
+Tham khảo: <https://expressjs.com/en/resources/middleware.html>
+
+- compression
+- cors
+- xss-clean
+- helmet
+- body-parser
+- ...
+
+### Step 4: Errors Handling
+
+- Lỗi 40x
+- Lỗi 50x
+
+
+### Step 5: Validation Configurations
+
+- Validate các biến môi trường, biến config đúng chuẩn.
+
+### Step 6: Logging Requests
+
+- Ghi log lại mỗi requests gửi lên server express
+- morgan / winston
+
+### Step 7: Tự Tạo ra một Mi1ddleware
+
+- Cách để tạo ra một middleware theo nhu cầu
+- Gắn middleware vào Application
+
+
+## 💛 Làm quen các cộng cụ TEST API
+
+- REST Client (Huachao Mao) Extension
+- PostMan: <https://www.postman.com/downloads/>
