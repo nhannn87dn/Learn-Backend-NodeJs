@@ -2,8 +2,7 @@
 
 Quản lý CSDL No SQL với MongoDB và Mongoose
 
-## Cài đặt MongoDB
-
+## 💛 Cài đặt MongoDB
 
 To be able to experiment with the code examples, you will need access to a MongoDB database.
 
@@ -31,13 +30,13 @@ PaaS: Get started right away with a MongoDB cloud service at https://www.mongodb
 
 ---
 
-## Install MongoDB driver and Mongoose
+## 💛 Install MongoDB driver and Mongoose
 
 ```bash
 npm install mongoose --save
 ```
 
-## Mongoose SchemaTypes
+## 💛 Mongoose SchemaTypes
 
 Tham khảo: <https://mongoosejs.com/docs/schematypes.html>
 
@@ -53,15 +52,20 @@ Tham khảo: <https://mongoosejs.com/docs/schematypes.html>
 - Map
 - Schema
 
-## Mongoose Built-in Validators
+## 💛 Mongoose Built-in Validators
 
 <https://mongoosejs.com/docs/validation.html#built-in-validators>
 
-##  Mongoose Model
+## 💛 Mongoose Model
 
+### Data Model Design
 
+Đối chiếu với SQL thì trong MongoDB (No SQL) thì một Database được gọi là **Document**, các Table thì gọi là Collection.
 
+Cấu trúc của một Document sẽ được quyết định bởi 2 kiểu:
 
+- embed
+- use references
 
-
-
+Data Model Design: <https://www.mongodb.com/docs/manual/core/data-model-design/#data-model-design>
+Data Model: <https://www.mongodb.com/docs/manual/applications/data-models/>
