@@ -8,7 +8,7 @@ Mongoose Queries: <https://mongoosejs.com/docs/queries.html>
 
 ## 💛 Select
 
-## 💛 Edit
+## 💛 Update
 
 ## 💛 Delete
 
