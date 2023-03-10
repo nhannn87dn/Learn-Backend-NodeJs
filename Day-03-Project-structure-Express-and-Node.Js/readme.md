@@ -19,6 +19,7 @@ Không có một quy chuẩn nào để tạo ra một cấu trúc dự án chu�
 ```code
 my-app/
 ├─ node_modules/
+├─ public/
 ├─ src/
 │  ├─ controllers/
 │  ├─ middlewares/
@@ -92,7 +93,7 @@ npm init -y
 
 - Tạo biến môi trường
 - Tạo thư mục dự án
-- Tạo server Express  src/app.js
+- Tạo server Express src/app.js
 - Tạo file server.js là entry point dự án
 - Cấu hình lại package.json
 
@@ -100,7 +101,6 @@ npm init -y
 
 - "/": xem phiên bản API hiện tại
 - "api/v1/users": xem danh sách Users
-
 
 ### Step 3: Handle Server Express
 
@@ -120,21 +120,25 @@ Tham khảo: <https://expressjs.com/en/resources/middleware.html>
 - Lỗi 40x
 - Lỗi 50x
 
+Sử dụng thư viện:
+
+- errorhandler
+- http-errors
 
 ### Step 5: Validation Configurations
 
 - Validate các biến môi trường, biến config đúng chuẩn.
+- Sử dụng joi, yup
 
 ### Step 6: Logging Requests
 
 - Ghi log lại mỗi requests gửi lên server express
 - morgan / winston
 
-### Step 7: Tự Tạo ra một Mi1ddleware
+### Step 7: Tự Tạo ra một Middleware
 
 - Cách để tạo ra một middleware theo nhu cầu
 - Gắn middleware vào Application
-
 
 ## 💛 Làm quen các cộng cụ TEST API
 

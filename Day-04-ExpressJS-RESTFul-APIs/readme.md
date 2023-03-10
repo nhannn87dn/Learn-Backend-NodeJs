@@ -19,6 +19,13 @@ Xây dựng cấu trúc dự án RESTFul-APIs với Node.Js và Express CHUẨN 
     - DELETE: api/v1/users/:id
 
 
+
+## 💛 TEST API
+
+- REST Client (Huachao Mao) Extension
+- PostMan: <https://www.postman.com/downloads/>
+
+
 ## 💛 Tạo Controller
 
 Tiếp tục refactor các routes, chuyển thành các controller
@@ -33,5 +40,3 @@ Tiếp tục refactor các controller, sử dụng lớp Service để tương t
 - validate Body parameter
 - validate Path parameter
 - validate Query parameter
-
-
