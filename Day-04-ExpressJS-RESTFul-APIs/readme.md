@@ -4,7 +4,6 @@ Xây dựng cấu trúc dự án RESTFul-APIs với Node.Js và Express CHUẨN 
 
 > Tiếp tục maintenance project theo Follow
 
-
 ## 💛 Tạo RESTFul-APIs theo phiên bản
 
 - Trong thư mục src/routes tạo thêm một thư mục v1
@@ -12,19 +11,16 @@ Xây dựng cấu trúc dự án RESTFul-APIs với Node.Js và Express CHUẨN 
 - Maintenance các routes demo phần trước, đưa vào v1
 
 - RESTFul-APIs users
-    - GET   : api/v1/users      
-    - GET   : api/v1/users/:id
-    - POST  : api/v1/users/:id
-    - PUT   : api/v1/users/:id
-    - DELETE: api/v1/users/:id
-
-
+  - GET : api/v1/users
+  - GET : api/v1/users/:id
+  - POST : api/v1/users/:id
+  - PUT : api/v1/users/:id
+  - DELETE: api/v1/users/:id
 
 ## 💛 TEST API
 
 - REST Client (Huachao Mao) Extension
 - PostMan: <https://www.postman.com/downloads/>
-
 
 ## 💛 Tạo Controller
 
@@ -34,9 +30,14 @@ Tiếp tục refactor các routes, chuyển thành các controller
 
 Tiếp tục refactor các controller, sử dụng lớp Service để tương tác Database trả về.
 
-
 ## 💛 Validate Requests
 
 - validate Body parameter
 - validate Path parameter
 - validate Query parameter
+
+## 💛 User Authentication, Authorization
+
+- Tạo user Token
+- Tạo Middleware xác thực token
+- Tạo Roles phân quyền truy cập routes
