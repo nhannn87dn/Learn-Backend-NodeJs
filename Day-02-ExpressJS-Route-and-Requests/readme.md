@@ -212,6 +212,11 @@ Status code (Mã hóa trạng thái thường được gọi là mã trạng th�
 
 Xem chi tiết [link sau](http-status-code.md)
 
+## 💛 Làm quen các cộng cụ TEST API
+
+- REST Client (Huachao Mao) Extension
+- PostMan: <https://www.postman.com/downloads/>
+
 ## 💛 Serving static files in Express
 
 Khi bạn upload images, CSS files, and JavaScript files lên server thì bạn cần public đường dẫn đến các tài nguyên tĩnh này thì mình sẽ khai báo:

@@ -22,7 +22,7 @@ my-app/
 ├─ public/
 ├─ src/
 │  ├─ controllers/
-│  ├─ middlewares/
+│  ├─ middleware/
 │  ├─ models/
 │  ├─ services/
 │  ├─ utils/
@@ -85,7 +85,7 @@ Từng bước xây dựng dự án theo mô hình
 
 ![flow](img/flow.png)
 
-### Step 1: Khởi tạo dự án
+### 1: Khởi tạo dự án
 
 ```bash
 npm init -y
@@ -97,12 +97,77 @@ npm init -y
 - Tạo file server.js là entry point dự án
 - Cấu hình lại package.json
 
-### Step 2: Tạo Route đầu tiên
+### 🔶 2: Tạo Route đầu tiên
 
 - "/": xem phiên bản API hiện tại
 - "api/v1/users": xem danh sách Users
 
-### Step 3: Handle Server Express
+### 🔶 3: Tự Tạo ra một Middleware
+
+#### 🌻 3.0 Middleware là gì ?
+
+Trong lấp trình ứng dụng WEB, Middleware sẽ đóng vai trò trung gian giữa request/response (tương tác với người dùng) và các xử lý logic bên trong web server.
+
+Middleware sẽ là các hàm được dùng để tiền xử lý, lọc các request trước khi đưa vào xử lý logic hoặc điều chỉnh các response trước khi gửi về cho người dùng.
+
+![middleware-partern](img/middleware-partern.png)
+
+Hình trên mô tả 3 middleware có trong ExpressJS. Một request khi gửi đến Express sẽ được xử lý qua 5 bước như sau :
+
+1. Tìm Route tương ứng với request
+2. Dùng CORS Middleware để kiểm tra cross-origin Resource sharing của request
+3. Dùng CRSF Middleware để xác thực CSRF của request, chống fake request
+4. Dùng Auth Middleware để xác thực request có được truy cập hay không
+5. Xử lý công việc được yêu cầu bởi request (Main Task)
+
+Bất kỳ bước nào trong các bước 2,3,4 nếu xảy ra lỗi sẽ trả về response thông báo cho người dùng, có thể là lỗi CORS, lỗi CSRF hay lỗi auth tùy thuộc vào request bị dừng ở bước nào.
+
+**Middleware trong ExpressJS** về cơ bản sẽ là một loạt các hàm Middleware được thực hiện liên tiếp nhau. Sau khi đã thiết lập, các request từ phía người dùng khi gửi lên ExpressJS sẽ thực hiện lần lượt qua các hàm Middleware cho đến khi trả về response cho người dùng. Các hàm này sẽ được quyền truy cập đến các đối tượng đại diện cho Request - req, Response - res, hàm Middleware tiếp theo - next, và đối tượng lỗi - err nếu cần thiết.
+
+Một hàm Middleware sau khi hoạt động xong, nếu chưa phải là cuối cùng trong chuỗi các hàm cần thực hiện, sẽ cần gọi lệnh next() để chuyển sang hàm tiếp theo, bằng không xử lý sẽ bị treo tại hàm đó.
+
+Trong Express, có 5 kiểu middleware có thể sử dụng :
+
+- Application-level middleware (middleware cấp ứng dụng)
+- Router-level middleware (middlware cấp điều hướng - router)
+- Error-handling middleware (middleware xử lý lỗi)
+- Built-in middleware (middleware sẵn có)
+- Third-party middleware (middleware của bên thứ ba)
+
+#### 🌻 3.1 Cách để tạo ra một middleware theo nhu cầu
+
+Tại thư mục middleware, tạo một file tên: mylogger.middleware.js
+
+```js
+//Tạo và export luôn
+module.exports = function (req, res, next) {
+  //Logic Here
+  console.log('LOGGED', req);
+
+  //Có thể gắn Thêm vào request một biến
+  req.aptech = { name: 'Softech', add: '38 yen bai' };
+
+  //End with next() -> chuyển tiếp sang middleware khác nếu có
+  next();
+};
+```
+
+#### 🌻 3.2 Gắn middleware vào Application
+
+Tại express app
+
+```js
+const myLogger require('./middleware/mylogger.middleware');
+
+//Gắn middleware vào app
+app.use(myLogger);
+```
+
+#### 🌻 3.3 Lớp middleware
+
+Tại thêm 2 ví dụ về middleware nữa để thấy được sự chuyển tiếp giữa các lớp middleware
+
+### 🔶 4: Handle Server Express
 
 Sử dụng các thư viện phổ biến để làm middleware cho src/app.js
 
@@ -115,7 +180,7 @@ Tham khảo: <https://expressjs.com/en/resources/middleware.html>
 - body-parser
 - ...
 
-### Step 4: Errors Handling
+### 🔶5: Errors Handling
 
 - Lỗi 40x
 - Lỗi 50x
@@ -125,22 +190,12 @@ Sử dụng thư viện:
 - errorhandler
 - http-errors
 
-### Step 5: Validation Configurations
+### 🔶 6: Validation Configurations
 
 - Validate các biến môi trường, biến config đúng chuẩn.
 - Sử dụng joi, yup
 
-### Step 6: Logging Requests
+### 🔶 7: Logging Requests
 
 - Ghi log lại mỗi requests gửi lên server express
 - morgan / winston
-
-### Step 7: Tự Tạo ra một Middleware
-
-- Cách để tạo ra một middleware theo nhu cầu
-- Gắn middleware vào Application
-
-## 💛 Làm quen các cộng cụ TEST API
-
-- REST Client (Huachao Mao) Extension
-- PostMan: <https://www.postman.com/downloads/>

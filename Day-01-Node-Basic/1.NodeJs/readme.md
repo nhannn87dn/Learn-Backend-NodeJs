@@ -1,8 +1,10 @@
-# Basic of Nodejs
+# Giới thiệu NodeJS
 
-## 💛 Giới thiệu
+## 💛 NodeJS là gì
 
 Node.js là một nền tảng phát triển ứng dụng được xây dựng trên JavaScript, được phát triển bởi Ryan Dahl và được phát hành lần đầu tiên vào năm 2009. Node.js được xây dựng dựa trên nền tảng Chrome V8 JavaScript engine của Google và được thiết kế để xử lý các ứng dụng web theo cách không đồng bộ (asynchronous) và đồng thời có thể thực thi trên máy chủ.
+
+![node](img/node-what.png)
 
 Node.js đã trở thành một trong những công nghệ nổi bật nhất trong lĩnh vực phát triển web và được sử dụng rộng rãi để xây dựng các ứng dụng web như các trang web động (dynamic web pages), các ứng dụng real-time và các ứng dụng web theo mô hình client-server.
 
@@ -68,7 +70,6 @@ Node.JS là một trong những nền tảng phổ biến nhất hiện nay cho 
 
 ## Những công ty lớn nào đang sử dụng NodeJS
 
-
 NodeJS hiện đang được sử dụng bởi rất nhiều gã khổng lồ trên khắp thế giới, nhanh chóng vượt ngưỡng 1 tỉ lượt download từ năm 2018 và hỗ trợ đến khoảng 1.2% tổng số website trên Internet, tương đương với 20 triệu trang.
 
 Một số công ty lớn sử dụng nền tảng này gồm có:
@@ -79,7 +80,7 @@ Một số công ty lớn sử dụng nền tảng này gồm có:
 - NASA: Đây là một cơ quan độc lập của Chính phủ Liên bang Hoa Kỳ, chịu trách nhiệm về chương trình không gian dân sự và nghiên cứu hàng không, vũ trụ. NASA lựa chọn nền tảng này để hạn chế thời gian truy cập và xử lý các tác vụ có yêu cầu dữ liệu cao để giữ cho server hoạt động 24/7.
 - Paypal: Với thời gian xây dựng cực nhanh và khả năng xử lý dữ liệu lớn, NodeJS là một nền tảng lý tưởng cho một hệ thống thanh toán trực tuyến toàn cầu như PayPal.
 - Medium: Medium là một nền tảng xuất bản trực tuyến vô cùng phổ biến, đồng thời cũng lựa chọn NodeJS để xây dựng ứng dụng hướng dữ liệu và đơn giản hoá quá trình bảo trì server.
-Ngoài ra còn rất nhiều nền tảng lớn khác như: Twitter, Spotify, eBay, Reddit, Linkedin,…
+  Ngoài ra còn rất nhiều nền tảng lớn khác như: Twitter, Spotify, eBay, Reddit, Linkedin,…
 
 ![](img/nhung-ung-dung-cua-nodejs.webp)
 
@@ -181,6 +182,7 @@ npm update express
 ### \*\*Include / Import a module\*\*
 
 ```js
+//require ES6
 const http = require('http');
 ```
 
@@ -200,6 +202,7 @@ module.exports = hello;
 Include / Import a module
 
 ```js
+//require ES6
 const hello = require('./first-module');
 hello();
 ```
