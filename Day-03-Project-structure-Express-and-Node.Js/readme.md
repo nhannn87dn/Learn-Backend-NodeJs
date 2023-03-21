@@ -187,8 +187,37 @@ Tham khảo: <https://expressjs.com/en/resources/middleware.html>
 
 Sử dụng thư viện:
 
-- errorhandler
 - http-errors
+
+```bash
+npm i http-errors --save
+```
+
+Tại App Express import vào
+
+```js
+const createError = require('http-errors');
+```
+
+Add đoạn này nằm NGAY TRƯỚC phần module.exports = app
+
+```js
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function (err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.send({ error: err.message });
+});
+```
 
 ### 🔶 6: Validation Configurations
 
