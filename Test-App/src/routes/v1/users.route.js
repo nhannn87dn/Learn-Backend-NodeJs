@@ -1,0 +1,20 @@
+const express = require('express');
+const router = express.Router();
+const usersController = require('../../controllers/users.controller');
+
+//http://localhost:8686/api/v1/users
+router.get('/', usersController.getAllUsers);
+
+//localhost:8686/api/v1/users/:id
+http: router.get('/:id', usersController.getUserById);
+
+//http://localhost:8686/api/v1/users
+router.post('/', usersController.createUser);
+
+//localhost:8686/api/v1/users/:id
+http: router.put('/:id', usersController.updateUserById);
+
+//localhost:8686/api/v1/users/:id
+router.delete('/:id', usersController.deleteUserById);
+
+module.exports = router;

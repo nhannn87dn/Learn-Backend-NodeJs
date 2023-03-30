@@ -1,4 +1,4 @@
-# Project structure Express and Node.Js
+# Folder structure using Express and Node.Js
 
 Xây dựng cấu trúc dự án RESTFul-APIs với Node.Js và Express CHUẨN đi làm
 
@@ -14,7 +14,7 @@ npm init
 
 Không có một quy chuẩn nào để tạo ra một cấu trúc dự án chuẩn nhất, dưới đây là 2 mô hình từ Basic tới Master
 
-### Mô hình Basic (Mới học)
+### Mô hình Basic
 
 ```code
 my-app/
@@ -22,7 +22,7 @@ my-app/
 ├─ public/
 ├─ src/
 │  ├─ controllers/
-│  ├─ middleware/
+│  ├─ middlewares/
 │  ├─ models/
 │  ├─ services/
 │  ├─ utils/
@@ -63,7 +63,7 @@ my-app/
 
 **/Models** - Thư mục này sẽ chứa tất cả các files như schema của bạn và và các chức năng cần thiết cho schema cũng sẽ nằm ở đây. Đặt tên xxxxx.model.js
 
-**/Middleware** - Thư mục này sẽ chứa tất cả phần mềm trung gian mà bạn đã tạo, ví dụ như là xác thực chẳng hạn... Cách đặt tên: xxxxx.middleware.js /
+**/Middlewares** - Thư mục này sẽ chứa tất cả phần mềm trung gian mà bạn đã tạo, ví dụ như là xác thực chẳng hạn... Cách đặt tên: xxxxx.middleware.js /
 
 **Utils** - Các chức năng phổ biến mà bạn sẽ yêu cầu nhiều lần trong suốt mã của mình ví dụ như check missing params trước khi xử lý dữ liệu chẳng hạn. Rất cần thiết.
 
@@ -91,16 +91,109 @@ Từng bước xây dựng dự án theo mô hình
 npm init -y
 ```
 
-- Tạo biến môi trường
+- Tạo biến môi trường .env
+
+```bash
+NODE_ENV= development
+PORT= 8686
+
+MONGO_URI=
+MONGO_COLLECTION =
+
+JWT_SECURE_KEY =
+
+```
+
 - Tạo thư mục dự án
 - Tạo server Express src/app.js
+
+```bash
+npm i express --save
+```
+
+```js
+const express = require('express');
+const app = express();
+
+module.exports = app;
+```
+
 - Tạo file server.js là entry point dự án
+
+```bash
+npm i dotenv --save
+```
+
+```js
+require('dotenv').config();
+const app = require('./src/app');
+
+const { PORT } = process.env || 8686;
+
+const server = app.listen(PORT, () => {
+  console.log(`WSV start with port ${PORT}`);
+});
+```
+
 - Cấu hình lại package.json
+
+```bash
+npm i nodemon --dev
+```
+
+```js
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+```
+
+Start ứng dụng
+
+```bash
+npm run dev
+```
 
 ### 🔶 2: Tạo Route đầu tiên
 
-- "/": xem phiên bản API hiện tại
-- "api/v1/users": xem danh sách Users
+- "api/": xem phiên bản API hiện tại
+- "api/users": xem danh sách Users
+
+Tại src/routes tạo file index.js
+
+```js
+const express = require('express');
+const router = express.Router();
+
+const users = [
+  { id: 1, name: 'Jonh', email: 'jonh@gmail.com' },
+  { id: 2, name: 'Dara', email: 'dara@gmail.com' },
+  { id: 3, name: 'Tim', email: 'tim@gmail.com' },
+];
+
+//Response version API
+router.get('/', async (req, res) => {
+  res.status(200).json({ version: '1.0' });
+});
+
+// Get all users
+router.get('/users', async (req, res) => {
+  res.status(200).json(users);
+});
+
+module.exports = router;
+```
+
+Gắn router vào app.js
+
+```js
+const FirstRouter = require('./routes/index');
+//Các API sẽ bắt đầu bằng api
+app.use('/api', FirstRouter);
+
+//localhost:8686/api
+//localhost:8686/api/users
+```
 
 ### 🔶 3: Tự Tạo ra một Middleware
 
@@ -157,7 +250,7 @@ module.exports = function (req, res, next) {
 Tại express app
 
 ```js
-const myLogger require('./middleware/mylogger.middleware');
+const myLogger require('./middlewares/mylogger.middleware');
 
 //Gắn middleware vào app
 app.use(myLogger);
@@ -165,9 +258,9 @@ app.use(myLogger);
 
 #### 🌻 3.3 Lớp middleware
 
-Tại thêm 2 ví dụ về middleware nữa để thấy được sự chuyển tiếp giữa các lớp middleware
+Tạo thêm 2 ví dụ về middleware nữa để thấy được sự chuyển tiếp giữa các lớp middleware
 
-### 🔶 4: Handle Server Express
+### 🔶 4: Express middleware
 
 Sử dụng các thư viện phổ biến để làm middleware cho src/app.js
 
@@ -180,7 +273,7 @@ Tham khảo: <https://expressjs.com/en/resources/middleware.html>
 - body-parser
 - ...
 
-### 🔶5: Errors Handling
+### 🔶5: Errors Handling App
 
 - Lỗi 40x
 - Lỗi 50x
@@ -224,7 +317,101 @@ app.use(function (err, req, res, next) {
 - Validate các biến môi trường, biến config đúng chuẩn.
 - Sử dụng joi, yup
 
+Cần cài thêm
+
+```bash
+npm i dotenv joi --save
+```
+
+Trong thư mục src/configs tạo file config.js
+
+```js
+/* load environment variables from .env file */
+const dotenv = require('dotenv');
+const Joi = require('joi');
+const path = require('path');
+
+dotenv.config({
+  path: path.join(__dirname, '../.env'),
+});
+
+/* validate env  */
+const envVarSchema = Joi.object()
+  .keys({
+    NODE_ENV: Joi.string()
+      .valid('development', 'production', 'test')
+      .required()
+      .default('development'),
+    PORT: Joi.number().default(3000),
+    MONGO_URI: Joi.string().required().description('MongoDB connect URI'),
+    MONGO_COLLECTION: Joi.string()
+      .required()
+      .description('MongoDB Collection Name'),
+    JWT_SECURE_KEY: Joi.string().required().description('JWT Secret Key'),
+  })
+  .unknown();
+
+const { value: envVars, error } = envVarSchema
+  .prefs({
+    errors: { label: 'key' },
+  })
+  .validate(process.env);
+
+if (error) {
+  throw new Error(`Config validation error: ${error.message} `);
+}
+
+module.exports = {
+  env: envVars.NODE_ENV,
+  port: envVars.PORT,
+  jwt: { secure_key: envVars.JWT_SECURE_KEY },
+  mongoose: { url: envVars.MONGO_URI, name: envVars.MONGO_COLLECTION },
+};
+```
+
+Mục đích để người dùng khai báo biến đúng chuẩn, đúng giá trị cần thiết
+
 ### 🔶 7: Logging Requests
 
 - Ghi log lại mỗi requests gửi lên server express
+
+Thêm đoạn này vào app.js
+
+```js
+// Middleware to log request parameters
+app.use((req, res, next) => {
+  console.log(
+    `[${new Date().toISOString()}] ${req.method} ${req.path} - headers:`,
+    req.headers,
+    '- body: ',
+    req.body,
+    '- query:',
+    req.query
+  );
+  next();
+});
+
+// Routes and other middleware setup
+```
+
 - morgan / winston
+
+Xem cách sử dụng với morgan: <https://expressjs.com/en/resources/middleware/morgan.html>
+
+```js
+var express = require('express');
+var morgan = require('morgan');
+var path = require('path');
+var rfs = require('rotating-file-stream'); // version 2.x
+
+var app = express();
+
+// create a rotating write stream
+var accessLogStream = rfs.createStream('access.log', {
+  interval: '1d', // rotate daily
+  path: path.join(__dirname, 'log'),
+});
+
+// setup the logger
+app.use(morgan('combined', { stream: accessLogStream }));
+```
