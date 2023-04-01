@@ -2,11 +2,20 @@ const express = require('express');
 const router = express.Router();
 const usersController = require('../../controllers/users.controller');
 
+const validateSchema = require('../../middlewares/validateSchema.middleware');
+const userValidations = require('../../validations/user.validations');
+
+console.log(userValidations);
+
 //http://localhost:8686/api/v1/users
 router.get('/', usersController.getAllUsers);
 
 //localhost:8686/api/v1/users/:id
-http: router.get('/:id', usersController.getUserById);
+http: router.get(
+  '/:id',
+  validateSchema(userValidations.getUserById),
+  usersController.getUserById
+);
 
 //http://localhost:8686/api/v1/users
 router.post('/', usersController.createUser);

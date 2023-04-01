@@ -415,3 +415,67 @@ var accessLogStream = rfs.createStream('access.log', {
 // setup the logger
 app.use(morgan('combined', { stream: accessLogStream }));
 ```
+
+### 🔶 8: Chuẩn hóa định dạng JSON API trả về
+
+Không có bất kỳ quy tắc nào để ràng buộc cách bạn trả về một chuổi JSON có cấu trúc như thế nào cả.
+
+Tuy nhiên dưới đây là một số cách định dạng mà bạn có thể tham khảo:
+
+[JSON API](http://jsonapi.org/) - JSON API covers creating and updating resources as well, not just responses.
+
+[JSend](https://github.com/omniti-labs/jsend) - Simple and probably what you are already doing.
+
+Bạn phải thể hiện được khi có lỗi thì cần trả về gì, khi thành công thì cần trả về cái gì ? Và tất cả các Endpoint API phải có cùng cấu trúc.
+
+Ví dụ: Thành công
+
+```json
+{
+  "status": "0",
+  "message": "Successfully"
+}
+```
+
+Ví dụ: Thành công có gửi kèm data
+
+```json
+{
+  "status": "0",
+  "message": "Successfully",
+  "data": {
+    "posts": [
+      { "id": 1, "title": "A blog post", "body": "Some useful content" },
+      { "id": 2, "title": "Another blog post", "body": "More content" }
+    ]
+  }
+}
+```
+
+Ví dụ: Thất bại (không có lỗi, chỉ là nó chưa tuân thủ một quy tắc nào đó như là validations)
+
+```json
+{
+  "status": "400",
+  "message": "A title is required"
+}
+```
+
+Ví dụ: Lỗi (khiến code không thể xử lý)
+
+```json
+{
+  "status": "500",
+  "message": "Can not connect to Datatabase"
+}
+```
+
+Thông thường người ta tạo ra một bảng danh mục mã lỗi kèm message để đối chiếu khi làm một hệ thống lớn.
+
+| Error Code | Description|
+|:------:|:-------:|
+| 0 | Successfull |
+| 1 | Pending |
+| 201 | Create new success |
+| 404 | API Not Found |
+| 500 | Error Server |

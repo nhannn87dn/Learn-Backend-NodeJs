@@ -9,7 +9,6 @@ Xây dựng cấu trúc dự án RESTFul-APIs với Node.Js và Express CHUẨN 
 > - Validation Requests
 > - Handle Errors inside routes, controllers, services
 
-
 ## 💛 Tạo RESTFul-APIs theo phiên bản
 
 - Trong thư mục src/routes tạo thêm một thư mục v1

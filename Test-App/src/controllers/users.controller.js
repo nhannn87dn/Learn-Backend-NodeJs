@@ -1,10 +1,11 @@
-const createError = require('http-errors');
 const usersService = require('../services/users.service');
+const responseHandler = require('../utilities/responseHandler');
 
 exports.getAllUsers = async (req, res, next) => {
   try {
     const users = await usersService.getAllUsers();
-    res.status(200).send(users);
+    //res.status(200).send(users);
+    responseHandler.jsonSuccess(res)(users);
   } catch (err) {
     next(err);
   }

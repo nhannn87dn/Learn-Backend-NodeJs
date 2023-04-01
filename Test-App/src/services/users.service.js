@@ -21,6 +21,8 @@ exports.getUserById = async (req) => {
 
     const user = await users.find((user) => user.id === id);
 
+    console.log(id, user);
+
     if (!user) {
       throw createError(404, 'User not found');
     }
