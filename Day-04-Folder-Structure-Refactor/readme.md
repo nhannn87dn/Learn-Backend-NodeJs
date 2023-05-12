@@ -311,8 +311,163 @@ lại response.
 - validate Path parameter
 - validate Query parameter
 
+**Bước 1:** Chúng ta cần tạo một Middleware để handle validate `src\middlewares\validateSchema.middleware.js`
+
+Sử dụng thư viện `joi` để validate
+
+Chi tiết cách sử dụng joi xem ở [link sau](https://joi.dev/api/?v=17.9.1)
+
+```js
+const Joi = require('joi');
+const _ = require('lodash');
+
+//Midleware validateSchema
+const validateSchema = (schema) => (req, res, next) => {
+  //dùng pick để chỉ chọn ra các phần tử cần lấy
+  const pickSchema = _.pick(schema, ['params', 'body', 'query']);
+  const object = _.pick(req, Object.keys(pickSchema));
+  const { value, error } = Joi.compile(pickSchema)
+    .prefs({
+      errors: {
+        label: 'key',
+      },
+
+      abortEarly: false,
+    })
+    .validate(object);
+  if (error) {
+    const errorMessage = error.details
+      .map((detail) => detail.message)
+      .join(', ');
+    return res.status(400).json({
+      status: 400,
+      type: 'validateSchema Joi',
+      message: errorMessage,
+    });
+  }
+  Object.assign(req, value);
+  return next();
+};
+
+module.exports = validateSchema;
+```
+
+**Bước 2:** Tạo các Schema Validation
+
+Tạo folder `src/validations`
+
+Trong folder này tạo file `user.validation.js
+
+```js
+const Joi = require('joi');
+
+const getUserById = {
+  params: Joi.object().keys({
+    id: Joi.number().required(),
+  }),
+};
+
+module.exports = {
+  getUserById,
+};
+```
+
+Giải thích: chúng ta Cần validate cho sự kiện getUserById khi gọi
+
+```code
+localhost:8686/api/v1/users/:id
+```
+
+Validate `id` phải được truyền vào yêu cầu là số
+
+Chúng ta lần lượt tạo thêm các Schema cho từng route của user Resources
+
 ## 💛 User Authentication, Authorization
 
 - Tạo user Token
 - Tạo Middleware xác thực token
 - Tạo Roles phân quyền truy cập routes
+
+Trong thực tế khi xây dựng một hệ thống Restull API sẽ có:
+
+- Các endpoint ở chế độ public tức ai cũng có thể truy cập vào
+- Các endpoint ở chế độ private, chỉ những ai có quyền mới truy cập
+
+Thì chúng ta gọi các vấn đề trên với một khái niệm là `Authentication` (Xác thực danh tính)
+
+Đối với những User có quyền truy cập, thì lại có một vấn đề nữa là quyền hạn. User này có quyền truy cập đến những tài nguyên nào thì chúng ta gọi nó với một khái niệm là `Authorization`
+
+**Bước 1: Mỗi User phải có một token (chìa khóa) để truy cập tới các private endpoint**
+
+Để có được token, User phải đăng nhập vào hệ thống, nếu đúng email, password thì hệ thống sẽ sinh ra cho User một token.
+
+User sẽ mang token này để truy cập tới các private endpoint
+
+Tạo Schema Login src/validations/auth.validation.js
+
+```js
+const Joi = require('joi');
+
+const userLogin = {
+  body: Joi.object().keys({
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+  }),
+};
+
+module.exports = {
+  userLogin,
+};
+```
+
+Tạo Route Auth src/routes/v1/auth.route.js
+
+```js
+const express = require('express');
+const router = express.Router();
+
+const authController = require('../../controllers/auth.controller');
+const validateSchema = require('../../middlewares/validateSchema.middleware');
+const authValidation = require('../../validations/auth.validation');
+
+//http://localhost:8686/api/v1/auth
+router.post(
+  '/',
+  validateSchema(authValidation.userLogin),
+  authController.userLogin
+);
+
+module.exports = router;
+```
+
+Gắn route Auth vào app.js
+
+```js
+//...
+const authRouteV1 = require('./routes/v1/auth.route');
+
+app.use('/api/v1/auth', authRouteV1);
+```
+
+Tạo Controller Auth src/controllers/auth.controller.js
+
+User login sẽ mang theo payload là email và password
+
+```js
+const { authService } = require('../services/auth.service');
+const responseHandler = require('../utilities/responseHandler');
+
+const userLogin = catchAsync(async (req, res) => {
+  const user = await authService.userLogin(req.body);
+  requestHandler.sendJsonSuccess(res)(user);
+});
+module.exports = {
+  userLogin,
+};
+```
+
+Tạo Service Auth src/services/auth.service.js
+
+```js
+
+```

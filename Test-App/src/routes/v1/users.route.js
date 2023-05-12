@@ -3,9 +3,9 @@ const router = express.Router();
 const usersController = require('../../controllers/users.controller');
 
 const validateSchema = require('../../middlewares/validateSchema.middleware');
-const userValidations = require('../../validations/user.validations');
+const userValidation = require('../../validations/user.validation');
 
-console.log(userValidations);
+console.log(userValidation);
 
 //http://localhost:8686/api/v1/users
 router.get('/', usersController.getAllUsers);
@@ -13,7 +13,7 @@ router.get('/', usersController.getAllUsers);
 //localhost:8686/api/v1/users/:id
 http: router.get(
   '/:id',
-  validateSchema(userValidations.getUserById),
+  validateSchema(userValidation.getUserById),
   usersController.getUserById
 );
 

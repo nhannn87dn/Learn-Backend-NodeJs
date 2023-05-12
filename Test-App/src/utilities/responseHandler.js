@@ -1,28 +1,29 @@
 const _ = require('lodash');
 
-const jsonSuccess = (res, message, code) => {
+const sendJsonSuccess = (res, message, code) => {
   return (data, globalData) => {
     if (_.isUndefined(code)) {
       code = 200;
     }
     res.status(code).json({
-      status: code || 0,
+      statusCode: code || 200,
       message: message || 'Success',
       data,
       ...globalData,
     });
   };
 };
-const jsonErrors = (res, message, code) => {
-  return (data, globalData) => {
-    res.status(code).json({
-      status: code || 1,
-      message: message || 'Fail',
-    });
-  };
+
+const sendJsonErrors = (req, res, error) => {
+  console.log(error);
+  return res.status(error.status || 500).json({
+    statusCode: error.status || 500,
+    message: error.message || 'Unhandled Error',
+    error,
+  });
 };
 
 module.exports = {
-  jsonSuccess,
-  jsonErrors,
+  sendJsonSuccess,
+  sendJsonErrors,
 };

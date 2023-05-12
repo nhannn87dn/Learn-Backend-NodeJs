@@ -5,7 +5,7 @@ exports.getAllUsers = async (req, res, next) => {
   try {
     const users = await usersService.getAllUsers();
     //res.status(200).send(users);
-    responseHandler.jsonSuccess(res)(users);
+    responseHandler.sendJsonSuccess(res)(users);
   } catch (err) {
     next(err);
   }
@@ -14,7 +14,8 @@ exports.getAllUsers = async (req, res, next) => {
 exports.getUserById = async (req, res, next) => {
   try {
     const user = await usersService.getUserById(req);
-    res.send(user);
+    // res.send(user);
+    responseHandler.sendJsonSuccess(res)(user);
   } catch (err) {
     next(err);
   }
