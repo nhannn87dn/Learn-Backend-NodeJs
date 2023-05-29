@@ -1,8 +1,31 @@
 # Folder structure using Express and Node.Js
 
+Nội dung chính trong bài: 
+
+> Xây dựng cấu trúc RESTFul-APIs
+
+> Middleware trong Express
+
+> Express middleware phổ biến
+
+> Errors Handling App
+
+> Logging Requests
+
+> Chuẩn hóa Response API
+
+
+=====================
+
+
 Xây dựng cấu trúc dự án RESTFul-APIs với Node.Js và Express CHUẨN đi làm
 
-Tạo một thư mục dự án ví dụ: my-app
+---
+**Dự Án E-Commerce**
+
+---
+
+Tạo một thư mục dự án ví dụ: e-commerce-restful-apis
 
 Khởi tạo dự án
 
@@ -12,20 +35,43 @@ npm init
 
 ## 💛 Xây dựng cấu trúc thư mục
 
-Không có một quy chuẩn nào để tạo ra một cấu trúc dự án chuẩn nhất, dưới đây là 2 mô hình từ Basic tới Master
+Đối với ExpressJs chưa có một quy chuẩn nào để tạo ra một cấu trúc dự án CHUẨN bắt buộc, dưới đây là 3 mô hình từ mà bạn có thể tham khảo
 
-### Mô hình Basic
+### Mô hình Junior
+
+Dành cho người mới học, đơn giản, dể tiếp cận để biết được cách tạp ra một API.
 
 ```code
-my-app/
+e-commerce-restful-apis/
+├─ node_modules/
+├─ public/
+├─ src/
+│  ├─ models/
+│  ├─ helpers/
+│  ├─ validations/
+│  ├─ routes/
+│  ├─ app.js
+├─ .env
+├─ server.js
+├─ .gitignore
+├─ package.json
+├─ README.md
+
+
+### Mô hình Middle
+
+Theo mô hình sát với thực tế hơn, có phiển bản API
+
+```code
+e-commerce-restful-apis/
 ├─ node_modules/
 ├─ public/
 ├─ src/
 │  ├─ controllers/
-│  ├─ middlewares/
+│  ├─ middleware/
 │  ├─ models/
 │  ├─ services/
-│  ├─ utils/
+│  ├─ helpers/
 │  ├─ validations/
 │  ├─ configs/
 │  ├─ routes/
@@ -40,10 +86,12 @@ my-app/
 
 ```
 
-### Mô hình giúp bạn maintenance, mở rộng nhiều phiển bản APIs
+### Mô hình Senior 
+
+Giúp bạn maintenance, mở rộng nhiều phiển bản APIs
 
 ```code
-my-app/
+e-commerce-restful-apis/
 ├─ node_modules/
 ├─ src/
 │  ├─ v1/
@@ -63,9 +111,9 @@ my-app/
 
 **/Models** - Thư mục này sẽ chứa tất cả các files như schema của bạn và và các chức năng cần thiết cho schema cũng sẽ nằm ở đây. Đặt tên xxxxx.model.js
 
-**/Middlewares** - Thư mục này sẽ chứa tất cả phần mềm trung gian mà bạn đã tạo, ví dụ như là xác thực chẳng hạn... Cách đặt tên: xxxxx.middleware.js /
+**/Middleware** - Thư mục này sẽ chứa tất cả phần mềm trung gian mà bạn đã tạo, ví dụ như là xác thực chẳng hạn... Cách đặt tên: xxxxx.middleware.js /
 
-**Utils** - Các chức năng phổ biến mà bạn sẽ yêu cầu nhiều lần trong suốt mã của mình ví dụ như check missing params trước khi xử lý dữ liệu chẳng hạn. Rất cần thiết.
+**Helpers** - Các chức năng phổ biến mà bạn sẽ yêu cầu nhiều lần trong suốt mã của mình ví dụ như check missing params trước khi xử lý dữ liệu chẳng hạn. Rất cần thiết.
 
 **/Configs** - File này dùng cấu hình cho các API / dịch vụ của bên thứ ba như passport / S3, v.v. Những thông số như keyAPI các kiểu.
 
@@ -96,11 +144,6 @@ npm init -y
 ```bash
 NODE_ENV= development
 PORT= 8686
-
-MONGO_URI=
-MONGO_COLLECTION =
-
-JWT_SECURE_KEY =
 
 ```
 
@@ -140,6 +183,8 @@ const server = app.listen(PORT, () => {
 ```bash
 npm i nodemon --dev
 ```
+
+nodemon là một tool giúp server tự khởi động lại khi thay đổi code trong quá trình dev.
 
 ```js
 "scripts": {
@@ -312,66 +357,8 @@ app.use(function (err, req, res, next) {
 });
 ```
 
-### 🔶 6: Validation Configurations
 
-- Validate các biến môi trường, biến config đúng chuẩn.
-- Sử dụng joi, yup
-
-Cần cài thêm
-
-```bash
-npm i dotenv joi --save
-```
-
-Trong thư mục src/configs tạo file config.js
-
-```js
-/* load environment variables from .env file */
-const dotenv = require('dotenv');
-const Joi = require('joi');
-const path = require('path');
-
-dotenv.config({
-  path: path.join(__dirname, '../.env'),
-});
-
-/* validate env  */
-const envVarSchema = Joi.object()
-  .keys({
-    NODE_ENV: Joi.string()
-      .valid('development', 'production', 'test')
-      .required()
-      .default('development'),
-    PORT: Joi.number().default(3000),
-    MONGO_URI: Joi.string().required().description('MongoDB connect URI'),
-    MONGO_COLLECTION: Joi.string()
-      .required()
-      .description('MongoDB Collection Name'),
-    JWT_SECURE_KEY: Joi.string().required().description('JWT Secret Key'),
-  })
-  .unknown();
-
-const { value: envVars, error } = envVarSchema
-  .prefs({
-    errors: { label: 'key' },
-  })
-  .validate(process.env);
-
-if (error) {
-  throw new Error(`Config validation error: ${error.message} `);
-}
-
-module.exports = {
-  env: envVars.NODE_ENV,
-  port: envVars.PORT,
-  jwt: { secure_key: envVars.JWT_SECURE_KEY },
-  mongoose: { url: envVars.MONGO_URI, name: envVars.MONGO_COLLECTION },
-};
-```
-
-Mục đích để người dùng khai báo biến đúng chuẩn, đúng giá trị cần thiết
-
-### 🔶 7: Logging Requests
+### 🔶 6: Logging Requests
 
 - Ghi log lại mỗi requests gửi lên server express
 
@@ -416,7 +403,7 @@ var accessLogStream = rfs.createStream('access.log', {
 app.use(morgan('combined', { stream: accessLogStream }));
 ```
 
-### 🔶 8: Chuẩn hóa định dạng JSON API trả về
+### 🔶 7: Chuẩn hóa định dạng JSON API trả về
 
 Không có bất kỳ quy tắc nào để ràng buộc cách bạn trả về một chuổi JSON có cấu trúc như thế nào cả.
 
@@ -432,7 +419,7 @@ Ví dụ: Thành công
 
 ```json
 {
-  "status": "0",
+  "statusCode": "0",
   "message": "Successfully"
 }
 ```
@@ -441,7 +428,7 @@ Ví dụ: Thành công có gửi kèm data
 
 ```json
 {
-  "status": "0",
+  "statusCode": "0",
   "message": "Successfully",
   "data": {
     "posts": [
@@ -456,7 +443,7 @@ Ví dụ: Thất bại (không có lỗi, chỉ là nó chưa tuân thủ một 
 
 ```json
 {
-  "status": "400",
+  "statusCode": "400",
   "message": "A title is required"
 }
 ```
@@ -465,7 +452,7 @@ Ví dụ: Lỗi (khiến code không thể xử lý)
 
 ```json
 {
-  "status": "500",
+  "statusCode": "500",
   "message": "Can not connect to Datatabase"
 }
 ```
@@ -483,16 +470,11 @@ Thông thường người ta tạo ra một bảng danh mục mã lỗi kèm mes
 Tạo một file `src\utilities\responseHandler.js` để handle việc đó
 
 ```js
-//Cần cài thêm thư viện lodash
-const _ = require('lodash');
-
 const sendJsonSuccess = (res, message, code) => {
   return (data, globalData) => {
-    if (_.isUndefined(code)) {
-      code = 200;
-    }
+    code = code || 200;
     res.status(code).json({
-      statusCode: code || 200,
+      statusCode: code,
       message: message || 'Success',
       data,
       ...globalData,

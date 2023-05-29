@@ -1,0 +1,22 @@
+
+
+POST http://localhost:8686/api/v1/users HTTP/1.1
+content-type: application/json
+
+{   
+    "name": "Jonh 4",
+    "email": "jonh4@gmail.com"
+}
+
+### 
+
+PUT http://localhost:8686/api/v1/users/1 HTTP/1.1
+content-type: application/json
+
+{   
+    "name": "Jonh 2",
+    "email": "upadtes@gmail.com"
+}
+
+###
+DELETE  http://localhost:8686/api/v1/users/4 HTTP/1.1

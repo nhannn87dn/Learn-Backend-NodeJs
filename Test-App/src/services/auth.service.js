@@ -1,20 +1,15 @@
 const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
-const users = [
-  { id: 1, name: 'Jonh', email: 'jonh@gmail.com', password: '123' },
-  { id: 2, name: 'Dara', email: 'dara@gmail.com', password: '123' },
-  { id: 3, name: 'Tim', email: 'tim@gmail.com', password: '123' },
-];
-
+const users = require("../constants/users");
 /**
  * Ví dụ trên chỉ tạo ra một Mật khẩu đơn giản
  * Nâng cấp lên mật khẩu phức tạp hơn để tăng độ khó
  */
 
 exports.userLogin = async (body) => {
-  console.log(body);
+  console.log("2 ==> ",body);
   //Tìm xem có tồn tại user có email không
-  let user = await users.find((user) => user.email === body.email);
+  let user =  users.find( u => u.email === body.email);
 
   if (!user) {
     throw createError(400, 'Invalid email or password');

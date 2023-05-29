@@ -1,29 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const usersController = require('../../controllers/users.controller');
+const userController = require('../../controllers/user.controller');
 
 const validateSchema = require('../../middlewares/validateSchema.middleware');
 const userValidation = require('../../validations/user.validation');
 
-console.log(userValidation);
 
 //http://localhost:8686/api/v1/users
-router.get('/', usersController.getAllUsers);
+router.get('/', userController.getAllUsers);
 
 //localhost:8686/api/v1/users/:id
 http: router.get(
   '/:id',
   validateSchema(userValidation.getUserById),
-  usersController.getUserById
+  userController.getUserById
 );
 
 //http://localhost:8686/api/v1/users
-router.post('/', usersController.createUser);
+router.post('/', userController.createUser);
 
 //localhost:8686/api/v1/users/:id
-http: router.put('/:id', usersController.updateUserById);
+http: router.put('/:id', userController.updateUserById);
 
 //localhost:8686/api/v1/users/:id
-router.delete('/:id', usersController.deleteUserById);
+router.delete('/:id', userController.deleteUserById);
 
 module.exports = router;

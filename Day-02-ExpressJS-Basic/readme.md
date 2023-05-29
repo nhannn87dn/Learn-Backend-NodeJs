@@ -1,6 +1,29 @@
 # Tạo web động sử dụng NodeJs - ExpressJs
 
-Cài đặt
+Trong bài học này chúng ta tìm hiểu: 
+
+> 1. ExpressJs Framework
+> 2. Route và HTTP Methods
+> 3. Route paths
+> 4. Requests and Handling Parameters
+> 5. Response methods
+> 6. Serving static files
+> 7. Template Engine
+
+==============================
+
+## 💛 1. Giới thiệu về ExpressJs
+
+ExpressJS là một framework ứng dụng web có mã nguồn mở và miễn phí được xây dựng trên nền tảng Node.js. ExpressJS được sử dụng để thiết kế và phát triển các ứng dụng web một cách nhanh chóng.
+
+!['express'](img/expressjs.png)
+
+Nói đến framework là nói đến nó có thể vừa đảm nhận vai trò làm client vừa làm server được.
+
+ExpressJS Rất dễ học, chỉ cần bạn biết JavaScript, bạn sẽ không cần phải học một ngôn ngữ mới, giúp cho việc phát triển back-end dễ dàng hơn nhiều.
+
+**Cách cài đặt**
+
 
 ```bash
 npm install express --save
@@ -22,7 +45,11 @@ app.listen(port, () => {
 });
 ```
 
-## 💛 Routing Basic
+Như vậy chỉ vài dòng code đơn giản , bản đã tạo được một server chạy trên môi trường NodeJs
+
+## 💛 2. Route và HTTP Methods
+
+Route là một thành phần cực kỳ quan trọng của một website, nó giúp website biết được người dùng truy cập đến nơi nào của trang web, từ đó phản hồi lại một cách thích hợp.
 
 Cú pháp định nghĩa một Route
 
@@ -35,15 +62,17 @@ app.METHOD(PATH, HANDLER);
 - PATH is a path on the server.
 - HANDLER is the function executed when the route is matched.
 
-Examples
+Ví dụ:
+
+Phản hồi khi có một truy cập đến trang chủ với phương thức GET
 
 ```js
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Hello World!. I\'m a Home Page');
 });
 ```
 
-Respond to POST request on the root route (/), the application’s home page:
+Phản hồi khi có một truy cập đến trang chủ với phương thức POST
 
 ```js
 app.post('/', (req, res) => {
@@ -51,7 +80,7 @@ app.post('/', (req, res) => {
 });
 ```
 
-Respond to a PUT request to the /user route:
+Phản hồi khi có một truy cập đến trang user với phương thức PUT
 
 ```js
 app.put('/user', (req, res) => {
@@ -59,7 +88,7 @@ app.put('/user', (req, res) => {
 });
 ```
 
-Respond to a DELETE request to the /user route:
+Phản hồi khi có một truy cập đến trang user với phương thức DELETE
 
 ```js
 app.delete('/user', (req, res) => {
@@ -67,11 +96,14 @@ app.delete('/user', (req, res) => {
 });
 ```
 
+Đọc thêm: [So sánh GET với POST](https://timoday.edu.vn/cac-phuong-thuc-request-trong-giao-thuc-http/#So_sanh_GET_voi_POST)
+
 ## 💛 Route paths
 
-Here are some examples of route paths based on string patterns.
+Ngoài cách bạn định nghĩa path một cách cụ thể như ví dụ trên thì bạn có thể tạo ra các `path` với một `string patterns`
 
-This route path will match acd and abcd.
+
+route path sẽ khớp với: acd, abcd.
 
 ```js
 app.get('/ab?cd', (req, res) => {
@@ -79,7 +111,7 @@ app.get('/ab?cd', (req, res) => {
 });
 ```
 
-This route path will match abcd, abbcd, abbbcd, and so on.
+route path khớp với abcd, abbcd, abbbcd, và nhiều hơn
 
 ```js
 app.get('/ab+cd', (req, res) => {
@@ -87,7 +119,7 @@ app.get('/ab+cd', (req, res) => {
 });
 ```
 
-This route path will match abcd, abxcd, abRANDOMcd, ab123cd, and so on.
+route path khớp với abcd, abxcd, abRANDOMcd, ab123cd, và nhiều hơn
 
 ```js
 app.get('/ab*cd', (req, res) => {
@@ -95,7 +127,7 @@ app.get('/ab*cd', (req, res) => {
 });
 ```
 
-This route path will match /abe and /abcde.
+route path khớp với /abe and /abcde.
 
 ```js
 app.get('/ab(cd)?e', (req, res) => {
@@ -103,9 +135,9 @@ app.get('/ab(cd)?e', (req, res) => {
 });
 ```
 
-Examples of route paths based on regular expressions:
+Hoặc khớp với một biểu thức chính quy `regular expressions`:
 
-This route path will match anything with an “a” in it.
+route path khớp khi url có chứa ký tự `a`
 
 ```js
 app.get(/a/, (req, res) => {
@@ -113,7 +145,7 @@ app.get(/a/, (req, res) => {
 });
 ```
 
-This route path will match butterfly and dragonfly, but not butterflyman, dragonflyman, and so on.
+route path khớp khi url như butterfly, dragonfly, và không khớp khi butterflyman, dragonflyman. $ là đánh dấu là kết thúc.
 
 ```js
 app.get(/.*fly$/, (req, res) => {
@@ -121,15 +153,17 @@ app.get(/.*fly$/, (req, res) => {
 });
 ```
 
-Regex rule for route parameter
+Regex rule trong trường hợp sử dụng  route parameter
 
 ```js
+// Ví dụ: /user/1
 app.get('^/users/:userId([0-9]{6})', function (req, res) {
   res.send('Route match for User ID: ' + req.params.userId);
 });
 ```
 
 ```js
+// Ví dụ: /user/aptech
 app.get('^/users/:username([0-9a-zA-Z]{6,12})', function (req, res) {
   res.send('Route match for User Name: ' + req.params.username);
 });
@@ -137,7 +171,27 @@ app.get('^/users/:username([0-9a-zA-Z]{6,12})', function (req, res) {
 
 ## 💛 Requests and Handling Parameters
 
-### To get body of request
+### 🚩 HTTP Request là gì ?
+
+📌 **HTTP** (Hypertext Transfer Protocol) Là một giao thức cơ bản mà World Wide Web sử dụng. HTTP xác định cách mà các thông điệp (như các file văn bản, hình ảnh đồ hoạ, âm thanh, video, và các file multimedia ...) được định dạng và truyền tải ra sao, và những hành động nào mà các Webserver và các trình duyệt web (browser) phải làm để đáp ứng lại
+
+![http](img/HTTP-request-response-model.png)
+
+📌 **HTTP Request** hiểu một cách đơn giản là các thông tin sẽ được gửi từ người dùng (client) lên server. Server sẽ có nhiệm vụ tìm và xử lý các loại dữ liệu, thông tin, client mong muốn
+
+Có nhiều phương thức khác nhau để gửi một request đến server trong đó các phương thức phổ biến: GET,POST,PUT,DELETE,PATCH
+
+### 🚩Cấu trúc của một Request
+
+HTTP Request có cấu tạo gồm ba phần chính. Đó là request line, header và massage body
+
+1. Request Line: Methods, Path (URL), HTTP version
+
+2. Request Header: thông tin mở rộng cho request: cookie, thông tin về ủy quyền, tác nhân người dùng…
+
+3. Request Body: nội dung mà request mang theo để gửi lên server
+
+### 🚩 Truy cập đến body gửi lên từ request
 
 ```js
 router.post('/', (req, res) => {
@@ -150,7 +204,7 @@ router.post('/', (req, res) => {
 });
 ```
 
-### To get params of request
+### Truy cập đến parameter gửi lên từ request
 
 ```js
 router.patch('/:id', (req, res) => {
@@ -163,7 +217,7 @@ router.patch('/:id', (req, res) => {
 });
 ```
 
-### To get query string of request
+### Truy cập đến query string gửi lên từ request
 
 ```js
 router.get('/search/query', (req, res) => {
@@ -182,18 +236,29 @@ query example:
 http://localhost:9000/customers/search/query?name=peter&age=30
 ```
 
-## 💛 Response methods
+## 💛 HTTP Response
 
-The methods on the response object (res) in the following table can send a response to the client, and terminate the request-response cycle. If none of these methods are called from a route handler, the client request will be left hanging.
+Response có nghĩa là phản hồi. Đây là kết quả server trả về cho client.
+
+
+HTTP Response có cấu tạo gồm ba phần chính. Đó là status line, header và massage body
+
+1. Request Line: Http Status Code, Reason-Phrase, HTTP version
+
+2. Request Header: thông tin mở rộng cho request: cookie, thông tin về ủy quyền, tác nhân người dùng…
+
+3. Message Body
+
+ExpressJs hỗ trợ các phương thức response như sau:
 
 | Method           | Description                                                                           |
 | ---------------- | ------------------------------------------------------------------------------------- |
-| res.download()   | Prompt a file to be downloaded.                                                       |
-| res.end()        | End the response process.                                                             |
-| res.json()       | Send a JSON response.                                                                 |
+| res.download()   | Tải file.                                                       |
+| res.end()        | Kết thúc xử lý reponse                                                            |
+| res.json()       | Gửi một Json                                                                 |
 | res.jsonp()      | Send a JSON response with JSONP support.                                              |
-| res.redirect()   | Redirect a request.                                                                   |
-| res.render()     | Render a view template.                                                               |
+| res.redirect()   | Chuyển hướng request                                                                   |
+| res.render()     | Render một giao diện                                                               |
 | res.send()       | Send a response of various types.                                                     |
 | res.sendFile()   | Send a file as an octet stream.                                                       |
 | res.sendStatus() | Set the response status code and send its string representation as the response body. |
@@ -212,16 +277,13 @@ Status code (Mã hóa trạng thái thường được gọi là mã trạng th�
 
 Xem chi tiết [link sau](http-status-code.md)
 
-## 💛 Làm quen các cộng cụ TEST API
-
-- REST Client (Huachao Mao) Extension
-- PostMan: <https://www.postman.com/downloads/>
 
 ## 💛 Serving static files in Express
 
 Khi bạn upload images, CSS files, and JavaScript files lên server thì bạn cần public đường dẫn đến các tài nguyên tĩnh này thì mình sẽ khai báo:
 
 ```js
+//Tại app.js
 const path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
 ```
@@ -253,6 +315,7 @@ Ngoài ra bạn có thể tạo ra một tiền tố đường dẫn ảo
 ```js
 app.use('/static', express.static(path.join(__dirname, 'public')));
 ```
+`path.join(__dirname, 'public')` là bạn đang xác định đường dẫn đến thư mục public khi bạn đang đứng ở app.js
 
 Bạn truy cập tới các tài nguyên tĩnh bằng tiền tố `/static`
 
@@ -265,10 +328,72 @@ http://localhost:3000/static/images/bg.png
 http://localhost:3000/static/hello.html
 ```
 
-Thực tế không tồn tại thư mục /static trên server
+Thực tế không tồn tại thư mục /static trên server, thư mục ảo
 
-## 💛 Using template engines with Express
+## 💛 Sử dụng template engines với Express
 
-Một số template engines phổ biến làm việc với Express như Pug, Mustache, and EJS.
+Chúng ta biết rằng Express là một framework nên nó có thể đảm nhận công việc client side, có thể dùng để làm một ứng dụng, một website bình thường.
 
-Xem ví dụ về sử dụng ejs engines ở thư mục Examples/express-ejs-template
+Bằng cách sử dụng `template engines` phổ biến làm việc với Express như Pug, Mustache, and EJS.
+
+Xem ví dụ về sử dụng `ejs engines` ở thư mục Examples/express-ejs-template
+
+Tạo một trang web có 5 trang sử dụng ExpressJs
+
+* Trang chủ  với đường dẫn : /
+* Trang About với đường dẫn: /about
+* Trang Product với đường dẫn: /products
+* Trang Blog với đường dẫn: /blog
+* Trang Login với đường dẫn: /login
+
+Cài đặt:
+
+```bash
+npm install ejs
+yarn add ejs
+```
+
+Thêm 2 dòng này vào app.js
+
+```js
+// cấu hình kiểu tập tin template
+app.engine('.html', require('ejs').__express);
+// Cấu hình thư mục template views
+app.set('views', path.join(__dirname, 'views'));
+// Without this you would need to
+// supply the extension to res.render()
+// ex: res.render('users.html').
+app.set('view engine', 'html');
+
+```
+
+Đọc thêm: Mô hình MVC là gì ?
+
+Tạo các template cho 5 trang nói trên
+
+```code
+views/
+  ├─ index.html
+  ├─ about.html
+  ├─ products.html
+  ├─ blog.html
+  ├─ login.html
+app.js
+```
+
+
+Nội dung trang chủ
+
+```js
+app.get('/', function (req, res) {
+  //render kết quả ra template views/index.html
+  res.render('index', {
+    title: 'EJS example',
+    heading: 'Hello HomePage'
+  });
+});
+
+```
+
+Tương tự cho các trang còn lại
+

@@ -1,12 +1,13 @@
-const _ = require('lodash');
+//const _ = require('lodash');
 
 const sendJsonSuccess = (res, message, code) => {
   return (data, globalData) => {
-    if (_.isUndefined(code)) {
-      code = 200;
-    }
+    // if (_.isUndefined(code)) {
+    //   code = 200;
+    // }
+    code = code || 200;
     res.status(code).json({
-      statusCode: code || 200,
+      statusCode: code,
       message: message || 'Success',
       data,
       ...globalData,

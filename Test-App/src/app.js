@@ -1,23 +1,41 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const createError = require('http-errors');
 const app = express();
-const { sendJsonErrors } = require('./utilities/responseHandler');
+const { sendJsonErrors } = require('./helpers/responseHandler');
 
 const usersRouteV1 = require('./routes/v1/users.route');
 const authRouteV1 = require('./routes/v1/auth.route');
 
+
+// for parsing application/json
+app.use(
+  bodyParser.json({
+      limit: "16mb",
+  })
+);
+// for parsing application/xwww-form-urlencoded
+app.use(
+  bodyParser.urlencoded({
+      limit: "16mb",
+      extended: true,
+  })
+);
+
 //Response version API
-app.get('/', async (req, res) => {
+app.get('/', (req, res) => {
   res.status(200).json({ message: 'Hello World !' });
 });
 
+
+
 //Response version API
-app.get('/api', async (req, res) => {
+app.get('/api',  (req, res) => {
   res.status(200).json({ message: 'Restfull API' });
 });
 
 //Response version API
-app.get('/api/v1', async (req, res) => {
+app.get('/api/v1',  (req, res) => {
   res.status(200).json({ version: 'API 1.0' });
 });
 
