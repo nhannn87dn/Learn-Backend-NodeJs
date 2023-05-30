@@ -36,6 +36,7 @@ const express = require('express');
 const createError = require('http-errors');
 const router = express.Router();
 
+/* tách thành file json */
 const users = [
   { id: 1, name: 'Jonh', email: 'jonh@gmail.com' },
   { id: 2, name: 'Dara', email: 'dara@gmail.com' },

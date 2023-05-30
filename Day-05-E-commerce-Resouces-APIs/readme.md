@@ -7,7 +7,9 @@ Xây dựng cấu trúc dự án RESTFul-APIs với Node.Js và Express CHUẨN 
 ## 💛 Tạo RESTFul-APIs
 
 - Categories
-- Products
-- Order
+- Brand
+- Supplier
 - Customer
 - Shipper
+- Products
+- Order
