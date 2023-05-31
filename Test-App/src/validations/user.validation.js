@@ -1,9 +1,9 @@
 const Joi = require('joi');
-//const { objectId } = require('./custom.validation');
+const { objectId } = require('./custom.validation');
 
 const getUserById = {
   params: Joi.object().keys({
-    id: Joi.number().required(),
+    id: Joi.custom(objectId).required(),
   }),
 };
 

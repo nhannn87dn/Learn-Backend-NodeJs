@@ -71,22 +71,23 @@ yarn add mongoose --save
 ```js
 /// Start the server
 const mongooseDbOptions = {
-    autoIndex: true, // Don't build indexes
-    maxPoolSize: 10, // Maintain up to 10 socket connections
-    serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
-    socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-    family: 4, // Use IPv4, skip trying IPv6
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+  autoIndex: true, // Don't build indexes
+  maxPoolSize: 10, // Maintain up to 10 socket connections
+  serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
+  socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+  family: 4, // Use IPv4, skip trying IPv6
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 };
-mongoose.connect('mongodb://127.0.0.1:27017/myapp',mongooseDbOptions)
-then(()=>{
-  console.log("Connected to MongoDB");
-  //should listen app here
-})
-catch((err)=>{
-    console.error("Failed to Connect to MongoDB", err);
-});
+mongoose
+  .connect('mongodb://127.0.0.1:27017/myapp', mongooseDbOptions)
+  .then(() => {
+    console.log('Connected to MongoDB');
+    //should listen app here
+  })
+  .catch((err) => {
+    console.error('Failed to Connect to MongoDB', err);
+  });
 ```
 
 Tips: Bạn có thể đưa đoạn code khởi tạo server của Express vào chổ `//should listen app here` để đảm bảo rằng. Phải kết nối server Mongoo thành công thì mới khởi tạo server NodeJs.
@@ -148,10 +149,6 @@ const User = new mongoose.model('User', userSchema);
 module.exports = User;
 ```
 
-Công việc nay ví như bạn đi tạo một table User, rồi đi thêm các trường cho table User bên SQL vậy.
-
-
-
 ## 💛 Database Relationships
 
 Trước khi đi tìm hiểu **Data Model Design** chúng ta cần biết mối quan hệ trong CSDL
@@ -166,7 +163,6 @@ Ví dụ QL Sinh viên: Mỗi sinh viên chỉ có một hồ sơ sinh viên duy
 
 ### 🔶 One to Many - Một nhiều
 
-
 Kiểu quan hệ một nhiều (one-to-many relationship) là một kiểu quan hệ giữa hai thực thể trong cơ sở dữ liệu, trong đó `MỘT` thực thể của bảng dữ liệu có thể được liên kết với `NHIỀU` thực thể của bảng dữ liệu khác, nhưng mỗi thực thể của bảng dữ liệu khác lại chỉ liên kết với một thực thể duy nhất của bảng dữ liệu đầu tiên.
 
 Ví dụ, trong một cơ sở dữ liệu quản lý khách sạn, một khách sạn có thể có nhiều phòng, nhưng mỗi phòng chỉ thuộc về một khách sạn duy nhất. Đây là một mối quan hệ một nhiều giữa bảng "Hotels" và bảng "Rooms".
@@ -177,7 +173,6 @@ Kiểu quan hệ nhiều nhiều (many-to-many relationship) là một kiểu qu
 
 Ví dụ, trong một cơ sở dữ liệu quản lý đơn hàng trực tuyến, một đơn hàng có thể có nhiều sản phẩm, và một sản phẩm cũng có thể xuất hiện trong nhiều đơn hàng khác nhau. Đây là một mối quan hệ nhiều nhiều giữa bảng "Orders" và bảng "Products".
 
-
 ## 💛 Data Model Design
 
 Trong NoSQL, khái niệm bảng được thay thế bằng khái niệm collection (tập hợp). Một collection trong NoSQL tương đương với một bảng trong hệ quản trị cơ sở dữ liệu quan hệ (RDBMS).
@@ -187,16 +182,143 @@ Trong NoSQL, document là một đối tượng cơ bản trong cơ sở dữ li
 Dựa trên mối quan hệ giữa CSDL, Cấu trúc của một Document sẽ được quyết định bởi 2 kiểu:
 
 - embed
+
+![embed](img/embed-model.PNG)
+
+Mô hình này có tốc độ truy vấn nhanh hơn. Nhưng nhược điểm là Data đúng chất NoSQL nó không có mối tương quan dữ liệu gì với các collection
+
 - use references
+
+![embed](img/references-model.PNG)
+
+Mặc dù mongoo được biết đến là NoSQL nhưng với mô hình này thì nó có quan hệ.
+Tốc độ truy vấn trong mô hình này chậm hơn kiểu `embed` vì phải tham chiếu nhiều collection để lấy dữ liệu.
 
 Data Model Design: <https://www.mongodb.com/docs/manual/core/data-model-design/#data-model-design>
 
 Data Model: <https://www.mongodb.com/docs/manual/applications/data-models/>
 
-## 💛 Mongoose Basic Queries 
+## 💛 Mongoose Basic Queries
 
+Danh sách các phương thức truy vấn xem ở link sau
 Doc: <https://mongoosejs.com/docs/queries.html>
 
+### 🔶 Insert - Thêm mới
+
+Bạn sửa funtion createUser trong services\users.service.js
+lại như sau:
+
+```js
+const User = reuiqre('../models/user.model');
+
+exports.createUser = async (req) => {
+  console.log('createUser');
+
+  try {
+    /* Lấy data từ request gửi lên */
+    const payload = {
+      name: req.body.name,
+      email: req.body.email,
+      role: req.body.role,
+      password: req.body.password,
+      isEmailVerifie: req.body.isEmailVerifie,
+    };
+    // Lưu xuống database
+    const user = await User.create(payload);
+    // Or User.save(payload);
+
+    /* Trả lại thông tin cho response */
+    return user;
+  } catch (err) {
+    throw createError(500, err.message);
+  }
+};
+```
+
+### 🔶 Select - Truy vấn dữ liệu
+
+#### Select All
+
+Lấy tất cả Users
+
+```js
+exports.getAllUsers = async () => {
+  const users = User.find();
+  return users;
+};
+```
+
+#### Select by ID
+
+Lấy thông tin một User theo ID
+
+```js
+exports.getUserById = async (req) => {
+  try {
+    const { id } = req.params;
+
+    const user = User.findById(id);
+
+    if (!user) {
+      throw createError(404, 'User not found');
+    }
+
+    return user;
+  } catch (err) {
+    throw createError(500, err.message);
+  }
+};
+```
+
+#### Select with Condition
+
+Lấy thông tin có điều kiện
+
+```js
+exports.getAllUsers = async () => {
+  const users = User.find({
+    role: 'user',
+  });
+  return users;
+};
+```
+
+### 🔶 Update
+
+```js
+// Update a user by ID
+exports.updateUserById = async (req) => {
+  try {
+    const { id } = req.params;
+
+    const user = User.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+
+    return user;
+  } catch (err) {
+    throw createError(500, err.message);
+  }
+};
+```
+
+### 🔶 Delete
+
+```js
+exports.deleteUserById = async (req) => {
+  console.log('deleteUserById');
+
+  try {
+    const { id } = req.params;
+
+    const user = User.findByIdAndDelete(id);
+
+    return user;
+  } catch (err) {
+    throw createError(500, err.message);
+  }
+};
+```
 
 ## 💛 Mongoose Built-in Validators
 
@@ -267,7 +389,6 @@ const userSchema = new Schema({
 });
 ```
 
-
 ## 💛 Instance methods
 
 Là một số phương thức được có sẵn của Document
@@ -300,6 +421,8 @@ userSchema.methods.generateAuthToken = function () {
 
 - Dùng để tạo ra một tính năng độc lập, không liên quan đến bên trong Model
 
+## 💛 Populate
+
 ## 💛 Static
 
 Dùng khi bạn cần tạo ra một chức năng (function), có sử dụng đến Model
@@ -326,9 +449,10 @@ Ví dụ đang có sẳn firstName và LastName, bạn không cần tạo thêm 
 ```js
 // Virtual for this genre instance fullName.
 userSchema.virtual('fullName').get(function () {
-  return this.fistName + " " + this.lastName;
+  return this.fistName + ' ' + this.lastName;
 });
 ```
+
 Tạo một URL
 
 ```js
@@ -388,5 +512,3 @@ userSchema.pre('save', async function (next) {
 ## 💛 TypeScript Support
 
 Nếu code theo kiểu TypeScript thì xem link sau <https://mongoosejs.com/docs/typescript.html>
-
-

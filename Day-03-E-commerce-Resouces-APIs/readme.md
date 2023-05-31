@@ -1,6 +1,6 @@
 # Folder structure using Express and Node.Js
 
-Nội dung chính trong bài: 
+Nội dung chính trong bài:
 
 > Xây dựng cấu trúc RESTFul-APIs
 
@@ -14,13 +14,12 @@ Nội dung chính trong bài:
 
 > Chuẩn hóa Response API
 
-
 =====================
-
 
 Xây dựng cấu trúc dự án RESTFul-APIs với Node.Js và Express CHUẨN đi làm
 
 ---
+
 **Dự Án E-Commerce**
 
 ---
@@ -56,7 +55,7 @@ e-commerce-restful-apis/
 ├─ .gitignore
 ├─ package.json
 ├─ README.md
-
+```
 
 ### Mô hình Middle
 
@@ -86,7 +85,7 @@ e-commerce-restful-apis/
 
 ```
 
-### Mô hình Senior 
+### Mô hình Senior
 
 Giúp bạn maintenance, mở rộng nhiều phiển bản APIs
 
@@ -229,6 +228,7 @@ router.get('/users', async (req, res) => {
 module.exports = router;
 ```
 
+
 Gắn router vào app.js
 
 ```js
@@ -356,7 +356,6 @@ app.use(function (err, req, res, next) {
   res.send({ error: err.message });
 });
 ```
-
 
 ### 🔶 6: Logging Requests
 

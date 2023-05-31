@@ -1,14 +1,16 @@
 const createError = require('http-errors');
-const users = require("../data/users.json");
-const fileHandlerHelper = require("../helpers/fileHandlerHelper")
+//const users = require('../data/users.json');
+const fileHandlerHelper = require('../helpers/fileHandlerHelper');
+const User = require('../models/user.model');
 
 /* System file khởi chạy thì nó đứng ngay thư mục root server */
-const fileNameUsers = "./src/data/users.json";
+const fileNameUsers = './src/data/users.json';
 
-console.log(fileNameUsers)
+console.log(fileNameUsers);
 
 // Get all users
 exports.getAllUsers = async () => {
+  const users = User.find();
   return users;
 };
 
@@ -21,7 +23,8 @@ exports.getUserById = async (req) => {
       throw createError(400, 'Missing user ID');
     }
 
-    const user = users.find((user) => user.id === id);
+    // const user = users.find((user) => user.id === id);
+    const user = User.findById(id);
 
     console.log(id, user);
 
@@ -39,25 +42,35 @@ exports.getUserById = async (req) => {
 exports.createUser = async (req) => {
   console.log('createUser');
 
-
   try {
-    let payload = {
-      id: 4,
+    // let payload = {
+    //   id: 4,
+    //   name: req.body.name,
+    //   email: req.body.email,
+    //   password: '123456',
+    // };
+    // newUsers = [...users, payload];
+    // //Ghi lại file
+    // fileHandlerHelper.write(fileNameUsers, newUsers);
+    // return newUsers;
+
+    /* Lấy data từ request gửi lên */
+    const payload = {
       name: req.body.name,
       email: req.body.email,
-      password: '123456',
-    }
-    newUsers = [...users,payload];
-    
+      role: req.body.role,
+      password: req.body.password,
+      isEmailVerifie: req.body.isEmailVerifie,
+    };
+    // Lưu xuống database
+    const user = await User.create(payload);
+    // Or User.save(payload);
 
-    //Ghi lại file
-    fileHandlerHelper.write(fileNameUsers,newUsers);
-
-    return newUsers;
+    /* Trả lại thông tin cho response */
+    return user;
   } catch (err) {
     throw createError(500, err.message);
   }
-
 };
 
 // Update a user by ID
@@ -69,32 +82,37 @@ exports.updateUserById = async (req) => {
       throw createError(400, 'Missing user ID');
     }
 
-    /* Check exits user by id */
-    const user = users.find((user) => user.id === parseInt(id));
+    // /* Check exits user by id */
+    // const user = users.find((user) => user.id === parseInt(id));
 
-    if (!user) {
-      throw createError(404, `User not found with ID ${id}`);
-    }
+    // if (!user) {
+    //   throw createError(404, `User not found with ID ${id}`);
+    // }
 
-    /**
-     * Lặp qua mảng, tìm user có id để update
-     * trả lại mảng mới sau khi update
-     */
-    const newUsers =  users.map(user => {
-      if(user.id === parseInt(id)){
-        if(req.body.email) user.email = req.body.email;
-        if(req.body.name) user.name = req.body.name;
-      }
-      return user;
+    // /**
+    //  * Lặp qua mảng, tìm user có id để update
+    //  * trả lại mảng mới sau khi update
+    //  */
+    // const newUsers = users.map((user) => {
+    //   if (user.id === parseInt(id)) {
+    //     if (req.body.email) user.email = req.body.email;
+    //     if (req.body.name) user.name = req.body.name;
+    //   }
+    //   return user;
+    // });
+
+    // console.log('after', newUsers);
+
+    // //Ghi lại file
+    // fileHandlerHelper.write(fileNameUsers, newUsers);
+
+    // return newUsers;
+
+    const user = User.findByIdAndUpdate(id, req.body, {
+      new: true,
     });
 
-    console.log('after',newUsers);
-    
-
-    //Ghi lại file
-    fileHandlerHelper.write(fileNameUsers,newUsers);
-
-    return newUsers;
+    return user;
   } catch (err) {
     throw createError(500, err.message);
   }
@@ -111,29 +129,30 @@ exports.deleteUserById = async (req) => {
       throw createError(400, 'Missing user ID');
     }
 
-    /* Check exits user by id */
-    const user = users.find((user) => user.id === parseInt(id));
+    // /* Check exits user by id */
+    // const user = users.find((user) => user.id === parseInt(id));
 
-    if (!user) {
-      throw createError(404, `User not found with ID ${id}`);
-    }
+    // if (!user) {
+    //   throw createError(404, `User not found with ID ${id}`);
+    // }
 
-    /**
-     * Lặp qua mảng, tìm user có id để update
-     * trả lại mảng mới sau khi update
-     */
-    const newUsers =  users.filter(user => user.id !== parseInt(id));
+    // /**
+    //  * Lặp qua mảng, tìm user có id để update
+    //  * trả lại mảng mới sau khi update
+    //  */
+    // const newUsers = users.filter((user) => user.id !== parseInt(id));
 
-    console.log('after',newUsers);
-    
+    // console.log('after', newUsers);
 
-    //Ghi lại file
-    fileHandlerHelper.write(fileNameUsers,newUsers);
+    // //Ghi lại file
+    // fileHandlerHelper.write(fileNameUsers, newUsers);
 
-    return newUsers;
+    // return newUsers;
+
+    const user = User.findByIdAndDelete(id);
+
+    return user;
   } catch (err) {
     throw createError(500, err.message);
   }
-
-
 };
