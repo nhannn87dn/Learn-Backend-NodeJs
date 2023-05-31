@@ -421,7 +421,6 @@ userSchema.methods.generateAuthToken = function () {
 
 - Dùng để tạo ra một tính năng độc lập, không liên quan đến bên trong Model
 
-## 💛 Populate
 
 ## 💛 Static
 

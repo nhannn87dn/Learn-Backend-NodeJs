@@ -1,0 +1,207 @@
+[
+    {
+      "name": "Samsung Galaxy S21 Ultra",
+      "brand": "Samsung",
+      "category": "Smartphones",
+      "price": 1199,
+      "description": "Samsung Galaxy S21 Ultra is a flagship smartphone with a 6.8-inch QHD+ Dynamic AMOLED display, 5G connectivity, and a quad-camera setup.",
+      "image": "https://www.samsung.com/global/galaxy/galaxy-s21-5g/images/galaxy-s21-ultra_5g_kv_front_mystic-black.jpg",
+      "rating": 4.5,
+      "reviews": [
+        {
+          "name": "John",
+          "comment": "Great phone, love the camera",
+          "rating": 4.5
+        },
+        {
+          "name": "Sarah",
+          "comment": "Expensive but worth it",
+          "rating": 4.0
+        }
+      ]
+    },
+    {
+      "name": "Apple MacBook Pro",
+      "brand": "Apple",
+      "category": "Laptops",
+      "price": 1499,
+      "description": "Apple MacBook Pro is a high-performance laptop with a 13-inch Retina display, up to 16GB of RAM, and up to 2TB of SSD storage. It also features Apple's M1 chip for faster performance and longer battery life.",
+      "image": "https://www.apple.com/v/macbook-pro-13/e/images/overview/hero_endframe__aseoy4yrcf2y_large.jpg",
+      "rating": 4.8,
+      "reviews": [
+        {
+          "name": "Michael",
+          "comment": "Best laptop I've ever owned",
+          "rating": 5.0
+        },
+        {
+          "name": "Emily",
+          "comment": "Love the M1 chip, super fast",
+          "rating": 4.5
+        }
+      ]
+    },
+    {
+      "name": "Sony PlayStation 5",
+      "brand": "Sony",
+      "category": "Gaming Consoles",
+      "price": 499,
+      "description": "Sony PlayStation 5 is the latest gaming console from Sony with 4K gaming, ray tracing, and ultra-fast SSD storage.",
+      "image": "https://www.sony.com/image/3b4bc3a4b1a7a8b2f04f9f8b1d8e1b2e?fmt=pjpeg&wid=330&hei=330&bgcolor=F1F5F9&bgc=F1F5F9",
+      "rating": 4.7,
+      "reviews": [
+        {
+          "name": "David",
+          "comment": "Amazing graphics and performance",
+          "rating": 5.0
+        },
+        {
+          "name": "Rachel",
+          "comment": "Great console, but a bit pricey",
+          "rating": 4.0
+        }
+      ]
+    },
+    {
+      "name": "Dell XPS 13",
+      "brand": "Dell",
+      "category": "Laptops",
+      "price": 999,
+      "description": "Dell XPS 13 is a compact and portable laptop with a 13-inch Full HD display, up to 16GB of RAM, and up to 1TB of SSD storage.",
+      "image": "https://www.dell.com/en-us/shop/dell-laptops/xps-13-laptop/spd/xps-13-9310-laptop/xn9310ctafto",
+      "rating": 4.6,
+      "reviews": [
+        {
+          "name": "Alex",
+          "comment": "Great laptop for work and travel",
+          "rating": 4.5
+        },
+        {
+          "name": "Julia",
+          "comment": "Sleek design and good performance",
+          "rating": 4.0
+        }
+      ]
+    },
+    {
+      "name": "Amazon Echo Dot",
+      "brand": "Amazon",
+      "category": "Smart Speakers",
+      "price": 49,
+      "description": "Amazon Echo Dot is a smart speaker with Alexa voice assistant, with a compact design and improved sound quality.",
+      "image": "https://images-na.ssl-images-amazon.com/images/I/61J7I3pJiQL._AC_SL1000_.jpg",
+      "rating": 4.3,
+      "reviews": [
+        {
+          "name": "Mark",
+          "comment": "Love the Alexa integration",
+          "rating": 4.5
+        },
+        {
+          "name": "Stephanie",
+          "comment": "Easy to use and great sound quality",
+          "rating": 4.0
+        }
+      ]
+    },
+    {
+      "name": "LG OLED TV",
+      "brand": "LG",
+      "category": "Televisions",
+      "price": 1499,
+      "description": "LG OLED TV is a high-end TV with a 55-inch OLED display, 4K resolution, and support for HDR10 and Dolby Vision.",
+      "image": "https://www.lg.com/us/images/tvs/md07519249/gallery/desktop-01.jpg",
+      "rating": 4.9,
+      "reviews": [
+        {
+          "name": "Robert",
+          "comment": "Best TV I've ever owned",
+          "rating": 5.0
+        },
+        {
+          "name": "Megan",
+          "comment": "Amazing picture quality and color accuracy",
+          "rating": 4.5
+        }
+      ]
+    },
+    {
+      "name": "Fitbit Charge 4",
+      "brand": "Fitbit",
+      "category": "Fitness Trackers",
+      "price": 149,
+      "description": "Fitbit Charge 4 is a fitness tracker with built-in GPS, heart rate monitor, and sleep tracker. It also features Spotify control and contactless payments.",
+      "image": "https://www.fitbit.com/global/content/dam/fitbit/global/pdp/charge-4/images/hero-charge4-black.png",
+      "rating": 4.2,
+      "reviews": [
+        {
+          "name": "Michelle",
+          "comment": "Great for tracking workouts and sleep",
+          "rating": 4.0
+        },
+        {
+          "name": "Kevin",
+          "comment": "Love the built-in GPS",
+          "rating": 4.5
+        }
+      ]
+    },
+    {
+      "name": "Microsoft Surface Laptop 4",
+      "brand": "Microsoft",
+      "category": "Laptops",
+      "price": 999,
+      "description": "Microsoft Surface Laptop 4 is a sleek and stylish laptop with a 13.5-inch PixelSense touch display, up to 16GB of RAM, and up to1TB of SSD storage. It also features the latest 11th Gen Intel Core processors for improved performance.",
+      "image": "https://www.microsoft.com/en-us/d/surface-laptop-4/8xbw9g3z6bhq?activetab=pivot%3aoverviewtab",
+      "rating": 4.7,
+      "reviews": [
+        {
+          "name": "Tom",
+          "comment": "Great laptop for work and school",
+          "rating": 4.5
+        },
+        {
+          "name": "Linda",
+          "comment": "Sleek design and good battery life",
+          "rating": 4.0
+        }
+      ]
+    },
+    {
+      "name": "Nikon Z6 II",
+      "brand": "Nikon",
+      "category": "Cameras",
+      "price": 1999,
+      "description": "Nikon Z6 II is a mirrorless camera with a 24.5-megapixel sensor, 4K video recording, and in-body image stabilization. It also features dual memory card slots and improved autofocus.",
+      "image": "https://www.nikonusa.com/Assets/Products/Compact-Digital-Cameras/ILC/Z-6-II/Primary/Black/01_3719_Z6II_front.png",
+      "rating": 4.8,
+      "reviews": [
+        {
+          "name": "Chris",
+          "comment": "Amazing camera, love the image quality",
+          "rating": 5.0
+        },
+        {
+          "name": "Samantha",
+          "comment": "Great for both photos and videos",
+          "rating": 4.5
+        }
+      ]
+    },
+    {
+      "name": "Bose QuietComfort 35 II",
+      "brand": "Bose",
+      "category": "Headphones",
+      "price": 299,
+      "description": "Bose QuietComfort 35 II is a noise-cancelling headphone with Alexa voice control and up to 20 hours of battery life. It also features high-quality sound and comfortable design.",
+      "image": "https://www.bose.com/content/dam/Bose_DAM/Web/consumer_electronics/global/products/headphones/quietcomfort_35_ii/product_silo_images/qc35ii_black_EC_hero_010717.psd/_jcr_content/renditions/cq5dam.web.1200.1200.jpeg",
+      "rating": 4.6,
+      "reviews": [
+        {
+          "name": "Peter",
+          "comment": "Best noise",
+          "rating": 4.5
+      }
+    ]
+    }
+]
