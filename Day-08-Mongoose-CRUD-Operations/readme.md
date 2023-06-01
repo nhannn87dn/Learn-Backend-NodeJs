@@ -1,27 +1,26 @@
 # Mongoose-CRUD-Operations
 
-
-## 💛 Queries 
+## 💛 Queries
 
 Doc MongoDB CRUD: <https://www.mongodb.com/docs/manual/crud/>
 
 Mongoose Queries: <https://mongoosejs.com/docs/queries.html>
 
-* Model.deleteMany(): Xóa nhiều
-* Model.deleteOne(): Xóa một
-* Model.find() : Tìm kiếm nhiều documents
-* Model.findById(): Tìm kiếm bởi ID
-* Model.findByIdAndDelete(): Tìm bởi ID nếu thấy thì Xóa
-* Model.findByIdAndRemove():  Tìm bởi ID nếu thấy thì Xóa
-* Model.findByIdAndUpdate():  Tìm bởi ID nếu thấy thì UPdate
-* Model.findOne(): Tìm một documents
-* Model.findOneAndDelete(): Tìm một documents và xóa
-* Model.findOneAndRemove():  Tìm một documents và xóa
-* Model.findOneAndReplace():  Tìm một documents và thay thế
-* Model.findOneAndUpdate():  Tìm một documents và update
-* Model.replaceOne():  Thay thế một document
-* Model.updateMany(): Update nhiều documents
-* Model.updateOne(): Update một document
+- Model.deleteMany(): Xóa nhiều
+- Model.deleteOne(): Xóa một
+- Model.find() : Tìm kiếm nhiều documents
+- Model.findById(): Tìm kiếm bởi ID
+- Model.findByIdAndDelete(): Tìm bởi ID nếu thấy thì Xóa
+- Model.findByIdAndRemove(): Tìm bởi ID nếu thấy thì Xóa
+- Model.findByIdAndUpdate(): Tìm bởi ID nếu thấy thì UPdate
+- Model.findOne(): Tìm một documents
+- Model.findOneAndDelete(): Tìm một documents và xóa
+- Model.findOneAndRemove(): Tìm một documents và xóa
+- Model.findOneAndReplace(): Tìm một documents và thay thế
+- Model.findOneAndUpdate(): Tìm một documents và update
+- Model.replaceOne(): Thay thế một document
+- Model.updateMany(): Update nhiều documents
+- Model.updateOne(): Update một document
 
 DÙNG FILE `products-example.json` ĐỂ TEST
 
@@ -32,7 +31,7 @@ DÙNG FILE `products-example.json` ĐỂ TEST
 ### 🔶 Tìm kiểu so sánh - Comparison
 
 | Name | Description                                                         |
-|------|---------------------------------------------------------------------|
+| ---- | ------------------------------------------------------------------- |
 | $eq  | Matches values that are equal to a specified value.                 |
 | $gt  | Matches values that are greater than a specified value.             |
 | $gte | Matches values that are greater than or equal to a specified value. |
@@ -45,7 +44,7 @@ DÙNG FILE `products-example.json` ĐỂ TEST
 ### 🔶 Tìm kiếm với Logical
 
 | Name | Description                                                         |
-|------|---------------------------------------------------------------------|
+| ---- | ------------------------------------------------------------------- |
 | $eq  | Matches values that are equal to a specified value.                 |
 | $gt  | Matches values that are greater than a specified value.             |
 | $gte | Matches values that are greater than or equal to a specified value. |
@@ -58,7 +57,7 @@ DÙNG FILE `products-example.json` ĐỂ TEST
 ### 🔶 Array
 
 | Name       | Description                                                                                      |
-|------------|--------------------------------------------------------------------------------------------------|
+| ---------- | ------------------------------------------------------------------------------------------------ |
 | $all       | Matches arrays that contain all elements specified in the query.                                 |
 | $elemMatch | Selects documents if element in the array field matches all the specified $elemMatch conditions. |
 | $size      | Selects documents if the array field is a specified size.                                        |
@@ -83,7 +82,6 @@ await Person.find().sort({ age: 1 }); // returns age starting from 0 as the firs
 
 ## 💛 Find
 
-
 ```js
 // find all documents
 await MyModel.find({});
@@ -92,7 +90,9 @@ await MyModel.find({});
 await MyModel.find({ name: 'john', age: { $gte: 18 } }).exec();
 
 // find all documents named john and at least 18
-await MyModel.find({ name: 'john', age: { $gte: 18 } }).select('name friends').exec();
+await MyModel.find({ name: 'john', age: { $gte: 18 } })
+  .select('name friends')
+  .exec();
 
 // executes, name LIKE john and only selecting the "name" and "friends" fields
 await MyModel.find({ name: /john/i }, 'name friends').exec();
@@ -103,13 +103,11 @@ await MyModel.find({ name: /john/i }, null, { skip: 10 }).exec();
 
 Xem thêm về select: <https://mongoosejs.com/docs/api/query.html#Query.prototype.select()>
 
-
 ## 💛 Pagination - Phân trang
 
-* https://mongoosejs.com/docs/api/query.html#Query.prototype.skip()
+- https://mongoosejs.com/docs/api/query.html#Query.prototype.skip()
 
-* https://mongoosejs.com/docs/api/query.html#Query.prototype.slice()
-
+- https://mongoosejs.com/docs/api/query.html#Query.prototype.slice()
 
 Công thức phân trang
 
@@ -123,19 +121,15 @@ Model.find({})
   .exec();
 ```
 
-
 ## 💛 Populate
 
-Lấy thông tin từ nhiều collections thông qua _id references
+Lấy thông tin từ nhiều collections thông qua \_id references
 
 Doc: <https://mongoosejs.com/docs/populate.html>
-
-
 
 ## 💛 MongoDB Shell
 
 > TIP: Install extension for VS Code: https://www.mongodb.com/products/vs-code
-
 
 ### Insert Documents
 
@@ -144,7 +138,6 @@ MongoDB shell cung cấp 2 phương thức để insert documents đến một c
 **Insert a Single Document**
 
 ```js
-
 // Select the database to use.
 use('api-training');
 
@@ -165,8 +158,7 @@ db.movies.insertOne({
 });
 ```
 
-`insertOne()` trả về một document mới kèm theo _id
-
+`insertOne()` trả về một document mới kèm theo \_id
 
 **Insert Multiple Documents**
 
@@ -203,23 +195,22 @@ db.movies.insertMany([
 
 > Doc: <https://www.mongodb.com/docs/mongodb-shell/crud/update/>
 
-* To update a single document, use 
-db.collection.updateOne().
+- To update a single document, use
+  db.collection.updateOne().
 
-* To update multiple documents, use 
-db.collection.updateMany().
+- To update multiple documents, use
+  db.collection.updateMany().
 
-* To replace a document, use 
-db.collection.replaceOne().
+- To replace a document, use
+  db.collection.replaceOne().
 
 ### Delete Documents
 
 > <https://www.mongodb.com/docs/mongodb-shell/crud/delete/>
 
+- To delete multiple documents, use db.collection.deleteMany().
 
-* To delete multiple documents, use db.collection.deleteMany().
-
-* To delete a single document, use db.collection.deleteOne().
+- To delete a single document, use db.collection.deleteOne().
 
 ### Query Documents
 

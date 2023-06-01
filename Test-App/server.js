@@ -13,7 +13,10 @@ const mongooseDbOptions = {
   useUnifiedTopology: true,
 };
 mongoose
-  .connect('mongodb://localhost:27017/myEcommerce', mongooseDbOptions)
+  .connect(
+    `${process.env.MONGO_URI}${process.env.MONGO_COLLECTION}`,
+    mongooseDbOptions
+  )
   .then(() => {
     console.log('Connected to MongoDB');
     //should listen app here
