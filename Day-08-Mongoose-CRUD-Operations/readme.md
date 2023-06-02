@@ -89,6 +89,9 @@ await MyModel.find({});
 // find all documents named john and at least 18
 await MyModel.find({ name: 'john', age: { $gte: 18 } }).exec();
 
+// find all documents named john and at least 18 and not including _v
+await MyModel.find({ name: 'john', age: { $gte: 18 } }).select('-_v').exec();
+
 // find all documents named john and at least 18
 await MyModel.find({ name: 'john', age: { $gte: 18 } })
   .select('name friends')
@@ -130,7 +133,14 @@ Doc: <https://mongoosejs.com/docs/populate.html>
 Lấy thông tin một sản phẩm bao gồm cả tên danh mục sản phẩm
 
 ```js
-const product = await Product.find().populate('category');
+// Lấy tất cả thông tin từ category
+const product = await Product.find().populate('category').exec();
+
+// Lấy tất cả thông tin từ category, loại trừ _v
+const product = await Product.find().populate('category','-_v').exec();
+
+//Chỉ lấy tên
+const product = await Product.find().populate('category', 'name').exec();
 ```
 
 ## 💛 MongoDB Shell

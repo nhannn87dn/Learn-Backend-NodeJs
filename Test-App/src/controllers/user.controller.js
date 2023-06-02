@@ -1,4 +1,4 @@
-const usersService = require('../services/users.service');
+const usersService = require('../services/user.service');
 const responseHandler = require('../helpers/responseHandler');
 
 exports.getAllUsers = async (req, res, next) => {

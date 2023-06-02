@@ -4,7 +4,7 @@ const createError = require('http-errors');
 const app = express();
 const { sendJsonErrors } = require('./helpers/responseHandler');
 
-const usersRouteV1 = require('./routes/v1/users.route');
+const userRouteV1 = require('./routes/v1/user.route');
 const authRouteV1 = require('./routes/v1/auth.route');
 
 
@@ -27,8 +27,6 @@ app.get('/', (req, res) => {
   res.status(200).json({ message: 'Hello World !' });
 });
 
-
-
 //Response version API
 app.get('/api',  (req, res) => {
   res.status(200).json({ message: 'Restfull API' });
@@ -40,7 +38,7 @@ app.get('/api/v1',  (req, res) => {
 });
 
 //Các API sẽ bắt đầu bằng api/v1/users
-app.use('/api/v1/users', usersRouteV1);
+app.use('/api/v1/users', userRouteV1);
 app.use('/api/v1/auth', authRouteV1);
 
 ///////////////////////////////////////

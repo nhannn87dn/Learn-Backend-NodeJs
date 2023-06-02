@@ -13,8 +13,7 @@ const mongooseDbOptions = {
   useUnifiedTopology: true,
 };
 mongoose
-  .connect(
-    `${process.env.MONGO_URI}${process.env.MONGO_COLLECTION}`,
+  .connect(process.env.MONGODB_URI,
     mongooseDbOptions
   )
   .then(() => {
