@@ -68,9 +68,9 @@ async function createData() {
   // Tạo 10 thương hiệu
   for (let i = 1; i <= 10; i++) {
     const brand = new Brand({
-      name: `Brand ${i}`,
+      name: faker.word.words(),
       description: `Description for brand ${i}`,
-      image: `https://example.com/brand${i}.jpg`,
+      image: `https://picsum.photos/200/200`,
     });
     await brand.save();
     console.log(`Creat Brand ${i} successfully !`);
@@ -79,9 +79,9 @@ async function createData() {
   // Tạo 10 danh mục
   for (let i = 1; i <= 10; i++) {
     const category = new Category({
-      name: `Category ${i}`,
+      name: faker.commerce.department(),
       description: `Description for category ${i}`,
-      image: `https://example.com/category${i}.jpg`,
+      image: `https://picsum.photos/200/200`,
     });
     await category.save();
     console.log(`Creat Category ${i} successfully !`);
@@ -108,11 +108,11 @@ async function createData() {
     }
 
     const product = new Product({
-      name: `Product ${i}`,
+      name: faker.commerce.productName(),
       brand: brand._id,
       category: category._id,
       price: 100 + i * 10,
-      description: `Description for product ${i}`,
+      description: faker.commerce.productDescription(),
       rating: 4.5,
       stock: 50 + i * 5,
       discount: i * 5,
@@ -141,5 +141,5 @@ async function createData() {
   }
   console.log('Data created successfully!');
 }
-
+console.log('Gen Data Test ....');
 createData();
