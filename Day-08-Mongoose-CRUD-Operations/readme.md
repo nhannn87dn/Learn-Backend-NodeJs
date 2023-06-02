@@ -127,6 +127,12 @@ Lấy thông tin từ nhiều collections thông qua \_id references
 
 Doc: <https://mongoosejs.com/docs/populate.html>
 
+Lấy thông tin một sản phẩm bao gồm cả tên danh mục sản phẩm
+
+```js
+const product = await Product.find().populate('category');
+```
+
 ## 💛 MongoDB Shell
 
 > TIP: Install extension for VS Code: https://www.mongodb.com/products/vs-code
