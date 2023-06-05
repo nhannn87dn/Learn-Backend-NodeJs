@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Brand = require('../models/brand.model');
 const Category = require('../models/category.model');
-const { Product, Gallery } = require('../models/product.model');
+const { Product, ProductImage } = require('../models/product.model');
 const Customer = require('../models/customer.model');
 const User = require('../models/user.model');
 
@@ -87,15 +87,32 @@ async function createData() {
     console.log(`Creat Category ${i} successfully !`);
   }
 
+
+  // Tạo 10bộ sưu tập
+  for (let i = 1; i <= 10; i++) {
+    const productImage = new ProductImage({
+      images: [
+        { url: `https://picsum.photos/400/400` },
+        { url: `https://picsum.photos/400/400` },
+        { url: `https://picsum.photos/400/400` },
+      ],
+    });
+
+    productImage.save();
+    console.log(`Creat Gallery ${i} successfully !`);
+  }
+
   // Tạo 10 sản phẩm, mỗi sản phẩm được gán ngẫu nhiên cho 1 thương hiệu và 1 danh mục
   const brands = await Brand.find();
   const categories = await Category.find();
   const customers = await Customer.find();
+  const productImages = await ProductImage.find();
 
   for (let i = 1; i <= 10; i++) {
     const brand = brands[Math.floor(Math.random() * brands.length)];
     const category = categories[Math.floor(Math.random() * categories.length)];
     const customer = customers[Math.floor(Math.random() * customers.length)];
+    const productImage = productImages[Math.floor(Math.random() * productImages.length)];
 
     const reviews = [];
     for (let j = 1; j <= 3; j++) {
@@ -109,36 +126,21 @@ async function createData() {
 
     const product = new Product({
       name: faker.commerce.productName(),
-      brand: brand._id,
-      category: category._id,
+      brandId: brand._id,
+      categoryId: category._id,
       price: 100 + i * 10,
       description: faker.commerce.productDescription(),
       rating: 4.5,
       stock: 50 + i * 5,
       discount: i * 5,
       reviews: reviews,
+      productImageId: productImage._id,
     });
     await product.save();
     console.log(`Creat Product ${i} successfully !`);
   }
 
-  // Tạo 10bộ sưu tập,  mỗi gallery gán ngẫu nhiên cho 1 sản phẩm
-  const products = await Product.find();
-  for (let i = 1; i <= 10; i++) {
-    const product = products[Math.floor(Math.random() * products.length)];
-
-    const gallery = new Gallery({
-      productId: product._id,
-      images: [
-        { url: `https://picsum.photos/400/400` },
-        { url: `https://picsum.photos/400/400` },
-        { url: `https://picsum.photos/400/400` },
-      ],
-    });
-
-    gallery.save();
-    console.log(`Creat Gallery ${i} successfully !`);
-  }
+  
   console.log('Data created successfully!');
 }
 console.log('Gen Data Test ....');

@@ -1,21 +1,16 @@
 const createError = require('http-errors');
-const fileHandlerHelper = require('../helpers/fileHandlerHelper');
 const Category = require('../models/category.model');
 
 // Get all Categories
-exports.getAllCategories = async () => {
+const getAllCategories = async () => {
   const result = await Category.find();
   return result;
 };
 
 // Get a category by ID
-exports.getCategoryById = async (req) => {
+const getCategoryById = async (req) => {
   try {
     const { id } = req.params;
-
-    if (!id) {
-      throw createError(400, 'Missing category ID');
-    }
 
     const result = Category.findById(id);
 
@@ -32,7 +27,7 @@ exports.getCategoryById = async (req) => {
 };
 
 // Create a new category
-exports.createCategory = async (req) => {
+const createCategory = async (req) => {
   console.log('createCategory');
 
   try {
@@ -47,17 +42,22 @@ exports.createCategory = async (req) => {
 };
 
 // Update a category by ID
-exports.updateCategoryById = async (req) => {
+const updateCategoryById = async (req) => {
   try {
     const { id } = req.params;
+    /* Tận dùng hàm có sẳn để tìm xem danh mục có tồn tại chưa */
+    const category = await getCategoryById(id);
 
-    if (!id) {
-      throw createError(400, 'Missing ID');
+    if (!category) {
+      throw createError(404, 'Category not found');
     }
-    
-    const result = await Category.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
+    /**
+     * Dùng assign để merge giữa cũ và mới lại với nhau
+     * Sau đó save lại
+     * Muốn update trường nào thì chỉ cần update trường đó
+     */
+    Object.assign(category, req.body);
+    await category.save();
 
     return result;
   } catch (err) {
@@ -66,20 +66,28 @@ exports.updateCategoryById = async (req) => {
 };
 
 // Delete a category by ID
-exports.deleteCategoryById = async (req) => {
-  console.log('deleteCategoryById');
-
+const deleteCategoryById = async (req) => {
   try {
     const { id } = req.params;
 
-    if (!id) {
-      throw createError(400, 'Missing  ID');
-    }
-    
-    const result = await Category.findByIdAndDelete(id);
+    const category = await getCategoryById(id);
 
-    return result;
+    if (!category) {
+      throw createError(404, 'Category not found');
+    }
+
+    await category.remove({ _id: ObjectId(category._id) });
+
+    return category;
   } catch (err) {
     throw createError(500, err.message);
   }
+};
+
+module.exports = {
+  getAllCategories,
+  getCategoryById,
+  createCategory,
+  updateCategoryById,
+  deleteCategoryById,
 };

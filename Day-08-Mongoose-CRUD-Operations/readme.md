@@ -90,7 +90,9 @@ await MyModel.find({});
 await MyModel.find({ name: 'john', age: { $gte: 18 } }).exec();
 
 // find all documents named john and at least 18 and not including _v
-await MyModel.find({ name: 'john', age: { $gte: 18 } }).select('-_v').exec();
+await MyModel.find({ name: 'john', age: { $gte: 18 } })
+  .select('-_v')
+  .exec();
 
 // find all documents named john and at least 18
 await MyModel.find({ name: 'john', age: { $gte: 18 } })
@@ -137,7 +139,7 @@ Lấy thông tin một sản phẩm bao gồm cả tên danh mục sản phẩm
 const product = await Product.find().populate('category').exec();
 
 // Lấy tất cả thông tin từ category, loại trừ _v
-const product = await Product.find().populate('category','-_v').exec();
+const product = await Product.find().populate('category', '-_v').exec();
 
 //Chỉ lấy tên
 const product = await Product.find().populate('category', 'name').exec();

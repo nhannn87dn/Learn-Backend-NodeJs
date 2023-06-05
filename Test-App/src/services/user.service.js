@@ -1,15 +1,14 @@
 const createError = require('http-errors');
-const fileHandlerHelper = require('../helpers/fileHandlerHelper');
 const User = require('../models/user.model');
 
 // Get all users
-exports.getAllUsers = async () => {
+const getAllUsers = async () => {
   const result = await User.find();
   return result;
 };
 
 // Get a user by ID
-exports.getUserById = async (req) => {
+const getUserById = async (req) => {
   try {
     const { id } = req.params;
 
@@ -28,12 +27,10 @@ exports.getUserById = async (req) => {
 };
 
 // Create a new user
-exports.createUser = async (req) => {
+const createUser = async (req) => {
   console.log('createUser');
 
   try {
-    
-    
     // Lưu xuống database
     const user = await User.create(req.body);
     // Or User.save(payload);
@@ -46,7 +43,7 @@ exports.createUser = async (req) => {
 };
 
 // Update a user by ID
-exports.updateUserById = async (req) => {
+const updateUserById = async (req) => {
   try {
     const { id } = req.params;
 
@@ -61,7 +58,7 @@ exports.updateUserById = async (req) => {
 };
 
 // Delete a user by ID
-exports.deleteUserById = async (req) => {
+const deleteUserById = async (req) => {
   console.log('deleteUserById');
 
   try {
@@ -73,4 +70,12 @@ exports.deleteUserById = async (req) => {
   } catch (err) {
     throw createError(500, err.message);
   }
+};
+
+module.exports = {
+  getAllUsers,
+  getUserById,
+  createUser,
+  updateUserById,
+  deleteUserById,
 };

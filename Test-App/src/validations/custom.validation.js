@@ -1,9 +1,4 @@
-const password = (value, helpers) => {
-    if(!value.match(/\d/) || !value.match(/a-zA-Z/)){
-        return helpers.message('Password invalid');
-    }
-    return value;
-}
+
 
 const passwordStrong = (value, helpers) => {
     if(!value.match(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}/)){
@@ -12,9 +7,17 @@ const passwordStrong = (value, helpers) => {
     return value;
 }
 
-/* Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character */
+/*
+^                         Start anchor
+(?=.*[A-Z].*[A-Z])        Ensure string has two uppercase letters.
+(?=.*[!@#$&*])            Ensure string has one special case letter.
+(?=.*[0-9].*[0-9])        Ensure string has two digits.
+(?=.*[a-z].*[a-z].*[a-z]) Ensure string has three lowercase letters.
+.{8}                      Ensure string is of length 8.
+$                         End anchor.
+*/
 const passwordVeryStrong = (value, helpers) => {
-    if(!value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/)){
+    if(!value.match(/^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$/)){
         return helpers.message('Password invalid');
     }
     return value;
@@ -38,7 +41,6 @@ const objectId =  (value, helpers) => {
 }
 
 module.exports = {
-    password,
     passwordStrong,
     passwordVeryStrong,
     objectId,

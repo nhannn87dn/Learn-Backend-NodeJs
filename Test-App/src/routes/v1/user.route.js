@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../../controllers/user.controller');
 
-const validateSchema = require('../../middlewares/validateSchema.middleware');
+const validateSchema = require('../../middleware/validateSchema.middleware');
 const userValidation = require('../../validations/user.validation');
 
 
