@@ -2,13 +2,13 @@ const createError = require('http-errors');
 const Category = require('../models/category.model');
 
 // Get all Categories
-const getAllCategories = async () => {
+const getAll = async () => {
   const result = await Category.find();
   return result;
 };
 
 // Get a category by ID
-const getCategoryById = async (req) => {
+const getById = async (req) => {
   try {
     const { id } = req.params;
 
@@ -27,7 +27,7 @@ const getCategoryById = async (req) => {
 };
 
 // Create a new category
-const createCategory = async (req) => {
+const create = async (req) => {
   console.log('createCategory');
 
   try {
@@ -42,11 +42,11 @@ const createCategory = async (req) => {
 };
 
 // Update a category by ID
-const updateCategoryById = async (req) => {
+const updateById = async (req) => {
   try {
     const { id } = req.params;
     /* Tận dùng hàm có sẳn để tìm xem danh mục có tồn tại chưa */
-    const category = await getCategoryById(id);
+    const category = await getById(id);
 
     if (!category) {
       throw createError(404, 'Category not found');
@@ -66,11 +66,11 @@ const updateCategoryById = async (req) => {
 };
 
 // Delete a category by ID
-const deleteCategoryById = async (req) => {
+const deleteById = async (req) => {
   try {
     const { id } = req.params;
 
-    const category = await getCategoryById(id);
+    const category = await getById(id);
 
     if (!category) {
       throw createError(404, 'Category not found');
@@ -85,9 +85,9 @@ const deleteCategoryById = async (req) => {
 };
 
 module.exports = {
-  getAllCategories,
-  getCategoryById,
-  createCategory,
-  updateCategoryById,
-  deleteCategoryById,
+  getAll,
+  getById,
+  create,
+  updateById,
+  deleteById,
 };

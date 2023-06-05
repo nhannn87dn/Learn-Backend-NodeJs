@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Brand = require('../models/brand.model');
 const Category = require('../models/category.model');
-const { Product, ProductImage } = require('../models/product.model');
+const { Product } = require('../models/product.model');
 const Customer = require('../models/customer.model');
 const User = require('../models/user.model');
 
@@ -19,21 +19,25 @@ mongoose
   .then(() => console.log('Connected to MongoDB...'))
   .catch((err) => console.error('Could not connect to MongoDB...', err));
 
-  // const getGallery = async()=> {
-  //   const productImage = await ProductImage.findById('6479a41c09802478c6472bb2');
-  //   console.log(productImage);
-  // };
 
-  // getGallery();
 
 const getProduct = async () => {
+
+  const start1 = performance.now();
+
     const product = await  Product
     .find()
-    .populate({ path: 'brandId'})
+    // .populate({ path: 'images'})
     // .lean({ virtuals: true })
-    .exec();
+    // .exec();
 
     console.log('<<=== Product ===>>', product );
     
+
+    const end1 = performance.now();
+  console.log(`Plugin embed: ${end1 - start1} ms`);
+
 };
+
+
 getProduct();

@@ -25,6 +25,8 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
-    "nodemon": "^2.0.22"
+    "mongodb-backup": "^1.6.9",
+    "nodemon": "^2.0.22",
+    "perf_hooks": "^0.0.1"
   }
 }

@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
 const Brand = require('../models/brand.model');
 const Category = require('../models/category.model');
-const { Product, ProductImage } = require('../models/product.model');
+const { Product } = require('../models/product.model');
 const Customer = require('../models/customer.model');
 const User = require('../models/user.model');
+const Order = require('../models/order.model');
+const Config = require('../models/config.model');
+const PaymentMethod = require('../models/paymentMethod');
+const ShippingMethod = require('../models/shippingMethod');
 
 /* https://next.fakerjs.dev/ */
 const { faker } = require('@faker-js/faker');
@@ -38,6 +42,53 @@ async function createData() {
 
   console.log('Begin building Data Test');
 
+  // Tạo các thông tin cấu hình cho cửa hàng
+  const shopConfig = [
+    {
+      name: 'shop_name',
+      value: 'My Online Store'
+    },
+    {
+      name: 'seo_title',
+      value: 'My Online Store - Your One Stop Shop for All Your Needs'
+    },
+    {
+      name: 'seo_description',
+      value: 'My Online Store offers a wide range of products at affordable prices. Shop now and enjoy free shipping on all orders.'
+    },
+    {
+      name: 'hotline',
+      value: '1800-1234'
+    },
+    {
+      name: 'email',
+      value: 'contact@myonlinestore.com'
+    },
+    {
+      name: 'address',
+      value: '123 Main Street, Anytown, USA'
+    },
+    {
+      name: 'facebook_url',
+      value: 'https://www.facebook.com/myonlinestore'
+    },
+    {
+      name: 'twitter_url',
+      value: 'https://twitter.com/myonlinestore'
+    },
+    {
+      name: 'instagram_url',
+      value: 'https://www.instagram.com/myonlinestore'
+    },
+    {
+      name: 'working_hours',
+      value: 'Monday - Friday: 9:00 AM - 5:00 PM'
+    }
+  ];
+
+  // Lưu các thông tin cấu hình vào cơ sở dữ liệu
+  await Config.create(shopConfig);
+
   // Create a new user with the generated password
   const user = new User({
     name: 'Administrator',
@@ -48,7 +99,7 @@ async function createData() {
     isEmailVerified: true,
   });
   await user.save();
-  console.log(`Creat User Admin successfully !`);
+  console.log(`Create User Admin successfully !`);
 
   const customer_types = ['normal', 'member', 'vip'];
   // Tạo 10 khách hàng ngẫu nhiên
@@ -62,7 +113,7 @@ async function createData() {
       type: customer_types[Math.floor(Math.random() * customer_types.length)],
     });
     await customer.save();
-    console.log(`Creat Customer ${i} successfully !`);
+    console.log(`Create Customer ${i} successfully !`);
   }
 
   // Tạo 10 thương hiệu
@@ -73,7 +124,7 @@ async function createData() {
       image: `https://picsum.photos/200/200`,
     });
     await brand.save();
-    console.log(`Creat Brand ${i} successfully !`);
+    console.log(`Create Brand ${i} successfully !`);
   }
 
   // Tạo 10 danh mục
@@ -84,64 +135,160 @@ async function createData() {
       image: `https://picsum.photos/200/200`,
     });
     await category.save();
-    console.log(`Creat Category ${i} successfully !`);
+    console.log(`Create Category ${i} successfully !`);
   }
 
 
-  // Tạo 10bộ sưu tập
-  for (let i = 1; i <= 10; i++) {
-    const productImage = new ProductImage({
-      images: [
-        { url: `https://picsum.photos/400/400` },
-        { url: `https://picsum.photos/400/400` },
-        { url: `https://picsum.photos/400/400` },
-      ],
-    });
-
-    productImage.save();
-    console.log(`Creat Gallery ${i} successfully !`);
-  }
+ 
 
   // Tạo 10 sản phẩm, mỗi sản phẩm được gán ngẫu nhiên cho 1 thương hiệu và 1 danh mục
   const brands = await Brand.find();
   const categories = await Category.find();
   const customers = await Customer.find();
-  const productImages = await ProductImage.find();
 
   for (let i = 1; i <= 10; i++) {
     const brand = brands[Math.floor(Math.random() * brands.length)];
     const category = categories[Math.floor(Math.random() * categories.length)];
     const customer = customers[Math.floor(Math.random() * customers.length)];
-    const productImage = productImages[Math.floor(Math.random() * productImages.length)];
 
     const reviews = [];
+    const productImages = [];
+
     for (let j = 1; j <= 3; j++) {
       const review = {
         customerId: customer._id,
         rating: Math.floor(Math.random() * 5) + 1,
         comment: `This is review ${j} for product ${i}.`,
       };
+
+      const productImage = {
+        url: `https://picsum.photos/400/400`,
+        alt: '',
+        caption: '',
+        position: i
+      };
+
       reviews.push(review);
+      productImages.push(productImage);
     }
+
+  
 
     const product = new Product({
       name: faker.commerce.productName(),
       brandId: brand._id,
-      categoryId: category._id,
+      category: category._id,
       price: 100 + i * 10,
       description: faker.commerce.productDescription(),
       rating: 4.5,
       stock: 50 + i * 5,
       discount: i * 5,
       reviews: reviews,
-      productImageId: productImage._id,
+      thumbnail: `https://picsum.photos/200/200`,
+      images: productImages,
     });
     await product.save();
-    console.log(`Creat Product ${i} successfully !`);
-  }
+    console.log(`Create Product ${i} successfully !`);
+  }//end product
 
-  
+
+  // Tạo dữ liệu mẫu cho PaymentMethod
+  const paymentMethods = [
+    {
+      name: 'COD',
+      description: 'Thanh toán cho người giao hàng'
+    },
+    {
+      name: 'PayPal',
+      description: 'Pay with PayPal'
+    },
+    {
+      name: 'Bank transfer',
+      description: 'Pay with a bank transfer'
+    }
+  ];
+
+  await PaymentMethod.create(paymentMethods);
+
+  // Tạo dữ liệu mẫu cho ShippingMethod
+  const shippingMethods = [
+    {
+      name: 'Standard Shipping',
+      description: 'Delivery in 3-5 business days',
+      price: 10
+    },
+    {
+      name: 'Express Shipping',
+      description: 'Delivery in 1-2 business days',
+      price: 25
+    }
+  ];
+
+  await ShippingMethod.create(shippingMethods);
+    
+
+  /* Tạo Order */
+  const products = await Product.find();
+  const payment_Methods = await PaymentMethod.find();
+  const shipping_Methods = await ShippingMethod.find();
+
+  for (let i = 1; i <= 5; i++) {
+
+    const product_random = products[Math.floor(Math.random() * products.length)];
+    const paymentMethod = payment_Methods[Math.floor(Math.random() * payment_Methods.length)];
+    const shippingMethod = shipping_Methods[Math.floor(Math.random() * shipping_Methods.length)];
+
+    const productsArr = [];
+    let total = 0;
+    for (let j = 1; j <= 3; j++) {
+      const product = {
+        product: product_random._id,
+        quantity: j,
+        price: product_random.price,
+        discount: product_random.discount,
+      };
+      
+      total += product.price * product.quantity * (1 - product.discount / 100);
+
+      productsArr.push(product);
+    }
+
+    // Lấy ngày giờ hiện tại
+      const now = new Date();
+
+      // shippedDate Cộng thêm 1 ngày
+      const shippedDate = new Date();
+      shippedDate.setDate(now.getDate() + 1);
+
+      // deliveredDate Cộng thêm 3 ngày
+      const deliveredDate = new Date();
+      deliveredDate.setDate(now.getDate() + 2);
+
+    
+    const order = new Order({
+      code: faker.string.hexadecimal({ length: 10, casing: 'lower' }),
+      user: customers[Math.floor(Math.random() * customers.length)]._id,
+      products: productsArr,
+      shippedDate: new Date(),
+      deliveredDate: deliveredDate,
+      paidDate: deliveredDate,
+      paymentMethod: paymentMethod._id,
+      shippingMethod: shippingMethod._id,
+      status: 'pending',
+      total: total,
+      createdDate: now,
+
+    });
+    await order.save();
+    console.log(`Create Order ${i} successfully !`);
+  } //end order
+
   console.log('Data created successfully!');
 }
 console.log('Gen Data Test ....');
-createData();
+try {
+  createData();
+} catch (error) {
+  console.log(error);
+}
+

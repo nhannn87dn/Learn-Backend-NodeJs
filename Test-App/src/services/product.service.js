@@ -2,13 +2,13 @@ const createError = require('http-errors');
 const {Product, Gallery} = require('../models/product.model');
 
 // Get all Products
-const getAllProducts = async () => {
+const getAll = async () => {
   const result = await Product.find();
   return result;
 };
 
 // Get a Product by ID
-const getProductById = async (req) => {
+const getById = async (req) => {
   try {
     const { id } = req.params;
 
@@ -27,7 +27,7 @@ const getProductById = async (req) => {
 };
 
 // Create a new Product
-const createProduct = async (req) => {
+const create = async (req) => {
   console.log('createProduct');
 
   try {
@@ -42,13 +42,13 @@ const createProduct = async (req) => {
 };
 
 // Update a Product by ID
-const updateProductById = async (req) => {
+const updateById = async (req) => {
   try {
     const { id } = req.params;
     /* Tận dùng hàm có sẳn để tìm xem danh mục có tồn tại chưa */
-    const Product = await getProductById(id);
+    const product = await getById(id);
 
-    if (!Product) {
+    if (!product) {
       throw createError(404, 'Product not found');
     }
     /**
@@ -56,38 +56,38 @@ const updateProductById = async (req) => {
      * Sau đó save lại
      * Muốn update trường nào thì chỉ cần update trường đó
      */
-    Object.assign(Product, req.body);
-    await Product.save();
+    Object.assign(product, req.body);
+    await product.save();
 
-    return result;
+    return product;
   } catch (err) {
     throw createError(500, err.message);
   }
 };
 
 // Delete a Product by ID
-const deleteProductById = async (req) => {
+const deleteById = async (req) => {
   try {
     const { id } = req.params;
 
-    const Product = await getProductById(id);
+    const product = await getById(id);
 
-    if (!Product) {
+    if (!product) {
       throw createError(404, 'Product not found');
     }
 
-    await Product.remove({ _id: ObjectId(Product._id) });
+    await Product.remove({ _id: ObjectId(product._id) });
 
-    return Product;
+    return product;
   } catch (err) {
     throw createError(500, err.message);
   }
 };
 
 module.exports = {
-  getAllProducts,
-  getProductById,
-  createProduct,
-  updateProductById,
-  deleteProductById,
+  getAll,
+  getById,
+  create,
+  updateById,
+  deleteById,
 };

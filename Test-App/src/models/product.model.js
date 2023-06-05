@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 
+const arrayLimit = (val) => val.length <= 5;
+
 const reviewSchema = new mongoose.Schema(
   {
     rating: {
@@ -24,17 +26,10 @@ const reviewSchema = new mongoose.Schema(
 );
 
 const imageSchema = new mongoose.Schema({
-  url: {
-    type: String,
-    required: true,
-  },
-});
-
-const productImageSchema = new mongoose.Schema({
-   images: {
-    type: [imageSchema],
-    required: true,
-  },
+  url: { type: String },
+  alt: { type: String },
+  caption: { type: String },
+  position: { type: Number, required: true }
 });
 
 const productSchema = new mongoose.Schema({
@@ -45,8 +40,10 @@ const productSchema = new mongoose.Schema({
   brandId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Brand',
+    required: true,
   },
-  categoryId: {
+  //Nếu đặt tên key = tên Model thì không cần virtuals populate lean
+  category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
     required: true,
@@ -69,9 +66,13 @@ const productSchema = new mongoose.Schema({
     type: [reviewSchema],
     default: [],
   },
-  productImageId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'ProductImage',
+  thumbnail: {
+    type: String
+  },
+  images: {
+    type: [imageSchema],
+    validate: [arrayLimit, '{PATH} exceeds the limit of 15'], // giới hạn số lượng hình ảnh
+    default: []
   },
   stock: {
     type: Number,
@@ -98,36 +99,28 @@ productSchema.virtual('salePrice').get(function() {
   return this.price * (1 - this.discount / 100);
 });
 
-// productSchema.virtual('numImages').get(function() {
-//   return this.gallery.images.length;
-// });
+productSchema.virtual('numImages').get(function() {
+  return this.images.length;
+});
 
+/* Tạo trường ảo khi bạn dùng brandId làm tên reference */
+productSchema.virtual('brand', {
+  ref: 'Brand',
+  localField: 'brandId',
+  foreignField: '_id',
+  justOne: true,
+});
 
-// productSchema.virtual('brand', {
-//   ref: 'Brand',
-//   localField: 'brandId',
-//   foreignField: '_id',
-//   justOne: true,
-// });
-
-// productSchema.virtual('images', {
-//   ref: 'ProductImage',
-//   localField: 'productImageId',
-//   foreignField: '_id',
-//   justOne: true,
-// });
 
 productSchema.set('toJSON', { virtuals: true });
 // Virtuals in console.log()
 productSchema.set('toObject', { virtuals: true });
 
 
-// productSchema.plugin(mongooseLeanVirtuals);
+productSchema.plugin(mongooseLeanVirtuals);
 
-const ProductImage = mongoose.model('ProductImage', productImageSchema);
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = {
-  Product,
-  ProductImage,
+  Product
 };
