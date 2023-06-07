@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const _ = require('lodash');
+const { sendJsonErrors } = require('../helpers/responseHandler');
 
 const validateSchema = (schema) => (req, res, next) => {
   const pickSchema = _.pick(schema, ['params', 'body', 'query']);
@@ -17,11 +18,11 @@ const validateSchema = (schema) => (req, res, next) => {
     const errorMessage = error.details
       .map((detail) => detail.message)
       .join(', ');
-    return res.status(400).json({
+    return sendJsonErrors(req,res, {
       status: 400,
-      type: 'validateSchema Joi',
       message: errorMessage,
-    });
+    }, 'validateSchema');
+
   }
   Object.assign(req, value);
   return next();

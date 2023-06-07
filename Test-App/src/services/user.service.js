@@ -3,8 +3,12 @@ const User = require('../models/user.model');
 
 // Get all users
 const getAllUsers = async () => {
-  const result = await User.find();
-  return result;
+  try {
+      const result = await User.find();
+      return result;
+  } catch (err) {
+    throw createError(500, err);
+  }
 };
 
 // Get a user by ID
@@ -14,7 +18,7 @@ const getUserById = async (req) => {
 
     const result = await User.findById(id);
 
-    console.log(id, result);
+    console.log('<<< getUserById >>>',id, result);
 
     if (!result) {
       throw createError(404, 'User not found');
@@ -22,7 +26,8 @@ const getUserById = async (req) => {
 
     return result;
   } catch (err) {
-    throw createError(500, err.message);
+   //Chuyển tiếp lỗi ra cho App xử lý
+    throw createError(500, err);
   }
 };
 
@@ -38,7 +43,7 @@ const createUser = async (req) => {
     /* Trả lại thông tin cho response */
     return user;
   } catch (err) {
-    throw createError(500, err.message);
+    throw createError(500, err);
   }
 };
 
@@ -53,7 +58,7 @@ const updateUserById = async (req) => {
 
     return result;
   } catch (err) {
-    throw createError(500, err.message);
+    throw createError(500, err);
   }
 };
 
@@ -68,7 +73,7 @@ const deleteUserById = async (req) => {
 
     return result;
   } catch (err) {
-    throw createError(500, err.message);
+    throw createError(500, err);
   }
 };
 

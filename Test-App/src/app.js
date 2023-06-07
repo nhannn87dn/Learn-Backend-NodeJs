@@ -42,6 +42,7 @@ app.get('/api/v1', (req, res) => {
 app.use('/api/v1/users', userRouteV1);
 app.use('/api/v1/auth', authRouteV1);
 app.use('/api/v1/categories', categoryRouteV1);
+app.use('/api/v1/products', productRouteV1);
 ///////////////////////////////////////
 // Không thêm gì bắt dầu từ đây xuống //
 ///////////////////////////////////////
@@ -51,16 +52,16 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  console.log('Error Handler Stack', err.stack);
-  // render the error page
-  // res.status(err.status || 500);
-  // res.send({ error: err.message });
-  sendJsonErrors(req, res, err);
+
+// Middleware xử lý lỗi
+app.use((err, req, res, next) => {
+  console.log('<<< Error Handler Stack >>>', err.stack);
+  console.error('<< Middleware Error >>', err);
+  if (err instanceof createError.HttpError) {
+    sendJsonErrors(req, res, err, 'HttpError');
+  } else {
+    sendJsonErrors(req, res, err, 'AppError');
+  }
 });
 
 module.exports = app;

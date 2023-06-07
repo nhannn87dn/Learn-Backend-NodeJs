@@ -3,26 +3,30 @@ const Category = require('../models/category.model');
 
 // Get all Categories
 const getAll = async () => {
-  const result = await Category.find();
-  return result;
+  try {
+    const result = await Category.find();
+    return result;
+  } catch (err) {
+    throw createError(500, err.message);
+  }
 };
 
 // Get a category by ID
-const getById = async (req) => {
+const getById = async (id) => {
   try {
-    const { id } = req.params;
+    const result = await Category.findById(id);
 
-    const result = Category.findById(id);
-
-    console.log(id, result);
+    console.log('<<=== Service result ===>>',result);
 
     if (!result) {
       throw createError(404, 'Category not found');
     }
 
+    
+
     return result;
   } catch (err) {
-    throw createError(500, err.message);
+    throw createError(500, err);
   }
 };
 
@@ -66,21 +70,21 @@ const updateById = async (req) => {
 };
 
 // Delete a category by ID
-const deleteById = async (req) => {
+const deleteById = async (id) => {
   try {
-    const { id } = req.params;
-
+   console.log('<<===  Service deleteById ===>>',id);  
+    
     const category = await getById(id);
 
     if (!category) {
       throw createError(404, 'Category not found');
     }
 
-    await category.remove({ _id: ObjectId(category._id) });
+    await category.deleteOne({ _id: category._id });
 
     return category;
   } catch (err) {
-    throw createError(500, err.message);
+    throw createError(500, err);
   }
 };
 

@@ -6,22 +6,22 @@ const validateSchema = require('../../middleware/validateSchema.middleware');
 // const productValidation = require('../../validations/product.validation');
 
 //http://localhost:8686/api/v1/products
-router.get('/', productController.getAllProducts);
+router.get('/', productController.getAll);
 
 //localhost:8686/api/v1/products/:id
 router.get(
   '/:id',
-  // validateSchema(productsValidation.getProductById),
-  productController.getProductById
+  // validateSchema(productsValidation.getById),
+  productController.getById
 );
 
 //http://localhost:8686/api/v1/products
-router.post('/', productController.createProduct);
+router.post('/', productController.create);
 
 //localhost:8686/api/v1/products/:id
-router.put('/:id', productController.updateProductById);
+router.put('/:id', productController.updateById);
 
-//localhost:8686/api/v1/products/:id
-router.delete('/:id', productController.deleteProductById);
+//localhost:8686/api/v1/products
+router.delete('/', productController.deleteById);
 
 module.exports = router;

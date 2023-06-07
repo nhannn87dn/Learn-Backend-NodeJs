@@ -6,7 +6,7 @@ GET http://localhost:8686/api/v1/categories HTTP/1.1
 
 
 # GET by ID
-GET http://localhost:8686/api/v1/categories/64795152233756f3b6557996 HTTP/1.1
+GET http://localhost:8686/api/v1/categories/647db7937640fa84b0580e57 HTTP/1.1
 
 ###
 
@@ -17,9 +17,10 @@ content-type: application/json
 
 {   
     
- "name": "Samsung",
-  "description": "Description for Samsung",
-  "image": "https://picsum.photos/200/200",
+ "name": "Lenovo",
+ "slug": "*7jkj-ds",
+  "description": "Description for Lenovo",
+  "image": "https://picsum.photos/200/200"
 }
 
 ### 
@@ -30,8 +31,13 @@ PUT http://localhost:8686/api/v1/categories/64795152233756f3b6557996 HTTP/1.1
 content-type: application/json
 
 {   
-    "name": "Apple",
+    "name": "Apple"
 }
 
 ###
-DELETE  http://localhost:8686/api/v1/categories/64795152233756f3b6557996 HTTP/1.1
+DELETE  http://localhost:8686/api/v1/categories HTTP/1.1
+content-type: application/json
+
+{      
+  "id": "647ff23274eb5dd446d0f2e8"
+}

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
-
+const slugify = require('slugify');
 const arrayLimit = (val) => val.length <= 5;
 
 const reviewSchema = new mongoose.Schema(
@@ -36,6 +36,29 @@ const productSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    unique: true,
+  },
+  slug: {
+    type: String,
+    lowercase: true,
+    required: false,
+    unique: true,
+    index: true, //Đánh index
+    maxLength: 160,
+    validate: {
+      validator: function (value) {
+        if (!value) return true;
+        
+        /** Nếu có điền thì validate */
+        if (value.length > 0) {
+          const slugRegex = /^[a-zA-Z0-9-]+$/;
+          return slugRegex.test(value);
+        }
+
+        return true;
+      },
+      message: 'Slug must be unique and contain only letters, numbers, and hyphens'
+    },
   },
   brandId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -52,9 +75,20 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  description: {
+  meteTitle: {
     type: String,
-    required: true,
+    required: false,
+    maxLength: 255,
+  },
+  meteDescription: {
+    type: String,
+    required: false,
+    maxLength: 255,
+  },
+  content: {
+    type: String,
+    required: false,
+    maxLength: 3000, //Tối đã 3000 ký tự
   },
   rating: {
     type: Number,
@@ -118,6 +152,15 @@ productSchema.set('toObject', { virtuals: true });
 
 
 productSchema.plugin(mongooseLeanVirtuals);
+
+
+productSchema.pre("save", async function (next) {
+  if(this.slug == ""){
+      this.slug = slugify(this.name);
+  }
+  next();
+});
+
 
 const Product = mongoose.model('Product', productSchema);
 

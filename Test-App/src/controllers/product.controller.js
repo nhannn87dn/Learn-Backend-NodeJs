@@ -1,18 +1,19 @@
 const productService = require('../services/product.service');
 const responseHandler = require('../helpers/responseHandler');
 
-const getAllProducts = async (req, res, next) => {
+const getAll = async (req, res, next) => {
   try {
-    const result = await productService.getAllProducts();
+    const result = await productService.getAll();
     responseHandler.sendJsonSuccess(res)(result);
   } catch (err) {
     next(err);
   }
 };
 
-const getProductById = async (req, res, next) => {
+const getById = async (req, res, next) => {
   try {
-    const result = await productService.getProductById(req);
+    const { id } = req.params;
+    const result = await productService.getById(id);
     responseHandler.sendJsonSuccess(res)(result);
   } catch (err) {
     next(err);
@@ -20,9 +21,9 @@ const getProductById = async (req, res, next) => {
 };
 
 // Create a new product
-const createProduct = async (req, res, next) => {
+const create = async (req, res, next) => {
   try {
-    const result = await productService.createProduct(req);
+    const result = await productService.create(req);
     responseHandler.sendJsonSuccess(res)(result);
   } catch (err) {
     next(err);
@@ -30,9 +31,9 @@ const createProduct = async (req, res, next) => {
 };
 
 // Update a product by ID
-const updateProductById = async (req, res, next) => {
+const updateById = async (req, res, next) => {
   try {
-    const result = await productService.updateProductById(req);
+    const result = await productService.updateById(req);
     responseHandler.sendJsonSuccess(res)(result);
   } catch (err) {
     next(err);
@@ -40,9 +41,10 @@ const updateProductById = async (req, res, next) => {
 };
 
 // Delete a product by ID
-const deleteProductById = async (req, res, next) => {
+const deleteById = async (req, res, next) => {
   try {
-    const result = await productService.deleteProductById(req);
+    const { id } = req.params;
+    const result = await productService.deleteById(id);
     responseHandler.sendJsonSuccess(res)(result);
   } catch (err) {
     next(err);
@@ -50,9 +52,9 @@ const deleteProductById = async (req, res, next) => {
 };
 
 module.exports = {
-  getAllProducts,
-  getProductById,
-  createProduct,
-  updateProductById,
-  deleteProductById
+  getAll,
+  getById,
+  create,
+  updateById,
+  deleteById
 }

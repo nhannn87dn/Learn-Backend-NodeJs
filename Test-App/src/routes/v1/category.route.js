@@ -1,27 +1,39 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const categoryController = require('../../controllers/category.controller');
+const categoryController = require("../../controllers/category.controller");
 
-const validateSchema = require('../../middleware/validateSchema.middleware');
-const categoryValidation = require('../../validations/category.validation');
+const validateSchema = require("../../middleware/validateSchema.middleware");
+const categoryValidation = require("../../validations/category.validation");
 
 //http://localhost:8686/api/v1/categories
-router.get('/', categoryController.getAllCategories);
+router.get("/", categoryController.getAll);
 
 //localhost:8686/api/v1/categories/:id
 router.get(
-  '/:id',
-  validateSchema(categoryValidation.getCategoryById),
-  categoryController.getCategoryById
+  "/:id",
+  validateSchema(categoryValidation.getById),
+  categoryController.getById
 );
 
 //http://localhost:8686/api/v1/categories
-router.post('/', categoryController.createCategory);
+router.post(
+  "/",
+  validateSchema(categoryValidation.create),
+  categoryController.create
+);
 
 //localhost:8686/api/v1/categories/:id
-router.put('/:id', categoryController.updateCategoryById);
+router.put(
+  "/:id",
+  validateSchema(categoryValidation.updateById),
+  categoryController.updateById
+  );
 
-//localhost:8686/api/v1/categories/:id
-router.delete('/:id', categoryController.deleteCategoryById);
+//localhost:8686/api/v1/categories
+router.delete(
+  "/", 
+  validateSchema(categoryValidation.deleteById),
+  categoryController.deleteById
+  );
 
 module.exports = router;

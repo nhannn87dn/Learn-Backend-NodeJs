@@ -1,18 +1,20 @@
 const categoryService = require('../services/category.service');
 const responseHandler = require('../helpers/responseHandler');
 
-exports.getAllCategories = async (req, res, next) => {
+exports.getAll = async (req, res, next) => {
   try {
-    const result = await categoryService.getAllCategories();
+    const result = await categoryService.getAll();
     responseHandler.sendJsonSuccess(res)(result);
   } catch (err) {
     next(err);
   }
 };
 
-exports.getCategoryById = async (req, res, next) => {
+exports.getById = async (req, res, next) => {
   try {
-    const result = await categoryService.getCategoryById(req);
+    const { id } = req.params;
+    const result = await categoryService.getById(id);
+    console.log('<<===  Controller getById result ===>>',result);
     responseHandler.sendJsonSuccess(res)(result);
   } catch (err) {
     next(err);
@@ -20,9 +22,9 @@ exports.getCategoryById = async (req, res, next) => {
 };
 
 // Create a new category
-exports.createCategory = async (req, res, next) => {
+exports.create = async (req, res, next) => {
   try {
-    const result = await categoryService.createCategory(req);
+    const result = await categoryService.create(req);
     // res.send(category);
     responseHandler.sendJsonSuccess(res)(result);
   } catch (err) {
@@ -31,9 +33,9 @@ exports.createCategory = async (req, res, next) => {
 };
 
 // Update a category by ID
-exports.updateCategoryById = async (req, res, next) => {
+exports.updateById = async (req, res, next) => {
   try {
-    const result = await categoryService.updateCategoryById(req);
+    const result = await categoryService.updateById(req);
     responseHandler.sendJsonSuccess(res)(result);
   } catch (err) {
     next(err);
@@ -41,9 +43,9 @@ exports.updateCategoryById = async (req, res, next) => {
 };
 
 // Delete a category by ID
-exports.deleteCategoryById = async (req, res, next) => {
+exports.deleteById = async (req, res, next) => {
   try {
-    const result = await categoryService.deleteCategoryById(req);
+    const result = await categoryService.deleteById(req.body.id);
     responseHandler.sendJsonSuccess(res)(result);
   } catch (err) {
     next(err);

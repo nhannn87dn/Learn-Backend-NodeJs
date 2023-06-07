@@ -40,9 +40,17 @@ const objectId =  (value, helpers) => {
     return value;
 }
 
+const slugFriendly =  (value, helpers) => {
+    if(!value.match(/^[a-zA-Z0-9-]+$/)){
+        return helpers.message(`${value} contain only letters, numbers, and hyphens`);
+    }
+    return value;
+}
+
 module.exports = {
     passwordStrong,
     passwordVeryStrong,
     objectId,
-    dateFormat
+    dateFormat,
+    slugFriendly
 }

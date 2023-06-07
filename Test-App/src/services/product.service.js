@@ -1,5 +1,5 @@
 const createError = require('http-errors');
-const {Product, Gallery} = require('../models/product.model');
+const {Product} = require('../models/product.model');
 
 // Get all Products
 const getAll = async () => {
@@ -8,21 +8,20 @@ const getAll = async () => {
 };
 
 // Get a Product by ID
-const getById = async (req) => {
+const getById = async (id) => {
   try {
-    const { id } = req.params;
-
-    const result = Product.findById(id);
-
-    console.log(id, result);
+   
+    const result = await Product.findById(id);
 
     if (!result) {
       throw createError(404, 'Product not found');
+    }else{
+      console.log('<<=== Có Data ===>>',result);
     }
 
     return result;
   } catch (err) {
-    throw createError(500, err.message);
+    throw createError(500, err);
   }
 };
 
@@ -37,7 +36,7 @@ const create = async (req) => {
     /* Trả lại thông tin cho response */
     return result;
   } catch (err) {
-    throw createError(500, err.message);
+    throw createError(500, err);
   }
 };
 
@@ -61,14 +60,14 @@ const updateById = async (req) => {
 
     return product;
   } catch (err) {
-    throw createError(500, err.message);
+    throw createError(500, err);
   }
 };
 
 // Delete a Product by ID
-const deleteById = async (req) => {
+const deleteById = async (id) => {
   try {
-    const { id } = req.params;
+   
 
     const product = await getById(id);
 
@@ -76,11 +75,11 @@ const deleteById = async (req) => {
       throw createError(404, 'Product not found');
     }
 
-    await Product.remove({ _id: ObjectId(product._id) });
+    await Product.deleteOne({ _id: product._id });
 
     return product;
   } catch (err) {
-    throw createError(500, err.message);
+    throw createError(500, err);
   }
 };
 

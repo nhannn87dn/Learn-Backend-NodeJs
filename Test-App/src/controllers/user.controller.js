@@ -14,7 +14,6 @@ exports.getAllUsers = async (req, res, next) => {
 exports.getUserById = async (req, res, next) => {
   try {
     const user = await usersService.getUserById(req);
-    // res.send(user);
     responseHandler.sendJsonSuccess(res)(user);
   } catch (err) {
     next(err);

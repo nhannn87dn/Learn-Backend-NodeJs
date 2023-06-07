@@ -1,19 +1,65 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const categorySchema = new mongoose.Schema({
   name: {
     type: String,
+    unique: true,
     required: true,
+    maxLength: 160
   },
-  description: {
+  slug: {
     type: String,
-    required: true,
+    lowercase: true,
+    required: false,
+    unique: true,
+    index: true, //Đánh index
+    maxLength: 160,
+    validate: {
+      validator: function (value) {
+        if (!value) return true;
+
+        /** Nếu có điền thì validate */
+        if (value.length > 0) {
+          const slugRegex = /^[a-zA-Z0-9-]+$/;
+          return slugRegex.test(value);
+        }
+
+        return true;
+      },
+      message: 'Slug must be unique and contain only letters, numbers, and hyphens'
+    },
+  },
+  meteTitle: {
+    type: String,
+    required: false,
+    maxLength: 255,
+  },
+  meteDescription: {
+    type: String,
+    required: false,
+    maxLength: 255,
+  },
+  content: {
+    type: String,
+    required: false,
+    maxLength: 500,
   },
   image: {
     type: String,
-    required: true,
+    required: false,
+    maxLength: 255
   },
 });
+
+
+categorySchema.pre("save", async function (next) {
+  if(this.slug == ""){
+      this.slug = slugify(this.name);
+  }
+  next();
+});
+
 
 const Category = mongoose.model('Category', categorySchema);
 

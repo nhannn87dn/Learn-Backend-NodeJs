@@ -4,9 +4,18 @@ GET http://localhost:8686/api/v1/users HTTP/1.1
 
 ###
 
+# GET by ID
+GET http://localhost:8686/api/v1/users/123 HTTP/1.1
+
+###
 
 # GET by ID
-GET http://localhost:8686/api/v1/users/6476b8a428ebf8db6ea99c8c HTTP/1.1
+GET http://localhost:8686/api/v1/users/647db7937640fa84b0580e24 HTTP/1.1
+
+###
+
+# GET by ID
+GET http://localhost:8686/api/v1/users/647db7937640fa84b0580e26 HTTP/1.1
 
 ###
 

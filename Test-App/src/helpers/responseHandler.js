@@ -15,12 +15,12 @@ const sendJsonSuccess = (res, message, code) => {
   };
 };
 
-const sendJsonErrors = (req, res, error) => {
-  console.log(error);
-  return res.status(error.status || 500).json({
-    statusCode: error.status || 500,
-    message: error.message || 'Unhandled Error',
-    error,
+const sendJsonErrors = (req, res, error, type = null) => {
+  const statusCode = error.status || 500;
+  return res.status(statusCode).json({
+    statusCode: statusCode,
+    errorType: type || 'error',
+    message: error.message || 'Internal Server Error',
   });
 };
 

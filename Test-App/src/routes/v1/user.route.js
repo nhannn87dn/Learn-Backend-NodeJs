@@ -22,8 +22,8 @@ router.post('/', userController.createUser);
 //localhost:8686/api/v1/users/:id
 http: router.put('/:id', userController.updateUserById);
 
-//localhost:8686/api/v1/users/:id
-router.delete('/:id', userController.deleteUserById);
+//localhost:8686/api/v1/users
+router.delete('/', userController.deleteUserById);
 
 
 module.exports = router;
