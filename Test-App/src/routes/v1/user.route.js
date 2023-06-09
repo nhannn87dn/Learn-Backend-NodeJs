@@ -7,23 +7,23 @@ const userValidation = require('../../validations/user.validation');
 
 
 //http://localhost:8686/api/v1/users
-router.get('/', userController.getAllUsers);
+router.get('/', userController.getAll);
 
 //localhost:8686/api/v1/users/:id
 http: router.get(
   '/:id',
-  validateSchema(userValidation.getUserById),
-  userController.getUserById
+  validateSchema(userValidation.getById),
+  userController.getById
 );
 
 //http://localhost:8686/api/v1/users
-router.post('/', userController.createUser);
+router.post('/', userController.create);
 
 //localhost:8686/api/v1/users/:id
-http: router.put('/:id', userController.updateUserById);
+http: router.put('/:id', userController.updateById);
 
 //localhost:8686/api/v1/users
-router.delete('/', userController.deleteUserById);
+router.delete('/', userController.deleteById);
 
 
 module.exports = router;

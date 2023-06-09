@@ -32,7 +32,7 @@ const updateById = {
 };
 
 const deleteById = {
-  params: Joi.object().keys({
+  body: Joi.object().keys({
     id: Joi.custom(objectId).required(),
   }),
 };

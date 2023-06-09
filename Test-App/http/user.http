@@ -46,4 +46,9 @@ content-type: application/json
 }
 
 ###
-DELETE  http://localhost:8686/api/v1/users/6476bb3b9b17066c187bfac2 HTTP/1.1
+DELETE  http://localhost:8686/api/v1/users HTTP/1.1
+content-type: application/json
+
+{
+  "id": "64804f7eb278283158210a93"
+}

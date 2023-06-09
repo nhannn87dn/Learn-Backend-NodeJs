@@ -1,9 +1,9 @@
-const usersService = require('../services/user.service');
+const userService = require('../services/user.service');
 const responseHandler = require('../helpers/responseHandler');
 
-exports.getAllUsers = async (req, res, next) => {
+exports.getAll = async (req, res, next) => {
   try {
-    const users = await usersService.getAllUsers();
+    const users = await userService.getAll();
     //res.status(200).send(users);
     responseHandler.sendJsonSuccess(res)(users);
   } catch (err) {
@@ -11,9 +11,9 @@ exports.getAllUsers = async (req, res, next) => {
   }
 };
 
-exports.getUserById = async (req, res, next) => {
+exports.getById = async (req, res, next) => {
   try {
-    const user = await usersService.getUserById(req);
+    const user = await userService.getById(req);
     responseHandler.sendJsonSuccess(res)(user);
   } catch (err) {
     next(err);
@@ -21,9 +21,9 @@ exports.getUserById = async (req, res, next) => {
 };
 
 // Create a new user
-exports.createUser = async (req, res, next) => {
+exports.create = async (req, res, next) => {
   try {
-    const users = await usersService.createUser(req);
+    const users = await userService.create(req);
     // res.send(user);
     responseHandler.sendJsonSuccess(res)(users);
   } catch (err) {
@@ -32,9 +32,9 @@ exports.createUser = async (req, res, next) => {
 };
 
 // Update a user by ID
-exports.updateUserById = async (req, res, next) => {
+exports.updateById = async (req, res, next) => {
   try {
-    const user = await usersService.updateUserById(req);
+    const user = await userService.updateById(req);
     // res.send(user);
     responseHandler.sendJsonSuccess(res)(user);
   } catch (err) {
@@ -43,9 +43,9 @@ exports.updateUserById = async (req, res, next) => {
 };
 
 // Delete a user by ID
-exports.deleteUserById = async (req, res, next) => {
+exports.deleteById = async (req, res, next) => {
   try {
-    const user = await usersService.deleteUserById(req);
+    const user = await userService.deleteById(req.body.id);
     responseHandler.sendJsonSuccess(res)(user);
   } catch (err) {
     next(err);

@@ -2,7 +2,7 @@ const createError = require('http-errors');
 const User = require('../models/user.model');
 
 // Get all users
-const getAllUsers = async () => {
+const getAll = async () => {
   try {
       const result = await User.find();
       return result;
@@ -12,7 +12,7 @@ const getAllUsers = async () => {
 };
 
 // Get a user by ID
-const getUserById = async (req) => {
+const getById = async (req) => {
   try {
     const { id } = req.params;
 
@@ -32,7 +32,7 @@ const getUserById = async (req) => {
 };
 
 // Create a new user
-const createUser = async (req) => {
+const create = async (req) => {
   console.log('createUser');
 
   try {
@@ -48,7 +48,7 @@ const createUser = async (req) => {
 };
 
 // Update a user by ID
-const updateUserById = async (req) => {
+const updateById = async (req) => {
   try {
     const { id } = req.params;
 
@@ -63,14 +63,13 @@ const updateUserById = async (req) => {
 };
 
 // Delete a user by ID
-const deleteUserById = async (req) => {
+const deleteById = async (id) => {
   console.log('deleteUserById');
 
   try {
-    const { id } = req.params;
-
-    const result = await User.findByIdAndDelete(id);
-
+    const result = await User.findByIdAndDelete(id, {
+      new: true,
+    });
     return result;
   } catch (err) {
     throw createError(500, err);
@@ -78,9 +77,9 @@ const deleteUserById = async (req) => {
 };
 
 module.exports = {
-  getAllUsers,
-  getUserById,
-  createUser,
-  updateUserById,
-  deleteUserById,
+  getAll,
+  getById,
+  create,
+  updateById,
+  deleteById,
 };

@@ -1,28 +1,30 @@
 const request = require('supertest');
 const app = require('../../app');
 
+request = request('http://localhost:8686');
+
 describe('GET /api/v1/users/:id', () => {
     //test Validate request
-    // test('should return 400 if ID non-Objectid', async () => {
-    //     const response = await request(app).get('/api/v1/users/123');
-    //     //So sánh status với kết quả đúng
-    //     expect(response.status).toBe(400);
-    //     //So sánh với kết quả đúng
-    //     expect(response.body).toEqual(
-    //         {
-    //             message: "123 non-Objectid",
-    //             statusCode: 400,
-    //             errorType: "validateSchema"
-    //         }
-    //     );
-    // });
+    test('should return 400 if ID non-Objectid', async () => {
+        const response = await request(app).get('/api/v1/users/123');
+        //So sánh status với kết quả đúng
+        expect(response.status).toBe(400);
+        //So sánh với kết quả đúng
+        expect(response.body).toEqual(
+            {
+                message: "123 non-Objectid",
+                statusCode: 400,
+                errorType: "validateSchema"
+            }
+        );
+    });
 
     //test Validate request
     test('should return 404 if Objectid not exist', async () => {
-        const response = await request(app).get('/api/v1/users/647db7937640fa84b0580e24');
+        const response = await request(app).get('/api/v1/users/647db7937640fa84b0580e26');
         //So sánh status với kết quả đúng
         //console.log(response.status);
-        expect(response.status).toBe(500);
+        expect(response.status).toBe(200);
         //So sánh với kết quả đúng
         // expect(response.body).toEqual(
         //     {

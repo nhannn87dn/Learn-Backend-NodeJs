@@ -90,7 +90,7 @@ async function createData() {
   await Config.create(shopConfig);
 
   // Create a new user with the generated password
-  const user = new User({
+  const user = User({
     name: 'Administrator',
     email: 'root@example.com',
     password: 'Admin@123456',
@@ -98,13 +98,13 @@ async function createData() {
     permissions: [],
     isEmailVerified: true,
   });
-  await user.save();
+  await user.create();
   console.log(`Create User Admin successfully !`);
 
   const customer_types = ['normal', 'member', 'vip'];
   // Tạo 10 khách hàng ngẫu nhiên
   for (let i = 1; i <= 10; i++) {
-    const customer = new Customer({
+    const customer = Customer({
       firstName: faker.person.firstName(),
       lastName: faker.person.lastName(),
       address: faker.location.streetAddress(),
@@ -112,29 +112,29 @@ async function createData() {
       password: 'password123',
       type: customer_types[Math.floor(Math.random() * customer_types.length)],
     });
-    await customer.save();
+    await customer.create();
     console.log(`Create Customer ${i} successfully !`);
   }
 
   // Tạo 10 thương hiệu
   for (let i = 1; i <= 10; i++) {
-    const brand = new Brand({
+    const brand = Brand({
       name: faker.word.words(),
       description: `Description for brand ${i}`,
       image: `https://picsum.photos/200/200`,
     });
-    await brand.save();
+    await brand.create();
     console.log(`Create Brand ${i} successfully !`);
   }
 
   // Tạo 10 danh mục
   for (let i = 1; i <= 10; i++) {
-    const category = new Category({
+    const category =  Category({
       name: faker.commerce.department(),
       description: `Description for category ${i}`,
       image: `https://picsum.photos/200/200`,
     });
-    await category.save();
+    await category.create();
     console.log(`Create Category ${i} successfully !`);
   }
 
@@ -174,7 +174,7 @@ async function createData() {
 
   
 
-    const product = new Product({
+    const product = Product({
       name: faker.commerce.productName(),
       brandId: brand._id,
       category: category._id,
@@ -187,7 +187,7 @@ async function createData() {
       thumbnail: `https://picsum.photos/200/200`,
       images: productImages,
     });
-    await product.save();
+    await product.create();
     console.log(`Create Product ${i} successfully !`);
   }//end product
 
@@ -265,7 +265,7 @@ async function createData() {
       deliveredDate.setDate(now.getDate() + 2);
 
     
-    const order = new Order({
+    const order =  Order({
       code: faker.string.hexadecimal({ length: 10, casing: 'lower' }),
       user: customers[Math.floor(Math.random() * customers.length)]._id,
       products: productsArr,
@@ -279,7 +279,7 @@ async function createData() {
       createdDate: now,
 
     });
-    await order.save();
+    await order.create();
     console.log(`Create Order ${i} successfully !`);
   } //end order
 

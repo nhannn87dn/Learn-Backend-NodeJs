@@ -1,34 +1,20 @@
-require('dotenv').config();
+const configs = require('./src/constants/configs');
 const app = require('./src/app');
-const mongoose = require('mongoose');
-const PORT = process.env.PORT || 8686;
+const { connectDB, disconnectDB } = require('./src/helpers/mongooseDB');
 
-const mongooseDbOptions = {
-  autoIndex: true, // Don't build indexes
-  maxPoolSize: 10, // Maintain up to 10 socket connections
-  serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
-  socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-  family: 4, // Use IPv4, skip trying IPv6
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
-
-mongoose.set('strictQuery', false);
-
-mongoose
-  .connect(process.env.MONGODB_URI,
-    mongooseDbOptions
-  )
+connectDB()
   .then(() => {
-    console.log('Connected to MongoDB');
-    //should listen app here
-
-    const server = app.listen(PORT, () => {
-      console.log(
-        `Server start with port ${PORT}, Open URL localhost:${PORT} on your browser`
-      );
+    // Đảm bảo rằng kết nối MongoDB đã thành công trước khi lắng nghe ứng dụng
+    const server = app.listen(configs.PORT, () => {
+      console.log(`Server started on port ${configs.PORT}`);
     });
   })
   .catch((err) => {
-    console.error('Failed to Connect to MongoDB', err);
+    console.error('Failed to connect to MongoDB', err);
   });
+
+// Ngắt kết nối MongoDB khi ứng dụng dừng
+process.on('SIGINT', async () => {
+  await disconnectDB();
+  process.exit(0);
+});
