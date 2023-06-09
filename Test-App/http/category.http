@@ -10,6 +10,12 @@ GET http://localhost:8686/api/v1/categories/647db7937640fa84b0580e57 HTTP/1.1
 
 ###
 
+
+# GET by Slug
+GET http://localhost:8686/api/v1/categories/kids4 HTTP/1.1
+
+###
+
 # Create new Category
 
 POST http://localhost:8686/api/v1/categories HTTP/1.1
@@ -17,9 +23,9 @@ content-type: application/json
 
 {   
     
- "name": "Lenovo",
- "slug": "*7jkj-ds",
-  "description": "Description for Lenovo",
+ "name": "Lenovo Samsung",
+ "slug": "lenovo-samsung",
+  "content": "Description for Lenovo",
   "image": "https://picsum.photos/200/200"
 }
 

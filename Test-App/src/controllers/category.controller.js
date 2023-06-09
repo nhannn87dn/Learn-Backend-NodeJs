@@ -21,6 +21,18 @@ exports.getById = async (req, res, next) => {
   }
 };
 
+exports.getBySlug = async (req, res, next) => {
+  try {
+    const {slug} = req.params;
+    const result = await categoryService.getBySlug(slug);
+    console.log('<<===  Controller getBySlug result ===>>',result);
+    responseHandler.sendJsonSuccess(res)(result);
+  } catch (err) {
+    next(err);
+  }
+};
+
+
 // Create a new category
 exports.create = async (req, res, next) => {
   try {

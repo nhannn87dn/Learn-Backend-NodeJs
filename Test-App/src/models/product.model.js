@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
-const slugify = require('slugify');
+const buildSlug = require('../helpers/buildSlug')
+
 const arrayLimit = (val) => val.length <= 5;
 
 const reviewSchema = new mongoose.Schema(
@@ -41,9 +42,8 @@ const productSchema = new mongoose.Schema({
   slug: {
     type: String,
     lowercase: true,
-    required: false,
+    required: true,
     unique: true,
-    index: true, //Đánh index
     maxLength: 160,
     validate: {
       validator: function (value) {
@@ -156,7 +156,7 @@ productSchema.plugin(mongooseLeanVirtuals);
 
 productSchema.pre("save", async function (next) {
   if(this.slug == ""){
-      this.slug = slugify(this.name);
+      this.slug = buildSlug(this.name);
   }
   next();
 });

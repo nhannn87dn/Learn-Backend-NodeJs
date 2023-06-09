@@ -125,7 +125,7 @@ app.use('/api/v1', usersRoute);
 
 Tiếp tục refactor các routes, chuyển thành các controllers
 
-Tách xử lý business logic ra khỏi routes, giúp routes gọn hơn, dễ nhìn hơn
+Tách xử lý business logic ra khỏi routes, giúp routes gọn hơn, dễ nhìn hơn, dễ bão trì hơn
 
 Tạo file src/controllers/users.controller.js
 

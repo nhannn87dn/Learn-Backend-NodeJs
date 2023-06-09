@@ -5,6 +5,7 @@ const actionLogsSchema = new Schema({
   action: {
     type: String,
     required: true,
+    default: 'note'
   },
   note: {
     type: String,
@@ -118,14 +119,16 @@ const orderSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: [
-      "pending",
-      "approved",
-      "canceled",
-      "shipping",
-      "shipped",
-      "paid",
-      "delivered",
-      "finished",
+      "pending", //Mới đặt hàng
+      "confirmed", //Đã xác nhận đơn hàng
+      "canceled", //Hủy đơn hàng
+      "prepareShipping", //chuẩn bị giao hàng
+      "shipping", //đang giao hàng
+      "cancelShipping", //hủy giao hàng
+      "shipped", //đã giao hàng
+      "paid", //đã thanh toán
+      "refund", //hoàn tiền
+      "finished", //hoàn thành
     ],
     default: "pending",
   },

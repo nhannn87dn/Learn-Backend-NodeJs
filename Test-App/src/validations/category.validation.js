@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { objectId } = require('./custom.validation');
+const { objectId, slugFriendly } = require('./custom.validation');
 
 const getById = {
   params: Joi.object().keys({
@@ -7,28 +7,30 @@ const getById = {
   }),
 };
 
+const getBySlug = {
+  params: Joi.object().keys({
+    slug: Joi.custom(slugFriendly).required(),
+  }),
+};
+
 
 const create = {
   body: Joi.object().keys({
     name: Joi.string().max(160).required(),
-    slug: Joi.string().allow('').optional(),
-    description: Joi.string().max(255).optional(),
+    slug: Joi.string().required(),
+    content: Joi.string().max(500).optional(),
     image: Joi.string().max(255).optional()
-  }).when(Joi.object({ slug: Joi.string().required() }), {then: Joi.object({
-    slug: Joi.string().pattern(/^[a-zA-Z0-9-]+$/).required(),
-  })})
+  })
 };
 
 
 const updateById = {
   body: Joi.object().keys({
     name: Joi.string().max(160).required(),
-    slug: Joi.string().allow('').optional(),
-    description: Joi.string().max(255).optional(),
+    slug: Joi.string().required(),
+    content: Joi.string().max(500).optional(),
     image: Joi.string().max(255).optional()
-  }).when(Joi.object({ slug: Joi.string().required() }), {then: Joi.object({
-    slug: Joi.string().pattern(/^[a-zA-Z0-9-]+$/).required(),
-  })}),
+  }),
   params: Joi.object().keys({
     id: Joi.custom(objectId).required(),
   }),
@@ -42,6 +44,7 @@ const deleteById = {
 
 module.exports = {
   getById,
+  getBySlug,
   create,
   updateById,
   deleteById,

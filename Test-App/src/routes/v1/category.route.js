@@ -8,11 +8,11 @@ const categoryValidation = require("../../validations/category.validation");
 //http://localhost:8686/api/v1/categories
 router.get("/", categoryController.getAll);
 
-//localhost:8686/api/v1/categories/:id
+//localhost:8686/api/v1/categories/dien-thoai
 router.get(
-  "/:id",
-  validateSchema(categoryValidation.getById),
-  categoryController.getById
+  "/:slug([a-z0-9\-]+)/",
+  validateSchema(categoryValidation.getBySlug),
+  categoryController.getBySlug
 );
 
 //http://localhost:8686/api/v1/categories

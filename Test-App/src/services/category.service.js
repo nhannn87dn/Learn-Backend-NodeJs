@@ -30,6 +30,26 @@ const getById = async (id) => {
   }
 };
 
+// Get a category by ID
+const getBySlug = async (slug) => {
+  try {
+    const result = await Category.findOne({slug: slug});
+
+    console.log('<<=== Service result ===>>',slug,result);
+
+    if (!result) {
+      throw createError(404, 'Category not found');
+    }
+
+    
+
+    return result;
+  } catch (err) {
+    throw createError(500, err);
+  }
+};
+
+
 // Create a new category
 const create = async (req) => {
   console.log('createCategory');
@@ -91,6 +111,7 @@ const deleteById = async (id) => {
 module.exports = {
   getAll,
   getById,
+  getBySlug,
   create,
   updateById,
   deleteById,

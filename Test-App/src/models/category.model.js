@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const slugify = require('slugify');
+const buildSlug = require('../helpers/buildSlug')
+
 
 const categorySchema = new mongoose.Schema({
   name: {
@@ -11,9 +12,8 @@ const categorySchema = new mongoose.Schema({
   slug: {
     type: String,
     lowercase: true,
-    required: false,
+    required: true,
     unique: true,
-    index: true, //Đánh index
     maxLength: 160,
     validate: {
       validator: function (value) {
@@ -21,7 +21,7 @@ const categorySchema = new mongoose.Schema({
 
         /** Nếu có điền thì validate */
         if (value.length > 0) {
-          const slugRegex = /^[a-zA-Z0-9-]+$/;
+          const slugRegex = /^([a-z0-9\-]+)$/;
           return slugRegex.test(value);
         }
 
@@ -55,7 +55,7 @@ const categorySchema = new mongoose.Schema({
 
 categorySchema.pre("save", async function (next) {
   if(this.slug == ""){
-      this.slug = slugify(this.name);
+      this.slug = buildSlug(this.name);
   }
   next();
 });

@@ -4,4 +4,9 @@ const USERS = [
     { id: 3, name: 'Tim', email: 'tim@gmail.com', password: '123' },
   ];
 
-module.exports = USERS;
+const userRole = ['user', 'shipper', 'admin', 'root'];
+
+module.exports = {
+  USERS,
+  userRole
+};

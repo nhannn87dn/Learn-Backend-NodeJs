@@ -8,8 +8,6 @@ Xây dựng cấu trúc dự án RESTFul-APIs với Node.Js và Express CHUẨN 
 
 - Categories
 - Brand
-- Supplier
 - Customer
-- Shipper
 - Products
 - Order

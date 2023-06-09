@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const slugify = require('slugify');
+const buildSlug = require('../helpers/buildSlug')
 
 const brandSchema = new mongoose.Schema({
   name: {
@@ -11,9 +11,8 @@ const brandSchema = new mongoose.Schema({
   slug: {
     type: String,
     lowercase: true,
-    required: false,
+    required: true,
     unique: true,
-    index: true, //Đánh index
     maxLength: 160,
     validate: {
       validator: function (value) {
@@ -51,5 +50,14 @@ const brandSchema = new mongoose.Schema({
     maxLength: 255
   },
 });
+
+brandSchema.pre("save", async function (next) {
+  if(this.slug == ""){
+      this.slug = buildSlug(this.name);
+  }
+  next();
+});
+
+
 const Brand = mongoose.model('Brand', brandSchema);
 module.exports = Brand;

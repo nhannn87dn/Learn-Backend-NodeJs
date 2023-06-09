@@ -8,6 +8,7 @@ const Order = require('../models/order.model');
 const Config = require('../models/config.model');
 const PaymentMethod = require('../models/paymentMethod');
 const ShippingMethod = require('../models/shippingMethod');
+const buildSlug = require('../helpers/buildSlug');
 
 /* https://next.fakerjs.dev/ */
 const { faker } = require('@faker-js/faker');
@@ -90,7 +91,7 @@ async function createData() {
   await Config.create(shopConfig);
 
   // Create a new user with the generated password
-  const user = User({
+  const user = new User({
     name: 'Administrator',
     email: 'root@example.com',
     password: 'Admin@123456',
@@ -98,13 +99,13 @@ async function createData() {
     permissions: [],
     isEmailVerified: true,
   });
-  await user.create();
+  await user.save();
   console.log(`Create User Admin successfully !`);
 
   const customer_types = ['normal', 'member', 'vip'];
   // Tạo 10 khách hàng ngẫu nhiên
   for (let i = 1; i <= 10; i++) {
-    const customer = Customer({
+    const customer = new Customer({
       firstName: faker.person.firstName(),
       lastName: faker.person.lastName(),
       address: faker.location.streetAddress(),
@@ -112,29 +113,33 @@ async function createData() {
       password: 'password123',
       type: customer_types[Math.floor(Math.random() * customer_types.length)],
     });
-    await customer.create();
+    await customer.save();
     console.log(`Create Customer ${i} successfully !`);
   }
 
   // Tạo 10 thương hiệu
   for (let i = 1; i <= 10; i++) {
-    const brand = Brand({
-      name: faker.word.words(),
+    let brandName = faker.company.name();
+    const brand = new Brand({
+      name: brandName,
+      slug: buildSlug(brandName),
       description: `Description for brand ${i}`,
       image: `https://picsum.photos/200/200`,
     });
-    await brand.create();
+    await brand.save();
     console.log(`Create Brand ${i} successfully !`);
   }
 
   // Tạo 10 danh mục
   for (let i = 1; i <= 10; i++) {
-    const category =  Category({
-      name: faker.commerce.department(),
+    let categoryName = faker.commerce.department();
+    const category =  new Category({
+      name: categoryName + i,
+      slug: buildSlug(categoryName + i),
       description: `Description for category ${i}`,
       image: `https://picsum.photos/200/200`,
     });
-    await category.create();
+    await category.save();
     console.log(`Create Category ${i} successfully !`);
   }
 
@@ -172,10 +177,12 @@ async function createData() {
       productImages.push(productImage);
     }
 
-  
+    
+    let productName = faker.commerce.productName();
 
-    const product = Product({
-      name: faker.commerce.productName(),
+    const product = new Product({
+      name: productName,
+      slug: buildSlug(productName),
       brandId: brand._id,
       category: category._id,
       price: 100 + i * 10,
@@ -187,7 +194,7 @@ async function createData() {
       thumbnail: `https://picsum.photos/200/200`,
       images: productImages,
     });
-    await product.create();
+    await product.save();
     console.log(`Create Product ${i} successfully !`);
   }//end product
 
@@ -265,7 +272,7 @@ async function createData() {
       deliveredDate.setDate(now.getDate() + 2);
 
     
-    const order =  Order({
+    const order =  new Order({
       code: faker.string.hexadecimal({ length: 10, casing: 'lower' }),
       user: customers[Math.floor(Math.random() * customers.length)]._id,
       products: productsArr,
@@ -279,7 +286,7 @@ async function createData() {
       createdDate: now,
 
     });
-    await order.create();
+    await order.save();
     console.log(`Create Order ${i} successfully !`);
   } //end order
 
