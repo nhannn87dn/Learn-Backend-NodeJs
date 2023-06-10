@@ -16,13 +16,11 @@ const getById = async (id) => {
   try {
     const result = await Category.findById(id);
 
-    console.log('<<=== Service result ===>>',result);
+    console.log('<<=== Service getById result ===>>',result);
 
     if (!result) {
       throw createError(404, 'Category not found');
     }
-
-    
 
     return result;
   } catch (err) {
@@ -35,7 +33,7 @@ const getBySlug = async (slug) => {
   try {
     const result = await Category.findOne({slug: slug});
 
-    console.log('<<=== Service result ===>>',slug,result);
+    console.log('<<=== getBySlug result ===>>',slug,result);
 
     if (!result) {
       throw createError(404, 'Category not found');
@@ -61,7 +59,7 @@ const create = async (req) => {
     /* Trả lại thông tin cho response */
     return result;
   } catch (err) {
-    throw createError(500, err.message);
+    throw createError(500, err);
   }
 };
 
@@ -69,8 +67,11 @@ const create = async (req) => {
 const updateById = async (req) => {
   try {
     const { id } = req.params;
+    console.log('<<=== 🚀 updateById id ===>>',id);
     /* Tận dùng hàm có sẳn để tìm xem danh mục có tồn tại chưa */
     const category = await getById(id);
+
+    console.log('<<=== 🚀 updateById category ===>>',category);
 
     if (!category) {
       throw createError(404, 'Category not found');
@@ -83,9 +84,9 @@ const updateById = async (req) => {
     Object.assign(category, req.body);
     await category.save();
 
-    return result;
+    return category;
   } catch (err) {
-    throw createError(500, err.message);
+    throw createError(500, err);
   }
 };
 

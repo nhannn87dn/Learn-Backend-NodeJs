@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test:update": "jest src/tests/categories/updateById.test.js",
     "dev": "nodemon server.js"
   },
   "author": "",

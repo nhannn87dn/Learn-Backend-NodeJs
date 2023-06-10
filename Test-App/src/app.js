@@ -56,7 +56,7 @@ app.use(function (req, res, next) {
 // Middleware xử lý lỗi
 app.use((err, req, res, next) => {
   //console.log('<<< Error Handler Stack >>>', err.stack);
- // console.error('<< Middleware Error >>', err);
+  console.error('<< Middleware Error >>', err);
   if (err instanceof createError.HttpError) {
     sendJsonErrors(req, res, err, 'HttpError');
   } else {

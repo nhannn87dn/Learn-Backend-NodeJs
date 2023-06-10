@@ -15,8 +15,6 @@ const getById = async (id) => {
 
     if (!result) {
       throw createError(404, 'Product not found');
-    }else{
-      console.log('<<=== Có Data ===>>',result);
     }
 
     return result;

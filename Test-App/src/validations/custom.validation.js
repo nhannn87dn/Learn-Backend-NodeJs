@@ -26,7 +26,7 @@ const passwordVeryStrong = (value, helpers) => {
 /* only match yyyy-mm-dd */
 const dateFormat =  (value, helpers) => {
     if(!value.match(/^(\d{4}-\d{2}-\d{2})/)){
-        return helpers.message(`${value} is Incorrect format allowed yyyy-mm-dd`);
+        return helpers.message(`Incorrect format allowed yyyy-mm-dd`);
     }
     return value;
 }
@@ -35,7 +35,7 @@ const dateFormat =  (value, helpers) => {
 
 const objectId =  (value, helpers) => {
     if(!value.match(/[0-9a-fA-F]{24}/)){
-        return helpers.message(`${value} non-Objectid`);
+        return helpers.message(`ID is non-Objectid`);
     }
     return value;
 }

@@ -39,7 +39,7 @@ afterAll(async () => {
 
 describe('GET /api/v1/categories/:slug', () => {
   
-  test('should return 404 if invalid slug', async () => {
+  test('should return 400 if invalid slug', async () => {
       const response = await agent.get('/api/v1/categories/Health1');
   
       //So sánh status với kết quả đúng

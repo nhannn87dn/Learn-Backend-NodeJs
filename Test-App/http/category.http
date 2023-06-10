@@ -5,14 +5,8 @@ GET http://localhost:8686/api/v1/categories HTTP/1.1
 ###
 
 
-# GET by ID
-GET http://localhost:8686/api/v1/categories/647db7937640fa84b0580e57 HTTP/1.1
-
-###
-
-
 # GET by Slug
-GET http://localhost:8686/api/v1/categories/kids4 HTTP/1.1
+GET http://localhost:8686/api/v1/categories/health1e HTTP/1.1
 
 ###
 
@@ -33,11 +27,12 @@ content-type: application/json
 
 # Update Category
 
-PUT http://localhost:8686/api/v1/categories/64795152233756f3b6557996 HTTP/1.1
+PUT http://localhost:8686/api/v1/categories/123 HTTP/1.1
 content-type: application/json
 
 {   
-    "name": "Apple"
+    "name": "Apple 1212343",
+    "slug": "apple-1212343"
 }
 
 ###
