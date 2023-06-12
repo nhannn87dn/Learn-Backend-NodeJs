@@ -1,12 +1,11 @@
-const categoryService = require('../services/category.service');
+const orderService = require('../services/order.service');
 const responseHandler = require('../helpers/responseHandler');
 
 exports.getAll = async (req, res, next) => {
   try {
-    const result = await categoryService.getAll();
+    const result = await orderService.getAll();
     responseHandler.sendJsonSuccess(res)(result);
   } catch (err) {
-    //Chuyển tiếp xử lý lỗi ra cho middleware
     next(err);
   }
 };
@@ -14,52 +13,38 @@ exports.getAll = async (req, res, next) => {
 exports.getById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = await categoryService.getById(id);
+    const result = await orderService.getById(id);
     responseHandler.sendJsonSuccess(res)(result);
   } catch (err) {
     next(err);
   }
 };
 
-exports.getBySlug = async (req, res, next) => {
-  try {
-    const {slug} = req.params;
-    const result = await categoryService.getBySlug(slug);
-    console.log('<<===  Controller getBySlug result ===>>',result);
-    responseHandler.sendJsonSuccess(res)(result);
-  } catch (err) {
-    next(err);
-  }
-};
-
-
-// Create a new category
 exports.create = async (req, res, next) => {
   try {
-    const result = await categoryService.create(req);
-    // res.send(category);
+    const result = await orderService.create(req);
     responseHandler.sendJsonSuccess(res)(result);
   } catch (err) {
     next(err);
   }
 };
 
-// Update a category by ID
 exports.updateById = async (req, res, next) => {
   try {
-    const result = await categoryService.updateById(req);
+    const result = await orderService.updateById(req);
     responseHandler.sendJsonSuccess(res)(result);
   } catch (err) {
     next(err);
   }
 };
 
-// Delete a category by ID
 exports.deleteById = async (req, res, next) => {
   try {
-    const result = await categoryService.deleteById(req.body.id);
+    const result = await orderService.deleteById(req.body.id);
     responseHandler.sendJsonSuccess(res)(result);
   } catch (err) {
     next(err);
   }
 };
+
+module.exports = exports;

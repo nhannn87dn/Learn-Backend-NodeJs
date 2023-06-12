@@ -27,7 +27,7 @@ content-type: application/json
 
 # Update Category
 
-PUT http://localhost:8686/api/v1/categories/123 HTTP/1.1
+PUT http://localhost:8686/api/v1/categories/6482d04ecfe5b4e115b18d54 HTTP/1.1
 content-type: application/json
 
 {   
@@ -40,5 +40,5 @@ DELETE  http://localhost:8686/api/v1/categories HTTP/1.1
 content-type: application/json
 
 {      
-  "id": "647ff23274eb5dd446d0f2e8"
+  "id": "123"
 }

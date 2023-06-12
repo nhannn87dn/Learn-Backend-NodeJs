@@ -10,7 +10,7 @@ router.get("/", categoryController.getAll);
 
 //localhost:8686/api/v1/categories/dien-thoai
 router.get(
-  "/:slug([a-z0-9\-]+)/",
+  "/:slug",
   validateSchema(categoryValidation.getBySlug),
   categoryController.getBySlug
 );

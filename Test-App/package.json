@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "test:update": "jest src/tests/categories/updateById.test.js",
+    "test:del": "jest src/tests/categories/delete.test.js",
     "dev": "nodemon server.js"
   },
   "author": "",

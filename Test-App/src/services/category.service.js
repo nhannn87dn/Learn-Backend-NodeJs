@@ -1,112 +1,72 @@
-const createError = require('http-errors');
-const Category = require('../models/category.model');
+const createError = require("http-errors");
+const Category = require("../models/category.model");
 
 // Get all Categories
 const getAll = async () => {
-  try {
-    const result = await Category.find();
-    return result;
-  } catch (err) {
-    throw createError(500, err.message);
-  }
+  const result = await Category.find();
+  return result;
 };
 
 // Get a category by ID
 const getById = async (id) => {
-  try {
-    const result = await Category.findById(id);
+  const result = await Category.findById(id);
 
-    console.log('<<=== Service getById result ===>>',result);
+  console.log("<<=== Service getById result ===>>", result);
 
-    if (!result) {
-      throw createError(404, 'Category not found');
-    }
-
-    return result;
-  } catch (err) {
-    throw createError(500, err);
+  if (!result) {
+    throw createError(404, "Category not found");
   }
+  return result;
 };
 
 // Get a category by ID
 const getBySlug = async (slug) => {
-  try {
-    const result = await Category.findOne({slug: slug});
+  const result = await Category.findOne({ slug: slug });
 
-    console.log('<<=== getBySlug result ===>>',slug,result);
+  console.log("<<=== getBySlug result ===>>", slug, result);
 
-    if (!result) {
-      throw createError(404, 'Category not found');
-    }
-
-    
-
-    return result;
-  } catch (err) {
-    throw createError(500, err);
+  if (!result) {
+    throw createError(404, "Category not found");
   }
+  return result;
 };
-
 
 // Create a new category
 const create = async (req) => {
-  console.log('createCategory');
-
-  try {
-    // Lưu xuống database
-    const result = await Category.create(req.body);
-
-    /* Trả lại thông tin cho response */
-    return result;
-  } catch (err) {
-    throw createError(500, err);
-  }
+  console.log("createCategory");
+  // Lưu xuống database
+  const result = await Category.create(req.body);
+  /* Trả lại thông tin cho response */
+  return result;
 };
 
 // Update a category by ID
 const updateById = async (req) => {
-  try {
-    const { id } = req.params;
-    console.log('<<=== 🚀 updateById id ===>>',id);
-    /* Tận dùng hàm có sẳn để tìm xem danh mục có tồn tại chưa */
-    const category = await getById(id);
+  const { id } = req.params;
+  console.log("<<=== 🚀 updateById id ===>>", id);
+  /* Tận dùng hàm có sẳn để tìm xem danh mục có tồn tại chưa */
+  const category = await getById(id);
 
-    console.log('<<=== 🚀 updateById category ===>>',category);
+  /**
+   * Dùng assign để merge giữa cũ và mới lại với nhau
+   * Sau đó save lại
+   * Muốn update trường nào thì chỉ cần update trường đó
+   */
+  Object.assign(category, req.body);
+  await category.save();
 
-    if (!category) {
-      throw createError(404, 'Category not found');
-    }
-    /**
-     * Dùng assign để merge giữa cũ và mới lại với nhau
-     * Sau đó save lại
-     * Muốn update trường nào thì chỉ cần update trường đó
-     */
-    Object.assign(category, req.body);
-    await category.save();
-
-    return category;
-  } catch (err) {
-    throw createError(500, err);
-  }
+  return category;
 };
 
 // Delete a category by ID
 const deleteById = async (id) => {
-  try {
-   console.log('<<===  Service deleteById ===>>',id);  
-    
-    const category = await getById(id);
+  console.log("<<===  Service deleteById ===>>", id);
 
-    if (!category) {
-      throw createError(404, 'Category not found');
-    }
+  const category = await getById(id);
 
-    await category.deleteOne({ _id: category._id });
+  await category.deleteOne({ _id: category._id });
 
-    return category;
-  } catch (err) {
-    throw createError(500, err);
-  }
+  return category;
 };
 
 module.exports = {

@@ -1,79 +1,58 @@
-const createError = require('http-errors');
-const User = require('../models/user.model');
+const createError = require("http-errors");
+const User = require("../models/user.model");
 
 // Get all users
 const getAll = async () => {
-  try {
-      const result = await User.find();
-      return result;
-  } catch (err) {
-    throw createError(500, err);
-  }
+  const result = await User.find();
+  return result;
 };
 
 // Get a user by ID
 const getById = async (req) => {
-  try {
-    const { id } = req.params;
+  const { id } = req.params;
 
-    const result = await User.findById(id);
+  const result = await User.findById(id);
 
-    console.log('<<< getUserById >>>',id, result);
+  console.log("<<< getUserById >>>", id, result);
 
-    if (!result) {
-      throw createError(404, 'User not found');
-    }
-
-    return result;
-  } catch (err) {
-   //Chuyển tiếp lỗi ra cho App xử lý
-    throw createError(500, err);
+  if (!result) {
+    throw createError(404, "User not found");
   }
+
+  return result;
 };
 
 // Create a new user
 const create = async (req) => {
-  console.log('createUser');
+  console.log("createUser");
 
-  try {
-    // Lưu xuống database
-    const user = await User.create(req.body);
-    // Or User.save(payload);
+  // Lưu xuống database
+  const user = await User.create(req.body);
+  // Or User.save(payload);
 
-    /* Trả lại thông tin cho response */
-    return user;
-  } catch (err) {
-    throw createError(500, err);
-  }
+  /* Trả lại thông tin cho response */
+  return user;
 };
 
 // Update a user by ID
 const updateById = async (req) => {
-  try {
-    const { id } = req.params;
+  const { id } = req.params;
 
-    const result = await User.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
+  const result = await User.findByIdAndUpdate(id, req.body, {
+    new: true,
+  });
 
-    return result;
-  } catch (err) {
-    throw createError(500, err);
-  }
+  return result;
 };
 
 // Delete a user by ID
 const deleteById = async (id) => {
-  console.log('deleteUserById');
+  console.log("deleteUserById");
 
-  try {
-    const result = await User.findByIdAndDelete(id, {
-      new: true,
-    });
-    return result;
-  } catch (err) {
-    throw createError(500, err);
-  }
+  const result = await User.findByIdAndDelete(id, {
+    new: true,
+  });
+  return result;
 };
 
 module.exports = {

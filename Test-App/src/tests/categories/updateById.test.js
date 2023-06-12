@@ -97,7 +97,10 @@ describe('PUT /api/v1/categories/:id', () => {
     test('should return a object width status 400 if empty payload', async () => {
   
         const payload = {};
-    
+
+         /**
+         * Nên test theo kiểu tạo mới 1 cái, rồi sau đó xóa nó
+         */
         const response = await agent.put('/api/v1/categories/6482d04ecfe5b4e115b18d57').send(payload);
     
         //So sánh status với kết quả đúng
@@ -150,7 +153,9 @@ describe('PUT /api/v1/categories/:id', () => {
     //Điền đủ và đúng thông tin
     test('should return a object width status 200 if updated successfully', async () => {
   
-        // Tạo sản phẩm mới và lấy id của sản phẩm đó
+        /**
+         * Nên test theo kiểu tạo mới 1 cái, rồi sau đó update nó
+         */
         const categoryName = faker.commerce.department()+faker.string.numeric(5);
         const cateSlug = buildSlug(categoryName);
         const payload = {
