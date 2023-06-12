@@ -5,6 +5,7 @@ const configs = {
     NODE_ENV: process.env.NODE_ENV || 'development',
     PORT: process.env.PORT || 8686,
     MONGODB_URI: process.env.MONGODB_URI,
+    DATABASE_NAME: process.env.MONGODB_DATABASE_NAME,
     JWT_SECRET: process.env.JWT_SECRET
 }
 

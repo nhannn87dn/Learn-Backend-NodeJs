@@ -134,6 +134,20 @@ Doc: <https://mongoosejs.com/docs/populate.html>
 
 Lấy thông tin một sản phẩm bao gồm cả tên danh mục sản phẩm
 
+thì ở productSchema bạn để một trường category như sau:
+
+```js
+const productSchema = new new mongoose.Schema({
+  name: String,
+  //tên trường đăt = tên Model Category nhưng viết thường
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true,
+  },
+})
+```
+
 ```js
 // Lấy tất cả thông tin từ category
 const product = await Product.find().populate('category').exec();
@@ -144,6 +158,105 @@ const product = await Product.find().populate('category', '-_v').exec();
 //Chỉ lấy tên
 const product = await Product.find().populate('category', 'name').exec();
 ```
+
+Trường hợp category bạn đặt là `categoryID` thì để lấy được thông tin của danh mục
+bạn cần sử dụng một tính năng đó là `virtuals Populate`
+
+```js
+//Cài thêm mongoose-lean-virtuals
+const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
+
+const productSchema = new mongoose.Schema({
+  name: String,
+  //tên trường đăt = tên Model Category nhưng viết thường
+  categoryId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true,
+  },
+});
+
+/* Khai báo khóa ngoại với Category Model */
+productSchema.virtual('category', {
+  ref: 'Category',
+  localField: 'categoryId',
+  foreignField: '_id',
+  justOne: true,
+});
+
+productSchema.set('toJSON', { virtuals: true });
+// Virtuals in console.log()
+productSchema.set('toObject', { virtuals: true });
+productSchema.plugin(mongooseLeanVirtuals);
+
+const Product = mongoose.model('Product', productSchema);
+
+module.exports = {
+  Product
+};
+
+```
+
+## 💛 MongoDB thuần
+
+Dưới đây là một ví dụ đơn giản về cách kết nối với MongoDB bằng Node.js và thư viện driver MongoDB:
+
+1. Cài đặt driver MongoDB:
+
+```js
+npm install mongodb
+```
+
+2. Tạo kết nối;
+
+```js
+const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb://localhost:27017';
+const dbName = 'mydatabase';
+
+MongoClient.connect(url, function(err, client) {
+  if (err) throw err;
+  console.log('Connected to MongoDB');
+  const db = client.db(dbName);
+  
+  // chọn collection "people"
+  const collection = db.collection('people');
+  const person = { name: 'John', age: 30 };
+  //Thêm một record vào db
+  collection.insertOne(person, function(err, result) {
+    if (err) throw err;
+    console.log(result.ops[0].name + ' saved to mydatabase.');
+    //đóng kết nối sau mỗi lần truy vấn
+    client.close();
+  });
+
+
+});
+```
+
+Find - Tìm
+
+```js
+collection.find( { qty: { $gt: 4 } } )
+
+collection.findOne( { name: 'John' } )
+```
+
+Thêm mới
+
+```js
+collection.insert( { name: 'John', age: 30 } );
+
+collection.insertMany( [
+      { name: "John 1", age: 15 },
+      { name: "John 2", age: 20 },
+      { name: "John 3" , age: 30 }
+] );
+
+```
+
+Tất cả phương thức tương tác với CSDL xem ở link sau
+<https://www.mongodb.com/docs/manual/reference/method/js-collection/>
 
 ## 💛 MongoDB Shell
 
