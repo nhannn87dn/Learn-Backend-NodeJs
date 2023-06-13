@@ -3,11 +3,18 @@ const bodyParser = require('body-parser');
 const createError = require('http-errors');
 const app = express();
 const { sendJsonErrors } = require('./helpers/responseHandler');
-
+const path = require('path');
 const userRouteV1 = require('./routes/v1/user.route');
 const authRouteV1 = require('./routes/v1/auth.route');
 const categoryRouteV1 = require('./routes/v1/category.route');
 const productRouteV1 = require('./routes/v1/product.route');
+const multer = require('multer')
+const {
+  uploadFile,
+  uploadFiles,
+  uploadImage,
+  uploadImages
+} = require('./helpers/multerHelper')
 
 // for parsing application/json
 app.use(
@@ -23,6 +30,12 @@ app.use(
   })
 );
 
+
+// public for upload files
+app.use(express.static(path.join(__dirname, '../public')));
+
+
+
 //Response version API
 app.get('/', (req, res) => {
   res.status(200).json({ message: 'Hello World !' });
@@ -37,6 +50,30 @@ app.get('/api', (req, res) => {
 app.get('/api/v1', (req, res) => {
   res.status(200).json({ version: 'API 1.0' });
 });
+
+//Upload images với multer middleware
+app.post('/api/v1/upload/:collectionName', (req, res, next) => {
+  uploadImages(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      next(createError(500, err.message, {type: 'MulterError'}));
+    } else if (err) {
+      next(createError(500, err.message, {type: 'UnknownError'}));
+    } 
+    else{
+
+      const { collectionName } = req.params;
+  
+      console.log('req.body', req.body);
+      console.log('file', req.file);
+      console.log('collectionName', collectionName);
+  
+       
+      res.status(200).json({ ok: true });
+    }
+    
+  });
+});
+
 
 //Các API sẽ bắt đầu bằng api/v1/users
 app.use('/api/v1/users', userRouteV1);
@@ -59,7 +96,8 @@ app.use((err, req, res, next) => {
   console.error('<< Middleware Error >>', err);
   if (err instanceof createError.HttpError) {
     sendJsonErrors(req, res, err, 'HttpError');
-  } else {
+  }
+  else {
     sendJsonErrors(req, res, err, 'AppError');
   }
 });

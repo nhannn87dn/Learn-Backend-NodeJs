@@ -2,7 +2,7 @@
 
 Giao tiếp giữa Frontend và APIs
 
-## Dashboard App với ReactJs
+## 💛 Dashboard App với ReactJs
 
 Tạo ra tất cả các trang tương ứng với Models để Admin quản trị
 
@@ -18,7 +18,7 @@ Tạo ra tất cả các trang tương ứng với Models để Admin quản tr�
 - user page
 - config page
 
-## Client App với ReactJs
+## 💛 Client App với ReactJs
 
 Tất cả các trang để cho khách hàng sử dụng
 
@@ -32,7 +32,7 @@ Tất cả các trang để cho khách hàng sử dụng
 - customer profile
 - customer orders
 
-## Authentication ReactJs
+## 💛 Authentication ReactJs
 
 Học cách để bảo vệ các routes có chế độ private trong ReactJs
 
@@ -42,7 +42,7 @@ Học cách để bảo vệ các routes có chế độ private trong ReactJs
 ### Bảo vệ các private routes
 
 
-## Xây dựng Product Module
+## 💛 Xây dựng Product Module
 
 Học cách tạo ra giao diện quản trị sản phẩm và cách lấy sản phẩm hiển thị ra ngoài website cho khách hàng truy cập
 
@@ -57,19 +57,19 @@ Học cách tạo ra giao diện quản trị sản phẩm và cách lấy sản
 - Trang chi tiết sản phẩm
 
 
-## Quy trình mua hàng ngoài Client
+## 💛 Quy trình mua hàng ngoài Client
 
 - Thêm vào giỏ hàng
 - Hiển thị danh sách sản phẩm ra trang giỏ hàng
 - Trang Checkout: thông tin người mua hàng, phương thức vận chuyển, phương thức thanh toán
 
-## Quản trị Đơn hàng trong Dashboard
+## 💛 Quản trị Đơn hàng trong Dashboard
 
 - Xác nhận đơn hàng
 - Thay đổi trạng thái đơn
 
 
-## Báo cáo thống kê cơ bản
+## 💛 Báo cáo thống kê cơ bản
 
 - Danh sách sản phẩm bán chạy
 - Danh sách sản phẩm hết hàng
