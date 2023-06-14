@@ -1,6 +1,7 @@
 const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
+const {JWT_SECRET} = require('../constants/configs')
 
 exports.userLogin = async (userBody) => {
   console.log('2 ==> ', userBody);
@@ -19,12 +20,34 @@ exports.userLogin = async (userBody) => {
 
   //Tồn tại thì trả lại thông tin user kèm token
   const token = jwt.sign(
-    { _id: user.id, email: user.email },
-    process.env.JWT_SECURE_KEY
+    { _id: user.id, email: user.email, name: user.name},
+    JWT_SECRET
   );
 
+  const refreshToken  = jwt.sign(
+    { _id: user.id, email: user.email, name: user.name},
+   JWT_SECRET,
+    {
+      expiresIn: '365d', // expires in 24 hours (24 x 60 x 60)
+    }
+  );
+
+
   return {
-    user: { id: user.id, email: user.email },
+    user: { id: user.id, email: user.email, name: user.name},
     token,
+    refreshToken
   };
-};
+}
+
+
+exports.refreshToken  = async (user) => {
+  const refreshToken  = jwt.sign(
+    { _id: user.id, email: user.email, name: user.name},
+    JWT_SECRET,
+    {
+      expiresIn: '365d', // expires in 24 hours (24 x 60 x 60)
+    }
+  );
+  return refreshToken;
+}

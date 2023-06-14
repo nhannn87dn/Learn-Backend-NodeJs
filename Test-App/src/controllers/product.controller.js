@@ -20,6 +20,18 @@ const getById = async (req, res, next) => {
   }
 };
 
+const getBySlug = async (req, res, next) => {
+  try {
+    const {slug} = req.params;
+    const result = await productService.getBySlug(slug);
+    console.log('<<===  Controller getBySlug result ===>>',result);
+    responseHandler.sendJsonSuccess(res)(result);
+  } catch (err) {
+    next(err);
+  }
+};
+
+
 // Create a new product
 const create = async (req, res, next) => {
   try {
@@ -54,6 +66,7 @@ const deleteById = async (req, res, next) => {
 module.exports = {
   getAll,
   getById,
+  getBySlug,
   create,
   updateById,
   deleteById

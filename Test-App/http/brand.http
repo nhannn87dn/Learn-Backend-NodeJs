@@ -17,8 +17,8 @@ content-type: application/json
 
 {   
     
- "name": "Lenovo Samsung",
-  "description": "Description for Lenovo",
+ "name": "Lenovo Samsung 123",
+  "content": "Description for Samsung 123",
   "image": "https://picsum.photos/200/200"
 }
 
@@ -26,7 +26,7 @@ content-type: application/json
 
 # Update Category
 
-PUT http://localhost:8686/api/v1/brands/64795152233756f3b6557996 HTTP/1.1
+PUT http://localhost:8686/api/v1/brands/647db7937640fa84b0580e57 HTTP/1.1
 content-type: application/json
 
 {   

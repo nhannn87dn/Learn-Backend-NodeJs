@@ -10,3 +10,16 @@ exports.userLogin = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.refreshToken = async (req, res, next) => {
+  try {
+    /**
+     * Nhận được req.user từ auth.middleware forward qua
+     */
+    const token = await authService.refreshToken(req.user);
+    responseHandler.sendJsonSuccess(res)(token);
+  } catch (err) {
+    next(err);
+  }
+};
+

@@ -25,6 +25,7 @@ exports.create = async (req, res, next) => {
     const result = await brandService.create(req);
     responseHandler.sendJsonSuccess(res)(result);
   } catch (err) {
+    console.log("brand controller",err.name)
     next(err);
   }
 };

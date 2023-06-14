@@ -1,27 +1,26 @@
 const express = require('express');
 const router = express.Router();
 const productController = require('../../controllers/product.controller');
-
 const validateSchema = require('../../middleware/validateSchema.middleware');
-// const productValidation = require('../../validations/product.validation');
+const productValidation = require('../../validations/product.validator');
 
-//http://localhost:8686/api/v1/products
+// GET /api/v1/products
 router.get('/', productController.getAll);
 
-//localhost:8686/api/v1/products/:id
+// GET /api/v1/products/:slug
 router.get(
-  '/:id',
-  // validateSchema(productsValidation.getById),
-  productController.getById
-);
+    "/:slug",
+    // validateSchema(productValidation.getBySlug),
+    productController.getBySlug
+  );
+  
+// POST /api/v1/products
+router.post('/', validateSchema(productValidation.create), productController.create);
 
-//http://localhost:8686/api/v1/products
-router.post('/', productController.create);
+// PUT /api/v1/products/:id
+router.put('/:id', validateSchema(productValidation.updateById), productController.updateById);
 
-//localhost:8686/api/v1/products/:id
-router.put('/:id', productController.updateById);
-
-//localhost:8686/api/v1/products
-router.delete('/', productController.deleteById);
+// DELETE /api/v1/products/:id
+router.delete('/:id', validateSchema(productValidation.deleteById), productController.deleteById);
 
 module.exports = router;

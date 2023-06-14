@@ -8,6 +8,12 @@ const userRouteV1 = require('./routes/v1/user.route');
 const authRouteV1 = require('./routes/v1/auth.route');
 const categoryRouteV1 = require('./routes/v1/category.route');
 const productRouteV1 = require('./routes/v1/product.route');
+const brandRouteV1 = require('./routes/v1/brand.route');
+const orderRouteV1 = require('./routes/v1/order.route');
+const configRouteV1 = require('./routes/v1/config.route');
+const customerRouteV1 = require('./routes/v1/customer.route');
+const paymentMethodRouteV1 = require('./routes/v1/paymentMethod.route');
+const shippingMethodRouteV1 = require('./routes/v1/shippingMethod.route');
 const multer = require('multer')
 const {
   uploadFile,
@@ -80,6 +86,13 @@ app.use('/api/v1/users', userRouteV1);
 app.use('/api/v1/auth', authRouteV1);
 app.use('/api/v1/categories', categoryRouteV1);
 app.use('/api/v1/products', productRouteV1);
+app.use('/api/v1/brands', brandRouteV1);
+app.use('/api/v1/orders', orderRouteV1);
+app.use('/api/v1/configs', configRouteV1);
+app.use('/api/v1/customers', customerRouteV1);
+app.use('/api/v1/payment-methods', paymentMethodRouteV1);
+app.use('/api/v1/shipping-methods',shippingMethodRouteV1);
+
 ///////////////////////////////////////
 // Không thêm gì bắt dầu từ đây xuống //
 ///////////////////////////////////////
@@ -96,6 +109,12 @@ app.use((err, req, res, next) => {
   console.error('<< Middleware Error >>', err);
   if (err instanceof createError.HttpError) {
     sendJsonErrors(req, res, err, 'HttpError');
+  }
+  else if(err.name === 'ValidationError'){
+    sendJsonErrors(req, res, err, 'ValidationMongooseSchema');
+  }
+  else if(err.name === 'MongoError'){
+    sendJsonErrors(req, res, err, 'MongoError');
   }
   else {
     sendJsonErrors(req, res, err, 'AppError');

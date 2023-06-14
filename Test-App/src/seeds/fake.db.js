@@ -102,7 +102,7 @@ async function createData() {
   await user.save();
   console.log(`Create User Admin successfully !`);
 
-  const customer_types = ['normal', 'member', 'vip'];
+  const customer_types = ['guest','normal', 'member', 'vip'];
   // Tạo 10 khách hàng ngẫu nhiên
   for (let i = 1; i <= 10; i++) {
     const customer = new Customer({
