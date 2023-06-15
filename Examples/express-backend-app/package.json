@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "test:getById": "jest src/tests/customers/getById.test.js",
+    "test:getById": "jest src/tests/products/getById.test.js",
     "dev": "nodemon server.js"
   },
   "author": "",

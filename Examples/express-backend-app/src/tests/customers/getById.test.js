@@ -86,7 +86,7 @@ describe('GET /api/v1/customers/:id', () => {
     };
 
     const resNew = await agent.post('/api/v1/customers').send(userData);
-    fileHandlerHelper.write('./src/logs/customer.json', resNew);
+    //fileHandlerHelper.write('./src/logs/customer.json', resNew);
     
     const id = resNew.body.data._id;
   

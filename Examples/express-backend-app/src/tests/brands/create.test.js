@@ -39,8 +39,14 @@ afterAll(async () => {
 
 
 describe('POST /api/v1/brands', () => {
+
+  //Không điền payload
+
+
+  //Điền 1 trong các trường require
   
-    test('should return a object width status 200 if create successfully', async () => {
+  //Điền đầy đủ và đúng
+  test('should return a object width status 200 if create successfully', async () => {
   
       // Tạo thương hiệu mới và lấy id của thương hiệu đó
       const brandName = faker.company.name()+faker.string.numeric(5);

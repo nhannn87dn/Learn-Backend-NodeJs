@@ -10,7 +10,7 @@ router.get('/', productController.getAll);
 // GET /api/v1/products/:slug
 router.get(
     "/:slug",
-    // validateSchema(productValidation.getBySlug),
+    validateSchema(productValidation.getBySlug),
     productController.getBySlug
   );
   

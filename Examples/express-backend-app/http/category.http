@@ -6,7 +6,7 @@ GET http://localhost:8686/api/v1/categories HTTP/1.1
 
 
 # GET by Slug
-GET http://localhost:8686/api/v1/categories/health1e HTTP/1.1
+GET http://localhost:8686/api/v1/categories/Health1e HTTP/1.1
 
 ###
 

@@ -30,7 +30,7 @@ const imageSchema = new mongoose.Schema({
   url: { type: String },
   alt: { type: String },
   caption: { type: String },
-  position: { type: Number, required: true }
+  position: { type: Number, default: 0 }
 });
 
 const productSchema = new mongoose.Schema({
@@ -51,7 +51,7 @@ const productSchema = new mongoose.Schema({
         
         /** Nếu có điền thì validate */
         if (value.length > 0) {
-          const slugRegex = /^[a-zA-Z0-9-]+$/;
+          const slugRegex = /^[a-z0-9\-]+$/;
           return slugRegex.test(value);
         }
 

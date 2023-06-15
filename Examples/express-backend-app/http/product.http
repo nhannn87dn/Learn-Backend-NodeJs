@@ -6,7 +6,7 @@ GET http://localhost:8686/api/v1/products HTTP/1.1
 
 
 # GET by ID
-GET http://localhost:8686/api/v1/products/647db7937640fa84b0580e69 HTTP/1.1
+GET http://localhost:8686/api/v1/products/Health1 HTTP/1.1
 
 ###
 
