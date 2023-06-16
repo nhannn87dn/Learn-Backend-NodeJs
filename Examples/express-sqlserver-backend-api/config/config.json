@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": "your-username",
+    "password": "your-password",
+    "database": "your-database",
+    "host": "localhost",
+    "dialect": "mssql",
+    "port": 1433
+  }
+}
