@@ -2,7 +2,7 @@
 
 ## 💛 NodeJS là gì
 
-Node.js là một nền tảng phát triển ứng dụng được xây dựng trên JavaScript, được phát triển bởi Ryan Dahl và được phát hành lần đầu tiên vào năm 2009. Node.js được xây dựng dựa trên nền tảng Chrome V8 JavaScript engine của Google và được thiết kế để xử lý các ứng dụng web theo cách không đồng bộ (asynchronous) và đồng thời có thể thực thi trên máy chủ.
+Node.js là một môi trường thực thi mã JavaScript phía máy chủ (server-side) được xây dựng dựa trên JavaScript Engine V8 của Google. Nó cho phép bạn chạy mã JavaScript bên ngoài trình duyệt, trên máy chủ, và xử lý các yêu cầu từ các máy khách (client) và phản hồi lại chúng.
 
 ![node](img/node-what.png)
 
@@ -12,20 +12,24 @@ Sau khi được phát hành lần đầu tiên vào năm 2009, Node.js nhanh ch
 
 ## 💛 Node.js hoạt động như thế nào?
 
-Ý tưởng chính của Node js là sử dụng non-blocking, hướng sự vào ra dữ liệu thông qua các tác vụ thời gian thực một cách nhanh chóng. Bởi vì, Node js có khả năng mở rộng nhanh chóng, khả năng xử lý một số lượng lớn các kết nối đồng thời bằng thông lượng cao.
+Dưới đây là cách Node.js hoạt động:
 
-Nếu như các ứng dụng web truyền thống, các request tạo ra một luồng xử lý yêu cầu mới và chiếm RAM của hệ thống thì việc tài nguyên của hệ thống sẽ được sử dụng không hiệu quả. Chính vì lẽ đó giải pháp mà Node js đưa ra là sử dụng luồng đơn (Single-Threaded), kết hợp với non-blocking I/O để thực thi các request, cho phép hỗ trợ hàng chục ngàn kết nối đồng thời.
+1. JavaScript Engine V8: Node.js sử dụng JavaScript Engine V8 để thực thi mã JavaScript. V8 là một trình biên dịch mã nguồn mở được phát triển bởi Google, được thiết kế để thực thi mã JavaScript nhanh chóng và hiệu quả. Nó biên dịch mã JavaScript thành mã máy cấp thấp để thực thi.
 
-![](img/node-active.webp)
+1. Single-Threaded và Non-Blocking I/O: Node.js sử dụng mô hình lập trình sự kiện (event-driven) và không chặn I/O (non-blocking I/O) để xử lý các yêu cầu. Điều này có nghĩa là Node.js sử dụng một luồng đơn (single-threaded) để xử lý các yêu cầu và không chặn (non-blocking) các hoạt động I/O như đọc/ghi file hoặc truy vấn cơ sở dữ liệu. Thay vì chờ đợi các hoạt động I/O hoàn thành, Node.js sẽ tiếp tục xử lý các yêu cầu khác trong khi các hoạt động I/O đang diễn ra. Khi hoạt động I/O hoàn thành, Node.js sẽ gọi lại (callback) các hàm để xử lý kết quả.
 
-_Mô hình hoạt động của Node.js_
+1. Event Loop: Event Loop là một thành phần quan trọng trong Node.js. Nó theo dõi và xử lý các sự kiện và callback. Event Loop lặp đi lặp lại để kiểm tra xem có sự kiện nào đang chờ xử lý. Nếu có, nó sẽ gọi lại callback tương ứng và xử lý sự kiện đó. Điều này giúp Node.js duy trì tính không chặn và chạy hiệu quả với ít luồng hơn so với mô hình đa luồng truyền thống.
 
-Để cho dễ hiểu, khi bạn connect đến một server truyền thống, chẳng hạn Apache, nó sẽ sinh ra một thread mới để xử lý request. Ở các ngôn ngữ như PHP hay Ruby, mỗi một phép toán I/O (ví dụ truy cập database) sẽ chặn execution trên code của bạn cho đến khi phép toán đó hoàn thành. Nói cách khác, server sẽ đợi cho đến khi database được duyệt xong mới xử lý kết quả. Nếu có những request mới, server lại tiếp tục sinh những thread mới để xử lý chúng. Điều này dẫn đến nguy cơ kém hiệu quả, khi một lượng lớn thread được tạo ra sẽ khiến cho hệ thống trở nên chậm chạp, tệ hơn nữa có thể khiến site bị sập. Cách thông thường để giải quyết tình trạng này là bổ sung thêm server.
+1. Module System: Node.js có một hệ thống module tích hợp, cho phép bạn chia nhỏ mã nguồn thành các module riêng biệt và sử dụng lại chúng. Bạn có thể sử dụng `require` để nhập và sử dụng các module, và `module.exports` để xuất các module để sử dụng trong các tệp mã khác.
 
-![](img/node-flow.png)
+1. Nền tảng phát triển ứng dụng web: Node.js là một nền tảng phát triển ứng dụng web mạnh mẽ. Nó cung cấp các thư viện và công cụ hỗ trợ phát triển ứng dụng web như Express.js, Nest.js, Socket.IO, và nhiều thư viện khác. Nó cũng hỗ trợ xây dựng các ứng dụng hướng sự kiện thời gian thực và ứng dụng mạng.
 
-CÒN VỚI NODEJS: khi một request được gửi đến, server bắt đầu xử lý nó. Nếu nó gặp phải phép toán I/O, thay vì đợi cho phép toán này kết thúc, nó sẽ đăng ký một callback trước khi tiếp tục xử lý event tiếp theo. Khi phép toán I/O kết thúc, server sẽ chạy callback và tiếp tục làm việc trên request ban đầu.
-Như vậy có một loạt các hoạt động asynchronous (non-blocking) xảy ra đồng thời. Mô hình hoạt động này của Node giúp server có thể xử lý một lượng lớn kết nối đến đồng thời đến server.
+
+![node-flow](img/node-flow.png)
+
+
+Tóm lại, Node.js là một môi trường thực thi mã JavaScript phía máy chủ sử dụng JavaScript Engine V8 và mô hình lập trình sự kiện không chặn. Nó cho phép xử lý các yêu cầu không đồng bộ và xây dựng ứng dụng web mạnh mẽ.
+
 
 ## 💛 Những ứng dụng nên viết bằng Node.JS ?
 
@@ -86,11 +90,11 @@ Một số công ty lớn sử dụng nền tảng này gồm có:
 
 ## 💛 Cài đặt
 
-Getting Started: https://nodejs.org/en/
+Getting Started: <https://nodejs.org/en/>
 
-Installing Node on Linux / MacOS: https://nodejs.org/en/download/
+Installing Node on Linux / MacOS: <https://nodejs.org/en/download/>
 
-Installing Node on Windows: https://nodejs.org/en/download/
+Installing Node on Windows: <https://nodejs.org/en/download/>
 
 ## 💛 Run With Node
 
@@ -125,7 +129,7 @@ server.listen(port, hostname, () => {
 // 5. Mở trình duyệt web và truy cập vào địa chỉ "http://localhost:3000".
 ```
 
-Khi truy cập vào địa chỉ "http://localhost:3000", trang web sẽ hiển thị "Hello World". Đây chỉ là một ví dụ đơn giản về Node.js, nhưng nó cho thấy cách mà Node.js có thể được sử dụng để tạo các ứng dụng web và các dịch vụ máy chủ.
+Khi truy cập vào địa chỉ "<http://localhost:3000>", trang web sẽ hiển thị "Hello World". Đây chỉ là một ví dụ đơn giản về Node.js, nhưng nó cho thấy cách mà Node.js có thể được sử dụng để tạo các ứng dụng web và các dịch vụ máy chủ.
 
 ## 💛 Node Modules
 

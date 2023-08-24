@@ -4,16 +4,14 @@
 
 - Auto Rename (Jun Han)
 - Auto Close Tag (Jun Han)
+- Auto Import
 - ESLint (Microsoft)
 - IntelliCode (Microsoft)
 - JavaScript (ES6) code snippets (charalampos karypidis)
 - ES7+ React/Redux/React-Native snippets (dsznajder)
-- npm (Microsoft)
-- npm Intellisense (Christian Kohler)
 - Prettier - Code formatter (Prettier)
 - TSLint (Microsoft)
 - Typescript React code snippets (infeng)
-- Vscode-styled-components (Julien Poissonnier)
 - Better Comments (Aaron Bond)
 - Color Highlight (Sergii N)
 - Icon: Material Icon Theme (Philipp Kief)
@@ -85,7 +83,7 @@ The JavaScript for/of statement loops through the values of an iterable objects.
 
 for/of lets you loop over data structures that are iterable such as Arrays, Strings, Maps, NodeLists, and more.
 
-**🔹Looping over an Array**
+** 🔹Looping over an Array**
 
 ```js
 const cars = ['BMW', 'Volvo', 'Mini'];
