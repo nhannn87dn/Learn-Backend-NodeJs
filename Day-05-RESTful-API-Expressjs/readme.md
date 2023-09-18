@@ -6,10 +6,10 @@ Xây dựng cấu trúc dự án RESTFul-APIs với Node.Js và Express CHUẨN 
 
 ## 💛 Tạo RESTFul-APIs
 
-- Categories
+Hoàn thiện route, controller, model, service cho:
+
+- Category
 - Brand
-- Supplier
 - Customer
-- Shipper
-- Products
+- Product
 - Order
