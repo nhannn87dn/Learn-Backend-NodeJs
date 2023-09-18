@@ -1,6 +1,4 @@
-# Cài đặt môi trường lập trình
+# Session 1 - Getting Started
 
-- Cài đặt Git-SCM & Bash (Làm việc với Source Control, Version Control)
-- Hướng dẫn viết lệnh Command Line trên Windows, MacOS, Linux
-- Cài đặt NodeJS, MongoDB, NPM, Yarn
-- Kiến thức về cơ bản ESNEXT
+1. [Prerequisites](0.Prerequisites/readme.md)
+2. [NodeJS Basic](1.NodeJs/readme.md)

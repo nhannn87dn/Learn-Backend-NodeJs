@@ -1,68 +1,57 @@
-# Folder structure using Express and Node.Js
+# Asynchronous programming and API server
 
 Nội dung chính trong bài:
 
-> Xây dựng cấu trúc RESTFul-APIs
-
-> Middleware trong Express
-
-> Express middleware phổ biến
-
-> Errors Handling App
-
-> Logging Requests
-
-> Chuẩn hóa Response API
+- Callback and Error-First Pattern
+- Promises and Async/Await
+- Xây dựng cấu trúc RESTFul-APIs
+- Middleware trong Express
+- Express middleware phổ biến
+- Errors Handling App
+- Logging Requests
+- Chuẩn hóa Response API
 
 =====================
 
-Xây dựng cấu trúc dự án RESTFul-APIs với Node.Js và Express CHUẨN đi làm
+## 💛 Callback and Error-First Pattern
 
----
+Xem ở đây [Callbacks](2.Async-Await/callback-deep.md)
 
-**Dự Án E-Commerce**
+## 💛 Promises and Async/Await
 
----
+Xem ở đây [Promises](2.Async-Await/Promises.md)
 
-Tạo một thư mục dự án ví dụ: e-commerce-restful-apis
+Xem ở đây [Async/Await](2.Async-Await/async-await.md)
 
-Khởi tạo dự án
+## 💛 Xây dựng cấu trúc RESTFul-APIs
 
-```bash
-npm init
-```
+RESTful API là một loại giao diện lập trình ứng dụng (API) được thiết kế theo các nguyên tắc của kiến trúc REST (Representational State Transfer). REST là một kiểu kiến trúc phần mềm dựa trên giao thức HTTP và các tiêu chuẩn web liên quan khác.
 
-## 💛 Xây dựng cấu trúc thư mục
+RESTful API cho phép các ứng dụng giao tiếp và trao đổi dữ liệu với nhau qua mạng. Nó sử dụng các phương thức HTTP như GET, POST, PUT và DELETE để thực hiện các hoạt động CRUD (Create, Read, Update, Delete) trên dữ liệu.
 
-Đối với ExpressJs chưa có một quy chuẩn nào để tạo ra một cấu trúc dự án CHUẨN bắt buộc, dưới đây là 3 mô hình từ mà bạn có thể tham khảo
+| Method    | Semantics     |
+|-----------|---------------|
+| POST      | Create        |
+| GET       | Read/Retrieve |
+| PUT/PATCH | Update        |
+| DELETE    | Delete        |
+| --------  | --------      |
 
-### Mô hình Junior
+Các RESTful API được thiết kế để hoạt động dựa trên nguyên tắc "stateless" (không lưu trạng thái). Điều này có nghĩa là mỗi yêu cầu từ client đến server phải chứa tất cả thông tin cần thiết để server hiểu và xử lý yêu cầu, không phụ thuộc vào bất kỳ trạng thái trước đó nào. Server không lưu trạng thái của client giữa các yêu cầu.
 
-Dành cho người mới học, đơn giản, dể tiếp cận để biết được cách tạp ra một API.
+Một RESTful API thường sử dụng các đường dẫn URL để xác định tài nguyên và các phương thức HTTP để xác định hành động trên tài nguyên đó. Các dữ liệu thường được truyền qua các định dạng như JSON hoặc XML.
 
-```code
-e-commerce-restful-apis/
-├─ node_modules/
-├─ public/
-├─ src/
-│  ├─ models/
-│  ├─ helpers/
-│  ├─ validations/
-│  ├─ routes/
-│  ├─ app.js
-├─ .env
-├─ server.js
-├─ .gitignore
-├─ package.json
-├─ README.md
-```
+RESTful API đã trở thành một phương pháp phổ biến để xây dựng các dịch vụ web và ứng dụng di động, vì nó đơn giản, linh hoạt và dễ dùng.
 
-### Mô hình Middle
+Từng bước xây dựng dự án theo mô hình
 
-Theo mô hình sát với thực tế hơn, có phiển bản API
 
-```code
-e-commerce-restful-apis/
+### 🔶 1: Cấu trúc dự án
+
+Phát triển dự án theo cấu trúc saum sử dụng TypeScript:
+
+```html
+project-restful-apis/
 ├─ node_modules/
 ├─ public/
 ├─ src/
@@ -76,33 +65,18 @@ e-commerce-restful-apis/
 │  ├─ routes/
 │  │  ├─ v1/
 │  │  ├─ v2/
-│  ├─ app.js
+│  ├─ app.ts
 ├─ .env
-├─ server.js
+├─ server.ts
 ├─ .gitignore
 ├─ package.json
 ├─ README.md
 
 ```
 
-### Mô hình Senior
+Cài đặt xem lại ở bài học trước với TypeScript
 
-Giúp bạn maintenance, mở rộng nhiều phiển bản APIs
 
-```code
-e-commerce-restful-apis/
-├─ node_modules/
-├─ src/
-│  ├─ v1/
-│  ├─ v2/
-│  ├─ app.js
-├─ .env
-├─ server.js
-├─ .gitignore
-├─ package.json
-├─ README.md
-
-```
 
 **/Controllers** - Thư mục này sẽ chứa tất cả các chức năng dể viết các API của bạn. Cách đặt tên: xxxxx.controller.js trong đó xxx là nhiệm vụ thôi, ví dụ: login.controller.js
 
@@ -126,87 +100,33 @@ e-commerce-restful-apis/
 
 **.gitignore** - Những file mà bạn không muốn đẩy sang git
 
-## 💛 Follow cách hoạt động của mô hình cấu trúc dự án
+### 🔶 Follow cách hoạt động của mô hình cấu trúc dự án
 
-Từng bước xây dựng dự án theo mô hình
+![follow](img/flow.png)
 
-![flow](img/flow.png)
+### 🔶 Tạo một API đầu tiên
 
-### 1: Khởi tạo dự án
+Thông tường trong thực tế một API sẽ có địa chỉ
 
-```bash
-npm init -y
+```html
+https://domain.com/api/v1/end-points
+```
+Dựa vào đó người ta nhận ra ngay được đó là hệ thống RestFul API có phiên bản.
+
+Bây giờ chúng ta tạo một end-point có cấu trúc đường dẫn tương tự trên.
+
+
+```html
+https://localhost:9000/api/v1/users
 ```
 
-- Tạo biến môi trường .env
+Trả về danh sách người dùng Users
 
-```bash
-NODE_ENV= development
-PORT= 8686
 
-```
-
-- Tạo thư mục dự án
-- Tạo server Express src/app.js
-
-```bash
-npm i express --save
-```
+Tại src/routes tạo file users.route.ts
 
 ```js
-const express = require('express');
-const app = express();
-
-module.exports = app;
-```
-
-- Tạo file server.js là entry point dự án
-
-```bash
-npm i dotenv --save
-```
-
-```js
-require('dotenv').config();
-const app = require('./src/app');
-
-const { PORT } = process.env || 8686;
-
-const server = app.listen(PORT, () => {
-  console.log(`WSV start with port ${PORT}`);
-});
-```
-
-- Cấu hình lại package.json
-
-```bash
-npm i nodemon --dev
-```
-
-nodemon là một tool giúp server tự khởi động lại khi thay đổi code trong quá trình dev.
-
-```js
-"scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
-  },
-```
-
-Start ứng dụng
-
-```bash
-npm run dev
-```
-
-### 🔶 2: Tạo Route đầu tiên
-
-- "api/": xem phiên bản API hiện tại
-- "api/users": xem danh sách Users
-
-Tại src/routes tạo file index.js
-
-```js
-const express = require('express');
+import express, {Request, Response } from 'express';
 const router = express.Router();
 
 const users = [
@@ -215,34 +135,26 @@ const users = [
   { id: 3, name: 'Tim', email: 'tim@gmail.com' },
 ];
 
-//Response version API
-router.get('/', async (req, res) => {
-  res.status(200).json({ version: '1.0' });
-});
 
 // Get all users
-router.get('/users', async (req, res) => {
+router.get('/', async (req: Request, res: Response) => {
   res.status(200).json(users);
 });
 
 module.exports = router;
 ```
 
-
-Gắn router vào app.js
+Gắn router vào app.ts
 
 ```js
-const FirstRouter = require('./routes/index');
-//Các API sẽ bắt đầu bằng api
-app.use('/api', FirstRouter);
-
-//localhost:8686/api
-//localhost:8686/api/users
+const usersRouter = require('./routes/users.route');
+//API sẽ bắt đầu bằng api/users
+app.use('/api/users', usersRouter);
 ```
 
-### 🔶 3: Tự Tạo ra một Middleware
+## 💛 3 Tổng quan Middleware
 
-#### 🌻 3.0 Middleware là gì ?
+### 🌻 3.0 Middleware là gì ?
 
 Trong lấp trình ứng dụng WEB, Middleware sẽ đóng vai trò trung gian giữa request/response (tương tác với người dùng) và các xử lý logic bên trong web server.
 
@@ -272,7 +184,7 @@ Trong Express, có 5 kiểu middleware có thể sử dụng :
 - Built-in middleware (middleware sẵn có)
 - Third-party middleware (middleware của bên thứ ba)
 
-#### 🌻 3.1 Cách để tạo ra một middleware theo nhu cầu
+## 🌻 3.1 Cách để tạo ra một middleware theo nhu cầu
 
 Tại thư mục middleware, tạo một file tên: mylogger.middleware.js
 
@@ -290,7 +202,7 @@ module.exports = function (req, res, next) {
 };
 ```
 
-#### 🌻 3.2 Gắn middleware vào Application
+### 🌻 3.2 Gắn middleware vào Application
 
 Tại express app
 
@@ -301,11 +213,11 @@ const myLogger require('./middlewares/mylogger.middleware');
 app.use(myLogger);
 ```
 
-#### 🌻 3.3 Lớp middleware
+### 🌻 3.3 Lớp middleware
 
 Tạo thêm 2 ví dụ về middleware nữa để thấy được sự chuyển tiếp giữa các lớp middleware
 
-### 🔶 4: Express middleware
+### 🌻 3.4 Express middleware
 
 Sử dụng các thư viện phổ biến để làm middleware cho src/app.js
 
@@ -318,7 +230,7 @@ Tham khảo: <https://expressjs.com/en/resources/middleware.html>
 - body-parser
 - ...
 
-### 🔶5: Errors Handling App
+## 💛 5: Errors Handling App
 
 - Lỗi 40x
 - Lỗi 50x
@@ -357,7 +269,7 @@ app.use(function (err, req, res, next) {
 });
 ```
 
-### 🔶 6: Logging Requests
+## 💛 6: Logging Requests
 
 - Ghi log lại mỗi requests gửi lên server express
 
@@ -402,7 +314,7 @@ var accessLogStream = rfs.createStream('access.log', {
 app.use(morgan('combined', { stream: accessLogStream }));
 ```
 
-### 🔶 7: Chuẩn hóa định dạng JSON API trả về
+## 💛 7: Chuẩn hóa định dạng JSON API trả về
 
 Không có bất kỳ quy tắc nào để ràng buộc cách bạn trả về một chuổi JSON có cấu trúc như thế nào cả.
 

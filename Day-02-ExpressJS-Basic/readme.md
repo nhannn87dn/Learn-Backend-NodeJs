@@ -12,7 +12,7 @@ Trong bài học này chúng ta tìm hiểu:
 
 ==============================
 
-## 💛 1. Giới thiệu về ExpressJs
+## 💛 1. ExpressJs Framework
 
 ExpressJS là một framework ứng dụng web có mã nguồn mở và miễn phí được xây dựng trên nền tảng Node.js. ExpressJS được sử dụng để thiết kế và phát triển các ứng dụng web một cách nhanh chóng.
 
@@ -26,26 +26,103 @@ ExpressJS Rất dễ học, chỉ cần bạn biết JavaScript, bạn sẽ khô
 
 
 ```bash
-npm install express --save
+npm install express dotenv --save
+#hoặc
+yarn add express dotenv
 ```
 
 Tại thư mục dự án tạo một file app.js với nội dung sau
 
 ```js
 const express = require('express');
+const dotenv = require('dotenv');
+dotenv.config();
+
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 9000;
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Express Server');
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`[server]: Server is running at http://localhost:${PORT}`);
 });
 ```
 
-Như vậy chỉ vài dòng code đơn giản , bản đã tạo được một server chạy trên môi trường NodeJs
+Như vậy chỉ vài dòng code đơn giản , bản đã tạo được một server chạy trên môi trường NodeJs với cú pháp Javascript
+
+**Cách cài đặt với TypeScript**
+
+Cài thêm
+
+```bash
+npm i -D typescript @types/express @types/node
+#or
+yarn add -D typescript @types/express @types/node
+```
+
+Tạo file tsconfig.json
+
+```bash
+npx tsc --init
+```
+Sau đó mở file tsconfig.json và tìm sửa lại những thông tin sau:
+
+```text
+target: es2016
+module: commonjs
+strict: true
+esModuleInterop: true
+skipLibCheck: true
+forceConsistentCasingInFileNames: true
+```
+
+và sửa thư mục Builder
+
+```json
+{
+  "compilerOptions": {
+    "outDir": "./dist" //ở đây
+
+    // rest options remain same
+  }
+}
+```
+
+Cuối cùng chuyển tất cả các file .js sang .ts
+
+File App.ts
+
+```ts
+import express, { Express, Request, Response } from 'express';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const app: Express = express();
+const PORT = process.env.PORT || 9000;
+
+//Khách biết làm thêm types cho các tham số
+app.get('/', (req: Request, res: Response) => {
+  res.send('Express + TypeScript Server');
+});
+
+app.listen(PORT, () => {
+  console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
+});
+```
+
+
+**Cách cài đặt với express-generator**
+
+Ngoài cách này chúng ta còn có một cách dùng bộ cài có sẳn của Express.Js
+
+```bash
+npx express-generator
+```
+
+Cài xong nó sinh ra cho bạn một project với cấu trục thư mục sẳn.
 
 ## 💛 2. Route và HTTP Methods
 
@@ -191,50 +268,54 @@ HTTP Request có cấu tạo gồm ba phần chính. Đó là request line, head
 
 3. Request Body: nội dung mà request mang theo để gửi lên server
 
-### 🚩 Truy cập đến body gửi lên từ request
+### 🚩 Handling Parameters
 
-```js
-router.post('/', (req, res) => {
-  const data = req.body;
-  console.log('data:', data);
+Trong Express, "handling parameters" (xử lý tham số) đề cập đến cách lấy và sử dụng các tham số được truyền trong các yêu cầu HTTP. 
 
-  // Code here ...
+Khi Client gửi một REQUEST lên Server thì nó mang theo 3 khối thông tin sau:
 
-  res.sendStatus(200);
+1. Route Parameters: Được sử dụng để trích xuất thông tin từ URL. Chúng được xác định trong một tuyến đường (route) bằng cách sử dụng một mẫu (pattern) theo định dạng `/:parameter`. Ví dụ, `/:id` là một route parameter có tên là "id". Để truy cập giá trị của route parameter trong xử lý yêu cầu, bạn có thể sử dụng thuộc tính `req.params`.
+
+2. Query Parameters: Được truyền dưới dạng chuỗi truy vấn (query string) trong URL sau dấu "?" và có thể chứa nhiều cặp key-value. Ví dụ: `/users?name=john&age=25`. Để truy cập các query parameter trong xử lý yêu cầu, bạn có thể sử dụng thuộc tính `req.query`.
+
+3. Request Body: Được sử dụng để truyền dữ liệu phức tạp hoặc lớn hơn thông qua yêu cầu HTTP POST hoặc PUT. Dữ liệu này thường được gửi dưới dạng JSON hoặc form data. Để truy cập body parameters, bạn cần sử dụng các middleware như `body-parser` hoặc `express.json()`. Sau đó, bạn có thể truy cập dữ liệu bằng cách sử dụng thuộc tính `req.body`.
+
+Ví dụ:
+
+```javascript
+const express = require('express');
+const app = express();
+
+// Route parameter
+app.get('/users/:id', (req, res) => {
+  const userId = req.params.id;
+  // Xử lý tham số "id"
+  res.send(`User ID: ${userId}`);
+});
+
+// Query parameters
+app.get('/users', (req, res) => {
+  const name = req.query.name;
+  const age = req.query.age;
+  // Xử lý các query parameter
+  res.send(`Name: ${name}, Age: ${age}`);
+});
+
+// Request body
+app.use(express.json()); // Middleware để xử lý JSON body
+app.post('/users', (req, res) => {
+  const user = req.body;
+  // Xử lý dữ liệu từ request body
+  res.send(`Created user: ${JSON.stringify(user)}`);
+});
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
 });
 ```
 
-### Truy cập đến parameter gửi lên từ request
+Trong ví dụ trên, chúng ta đã sử dụng Express để định nghĩa ba tuyến đường khác nhau để xử lý các tham số theo các cách khác nhau.
 
-```js
-router.patch('/:id', (req, res) => {
-  const { id } = req.params;
-  console.log('id:', id);
-
-  // Code here ...
-
-  res.sendStatus(200);
-});
-```
-
-### Truy cập đến query string gửi lên từ request
-
-```js
-router.get('/search/query', (req, res) => {
-  const { query } = req;
-  console.log('query:', query);
-
-  // Code here ...
-
-  res.sendStatus(200);
-});
-```
-
-query example:
-
-```code
-http://localhost:9000/customers/search/query?name=peter&age=30
-```
 
 ## 💛 HTTP Response
 
@@ -397,3 +478,4 @@ app.get('/', function (req, res) {
 
 Tương tự cho các trang còn lại
 
+Bạn có thể nhúng Tailwind Css, Bootstrap, jQuery vào các templates trên một cách bình thường như bên HTML

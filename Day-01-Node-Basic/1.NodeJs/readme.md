@@ -4,7 +4,7 @@
 
 Node.js là một nền tảng phát triển ứng dụng được xây dựng trên JavaScript, được phát triển bởi Ryan Dahl và được phát hành lần đầu tiên vào năm 2009. Node.js được xây dựng dựa trên nền tảng Chrome V8 JavaScript engine của Google và được thiết kế để xử lý các ứng dụng web theo cách không đồng bộ (asynchronous) và đồng thời có thể thực thi trên máy chủ.
 
-![node](img/node-what.png)
+![node](img/node-intro.png)
 
 Node.js đã trở thành một trong những công nghệ nổi bật nhất trong lĩnh vực phát triển web và được sử dụng rộng rãi để xây dựng các ứng dụng web như các trang web động (dynamic web pages), các ứng dụng real-time và các ứng dụng web theo mô hình client-server.
 
@@ -12,20 +12,42 @@ Sau khi được phát hành lần đầu tiên vào năm 2009, Node.js nhanh ch
 
 ## 💛 Node.js hoạt động như thế nào?
 
-Ý tưởng chính của Node js là sử dụng non-blocking, hướng sự vào ra dữ liệu thông qua các tác vụ thời gian thực một cách nhanh chóng. Bởi vì, Node js có khả năng mở rộng nhanh chóng, khả năng xử lý một số lượng lớn các kết nối đồng thời bằng thông lượng cao.
+Ý tưởng chính của Node js là sử dụng non-blocking, hướng sự vào ra dữ liệu thông qua các tác vụ thời gian thực một cách nhanh chóng. Bởi vì, Node js có khả năng mở rộng nhanh chóng, khả năng xử lý một số lượng lớn các kết nối đồng thời bằng thông lượng cao. 
 
 Nếu như các ứng dụng web truyền thống, các request tạo ra một luồng xử lý yêu cầu mới và chiếm RAM của hệ thống thì việc tài nguyên của hệ thống sẽ được sử dụng không hiệu quả. Chính vì lẽ đó giải pháp mà Node js đưa ra là sử dụng luồng đơn (Single-Threaded), kết hợp với non-blocking I/O để thực thi các request, cho phép hỗ trợ hàng chục ngàn kết nối đồng thời.
 
-![](img/node-active.webp)
+![nodejs](img/node-proceess.bmp)
 
-_Mô hình hoạt động của Node.js_
 
-Để cho dễ hiểu, khi bạn connect đến một server truyền thống, chẳng hạn Apache, nó sẽ sinh ra một thread mới để xử lý request. Ở các ngôn ngữ như PHP hay Ruby, mỗi một phép toán I/O (ví dụ truy cập database) sẽ chặn execution trên code của bạn cho đến khi phép toán đó hoàn thành. Nói cách khác, server sẽ đợi cho đến khi database được duyệt xong mới xử lý kết quả. Nếu có những request mới, server lại tiếp tục sinh những thread mới để xử lý chúng. Điều này dẫn đến nguy cơ kém hiệu quả, khi một lượng lớn thread được tạo ra sẽ khiến cho hệ thống trở nên chậm chạp, tệ hơn nữa có thể khiến site bị sập. Cách thông thường để giải quyết tình trạng này là bổ sung thêm server.
+## 💛 Giới thiệu về Event Loop
 
-![](img/node-flow.png)
+Event loop trong Node.js là một thành phần quan trọng trong kiến trúc single-threaded (đơn luồng) của nó. Nó cho phép Node.js xử lý nhiều yêu cầu đồng thời mà không cần tạo ra các luồng bổ sung.
 
-CÒN VỚI NODEJS: khi một request được gửi đến, server bắt đầu xử lý nó. Nếu nó gặp phải phép toán I/O, thay vì đợi cho phép toán này kết thúc, nó sẽ đăng ký một callback trước khi tiếp tục xử lý event tiếp theo. Khi phép toán I/O kết thúc, server sẽ chạy callback và tiếp tục làm việc trên request ban đầu.
-Như vậy có một loạt các hoạt động asynchronous (non-blocking) xảy ra đồng thời. Mô hình hoạt động này của Node giúp server có thể xử lý một lượng lớn kết nối đến đồng thời đến server.
+Trong Node.js, mã JavaScript chạy trong một luồng duy nhất, còn được gọi là luồng chính (main thread). Tuy nhiên, để xử lý các yêu cầu I/O không đồng bộ, như đọc và ghi vào tệp, gọi API mạng hoặc truy vấn cơ sở dữ liệu, Node.js sử dụng mô hình sự kiện và non-blocking I/O.
+
+
+
+![node-flow](img/node-flow.png)
+
+
+
+Client gửi các REQUEST đến SERVER để tương tác với ứng dụng web. Các REQUESTs này có thể là Blocking hoặc Non-Blocking
+
+- Truy vấn dữ liệu
+- Xóa dữ liệu
+- Cập nhật dữ liệu
+
+Node.JS tiếp nhận các Request gửi đến và thêm chúng vào hàng đợi Event Queue
+
+Sau đó các yêu cầu (Request) này được xử lý lần lượt thông qua Event Loop.
+
+Event loop là một vòng lặp vô tận để kiểm tra các sự kiện và thực hiện các callback tương ứng. Nó cũng điều khiển việc thực hiện các tác vụ khác trong chương trình Node.js, như đọc và ghi từ các I/O, gửi và nhận dữ liệu từ mạng, v.v.
+
+Có hai loại sự kiện mà event loop xử lý: sự kiện đồng bộ và sự kiện bất đồng bộ
+
+- Sự kiện đồng bộ được xử lý ngay lập tức trong vòng lặp event loop
+- Sự kiện bất đồng bộ được đưa vào một hàng đợi và xử lý sau khi các sự kiện đồng bộ đã được xử lý xong
+
 
 ## 💛 Những ứng dụng nên viết bằng Node.JS ?
 
@@ -86,11 +108,11 @@ Một số công ty lớn sử dụng nền tảng này gồm có:
 
 ## 💛 Cài đặt
 
-Getting Started: https://nodejs.org/en/
+Getting Started: <https://nodejs.org/en/>
 
-Installing Node on Linux / MacOS: https://nodejs.org/en/download/
+Installing Node on Linux / MacOS: <https://nodejs.org/en/download/>
 
-Installing Node on Windows: https://nodejs.org/en/download/
+Installing Node on Windows: <https://nodejs.org/en/download/>
 
 ## 💛 Run With Node
 
@@ -125,7 +147,7 @@ server.listen(port, hostname, () => {
 // 5. Mở trình duyệt web và truy cập vào địa chỉ "http://localhost:3000".
 ```
 
-Khi truy cập vào địa chỉ "http://localhost:3000", trang web sẽ hiển thị "Hello World". Đây chỉ là một ví dụ đơn giản về Node.js, nhưng nó cho thấy cách mà Node.js có thể được sử dụng để tạo các ứng dụng web và các dịch vụ máy chủ.
+Khi truy cập vào địa chỉ "<http://localhost:3000>", trang web sẽ hiển thị "Hello World". Đây chỉ là một ví dụ đơn giản về Node.js, nhưng nó cho thấy cách mà Node.js có thể được sử dụng để tạo các ứng dụng web và các dịch vụ máy chủ.
 
 ## 💛 Node Modules
 
@@ -237,6 +259,7 @@ const math = require('./math');
 // Method 2
 const { add, subtract } = require('./math');
 ```
+
 
 ## 💛 Tìm hiểu các Module thường sử dụng
 

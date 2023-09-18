@@ -2,22 +2,15 @@
 
 ## 1. Cài đặt các Extensions cho Visual Studio Code
 
-- Auto Rename (Jun Han)
-- Auto Close Tag (Jun Han)
 - ESLint (Microsoft)
 - IntelliCode (Microsoft)
 - JavaScript (ES6) code snippets (charalampos karypidis)
 - ES7+ React/Redux/React-Native snippets (dsznajder)
-- npm (Microsoft)
-- npm Intellisense (Christian Kohler)
 - Prettier - Code formatter (Prettier)
 - TSLint (Microsoft)
 - Typescript React code snippets (infeng)
-- Vscode-styled-components (Julien Poissonnier)
 - Better Comments (Aaron Bond)
 - Color Highlight (Sergii N)
-- Icon: Material Icon Theme (Philipp Kief)
-- Theme: Dracula Official (Dracula Theme)
 
 ## 2. JavaScript (ES Next)
 
@@ -77,62 +70,6 @@ const x = (x, y) => x * y;
 const x = (x, y) => {
   return x * y;
 };
-```
-
-## 🔶 The For/Of Loop
-
-The JavaScript for/of statement loops through the values of an iterable objects.
-
-for/of lets you loop over data structures that are iterable such as Arrays, Strings, Maps, NodeLists, and more.
-
-**🔹Looping over an Array**
-
-```js
-const cars = ['BMW', 'Volvo', 'Mini'];
-// Method 1:
-for (let car of cars) {
-  console.log(car);
-}
-
-// Method 2:
-for (let i in cars) {
-  console.log(cars[i]);
-}
-```
-
-**🔹Looping over a String**
-
-```js
-let language = 'JavaScript';
-let text = '';
-
-for (let x of language) {
-  text += x + ' ';
-}
-```
-
-**🔹Looping over properties of an Object:**
-
-```js
-const person = { fname: 'John', lname: 'Doe', age: 25 };
-
-let text = '';
-for (let x in person) {
-  text += person[x];
-}
-```
-
-**🔹Array.forEach()**
-
-The forEach() method calls a function (a callback function) once for each array element.
-
-```js
-const numbers = [45, 4, 9, 16, 25];
-
-let txt = '';
-numbers.forEach((value, index) => {
-  console.log(value);
-});
 ```
 
 ## 🔶 Array.map()
@@ -212,293 +149,118 @@ const myCar1 = new Car('Ford', 2014);
 const myCar2 = new Car('Audi', 2019);
 ```
 
-## 🔶 JavaScript Promises
+## 🔶 Destructing Arrays
 
-- A Promise is a JavaScript object that links "Producing Code" and "Consuming Code".
-- "Producing Code" can take some time and "Consuming Code" must wait for the result.
 
 ```js
-const myPromise = new Promise(function (resolve, reject) {
-  setTimeout(function () {
-    resolve('I love You !!');
-  }, 3000);
-});
-
-myPromise.then(function (value) {
-   console.log(value)
-});
+const vehicles = ['mustang', 'f-150', 'expedition'];
+const [car, truck, suv] = vehicles;
 ```
 
-## 🔶 Default Parameter Values
-
-ES6 allows function parameters to have default values.
+If we only want the car and suv we can simply leave out the truck but keep the comma:
 
 ```js
-function myFunction(x, y = 10) {
-  // y is 10 if not passed or undefined
-  return x + y;
-}
-myFunction(5); // will return 15
+const vehicles = ['mustang', 'f-150', 'expedition'];
+const [car,, suv] = vehicles;
 ```
 
-## 🔶 Function Rest Parameter
-
-The rest parameter (...) allows a function to treat an indefinite number of arguments as an array:
+Destructuring comes in handy when a function returns an array:
 
 ```js
-function sum(...args) {
-  let sum = 0;
-  for (let arg of args) {
-    sum += arg;
-  }
+function calculate(a, b) {
+  const add = a + b;
+  const subtract = a - b;
+  const multiply = a * b;
+  const divide = a / b;
 
-  return sum;
+  return [add, subtract, multiply, divide];
 }
 
-let x = sum(4, 9, 16, 25, 29, 100, 66, 77);
+const [add, subtract, multiply, divide] = calculate(4, 7);
 ```
 
-## 🔶 String.includes()
+## 🔶 Destructing Objects
 
-The includes() method returns true if a string contains a specified value, otherwise false:
-
-```js
-let text = 'Hello world, welcome to the universe.';
-text.includes('world'); // Returns true
-```
-
-## 🔶 String.startsWith()
-
-The startsWith() method returns true if a string begins with a specified value, otherwise false:
+Có một object
 
 ```js
-let text = 'Hello world, welcome to the universe.';
-
-text.startsWith('Hello'); // Returns true
-```
-
-## 🔶 String.endsWith()
-
-The endsWith() method returns true if a string ends with a specified value, otherwise false:
-
-```js
-var text = 'John Doe';
-text.endsWith('Doe'); // Returns true
-```
-
-## 🔶 Array.from()
-
-The Array.from() method returns an Array object from any object with a length property or any iterable object.
-
-```js
-Array.from('ABCDEFG'); // Returns [A,B,C,D,E,F,G]
-```
-
-## 🔶 Array keys()
-
-The keys() method returns an Array Iterator object with the keys of an array.
-
-```js
-const fruits = ['Banana', 'Orange', 'Apple', 'Mango'];
-const keys = fruits.keys();
-
-let text = '';
-for (let x of keys) {
-  text += x + '<br>';
+const vehicleOne = {
+  brand: 'Ford',
+  model: 'Mustang',
+  type: 'car',
+  year: 2021, 
+  color: 'red'
 }
 ```
 
-## 🔶 Array find()
+Để lấy được tên Ford từ object trên
 
-The find() method returns the value of the first array element that passes a test function.
-
-This example finds (returns the value of ) the first element that is larger than 18:
+Cách cũ: 
 
 ```js
-const numbers = [4, 9, 16, 25, 29];
-let first = numbers.find((value, index, array) => {
-  return value > 18;
-});
+let brand  = vehicleOne.brand;
 ```
 
-> **Note that the function takes 3 arguments:**
->
-> - The item value
->
-> - The item index
->
-> - The array itself
-
-## 🔶 Array findIndex()
-
-The findIndex() method returns the index of the first array element that passes a test function.
-
-This example finds the index of the first element that is larger than 18:
+Với Destructing
 
 ```js
-const numbers = [4, 9, 16, 25, 29];
-let first = numbers.findIndex(myFunction);
+let {brand} = vehicleOne;
+```
 
-function myFunction(value, index, array) {
-  return value > 18;
+
+Sử dụng với hàm
+
+```js
+
+myVehicle(vehicleOne);
+
+// old way
+function myVehicle(vehicle) {
+  const message = 'My ' + vehicle.type + ' is a ' + vehicle.color + ' ' + vehicle.brand + ' ' + vehicle.model + '.';
 }
 ```
 
-> **Note that the function takes 3 arguments:**
->
-> - The item value
->
-> - The item index
->
-> - The array itself
+Với destructuring
 
-## 🔶 JavaScript Array.includes()
-
-ECMAScript 2016 introduced Array.prototype.includes to arrays. This allows us to check if an element is present in an array:
 
 ```js
-const fruits = ['Banana', 'Orange', 'Apple', 'Mango'];
-
-fruits.includes('Mango'); // is true
+function myVehicle({type, color, brand, model}) {
+  const message = 'My ' + type + ' is a ' + color + ' ' + brand + ' ' + model + '.';
+}
 ```
 
-## 🔶 Modules
+## 🔶 ES6 Spread Operator
 
-> Learn more about Modules in: [JavaScript Modules](https://www.w3schools.com/js/js_modules.asp).
-
-Modules are imported in two differen ways:
-
-**🔹Import from named exports**
+The JavaScript spread operator (...) allows us to quickly copy all or part of an existing array or object into another array or object.
 
 ```js
-import { name, age } from './person.js';
+const numbersOne = [1, 2, 3];
+const numbersTwo = [4, 5, 6];
+const numbersCombined = [...numbersOne, ...numbersTwo];
 ```
 
-**🔹Import from default exports**
+Assign the first and second items from numbers to variables and put the rest in an array:
+
 
 ```js
-import message from './message.js';
+const numbers = [1, 2, 3, 4, 5, 6];
+const [one, two, ...rest] = numbers
 ```
 
-## 🔶 JavaScript Async Functions
+Combine these two objects:
 
 ```js
-async function myDisplay() {
-  let myPromise = new Promise(function (myResolve, myReject) {
-    setTimeout(function () {
-      myResolve('I love You !!');
-    }, 3000);
-  });
-  document.getElementById('demo').innerHTML = await myPromise;
+const myVehicle = {
+  brand: 'Ford',
+  model: 'Mustang',
+  color: 'red'
 }
 
-myDisplay();
-```
+const updateMyVehicle = {
+  type: 'car',
+  year: 2021, 
+  color: 'yellow'
+}
 
-## 🔶 JavaScript Asynchronous Iteration
-
-ECMAScript 2018 added asynchronous iterators and iterables.
-
-With asynchronous iterables, we can use the await keyword in for/of loops.
-
-```js
-for await () {}
-```
-
-## 🔶 JavaScript Promise.finally
-
-ECMAScript 2018 finalizes the full implementation of the Promise object with Promise.finally:
-
-```js
-let myPromise = new Promise();
-
-myPromise.then();
-myPromise.catch();
-myPromise.finally();
-```
-
-
-## 🔶 JavaScript Object Rest Properties
-
-ECMAScript 2018 added rest properties.
-
-This allows us to destruct an object and collect the leftovers onto a new object:
-
-```js
-let { x, y} = { x: 1, y: 2, a: 3, b: 4 };
-
-let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };
-x; // 1
-y; // 2
-z; // { a: 3, b: 4 }
-```
-
-Other Examples:
-
-```js
-let arr1 = {x: 1, y: 2};
-let arr2 = {a: 3, b: 4};
-//Merge Object
-let arrMerge = {...arr1, ...arr2}
-
-//Add item to Object
-let arrAdd = {...arr1, a: 3}
-
-//Overwrite Object
-let arrOver = {...arr1, y: 3}
-
-```
-
-
-
-## 🔶 JavaScript slice
-
-The slice() method returns a shallow copy of a portion of an array into a new array object selected from start to end (end not included) where start and end represent the index of items in that array. The original array will not be modified
-
-```js
-const animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];
-
-console.log(animals.slice(2));
-// expected output: Array ["camel", "duck", "elephant"]
-
-console.log(animals.slice(2, 4));
-// expected output: Array ["camel", "duck"]
-
-console.log(animals.slice(1, 5));
-// expected output: Array ["bison", "camel", "duck", "elephant"]
-
-console.log(animals.slice(-2));
-// expected output: Array ["duck", "elephant"]
-
-console.log(animals.slice(2, -1));
-// expected output: Array ["camel", "duck"]
-
-console.log(animals.slice());
-// expected output: Array ["ant", "bison", "camel", "duck", "elephant"]
-```
-
-## 🔶 JavaScript splice()
-
-```js
-const months = ['Jan', 'March', 'April', 'June'];
-months.splice(1, 0, 'Feb');
-// inserts at index 1
-console.log(months);
-// expected output: Array ["Jan", "Feb", "March", "April", "June"]
-
-months.splice(4, 1, 'May');
-// replaces 1 element at index 4
-console.log(months);
-// expected output: Array ["Jan", "Feb", "March", "April", "May"]
-```
-
-## 🔶 JavaScript filter()
-
-```js
-const words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
-
-const result = words.filter(word => word.length > 6);
-
-console.log(result);
-// expected output: Array ["exuberant", "destruction", "present"]
+const myUpdatedVehicle = {...myVehicle, ...updateMyVehicle}
 ```
