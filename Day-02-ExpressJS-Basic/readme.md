@@ -22,107 +22,39 @@ Nói đến framework là nói đến nó có thể vừa đảm nhận vai trò
 
 ExpressJS Rất dễ học, chỉ cần bạn biết JavaScript, bạn sẽ không cần phải học một ngôn ngữ mới, giúp cho việc phát triển back-end dễ dàng hơn nhiều.
 
-**Cách cài đặt**
+### Cài đặt
 
+Sử dụng gói cài đặt có sẵn express-generator
 
-```bash
-npm install express dotenv --save
-#hoặc
-yarn add express dotenv
-```
-
-Tại thư mục dự án tạo một file app.js với nội dung sau
-
-```js
-const express = require('express');
-const dotenv = require('dotenv');
-dotenv.config();
-
-const app = express();
-const PORT = process.env.PORT || 9000;
-
-app.get('/', (req, res) => {
-  res.send('Express Server');
-});
-
-app.listen(PORT, () => {
-  console.log(`[server]: Server is running at http://localhost:${PORT}`);
-});
-```
-
-Như vậy chỉ vài dòng code đơn giản , bản đã tạo được một server chạy trên môi trường NodeJs với cú pháp Javascript
-
-**Cách cài đặt với TypeScript**
-
-Cài thêm
-
-```bash
-npm i -D typescript @types/express @types/node
-#or
-yarn add -D typescript @types/express @types/node
-```
-
-Tạo file tsconfig.json
-
-```bash
-npx tsc --init
-```
-Sau đó mở file tsconfig.json và tìm sửa lại những thông tin sau:
-
-```text
-target: es2016
-module: commonjs
-strict: true
-esModuleInterop: true
-skipLibCheck: true
-forceConsistentCasingInFileNames: true
-```
-
-và sửa thư mục Builder
-
-```json
-{
-  "compilerOptions": {
-    "outDir": "./dist" //ở đây
-
-    // rest options remain same
-  }
-}
-```
-
-Cuối cùng chuyển tất cả các file .js sang .ts
-
-File App.ts
-
-```ts
-import express, { Express, Request, Response } from 'express';
-import dotenv from 'dotenv';
-
-dotenv.config();
-
-const app: Express = express();
-const PORT = process.env.PORT || 9000;
-
-//Khách biết làm thêm types cho các tham số
-app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server');
-});
-
-app.listen(PORT, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
-});
-```
-
-
-**Cách cài đặt với express-generator**
-
-Ngoài cách này chúng ta còn có một cách dùng bộ cài có sẳn của Express.Js
+Tại thư mục gốc dự án bạn mở cửa sổ Terminal và nhập lệnh
 
 ```bash
 npx express-generator
 ```
 
-Cài xong nó sinh ra cho bạn một project với cấu trục thư mục sẳn.
+Sau khi cài xong, sinh ra cho bạn một dự án express với cấu trúc thư mục sẵn có
+
+```text
+├── app.js
+├── bin
+│   └── www
+├── package.json
+├── public
+│   ├── images
+│   ├── javascripts
+│   └── stylesheets
+│       └── style.css
+├── routes
+│   ├── index.js
+│   └── users.js
+└── views
+    ├── error.pug
+    ├── index.pug
+    └── layout.pug
+
+7 directories, 9 files
+```
+
 
 ## 💛 2. Route và HTTP Methods
 
@@ -283,8 +215,6 @@ Khi Client gửi một REQUEST lên Server thì nó mang theo 3 khối thông ti
 Ví dụ:
 
 ```javascript
-const express = require('express');
-const app = express();
 
 // Route parameter
 app.get('/users/:id', (req, res) => {
@@ -303,15 +233,14 @@ app.get('/users', (req, res) => {
 
 // Request body
 app.use(express.json()); // Middleware để xử lý JSON body
+
 app.post('/users', (req, res) => {
   const user = req.body;
   // Xử lý dữ liệu từ request body
   res.send(`Created user: ${JSON.stringify(user)}`);
 });
 
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-});
+
 ```
 
 Trong ví dụ trên, chúng ta đã sử dụng Express để định nghĩa ba tuyến đường khác nhau để xử lý các tham số theo các cách khác nhau.

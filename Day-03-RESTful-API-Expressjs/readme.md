@@ -5,9 +5,9 @@ Nội dung chính trong bài:
 - Callback and Error-First Pattern
 - Promises and Async/Await
 - Xây dựng cấu trúc RESTFul-APIs
+- Error handling
 - Middleware trong Express
 - Express middleware phổ biến
-- Errors Handling App
 - Logging Requests
 - Chuẩn hóa Response API
 
@@ -100,6 +100,112 @@ Cài đặt xem lại ở bài học trước với TypeScript
 
 **.gitignore** - Những file mà bạn không muốn đẩy sang git
 
+
+### 🔶Cài đặt dự án với TypeScript
+
+
+```bash
+npm init
+#hoặc
+yarn init
+```
+Để khởi tạo file package.json
+
+```bash
+npm install express dotenv --save
+#hoặc
+yarn add express dotenv 
+```
+
+Cài thêm
+
+```bash
+npm i -D typescript nodemon @types/express @types/node
+#or
+yarn add -D typescript nodemon @types/express @types/node
+```
+
+Tạo file tsconfig.json
+
+```bash
+npx tsc --init
+```
+Sau đó mở file tsconfig.json và tìm sửa lại những thông tin sau:
+
+```json
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "outDir": "dist/",
+    "strict": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
+
+```
+Tạo File src/App.ts
+
+```ts
+import express, { Express, Request, Response } from 'express';
+const app: Express = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).json({message: 'Express + TypeScript Server'});
+});
+
+export default app;
+
+```
+Tạo file server.ts ở thư mục gốc dự án
+
+```ts
+import dotenv from 'dotenv';
+import app from './src/app';
+
+dotenv.config();
+
+const PORT = process.env.PORT || 9000;
+
+app.listen(PORT, () => {
+    console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
+});
+```
+
+Cấu hình lại package.json
+
+```json
+ "scripts": {
+    "build": "npx tsc -p",
+    "start": "node app.ts",
+    "dev": "nodemon app.ts"
+  },
+```
+Tạo file .env ở thư mục gốc dự án
+
+```env
+NODE_ENV= development
+PORT= 8080
+```
+
+Khởi chạy dự án
+
+
+```bash
+yarn dev
+# hoặc
+npm run dev
+```
+
+
 ### 🔶 Follow cách hoạt động của mô hình cấu trúc dự án
 
 ![follow](img/flow.png)
@@ -152,9 +258,53 @@ const usersRouter = require('./routes/users.route');
 app.use('/api/users', usersRouter);
 ```
 
-## 💛 3 Tổng quan Middleware
+Tạo tiếp các enpoints khác
 
-### 🌻 3.0 Middleware là gì ?
+Resources User
+  - GET : api/v1/users
+  - GET : api/v1/users/:id
+  - POST : api/v1/users/:id
+  - PUT : api/v1/users/:id
+  - DELETE: api/v1/users/:id
+
+
+## 💛 Errors Handling App
+
+
+Sử dụng thư viện `http-errors` để bắt các lỗi từ request, hệ thống
+
+```bash
+yarn add http-errors 
+```
+Tại App.ts import vào
+
+```js
+import express, { Express, NextFunction, Request, Response } from 'express';
+import createError from 'http-errors';
+```
+
+Add đoạn này nằm NGAY TRƯỚC phần export app
+
+```js
+// catch 404 and forward to error handler
+app.use(function (req: Request, res: Response, next: NextFunction) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  const statusCode = err.status || 500;
+  res.status(statusCode).json({ statusCode: statusCode, message: err.message });
+});
+```
+
+## 💛  Tổng quan Middleware
+
+### 🌻  Middleware là gì ?
 
 Trong lấp trình ứng dụng WEB, Middleware sẽ đóng vai trò trung gian giữa request/response (tương tác với người dùng) và các xử lý logic bên trong web server.
 
@@ -184,13 +334,13 @@ Trong Express, có 5 kiểu middleware có thể sử dụng :
 - Built-in middleware (middleware sẵn có)
 - Third-party middleware (middleware của bên thứ ba)
 
-## 🌻 3.1 Cách để tạo ra một middleware theo nhu cầu
+## 🌻 Cách để tạo ra một middleware theo nhu cầu
 
 Tại thư mục middleware, tạo một file tên: mylogger.middleware.js
 
 ```js
 //Tạo và export luôn
-module.exports = function (req, res, next) {
+module.exports = function (req: Request, res: Response, next: NextFunction) {
   //Logic Here
   console.log('LOGGED', req);
 
@@ -202,7 +352,7 @@ module.exports = function (req, res, next) {
 };
 ```
 
-### 🌻 3.2 Gắn middleware vào Application
+### 🌻 Gắn middleware vào Application
 
 Tại express app
 
@@ -213,63 +363,55 @@ const myLogger require('./middlewares/mylogger.middleware');
 app.use(myLogger);
 ```
 
-### 🌻 3.3 Lớp middleware
+### 🌻 Lớp middleware
 
 Tạo thêm 2 ví dụ về middleware nữa để thấy được sự chuyển tiếp giữa các lớp middleware
 
-### 🌻 3.4 Express middleware
+### 🌻 Express middleware
 
 Sử dụng các thư viện phổ biến để làm middleware cho src/app.js
 
 Tham khảo: <https://expressjs.com/en/resources/middleware.html>
 
-- compression
-- cors
-- xss-clean
-- helmet
-- body-parser
-- ...
-
-## 💛 5: Errors Handling App
-
-- Lỗi 40x
-- Lỗi 50x
-
-Sử dụng thư viện:
-
-- http-errors
+**cors**
 
 ```bash
-npm i http-errors --save
+yarn add cors
+yarn add -D @types/cors 
 ```
+**body-parser**
 
-Tại App Express import vào
+```bash
+yarn add body-parser
+```
 
 ```js
-const createError = require('http-errors');
+import bodyParser from 'body-parser'
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 ```
 
-Add đoạn này nằm NGAY TRƯỚC phần module.exports = app
+**helmet**
+
+Helmet là một middleware bảo mật cho ứng dụng web Node.js. Nó cung cấp các cài đặt bảo mật mặc định và hỗ trợ tùy chỉnh để giúp bảo vệ ứng dụng của bạn khỏi các cuộc tấn công phổ biến như Cross-Site Scripting (XSS), injection attacks và nhiều loại tấn công khác.
+
+```bash
+yarn add helmet
+```
 
 ```js
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.send({ error: err.message });
-});
+import helmet from "helmet";
+app.use(helmet());
 ```
 
-## 💛 6: Logging Requests
+
+
+
+## 💛 Logging Requests
 
 - Ghi log lại mỗi requests gửi lên server express
 
@@ -277,7 +419,7 @@ Thêm đoạn này vào app.js
 
 ```js
 // Middleware to log request parameters
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   console.log(
     `[${new Date().toISOString()}] ${req.method} ${req.path} - headers:`,
     req.headers,
@@ -314,7 +456,7 @@ var accessLogStream = rfs.createStream('access.log', {
 app.use(morgan('combined', { stream: accessLogStream }));
 ```
 
-## 💛 7: Chuẩn hóa định dạng JSON API trả về
+## 💛 Chuẩn hóa định dạng JSON API trả về
 
 Không có bất kỳ quy tắc nào để ràng buộc cách bạn trả về một chuổi JSON có cấu trúc như thế nào cả.
 
@@ -350,6 +492,11 @@ Ví dụ: Thành công có gửi kèm data
 }
 ```
 
+Trong đó:
+- statusCode: là mã code mà bạn tự quy định cho việc xử lý tác vụ
+- message: là lời nhắn trả lại cho client
+- data: là thông trả lại cho client nếu có
+
 Ví dụ: Thất bại (không có lỗi, chỉ là nó chưa tuân thủ một quy tắc nào đó như là validations)
 
 ```json
@@ -378,10 +525,10 @@ Thông thường người ta tạo ra một bảng danh mục mã lỗi kèm mes
 |    404     |   API Not Found    |
 |    500     |    Error Server    |
 
-Tạo một file `src\utilities\responseHandler.js` để handle việc đó
+Tạo một file `src\utilities\responseHandler.ts` để handle việc đó
 
 ```js
-const sendJsonSuccess = (res, message, code) => {
+const sendJsonSuccess = (req: Request, message: string, code: number) => {
   return (data, globalData) => {
     code = code || 200;
     res.status(code).json({
@@ -393,7 +540,7 @@ const sendJsonSuccess = (res, message, code) => {
   };
 };
 
-const sendJsonErrors = (req, res, error) => {
+const sendJsonErrors = (req: Request, res: Response, error: any) => {
   console.log(error);
   return res.status(error.status || 500).json({
     statusCode: error.status || 500,

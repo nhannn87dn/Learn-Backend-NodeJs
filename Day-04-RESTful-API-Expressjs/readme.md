@@ -1,12 +1,10 @@
 # Folder Structure Express and Node.Js
 
-Xây dựng cấu trúc dự án RESTFul-APIs với Node.Js và Express CHUẨN đi làm
-
 Tiếp tục maintenance project theo Follow
 
->* Tạo Route theo từng phiên bản
->* Tạo Controller
->* Tạo Service
+>* Tạo Routes theo phiên bản
+>* Tạo Controllers
+>* Tạo Services
 >* Validation Requests
 >* Handle Errors inside routes, controllers, services
 >
@@ -45,13 +43,13 @@ const users = [
 
 // Get all users
 // localhost:8686/api/v1/users
-router.get('/users', async (req, res) => {
+router.get('/users', async (req: Request, res: Response) => {
   res.status(200).json(users);
 });
 
 // Create a new user
 // localhost:8686/api/v1/users
-router.post('/users', async (req, res) => {
+router.post('/users', async (req: Request, res: Response) => {
   //Thêm một phần tử vào mảng
   const newUsers = {...users,{id: 4: name: 'Trump', email: 'trump@gmail.com'}}
 
@@ -61,7 +59,7 @@ router.post('/users', async (req, res) => {
 
 // Get a user by ID
 // localhost:8686/api/v1/users/1
-router.get('/users/:id', async (req, res,next) => {
+router.get('/users/:id', async (req: Request, res: Response,next) => {
   try {
     const { id } = req.params;
 
@@ -84,13 +82,13 @@ router.get('/users/:id', async (req, res,next) => {
 
 // Update a user
 // localhost:8686/api/v1/users/1
-router.patch('/users/:id', async (req, res, next) => {
+router.patch('/users/:id', async (req: Request,  res: Response, next: NextFunction) => {
   // ...
 });
 
 // Delete a user
 // localhost:8686/api/v1/users/1
-router.delete('/users/:id', async (req, res, next) => {
+router.delete('/users/:id', async (req: Request,  res: Response, next: NextFunction) => {
   // ...
 });
 
@@ -103,12 +101,12 @@ Gắn router vào app.js
 const usersRoute = require('./routes/users.route');
 
 //Response version API
-app.get('/', async (req, res) => {
+app.get('/', async (req: Request, res: Response) => {
   res.status(200).json({ message: 'Hello World !' });
 });
 
 //Response version API
-app.get('/api', async (req, res) => {
+app.get('/api', async (req: Request, res: Response) => {
   res.status(200).json({ version: 'API 1.0' });
 });
 
@@ -138,12 +136,12 @@ const users = [
 ];
 
 // Get all users
-exports.getAllUsers = async (req, res) => {
+exports.getAllUsers = async (req: Request, res: Response) => {
   res.status(200).json(users);
 };
 
 // Get a user by ID
-exports.getUserById = async (req, res, next) => {
+exports.getUserById = async (req: Request,  res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
 
@@ -164,17 +162,17 @@ exports.getUserById = async (req, res, next) => {
 };
 
 // Create a new user
-exports.createUser = async (req, res) => {
+exports.createUser = async (req: Request, res: Response) => {
   console.log('createUser');
 };
 
 // Update a user by ID
-exports.updateUserById = async (req, res) => {
+exports.updateUserById = async (req: Request, res: Response) => {
   console.log('updateUserById');
 };
 
 // Delete a user by ID
-exports.deleteUserById = async (req, res) => {
+exports.deleteUserById = async (req: Request, res: Response) => {
   console.log('deleteUserById');
 };
 ```
@@ -276,7 +274,7 @@ chuyển hết phần hander error sang service
 const createError = require('http-errors');
 const usersService = require('../services/users.service');
 
-exports.getAllUsers = async (req, res, next) => {
+exports.getAllUsers = async (req: Request,  res: Response, next: NextFunction) => {
   try {
     const users = await usersService.getAllUsers();
     res.status(200).send(users);
@@ -285,7 +283,7 @@ exports.getAllUsers = async (req, res, next) => {
   }
 };
 
-exports.getUserById = async (req, res, next) => {
+exports.getUserById = async (req: Request,  res: Response, next: NextFunction) => {
   try {
     const user = await usersService.getUserById(req);
     res.send(user);
@@ -295,17 +293,17 @@ exports.getUserById = async (req, res, next) => {
 };
 
 // Create a new user
-exports.createUser = async (req, res, next) => {
+exports.createUser = async (req: Request,  res: Response, next: NextFunction) => {
   console.log('createUser');
 };
 
 // Update a user by ID
-exports.updateUserById = async (req, res, next) => {
+exports.updateUserById = async (req: Request,  res: Response, next: NextFunction) => {
   console.log('updateUserById');
 };
 
 // Delete a user by ID
-exports.deleteUserById = async (req, res, next) => {
+exports.deleteUserById = async (req: Request,  res: Response, next: NextFunction) => {
   console.log('deleteUserById');
 };
 ```
@@ -330,7 +328,7 @@ const Joi = require('joi');
 const _ = require('lodash');
 
 //Midleware validateSchema
-const validateSchema = (schema) => (req, res, next) => {
+const validateSchema = (schema) => (req: Request,  res: Response, next: NextFunction) => {
   //dùng pick để chỉ chọn ra các phần tử cần lấy
   const pickSchema = _.pick(schema, ['params', 'body', 'query']);
   const object = _.pick(req, Object.keys(pickSchema));
@@ -465,7 +463,7 @@ User login sẽ mang theo payload là email và password
 const { authService } = require('../services/auth.service');
 const responseHandler = require('../utilities/responseHandler');
 
-const userLogin = catchAsync(async (req, res) => {
+const userLogin = catchAsync(async (req: Request, res: Response) => {
   const user = await authService.userLogin(req.body);
   requestHandler.sendJsonSuccess(res)(user);
 });
