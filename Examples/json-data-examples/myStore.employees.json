@@ -1,0 +1,160 @@
+[{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7664b"
+  },
+  "firstName": "Elinore",
+  "lastName": "Kutch",
+  "email": "Stefan.Kiehn@hotmail.com",
+  "phoneNumber": "(666) 873-4592",
+  "address": "3121 Spinka Points",
+  "photo": "",
+  "birthday": {
+    "$date": "2024-06-28T06:18:11.141Z"
+  },
+  "password": "password123",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7664d"
+  },
+  "firstName": "Stuart",
+  "lastName": "Runolfsdottir",
+  "email": "Joel.Wisoky@yahoo.com",
+  "phoneNumber": "494-752-1196 x305",
+  "address": "687 Miller Ford",
+  "photo": "",
+  "birthday": {
+    "$date": "2023-04-06T05:58:39.566Z"
+  },
+  "password": "password123",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7664f"
+  },
+  "firstName": "Nina",
+  "lastName": "Hoppe",
+  "email": "Athena25@yahoo.com",
+  "phoneNumber": "632.544.7691",
+  "address": "14663 Brown Cape",
+  "photo": "",
+  "birthday": {
+    "$date": "2023-04-20T04:36:33.591Z"
+  },
+  "password": "password123",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76651"
+  },
+  "firstName": "Adele",
+  "lastName": "Trantow",
+  "email": "Clint.Marquardt48@hotmail.com",
+  "phoneNumber": "536.247.2130 x4862",
+  "address": "762 Daniel Lock",
+  "photo": "",
+  "birthday": {
+    "$date": "2023-02-13T08:20:49.880Z"
+  },
+  "password": "password123",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76653"
+  },
+  "firstName": "Felicia",
+  "lastName": "Lesch",
+  "email": "Hilbert64@hotmail.com",
+  "phoneNumber": "867.532.1095 x500",
+  "address": "472 Landen Overpass",
+  "photo": "",
+  "birthday": {
+    "$date": "2024-07-12T11:23:44.544Z"
+  },
+  "password": "password123",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76655"
+  },
+  "firstName": "Tremayne",
+  "lastName": "Veum",
+  "email": "Tyrel_Pfeffer44@gmail.com",
+  "phoneNumber": "733-856-1039 x28141",
+  "address": "2065 Brisa Lock",
+  "photo": "",
+  "birthday": {
+    "$date": "2023-04-06T10:56:55.556Z"
+  },
+  "password": "password123",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76657"
+  },
+  "firstName": "Lori",
+  "lastName": "Kulas",
+  "email": "Shaylee_Ankunding48@hotmail.com",
+  "phoneNumber": "570-868-8297 x37539",
+  "address": "7704 Shanny Walk",
+  "photo": "",
+  "birthday": {
+    "$date": "2023-07-29T09:16:17.486Z"
+  },
+  "password": "password123",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76659"
+  },
+  "firstName": "Felipe",
+  "lastName": "Emard",
+  "email": "Zora48@gmail.com",
+  "phoneNumber": "1-669-932-4744 x6251",
+  "address": "8015 Karianne Spur",
+  "photo": "",
+  "birthday": {
+    "$date": "2024-01-07T06:45:41.667Z"
+  },
+  "password": "password123",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7665b"
+  },
+  "firstName": "Kylee",
+  "lastName": "Kris",
+  "email": "Kaylee.Funk7@gmail.com",
+  "phoneNumber": "1-674-728-3939 x9411",
+  "address": "7408 Rick Cliff",
+  "photo": "",
+  "birthday": {
+    "$date": "2023-09-24T12:03:56.545Z"
+  },
+  "password": "password123",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7665d"
+  },
+  "firstName": "Cleveland",
+  "lastName": "Wolff",
+  "email": "Felicita89@yahoo.com",
+  "phoneNumber": "(606) 812-6998 x660",
+  "address": "10365 Brando Lodge",
+  "photo": "",
+  "birthday": {
+    "$date": "2024-01-10T12:15:14.353Z"
+  },
+  "password": "password123",
+  "__v": 0
+}]

@@ -1,0 +1,44 @@
+
+# GET All
+GET http://localhost:8686/api/v1/customers HTTP/1.1
+
+###
+
+
+# GET by ID
+GET http://localhost:8686/api/v1/customers/123 HTTP/1.1
+
+###
+
+# Create new Category
+
+POST http://localhost:8686/api/v1/customers HTTP/1.1
+content-type: application/json
+
+{   
+    
+  "firstName": "John er",
+  "lastName": "Doe fdf",
+  "phoneNumber": "0987654321",
+  "address": "123 Main St, Anytown USA",
+  "email": "johndoe1212ewew@example.com"
+}
+
+### 
+
+# Update Category
+
+PUT http://localhost:8686/api/v1/customers/647db7937640fa84b0580e57 HTTP/1.1
+content-type: application/json
+
+{   
+    "name": "Apple"
+}
+
+###
+DELETE  http://localhost:8686/api/v1/customers HTTP/1.1
+content-type: application/json
+
+{      
+  "id": "647ff23274eb5dd446d0f2e8"
+}

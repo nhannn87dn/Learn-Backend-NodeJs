@@ -1,0 +1,27 @@
+# Create new User
+
+POST http://localhost:9000/api/v1/users HTTP/1.1
+content-type: application/json
+
+{   
+  "email": "joinh@example.com",
+    "birthday": "1980-12-25",
+    "numberPhone": "999999986",
+    "firstName": "Joinh",
+    "lastName": "Wilson",
+    "address": "987 Cedar St",
+    "password": "password1"
+
+}
+
+
+###
+
+PUT http://localhost:9000/api/users/2 HTTP/1.1
+content-type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsImlhdCI6MTY5MzI3NzgxM30.vbGG8enfyNtkfxIunBDLHTb9I_1jBGJM-n8w3dVQLTE
+
+{   
+    "firstName": "Bob9",
+    "lastName": "Wilson"
+}

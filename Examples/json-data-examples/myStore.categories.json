@@ -1,0 +1,80 @@
+[{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76673"
+  },
+  "name": "Computers 1",
+  "description": "Description for category 1",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76675"
+  },
+  "name": "Sports 2",
+  "description": "Description for category 2",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76677"
+  },
+  "name": "Music 3",
+  "description": "Description for category 3",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76679"
+  },
+  "name": "Games 4",
+  "description": "Description for category 4",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7667b"
+  },
+  "name": "Books 5",
+  "description": "Description for category 5",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7667d"
+  },
+  "name": "Shoes 6",
+  "description": "Description for category 6",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7667f"
+  },
+  "name": "Automotive 7",
+  "description": "Description for category 7",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76681"
+  },
+  "name": "Health 8",
+  "description": "Description for category 8",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76683"
+  },
+  "name": "Outdoors 9",
+  "description": "Description for category 9",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76685"
+  },
+  "name": "Grocery 10",
+  "description": "Description for category 10",
+  "__v": 0
+}]

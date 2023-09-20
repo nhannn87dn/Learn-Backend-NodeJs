@@ -1,0 +1,140 @@
+[{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76636"
+  },
+  "firstName": "Pablo",
+  "lastName": "Douglas",
+  "email": "Cristina_Farrell@hotmail.com",
+  "phoneNumber": "728-216-8272",
+  "address": "79231 Luna Ports",
+  "birthday": {
+    "$date": "2023-07-18T09:15:47.898Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76639"
+  },
+  "firstName": "Misty",
+  "lastName": "Hilll",
+  "email": "Wade52@gmail.com",
+  "phoneNumber": "743.938.7901 x018",
+  "address": "8676 Reichel Ridges",
+  "birthday": {
+    "$date": "2022-10-23T19:42:50.626Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7663b"
+  },
+  "firstName": "Judd",
+  "lastName": "Stehr",
+  "email": "Zita33@hotmail.com",
+  "phoneNumber": "707.443.1489 x285",
+  "address": "66725 Brakus Fort",
+  "birthday": {
+    "$date": "2023-01-29T21:22:59.878Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7663d"
+  },
+  "firstName": "Ramiro",
+  "lastName": "Hermann-Feeney",
+  "email": "Samanta.Pfannerstill66@hotmail.com",
+  "phoneNumber": "(785) 717-0624 x9318",
+  "address": "5353 Powlowski Glens",
+  "birthday": {
+    "$date": "2024-07-28T05:13:42.997Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7663f"
+  },
+  "firstName": "Kaycee",
+  "lastName": "Ryan",
+  "email": "Irving.Ortiz@gmail.com",
+  "phoneNumber": "(839) 536-5115 x0955",
+  "address": "46578 Johns Extensions",
+  "birthday": {
+    "$date": "2023-05-01T15:47:33.356Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76641"
+  },
+  "firstName": "Benton",
+  "lastName": "Tromp",
+  "email": "Kaia.Daugherty51@yahoo.com",
+  "phoneNumber": "312-888-6175 x3783",
+  "address": "956 Floy Flats",
+  "birthday": {
+    "$date": "2023-01-20T19:08:30.751Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76643"
+  },
+  "firstName": "Koby",
+  "lastName": "Purdy",
+  "email": "Tad47@hotmail.com",
+  "phoneNumber": "861.278.0633 x60541",
+  "address": "37973 Quitzon Pine",
+  "birthday": {
+    "$date": "2024-04-28T15:52:49.412Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76645"
+  },
+  "firstName": "Elton",
+  "lastName": "Schowalter",
+  "email": "Torrance.Ratke50@hotmail.com",
+  "phoneNumber": "(663) 267-5217 x735",
+  "address": "262 Morissette Field",
+  "birthday": {
+    "$date": "2022-10-22T15:31:42.626Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76647"
+  },
+  "firstName": "Clemmie",
+  "lastName": "Cummerata",
+  "email": "Tristian.Kessler@gmail.com",
+  "phoneNumber": "(956) 623-4787",
+  "address": "271 Boyd Springs",
+  "birthday": {
+    "$date": "2022-08-26T21:31:45.743Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76649"
+  },
+  "firstName": "Eve",
+  "lastName": "Morar",
+  "email": "Sigrid55@yahoo.com",
+  "phoneNumber": "866.543.5647 x1302",
+  "address": "385 Lillian Groves",
+  "birthday": {
+    "$date": "2023-09-06T04:30:57.300Z"
+  },
+  "__v": 0
+}]

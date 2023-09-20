@@ -1,0 +1,54 @@
+
+# GET All
+GET http://localhost:8686/api/v1/users HTTP/1.1
+
+###
+
+# GET by ID
+GET http://localhost:8686/api/v1/users/123 HTTP/1.1
+
+###
+
+# GET by ID
+GET http://localhost:8686/api/v1/users/647db7937640fa84b0580e24 HTTP/1.1
+
+###
+
+# GET by ID
+GET http://localhost:8686/api/v1/users/647db7937640fa84b0580e26 HTTP/1.1
+
+###
+
+# Create new User
+
+POST http://localhost:8686/api/v1/users HTTP/1.1
+content-type: application/json
+
+{   
+    
+  "name": "Nguyen Van B",
+  "email": "nguyenvanb@example.com",
+  "password": "mysecretpassword",
+  "role": "admin",
+  "isEmailVerified": true
+}
+
+### 
+
+# Update User
+
+PUT http://localhost:8686/api/v1/users/6476b8a428ebf8db6ea99c8c HTTP/1.1
+content-type: application/json
+
+{   
+    "name": "Nguyen Van C",
+    "email": "nguyenvanc@example.com"
+}
+
+###
+DELETE  http://localhost:8686/api/v1/users HTTP/1.1
+content-type: application/json
+
+{
+  "id": "64804f7eb278283158210a93"
+}

@@ -1,0 +1,100 @@
+[{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7665f"
+  },
+  "name": "Stamm Group 1",
+  "email": "Norbert.Lockman95@hotmail.com",
+  "phoneNumber": "996.222.0747 x4954",
+  "address": "8018 Berta Pine",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76661"
+  },
+  "name": "Dibbert, Huel and Leuschke 1",
+  "email": "Maya.Lesch@yahoo.com",
+  "phoneNumber": "525-949-4250 x529",
+  "address": "66373 Feest Drives",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76663"
+  },
+  "name": "Cassin - Monahan 1",
+  "email": "Arvel.Abernathy@gmail.com",
+  "phoneNumber": "1-738-923-1634 x5969",
+  "address": "7262 Estella Rue",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76665"
+  },
+  "name": "Bruen - Smith 1",
+  "email": "Ludie49@yahoo.com",
+  "phoneNumber": "580.263.3396",
+  "address": "8932 Morissette Hills",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76667"
+  },
+  "name": "Bode and Sons 1",
+  "email": "Virginia.Sporer53@gmail.com",
+  "phoneNumber": "523-698-8337",
+  "address": "57561 Corwin Pike",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76669"
+  },
+  "name": "Powlowski, McGlynn and Schuster 1",
+  "email": "Katelin73@yahoo.com",
+  "phoneNumber": "324.718.2231",
+  "address": "648 Towne Lock",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7666b"
+  },
+  "name": "Pfeffer, Collier and Watsica 1",
+  "email": "Nayeli68@gmail.com",
+  "phoneNumber": "(336) 670-2805 x8203",
+  "address": "575 Camren Estates",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7666d"
+  },
+  "name": "D'Amore, Ryan and Willms 1",
+  "email": "Sabryna44@gmail.com",
+  "phoneNumber": "816-268-9614 x2525",
+  "address": "9412 Meaghan Cape",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7666f"
+  },
+  "name": "Olson Group 1",
+  "email": "Eulalia93@gmail.com",
+  "phoneNumber": "(256) 644-2353",
+  "address": "2476 Eloisa Lakes",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76671"
+  },
+  "name": "Steuber - Connelly 1",
+  "email": "Deangelo20@gmail.com",
+  "phoneNumber": "386-503-9610",
+  "address": "460 Fernando Way",
+  "__v": 0
+}]

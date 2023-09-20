@@ -1,0 +1,67 @@
+
+# GET All
+GET http://localhost:9000/api/v1/users HTTP/1.1
+
+###
+
+# GET by ID
+GET http://localhost:9000/api/v1/users/3 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsImlhdCI6MTY5MzI3NzgxM30.vbGG8enfyNtkfxIunBDLHTb9I_1jBGJM-n8w3dVQLTE
+
+###
+
+# Create new User
+
+POST http://localhost:9000/users HTTP/1.1
+content-type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsImlhdCI6MTY5MzI3NzgxM30.vbGG8enfyNtkfxIunBDLHTb9I_1jBGJM-n8w3dVQLTE
+
+{   
+  "email": "bob8@example.com",
+"birthday": "1980-12-25",
+"numberPhone": "999999986",
+"firstName": "Bob",
+"lastName": "Wilson",
+"address": "987 Cedar St",
+"password": "password5",
+"createdAt": "2023-08-29T08:56:27.580Z",
+"updatedAt": "2023-08-29T08:56:27.580Z"
+}
+
+### 
+
+# Update User
+
+PUT http://localhost:9000/api/v1/users/84 HTTP/1.1
+content-type: application/json
+
+{   
+  "firstName": "Nguyen",
+  "lastName": "Van B",
+}
+
+###
+# Update User Token
+
+PUT http://localhost:9000/api/v1/users/6 HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsImlhdCI6MTY5MzI3NDYxMn0.dO0lr8DIqn_qZ7MU9O2RDNapEbv1f-XSNHu-BWt4EiI
+
+{   
+  "firstName": "Bob2",
+  "lastName": "Wilson2",
+  "address": "9876 Cedar St"
+}
+
+
+
+###
+DELETE  http://localhost:9000/api/v1/users HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsImlhdCI6MTY5MzI3NDYxMn0.dO0lr8DIqn_qZ7MU9O2RDNapEbv1f-XSNHu-BWt4EiI
+
+{
+  "id": 6
+}
+
+

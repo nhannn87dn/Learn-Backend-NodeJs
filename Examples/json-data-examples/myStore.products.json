@@ -1,0 +1,180 @@
+[{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76689"
+  },
+  "name": "Electronic Cotton Salad 1",
+  "price": 110,
+  "discount": 5,
+  "stock": 55,
+  "description": "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support",
+  "thumbnail": "https://picsum.photos/200/200",
+  "category": {
+    "$oid": "64e985dec6628ed4d2d7667f"
+  },
+  "supplier": {
+    "$oid": "64e985dec6628ed4d2d76665"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7668b"
+  },
+  "name": "Tasty Wooden Car 2",
+  "price": 120,
+  "discount": 10,
+  "stock": 60,
+  "description": "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support",
+  "thumbnail": "https://picsum.photos/200/200",
+  "category": {
+    "$oid": "64e985dec6628ed4d2d7667d"
+  },
+  "supplier": {
+    "$oid": "64e985dec6628ed4d2d76667"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7668d"
+  },
+  "name": "Luxurious Rubber Hat 3",
+  "price": 130,
+  "discount": 15,
+  "stock": 65,
+  "description": "Andy shoes are designed to keeping in mind durability as well as trends, the most stylish range of shoes & sandals",
+  "thumbnail": "https://picsum.photos/200/200",
+  "category": {
+    "$oid": "64e985dec6628ed4d2d76679"
+  },
+  "supplier": {
+    "$oid": "64e985dec6628ed4d2d76671"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7668f"
+  },
+  "name": "Tasty Frozen Table 4",
+  "price": 140,
+  "discount": 20,
+  "stock": 70,
+  "description": "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J",
+  "thumbnail": "https://picsum.photos/200/200",
+  "category": {
+    "$oid": "64e985dec6628ed4d2d76675"
+  },
+  "supplier": {
+    "$oid": "64e985dec6628ed4d2d76661"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76691"
+  },
+  "name": "Sleek Bronze Sausages 5",
+  "price": 150,
+  "discount": 25,
+  "stock": 75,
+  "description": "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit",
+  "thumbnail": "https://picsum.photos/200/200",
+  "category": {
+    "$oid": "64e985dec6628ed4d2d76685"
+  },
+  "supplier": {
+    "$oid": "64e985dec6628ed4d2d76667"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76693"
+  },
+  "name": "Handmade Granite Towels 6",
+  "price": 160,
+  "discount": 30,
+  "stock": 80,
+  "description": "The Football Is Good For Training And Recreational Purposes",
+  "thumbnail": "https://picsum.photos/200/200",
+  "category": {
+    "$oid": "64e985dec6628ed4d2d76683"
+  },
+  "supplier": {
+    "$oid": "64e985dec6628ed4d2d7666b"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76695"
+  },
+  "name": "Fantastic Granite Sausages 7",
+  "price": 170,
+  "discount": 35,
+  "stock": 85,
+  "description": "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles",
+  "thumbnail": "https://picsum.photos/200/200",
+  "category": {
+    "$oid": "64e985dec6628ed4d2d7667b"
+  },
+  "supplier": {
+    "$oid": "64e985dec6628ed4d2d7666b"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76697"
+  },
+  "name": "Bespoke Granite Computer 8",
+  "price": 180,
+  "discount": 40,
+  "stock": 90,
+  "description": "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support",
+  "thumbnail": "https://picsum.photos/200/200",
+  "category": {
+    "$oid": "64e985dec6628ed4d2d76675"
+  },
+  "supplier": {
+    "$oid": "64e985dec6628ed4d2d76667"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d76699"
+  },
+  "name": "Licensed Plastic Fish 9",
+  "price": 190,
+  "discount": 45,
+  "stock": 95,
+  "description": "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support",
+  "thumbnail": "https://picsum.photos/200/200",
+  "category": {
+    "$oid": "64e985dec6628ed4d2d7667d"
+  },
+  "supplier": {
+    "$oid": "64e985dec6628ed4d2d76671"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d7669b"
+  },
+  "name": "Modern Concrete Keyboard 10",
+  "price": 200,
+  "discount": 50,
+  "stock": 100,
+  "description": "The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
+  "thumbnail": "https://picsum.photos/200/200",
+  "category": {
+    "$oid": "64e985dec6628ed4d2d76683"
+  },
+  "supplier": {
+    "$oid": "64e985dec6628ed4d2d76669"
+  },
+  "__v": 0
+}]

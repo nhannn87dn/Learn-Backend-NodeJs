@@ -17,11 +17,12 @@ const sendJsonSuccess = (res: Response, message: string, code: number) => {
     const statusCode = error.status || 500;
     return res.status(statusCode).json({
       statusCode: statusCode,
+      typeError: error.typeError || 'appError',
       message: error.message || 'Internal Server Error',
     });
   };
   
-  module.exports = {
+export default  {
     sendJsonSuccess,
     sendJsonErrors,
-  };
+};

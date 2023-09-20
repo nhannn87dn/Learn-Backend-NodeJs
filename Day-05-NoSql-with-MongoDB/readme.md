@@ -141,6 +141,47 @@ const User = new mongoose.model('User', userSchema);
 module.exports = User;
 ```
 
+Nếu sử dụng với TypeScript
+
+```ts
+import { Schema, model } from 'mongoose';
+
+// 1. Tạo type
+interface IUser {
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+  isEmailVerified: bolean;
+}
+//2.Tạo Schema
+const userSchema = new Schema<IUser>(
+  {
+    name: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    role: {
+        type: String,
+    },
+    isEmailVerified: {
+        type: Boolean
+    }
+  }
+);
+//3. Tạo Model User
+const User = model<IUser>('User', userSchema);
+module.exports = User;
+```
+
 ## 💛 Database Relationships
 
 Trước khi đi tìm hiểu **Data Model Design** chúng ta cần biết mối quan hệ trong CSDL

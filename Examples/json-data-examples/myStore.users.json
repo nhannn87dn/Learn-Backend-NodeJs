@@ -1,0 +1,17 @@
+[{
+  "_id": {
+    "$oid": "64e9797a019faf1aa22eb7e6"
+  },
+  "firstName": "Nancy",
+  "lastName": "Davolio 2",
+  "email": "nancyes@example.com",
+  "phoneNumber": "1234567899",
+  "password": "$2b$10$zbXmkYLoNFE8dT0gAZOvIO71mobG6VMidISN7m2O7ID2eZ.cH91Re",
+  "createdAt": {
+    "$date": "2023-08-26T04:03:06.477Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-26T04:03:06.477Z"
+  },
+  "__v": 0
+}]

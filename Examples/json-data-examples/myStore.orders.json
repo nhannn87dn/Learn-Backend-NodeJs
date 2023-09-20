@@ -1,0 +1,215 @@
+[{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d766a0"
+  },
+  "createdDate": {
+    "$date": "2023-08-26T04:55:58.322Z"
+  },
+  "shippedDate": {
+    "$date": "2023-08-26T04:55:58.322Z"
+  },
+  "status": "CANCEL",
+  "description": "Description for Order 1",
+  "shippingAddress": "5353 Powlowski Glens",
+  "shippingCity": "East Hobart",
+  "paymentType": "CASH",
+  "orderDetail": [
+    {
+      "quantity": 1,
+      "price": 140,
+      "discount": 20,
+      "_id": {
+        "$oid": "64e985dec6628ed4d2d766a1"
+      }
+    },
+    {
+      "quantity": 2,
+      "price": 140,
+      "discount": 20,
+      "_id": {
+        "$oid": "64e985dec6628ed4d2d766a2"
+      }
+    },
+    {
+      "quantity": 3,
+      "price": 140,
+      "discount": 20,
+      "_id": {
+        "$oid": "64e985dec6628ed4d2d766a3"
+      }
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d766a5"
+  },
+  "createdDate": {
+    "$date": "2023-08-26T04:55:58.334Z"
+  },
+  "shippedDate": {
+    "$date": "2023-08-26T04:55:58.334Z"
+  },
+  "status": "COMPLETED",
+  "description": "Description for Order 2",
+  "shippingAddress": "66725 Brakus Fort",
+  "shippingCity": "Elsahaven",
+  "paymentType": "CASH",
+  "orderDetail": [
+    {
+      "quantity": 1,
+      "price": 150,
+      "discount": 25,
+      "_id": {
+        "$oid": "64e985dec6628ed4d2d766a6"
+      }
+    },
+    {
+      "quantity": 2,
+      "price": 150,
+      "discount": 25,
+      "_id": {
+        "$oid": "64e985dec6628ed4d2d766a7"
+      }
+    },
+    {
+      "quantity": 3,
+      "price": 150,
+      "discount": 25,
+      "_id": {
+        "$oid": "64e985dec6628ed4d2d766a8"
+      }
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d766aa"
+  },
+  "createdDate": {
+    "$date": "2023-08-26T04:55:58.339Z"
+  },
+  "shippedDate": {
+    "$date": "2023-08-26T04:55:58.339Z"
+  },
+  "status": "COMPLETED",
+  "description": "Description for Order 3",
+  "shippingAddress": "271 Boyd Springs",
+  "shippingCity": "Lake Ron",
+  "paymentType": "CREDIT CARD",
+  "orderDetail": [
+    {
+      "quantity": 1,
+      "price": 190,
+      "discount": 45,
+      "_id": {
+        "$oid": "64e985dec6628ed4d2d766ab"
+      }
+    },
+    {
+      "quantity": 2,
+      "price": 190,
+      "discount": 45,
+      "_id": {
+        "$oid": "64e985dec6628ed4d2d766ac"
+      }
+    },
+    {
+      "quantity": 3,
+      "price": 190,
+      "discount": 45,
+      "_id": {
+        "$oid": "64e985dec6628ed4d2d766ad"
+      }
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d766af"
+  },
+  "createdDate": {
+    "$date": "2023-08-26T04:55:58.343Z"
+  },
+  "shippedDate": {
+    "$date": "2023-08-26T04:55:58.343Z"
+  },
+  "status": "CANCEL",
+  "description": "Description for Order 4",
+  "shippingAddress": "271 Boyd Springs",
+  "shippingCity": "Odafurt",
+  "paymentType": "CASH",
+  "orderDetail": [
+    {
+      "quantity": 1,
+      "price": 160,
+      "discount": 30,
+      "_id": {
+        "$oid": "64e985dec6628ed4d2d766b0"
+      }
+    },
+    {
+      "quantity": 2,
+      "price": 160,
+      "discount": 30,
+      "_id": {
+        "$oid": "64e985dec6628ed4d2d766b1"
+      }
+    },
+    {
+      "quantity": 3,
+      "price": 160,
+      "discount": 30,
+      "_id": {
+        "$oid": "64e985dec6628ed4d2d766b2"
+      }
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e985dec6628ed4d2d766b4"
+  },
+  "createdDate": {
+    "$date": "2023-08-26T04:55:58.349Z"
+  },
+  "shippedDate": {
+    "$date": "2023-08-26T04:55:58.349Z"
+  },
+  "status": "CANCEL",
+  "description": "Description for Order 5",
+  "shippingAddress": "5353 Powlowski Glens",
+  "shippingCity": "Mariamstead",
+  "paymentType": "CASH",
+  "orderDetail": [
+    {
+      "quantity": 1,
+      "price": 160,
+      "discount": 30,
+      "_id": {
+        "$oid": "64e985dec6628ed4d2d766b5"
+      }
+    },
+    {
+      "quantity": 2,
+      "price": 160,
+      "discount": 30,
+      "_id": {
+        "$oid": "64e985dec6628ed4d2d766b6"
+      }
+    },
+    {
+      "quantity": 3,
+      "price": 160,
+      "discount": 30,
+      "_id": {
+        "$oid": "64e985dec6628ed4d2d766b7"
+      }
+    }
+  ],
+  "__v": 0
+}]

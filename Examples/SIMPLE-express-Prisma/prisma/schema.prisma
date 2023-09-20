@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Auth {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+  posts Post[]
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  content   String?
+  published Boolean  @default(false)
+  viewCount Int      @default(0)
+  author    Auth?    @relation(fields: [authorId], references: [id])
+  authorId  Int?
+}
+
+model Employee {
+  id        Int      @id @default(autoincrement())
+  fistName  String
+  lastName  String
+  birhay  DateTime?
+  email String
+  numberPhone String
+  address String?
+  password String
+}

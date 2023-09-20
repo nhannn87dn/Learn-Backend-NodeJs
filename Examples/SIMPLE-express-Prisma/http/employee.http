@@ -1,0 +1,28 @@
+# Create new User
+
+POST http://localhost:9000/api/employees HTTP/1.1
+content-type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsImlhdCI6MTY5MzI3NzgxM30.vbGG8enfyNtkfxIunBDLHTb9I_1jBGJM-n8w3dVQLTE
+
+{   
+  "email": "bob8@example.com",
+    "birhay": "1980-12-25",
+    "numberPhone": "999999986",
+    "fistName": "Bob",
+    "lastName": "Wilson",
+    "address": "987 Cedar St",
+    "password": "password5"
+
+}
+
+
+###
+
+PUT http://localhost:9000/api/employees/1 HTTP/1.1
+content-type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsImlhdCI6MTY5MzI3NzgxM30.vbGG8enfyNtkfxIunBDLHTb9I_1jBGJM-n8w3dVQLTE
+
+{   
+    "fistName": "Bob9",
+    "lastName": "Wilson"
+}

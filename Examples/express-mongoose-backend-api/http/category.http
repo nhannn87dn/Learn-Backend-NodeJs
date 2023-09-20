@@ -1,0 +1,44 @@
+
+# GET All
+GET http://localhost:8686/api/v1/categories HTTP/1.1
+
+###
+
+
+# GET by Slug
+GET http://localhost:8686/api/v1/categories/Health1e HTTP/1.1
+
+###
+
+# Create new Category
+
+POST http://localhost:8686/api/v1/categories HTTP/1.1
+content-type: application/json
+
+{   
+    
+ "name": "Lenovo Samsung",
+ "slug": "lenovo-samsung",
+  "content": "Description for Lenovo",
+  "image": "https://picsum.photos/200/200"
+}
+
+### 
+
+# Update Category
+
+PUT http://localhost:8686/api/v1/categories/6482d04ecfe5b4e115b18d54 HTTP/1.1
+content-type: application/json
+
+{   
+    "name": "Apple 1212343",
+    "slug": "apple-1212343"
+}
+
+###
+DELETE  http://localhost:8686/api/v1/categories HTTP/1.1
+content-type: application/json
+
+{      
+  "id": "123"
+}
