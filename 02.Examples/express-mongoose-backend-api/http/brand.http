@@ -1,0 +1,42 @@
+
+# GET All
+GET http://localhost:8686/api/v1/brands HTTP/1.1
+
+###
+
+
+# GET by ID
+GET http://localhost:8686/api/v1/brands/647db7937640fa84b0580e57 HTTP/1.1
+
+###
+
+# Create new Category
+
+POST http://localhost:8686/api/v1/brands HTTP/1.1
+content-type: application/json
+
+{   
+    
+ "name": "Lenovo Samsung 123",
+  "content": "Description for Samsung 123",
+  "image": "https://picsum.photos/200/200"
+}
+
+### 
+
+# Update Category
+
+PUT http://localhost:8686/api/v1/brands/647db7937640fa84b0580e57 HTTP/1.1
+content-type: application/json
+
+{   
+    "name": "Apple"
+}
+
+###
+DELETE  http://localhost:8686/api/v1/brands HTTP/1.1
+content-type: application/json
+
+{      
+  "id": "647ff23274eb5dd446d0f2e8"
+}

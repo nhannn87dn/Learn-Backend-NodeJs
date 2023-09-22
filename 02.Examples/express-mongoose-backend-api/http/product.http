@@ -1,0 +1,40 @@
+
+# GET All
+GET http://localhost:8686/api/v1/products HTTP/1.1
+
+###
+
+
+# GET by ID
+GET http://localhost:8686/api/v1/products/Health1 HTTP/1.1
+
+###
+
+# Create new Category
+
+POST http://localhost:8686/api/v1/products HTTP/1.1
+content-type: application/json
+
+{   
+    
+ 
+}
+
+### 
+
+# Update Category
+
+PUT http://localhost:8686/api/v1/products/64795152233756f3b6557996 HTTP/1.1
+content-type: application/json
+
+{   
+    "name": "Apple"
+}
+
+###
+DELETE  http://localhost:8686/api/v1/products HTTP/1.1
+content-type: application/json
+
+{      
+  "id": "647ff23274eb5dd446d0f2e8"
+}

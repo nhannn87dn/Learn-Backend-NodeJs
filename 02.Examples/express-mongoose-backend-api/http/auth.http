@@ -1,0 +1,8 @@
+
+POST http://localhost:8686/api/v1/auth HTTP/2
+content-type: application/json
+
+{
+    "email": "root@example.com",
+    "password": "Admin@123456"
+}
