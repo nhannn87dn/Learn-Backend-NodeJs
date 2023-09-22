@@ -104,7 +104,7 @@ Một số công ty lớn sử dụng nền tảng này gồm có:
 - Medium: Medium là một nền tảng xuất bản trực tuyến vô cùng phổ biến, đồng thời cũng lựa chọn NodeJS để xây dựng ứng dụng hướng dữ liệu và đơn giản hoá quá trình bảo trì server.
   Ngoài ra còn rất nhiều nền tảng lớn khác như: Twitter, Spotify, eBay, Reddit, Linkedin,…
 
-![](img/nhung-ung-dung-cua-nodejs.webp)
+![nodejs](img/nhung-ung-dung-cua-nodejs.webp)
 
 ## 💛 Cài đặt
 
