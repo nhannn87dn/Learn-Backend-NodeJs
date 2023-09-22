@@ -1,5 +1,5 @@
 
-# Cấu trúc database online-shop
+# Cấu trúc database online-shop SQL Server
 
 ## Categories
 
@@ -8,6 +8,7 @@
 | 1  | Id          | int           |      | PK  |         | AUTONUMBER |
 | 2  | Name        | nvarchar(50)  |      |     |         | UNIQUE     |
 | 3  | Description | nvarchar(500) | yes  |     |         |            |
+| 4  | Slug        | nvarchar(255) |      |     |         | UNIQUE     |
 
 ## Suppliers
 
@@ -31,6 +32,7 @@
 | 5  | PhoneNumber | varchar(50)   |      |     |         | UNIQUE     |
 | 6  | Address     | nvarchar(500) |      |     |         |            |
 | 7  | Birthday    | datetime      | yes  |     |         |            |
+| 8  | Password    | nvarchar(255) |      |     |         |            |
 
 ## Employees (or Users)
 
@@ -51,13 +53,14 @@
 | Id | Column Name | Data Type     | Null | Key | Default | Constraint                  |
 |----|-------------|---------------|------|-----|---------|-----------------------------|
 | 1  | Id          | int           |      | PK  |         | AUTONUMBER                  |
-| 2  | Name        | nvarchar(100) |      |     |         |                             |
+| 2  | Name        | nvarchar(255) |      |     |         | UNIQUE                      |
 | 3  | Price       | money         |      |     |         | n > 0                       |
 | 4  | Discount    | decimal(18,2) |      |     | 0       | 0 <= n <= 90                |
 | 5  | Stock       | decimal(18,2) |      |     | 0       | n >= 0                      |
 | 6  | Description | nvarchar(max) | yes  |     |         |                             |
 | 7  | CategoryId  | int           |      | FK  |         | Refrence to Categories (Id) |
 | 8  | SupplierId  | int           |      | FK  |         | Refrence to Suppliers (Id)  |
+| 9  | Slug        | nvarchar(255) |      |     |         |  UNIQUE                     |
 
 ## Orders
 

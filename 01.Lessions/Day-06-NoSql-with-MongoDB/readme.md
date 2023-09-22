@@ -197,7 +197,6 @@ module.exports = {
 
 ```
 
-
 ## 💛 MongoDB Shell
 
 > TIP: Install extension for VS Code: https://www.mongodb.com/products/vs-code
