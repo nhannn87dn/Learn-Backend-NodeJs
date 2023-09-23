@@ -1,9 +1,10 @@
-import * as express from "express"
+import express, {Express} from "express"
 import {AppDataSource} from "../dataSource"
 import userRoutes from "./routes/user.route"
-const createError = require('http-errors');
+import createError from 'http-errors'
 // create and setup express app
-const app = express()
+const app: Express = express()
+
 app.use(express.json())
 
 // register routes
