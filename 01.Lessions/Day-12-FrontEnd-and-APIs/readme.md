@@ -1,3 +1,3 @@
 # FrontEnd and APIs
 
-Giao tiếp giữa Frontend và APIs
+Tiếp tục hoàn thiện tính năng quan trọng cho react-admin
