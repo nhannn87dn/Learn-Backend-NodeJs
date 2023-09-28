@@ -1,17 +1,15 @@
 import express, {Express} from "express"
-import {AppDataSource} from "../dataSource"
-import userRoutes from "./routes/user.route"
+import employeesRoutes from "./routes/employees.route"
+import categoriesRoutes from "./routes/categories.route"
 import createError from 'http-errors'
 // create and setup express app
 const app: Express = express()
 
-app.use(express.json())
+    app.use(express.json())
 
-// register routes
-AppDataSource.initialize().then(() => {
-    console.log("Data Source has been initialized!");
 
-    app.use('/api/v1/users', userRoutes);
+    app.use('/api/v1/employees', employeesRoutes);
+    app.use('/api/v1/categories', categoriesRoutes);
 
     // catch 404 and forward to error handler
     app.use(function (req, res, next) {
@@ -29,9 +27,6 @@ AppDataSource.initialize().then(() => {
     res.send({ error: err.message });
     });
     
-})
-.catch((err) => {
-    console.error("Error during Data Source initialization:", err)
-})
+
 
 module.exports = app;

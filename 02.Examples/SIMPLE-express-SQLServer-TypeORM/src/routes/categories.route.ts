@@ -1,15 +1,18 @@
 
-import { AppDataSource } from '../../dataSource';
+import { AppDataSource } from '../../AppDataSource';
 import { Router, NextFunction, Request, Response } from 'express';
-import { User } from '../entities/user.entity';
+import { Categories } from '../entities/categories.entity';
 const router = Router();// register routes
-const repository = AppDataSource.getRepository(User);
+const repository = AppDataSource.getRepository(Categories);
 
 
 router.get("/", async function (req: Request, res: Response, next: NextFunction) {
     try {
-        const users = await repository.find()
-        res.json(users)
+        const categories = await repository.find();
+
+        console.log("categories",categories);
+
+        res.json(categories);
     }
     catch(err){
         next(err)
@@ -20,7 +23,7 @@ router.get("/", async function (req: Request, res: Response, next: NextFunction)
 router.get("/:id", async function (req: Request, res: Response, next: NextFunction) {
     try {
         const results = await repository.findOneBy({
-            id: parseInt(req.params.id),
+            CategoryID: parseInt(req.params.id),
         })
         res.json(results)
     }
@@ -31,8 +34,8 @@ router.get("/:id", async function (req: Request, res: Response, next: NextFuncti
 
 router.post("/", async function (req: Request, res: Response, next: NextFunction) {
     try {
-        const user = await repository.create(req.body)
-        const results = await repository.save(user)
+        const employee = await repository.create(req.body)
+        const results = await repository.save(employee)
         res.json(results)
     }
     catch(err){
@@ -42,11 +45,11 @@ router.post("/", async function (req: Request, res: Response, next: NextFunction
 
 router.put("/:id", async function (req: Request, res: Response, next: NextFunction) {
     try {
-        const user = await repository.findOneBy({
-            id: parseInt(req.params.id),
+        const employee = await repository.findOneBy({
+            CategoryID: parseInt(req.params.id),
         })
-        repository.merge(user, req.body)
-        const results = await repository.save(user)
+        repository.merge(employee, req.body)
+        const results = await repository.save(employee)
         res.json(results)
     }
     catch(err){

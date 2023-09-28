@@ -1,10 +1,50 @@
 # Using MongoDB and SQL Server
 
-Trong bài học này chúng ta tìm hiểu các vấn đề sau:
+## Cấu hình SQL Server
 
-- Connecting to SQL Server 
-- PUT and PATH
+### Bước 1 - Chuyển chế độ đăng nhập
 
+- Đăng nhập với chế độ Windown Authentication
+- Sau đó kích phải lên tên Instance kết nối, chọn Properties
+
+![sql](img/sql-1.png)
+
+- Sau đó chọn Menu Security, rồi thực hiện chọn như hình dưới
+
+![sql](img/sql-2.png)
+
+
+### Bước 2 - Tạo Database
+
+- Đăng nhập với chế độ Windown Authentication
+- Click phải lên Databases --> chọn New Database
+- Đặt tên sau đó nhấn OK
+
+###  Bước 3 - Tạo tài khoản SQL Server - Authentication
+
+- Đăng nhập với chế độ Windown Authentication
+- Sau đó xổ Mục Security ra --> Click phải lên mục Login --> chọn New Login
+
+![sql](img/sql-3.png)
+
+- Tại tab General điền tên user vào ô Login name, điền password, confirm passowrd vào, rồi tick bỏ chọn Enfoce password policy
+
+- Làm như hình dưới
+
+![sql](img/sql-4.png)
+
+- Tab User Mapping, chọn tên Database bạn muốn add user này vào quản trị
+- Sau đó bên dưới bạn chọn db_owner
+- Cuối cùng click OK 
+
+![sql](img/sql-5.png)
+
+
+###  Bước 4 - Bật  TCP/IP
+
+- Vào Sql Server Configruration Manager
+- Tại mục SQL Server Network Configruration --> chọn Protocals for MSSQLSERVER
+- Tại cửa sổ bên phải: Click phải lên TCP/IP --> Enable
 
 
 ## 💛 Connecting to SQL Server 
@@ -24,32 +64,38 @@ yarn add mssql
 
 #### 🌻Tạo một Database trong SQL Server
 
-Tạo table Users/Employees 
+Tạo table Employees
 
 ```SQL
 CREATE DATABASE AptechTEST;
 GO
 USE AptechTEST;
 GO
-CREATE TABLE Users (
-  id INT PRIMARY KEY IDENTITY,
-  firstName NVARCHAR(20) NOT NULL,
-  lastName NVARCHAR(20) NOT NULL,
-  numberPhone NVARCHAR(120) NOT NULL,
-  email NVARCHAR(50) NOT NULL,
-  address NVARCHAR(50) NULL,
-  birthday DATE NULL,
-  password NVARCHAR(255) NOT NULL
-);
+CREATE TABLE employees (
+  EmployeeID int NOT NULL,
+  LastName nvarchar(255) DEFAULT NULL,
+  FirstName nvarchar(255) DEFAULT NULL,
+  BirthDate date DEFAULT NULL,
+  Photo nvarchar(255) DEFAULT NULL,
+  Notes nvarchar(max),
+  NumberPhone NVARCHAR(120) NOT NULL,
+  Email NVARCHAR(50) NOT NULL,
+  Password NVARCHAR(255) NOT NULL
+) ;
 GO
 
-INSERT INTO Users (firstName, lastName, numberPhone, email, address, birthday, password)
-VALUES
-  ('John', 'Doe', '1234567890', 'john.doe@example.com', '123 Main St', '1990-01-01', 'password1'),
-  ('Jane', 'Smith', '0987654321', 'jane.smith@example.com', '456 Elm St', '1995-02-15', 'password2'),
-  ('Michael', 'Johnson', '9876543210', 'michael.johnson@example.com', '789 Oak Ave', '1985-07-10', 'password3'),
-  ('Emily', 'Williams', '0123456789', 'emily.williams@example.com', '321 Pine Blvd', '1992-12-05', 'password4'),
-  ('David', 'Brown', '5678901234', 'david.brown@example.com', '654 Cedar Ln', '1998-09-20', 'password5');
+INSERT INTO employees (EmployeeID, LastName, FirstName, BirthDate, Photo, Notes, NumberPhone, Email, Password) VALUES
+(1, 'Davolio', 'Nancy', '1968-12-08', 'EmpID1.pic', 'Education includes a BA in psychology from Colorado State University. She also completed (The Art of the Cold Call). Nancy is a member of ''Toastmasters International''.', '123456789', 'nancy@example.com', 'password123'),
+(2, 'Fuller', 'Andrew', '1952-02-19', 'EmpID2.pic', 'Andrew received his BTS commercial and a Ph.D. in international marketing from the University of Dallas. He is fluent in French and Italian and reads German. He joined the company as a sales representative, was promoted to sales manager and was then named vice president of sales. Andrew is a member of the Sales Management Roundtable, the Seattle Chamber of Commerce, and the Pacific Rim Importers Association.', '987654321', 'andrew@example.com', 'password456'),
+(3, 'Leverling', 'Janet', '1963-08-30', 'EmpID3.pic', 'Janet has a BS degree in chemistry from Boston College). She has also completed a certificate program in food retailing management. Janet was hired as a sales associate and was promoted to sales representative.', '555555555', 'janet@example.com', 'password789'),
+(4, 'Peacock', 'Margaret', '1958-09-19', 'EmpID4.pic', 'Margaret holds a BA in English literature from Concordia College and an MA from the American Institute of Culinary Arts. She was temporarily assigned to the London office before returning to her permanent post in Seattle.', '111111111', 'margaret@example.com', 'passwordabc'),
+(5, 'Buchanan', 'Steven', '1955-03-04', 'EmpID5.pic', 'Steven Buchanan graduated from St. Andrews University, Scotland, with a BSC degree. Upon joining the company as a sales representative, he spent 6 months in an orientation program at the Seattle office and then returned to his permanent post in London, where he was promoted to sales manager. Mr. Buchanan has completed the courses ''Successful Telemarketing'' and ''International Sales Management''. He is fluent in French.', '999999999', 'steven@example.com', 'passworddef'),
+(6, 'Suyama', 'Michael', '1963-07-02', 'EmpID6.pic', 'Michael is a graduate of Sussex University (MA, economics) and the University of California at Los Angeles (MBA, marketing). He has also taken the courses ''Multi-Cultural Selling'' and ''Time Management for the Sales Professional''. He is fluent in Japanese and can read and write French, Portuguese, and Spanish.', '777777777', 'michael@example.com', 'passwordxyz'),
+(7, 'King', 'Robert', '1960-05-29', 'EmpID7.pic', 'Robert King served in the Peace Corps and traveled extensively before completing his degree in English at the University of Michigan and then joining the company. After completing a course entitled ''Selling in Europe'', he was transferred to the London office.', '222222222', 'robert@example.com', 'password1234'),
+(8, 'Callahan', 'Laura', '1958-01-09', 'EmpID8.pic', 'Laura received a BA in psychology from the University of Washington. She has also completed a course in business French. She reads and writes French.', '888888888', 'laura@example.com', 'password5678'),
+(9, 'Dodsworth', 'Anne', '1969-07-02', 'EmpID9.pic', 'Anne has a BA degree in English from St. Lawrence College. She is fluent in French and German.', '333333333', 'anne@example.com', 'passwordabcd'),
+(10, 'West', 'Adam', '1928-09-19', 'EmpID10.pic', 'An old chum.', '444444444', 'adam@example.com', 'passwordefgh');
+
 GO
 ```
 
@@ -143,6 +189,268 @@ Tạo đầy đủ CURD API với Users/Employees với SQL Server
 Xem: https://github.com/tediousjs/node-mssql#data-types
 
 
+
+### 🔶 Kết nối với SQL Server với ORM Tools
+
+#### 🌻 ORM là gì ?
+
+ORM viết tắt của "Object-Relational Mapping", là một mô hình lập trình được sử dụng để ánh xạ dữ liệu giữa hệ quản trị cơ sở dữ liệu (Relational Database Management System - RDBMS) và các đối tượng trong các ngôn ngữ lập trình hướng đối tượng (như Java, Python, C#, TypeScript, và nhiều ngôn ngữ khác). Mục tiêu chính của ORM là giúp đơn giản hóa việc làm việc với cơ sở dữ liệu bằng cách biến đổi dữ liệu được lưu trữ trong các bảng cơ sở dữ liệu thành các đối tượng có thể được truy cập và quản lý bằng mã lập trình.
+
+Có rất nhiều Tools ORM: Sequelize, Prisma, TypeORM ...hỗ trợ javascript và TypeScript
+
+---
+
+## 💛 SQL Server with TypeORM library
+
+### Cài đặt
+
+```bash
+yarn add typeorm reflect-metadata mssql 
+```
+
+```bash
+yarn add -D @types/node
+```
+
+**TypeScript configuration**
+
+Sửa file tsconfig.json, thêm vào compilerOptions
+
+```json
+"emitDecoratorMetadata": true,
+"experimentalDecorators": true,
+```
+
+### Kết nối Expressjs Với SQL Server sử dụng TypeORM
+
+#### Bước 1 - Tạo file AppDataSource.ts để cấu hình kết nối
+
+```ts
+
+import { DataSource } from 'typeorm';
+
+export const AppDataSource = new DataSource({
+  type: 'mssql',
+  host: 'PCNHAN',
+  port: 1433,
+  username: 'nhan',
+  password: '123456789',
+  database: 'AptechTest',
+  entities: ['src/entities/**/*.entity{.ts,.js}', 'src/entities/**/*.schema{.ts,.js}'],
+  synchronize: true,
+  logging: false,
+  options: {
+    encrypt: false,
+  },
+});
+```
+
+#### Bước 2 - Tạo Các Model
+
+Trong thư mục src tạo folder `entities` chứa tất cả Entity (Model)
+
+Tạo một file Entity `employee.entity.ts`
+
+Chi tiết xem: https://typeorm.io/#create-an-entity
+
+```ts
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+
+@Entity()
+export class Employee {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ length: 20, nullable: false })
+  firstName: string;
+
+  @Column({ length: 20, nullable: false })
+  lastName: string;
+
+  @Column({ length: 120, nullable: false })
+  numberPhone: string;
+
+  @Column({ length: 50, nullable: false })
+  email: string;
+
+  @Column({ length: 50, nullable: true })
+  address: string;
+
+  @Column({ type: 'date', nullable: true })
+  birthday: Date;
+
+  @Column({ length: 255, nullable: false })
+  password: string;
+}
+
+```
+
+Sau khi kết nối hệ thống sẽ tự động tạo ra trong Database của bạn một table có tên `employee`
+
+#### Bước 3 - Kết nối AppDataSource vào server Express
+
+bạn sửa code server.ts thành như sau:
+
+```ts
+require('dotenv').config();
+import 'reflect-metadata';
+import { AppDataSource } from "./AppDataSource";
+
+const app = require("./src/app");
+const PORT = process.env.PORT || 9000;
+
+AppDataSource.initialize().then(() => {
+    console.log("🚀[SQL Server] Data Source has been initialized!");
+
+
+        const server = app.listen(PORT, () =>
+        console.log(`🚀[ExpressJs] Server ready at: http://localhost:${PORT}`),
+        )
+
+})
+.catch((err) => {
+    console.error("Error during Data Source initialization:", err)
+})
+```
+
+Cho Server SQL khởi động thành công trước, sau đó khởi động server Express
+
+Kết quả Nếu bạn thấy ở log của Terminal là kết nối thành công
+Kiểm tra Database của bạn xem, table employee có được tạo không
+
+```bash
+🚀[SQL Server] Data Source has been initialized!
+🚀[ExpressJs] Server ready at: http://localhost:9000
+```
+
+### Sử dụng kết nối trong các Routes
+
+Ví dụ bạn tạo file src/routes/employee.route.ts
+
+```ts
+import { AppDataSource } from '../../AppDataSource';
+import { Router, NextFunction, Request, Response } from 'express';
+import { Employee } from '../entities/employee.entity';
+const router = Router();// register routes
+const repository = AppDataSource.getRepository(Employee);
+
+
+router.get("/", async function (req: Request, res: Response, next: NextFunction) {
+    try {
+        const employees = await repository.find()
+        res.json(employees)
+    }
+    catch(err){
+        next(err)
+    }
+   
+})
+
+router.get("/:id", async function (req: Request, res: Response, next: NextFunction) {
+    try {
+        const results = await repository.findOneBy({
+            id: parseInt(req.params.id),
+        })
+        res.json(results)
+    }
+    catch(err){
+        next(err)
+    }
+})
+
+router.post("/", async function (req: Request, res: Response, next: NextFunction) {
+    try {
+        const employee = await repository.create(req.body)
+        const results = await repository.save(employee)
+        res.json(results)
+    }
+    catch(err){
+        next(err)
+    }
+})
+
+router.put("/:id", async function (req: Request, res: Response, next: NextFunction) {
+    try {
+        const employee = await repository.findOneBy({
+            id: parseInt(req.params.id),
+        })
+        repository.merge(employee, req.body)
+        const results = await repository.save(employee)
+        res.json(results)
+    }
+    catch(err){
+        next(err)
+    }
+})
+
+router.delete("/:id", async function (req: Request, res: Response, next: NextFunction) {
+    try {
+    const results = await repository.delete(req.params.id)
+    res.json(results)
+    }
+    catch(err){
+        next(err)
+    }
+})
+
+export default router;
+
+```
+
+Sau đó gắn nó vào app.ts
+
+```ts
+import employeeRoutes from "./routes/employee.route"
+//...
+app.use('/api/v1/employees', employeeRoutes);
+```
+
+---
+
+## 💛 Entities là gì
+
+Chi tiết: https://typeorm.io/entities
+
+
+## 💛 DataSource API
+
+Chi tiết: https://typeorm.io/data-source-api
+
+## 💛 Relations - Các kiểu quan hệ
+
+Chi tiết: https://typeorm.io/relations
+
+---
+
+## 💛 Entity Manager and Repository
+
+### Entity Manager
+
+Bạn có thể : insert, update, delete, load, etc. với Entity Manager
+
+Chi tiết: https://typeorm.io/working-with-entity-manager
+
+### Repository
+
+Nó giống như Entity Manager nhưng nó bị giới hạn tại một enity cụ thể
+
+Chi tiết: https://typeorm.io/working-with-entity-manager
+
+
+
+
+## 💛 Query Builder
+
+Ngoài việc bạn sử dụng DataSource để truy vấn bạn còn có thể sử dụng Query Builder
+
+- SELECT: https://typeorm.io/select-query-builder
+- INSERT: https://typeorm.io/insert-query-builder
+- UPDATE: https://typeorm.io/update-query-builder
+- DELETE: https://typeorm.io/delete-query-builder
+
+
+---
+
 ## 💛 PUT and PATH
 
 Trong RESTful API, PUT và PATCH là hai phương thức HTTP khác nhau được sử dụng để cập nhật tài nguyên. 
@@ -221,207 +529,3 @@ Cũng với ví dụ trên thực hiện với PATH thì sau khi cập nhật b�
 
 ==> PATCH chỉ cập nhật những field được yêu cầu thay vì cập nhật toàn bộ.
 
-
-
-### 🔶 Kết nối với SQL Server với ORM Tools
-
-#### 🌻 ORM là gì ?
-
-ORM viết tắt của "Object-Relational Mapping", là một mô hình lập trình được sử dụng để ánh xạ dữ liệu giữa hệ quản trị cơ sở dữ liệu (Relational Database Management System - RDBMS) và các đối tượng trong các ngôn ngữ lập trình hướng đối tượng (như Java, Python, C#, TypeScript, và nhiều ngôn ngữ khác). Mục tiêu chính của ORM là giúp đơn giản hóa việc làm việc với cơ sở dữ liệu bằng cách biến đổi dữ liệu được lưu trữ trong các bảng cơ sở dữ liệu thành các đối tượng có thể được truy cập và quản lý bằng mã lập trình.
-
-Có rất nhiều Tools ORM: Sequelize, Prisma, TypeORM ...hỗ trợ javascript và TypeScript
-
-Trong bài học này chúng ta làm quen với [Sequelize](https://sequelize.org/docs/v6/getting-started/)
-
-
-#### 🌻 Step 1: install
-
-Doc: https://sequelize.org/docs/v6/getting-started/#installing
-
-```bash
-npm install --save sequelize
-yarn add sequelize
-```
-
-Cài đặt Driver cho loại DATABASE
-
-```bash
-npm install --save tedious # Microsoft SQL Server
-yarn add tedious # Microsoft SQL Server
-```
-
-#### 🌻 Step 2: Tạo Models
-
-Tạo một tệp user.model.js (hoặc user.model.ts nếu bạn đang sử dụng TypeScript) để định nghĩa User Entity (Model):
-
-```js
-const { DataTypes } = require('sequelize');
-/**
- * Data Types
- * https://sequelize.org/docs/v6/core-concepts/model-basics/#data-types
- * 
- */
-module.exports = (sequelize) => {
-  const User = sequelize.define('User', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER
-      },
-      firstName: {
-        type: DataTypes.STRING(20),
-        allowNull: false,
-      },
-      lastName: {
-        type: DataTypes.STRING(20),
-        allowNull: false,
-      },
-      numberPhone: {
-        type: DataTypes.STRING(120),
-        allowNull: false,
-      },
-      email: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
-      },
-      address: {
-        type: DataTypes.STRING(50),
-        allowNull: true,
-      },
-      birthday: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      },
-      password: {
-        type: DataTypes.STRING(255),
-        allowNull: false,
-      }
-    },
-    {
-      //tableName: 'Users', //Nếu không khai báo thì tên table = tên Model (thêm s số nhiều)
-      timestamps: true, //https://sequelize.org/docs/v6/core-concepts/model-basics/#timestamps
-    }
-  );
-
-  return User;
-};
-
-```
-
-Xem thêm tài liệu:
-
-- https://sequelize.org/docs/v6/core-concepts/model-basics/
-
-- https://sequelize.org/docs/v6/core-concepts/model-basics/#data-types
-
-
-#### 🌻 Kết nối với SQL Server
-
-Trong folder src/models tạo file index.js
-
-```js
-const { Sequelize } = require('sequelize');
-//Import thông tin cấu hình database server
-const dbConfig = require('../configs/db')
-const sequelize = new Sequelize(dbConfig);
-
-const models = {};
-
-models.Sequelize = Sequelize;
-models.sequelize = sequelize;
-
-//Kết nối các Models (Bảng) tại đây
-models.User = require('./user.model')(sequelize, Sequelize);
-//... thêm vào sau các Model khác
-
-module.exports = models;
-
-```
-
-file db.js
-
-Bạn cần chuẩn bị một account xác thực SQL Authentication
-
-```js
-const dbConfig = {
-    dialect: 'mssql',
-    host: 'NHAN2',
-    port: 1433,
-    username: 'nhan',
-    password: '123456789',
-    database: 'myStore', //Bạn phải tạo Database trước
-    dialectOptions: {
-        options: {
-          encrypt: false, 
-        },
-    },
-}
-
-module.exports = dbConfig;
-```
-
-Lưu ý bạn phải tạo Database trước và không cần tạo bảng, Kết nối thành công thì code sẽ tự động tạo các table dựa trên các Models mà bạn đã cấu hình.
-
-
-file server.js sửa lại như sau
-
-```js
-require('dotenv').config();
-const app = require("./src/app");
-const PORT = process.env.PORT || 9000;
-const models = require('./src/models');
-
-
-/**
- * Tạo hàm kiểm tra db kết nối thành công chưa
- * Kết nối Database server OK --> start server express
- */
-const initApp = async () => {
-  console.log("Testing the database connection..");
-
-  try {
-     //test kết nối
-     await models.sequelize.authenticate();
-     console.log("Connection has been established successfully.");
-
-     
-    // Đồng bộ hóa cơ sở dữ liệu và khởi tạo các bảng nếu chưa tồn tại
-    /**
-     * sync() , tạo mới nếu chưa, còn rồi thì thôi
-     * sync({ force: true }), xóa cũ tạo mới lại
-     * sync({ alter: true }), check và đồng bộ thay đổi
-     */
-    models.sequelize.sync({ alter: true }).then(() => {
-      console.log('Database synced');
-    }).catch((error) => {
-      console.error('Error syncing database:', error);
-    });
-
-    //Khởi tạo server Express
-    app.listen(PORT, () => {
-      console.log(`Server is running at: http://localhost:${PORT}`);
-    });
-
-    
-  } catch (error) {
-     console.error("Unable to connect to the database:", error.original);
-  }
-};
-
-initApp();
-
-```
-
-Sau khi tạo xong, bạn thử chạy server lên
-
-```bash
-yarn dev
-```
-
-Check xem trong Database server có được đồng bộ không, nếu chưa tạo tables thì sẽ được tạo mới.
-
-Xem ví dụ: 02-Examples\SIMPLE-express-SQLSever-Sequelizes
-
-
-## 💛 SQL Server with TypeORM library
