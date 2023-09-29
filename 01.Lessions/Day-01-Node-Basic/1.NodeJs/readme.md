@@ -122,6 +122,65 @@ node <filename>
 node main.js
 ```
 
+## 💛 Tạo một dự án với Node
+
+### Sử dụng cú pháp Javascript
+
+```bash
+npm init 
+```
+Sinh ra file package.json
+
+```javascript
+//main.js
+console.log("Hello NodeJS");
+```
+
+### Sử dụng cú pháp TypeScript
+
+Bước 1: Khởi tạo dự án
+
+```bash
+npm init -y
+npm i typescript ts-node --save-dev
+```
+
+Bước 2: Tạo tệp tin cấu hình TypeScript
+
+Tạo một tệp tin có tên tsconfig.json trong thư mục gốc của dự án và thêm nội dung sau vào tệp tin:
+
+```json
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "dist",
+    "strict": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}
+```
+
+Bước 3:  Code ứng dụng
+
+Tạo file index.ts
+
+```ts
+// File: index.ts
+console.log('Hello, TypeScript!');
+```
+
+Bước 4: Biên dịch và chạy ứng dụng
+
+```bash
+npx tsc
+node dist/index.js
+```
+
+
+## 💛 Hello world App
+
 Tạo một server trên môi trường Node
 
 ```js
@@ -178,36 +237,6 @@ Khi truy cập vào địa chỉ "<http://localhost:3000>", trang web sẽ hiể
 
 Chủ yếu đi tìm hiểu các Module có đánh dấu ❤️
 
-### Create package.json file
-
-```bash
-npm init
-```
-
-### Install a module with --save option
-
-```bash
-npm install <Module Name> --save
-```
-
-### Uninstall a module
-
-```bash
-npm uninstall <Module Name>
-```
-
-### Update a module
-
-```bash
-npm update express
-```
-
-### \*\*Include / Import a module\*\*
-
-```js
-//require ES6
-const http = require('http');
-```
 
 ## 💛 Sharing functions between files
 
