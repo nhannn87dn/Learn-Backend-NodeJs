@@ -8,9 +8,8 @@
 - ES7+ React/Redux/React-Native snippets (dsznajder)
 - Prettier - Code formatter (Prettier)
 - TSLint (Microsoft)
-- Typescript React code snippets (infeng)
 - Better Comments (Aaron Bond)
-- Color Highlight (Sergii N)
+
 
 ## 2. JavaScript (ES Next)
 

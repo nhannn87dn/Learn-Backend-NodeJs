@@ -53,7 +53,7 @@ http
 
 File System module có một số phương thưc tạo mới file như sau:
 
-- fs.appendFile(): Nối thêm nội dung vào cuối file, nếu file tồn tại thì tạo mới
+- fs.appendFile(): Nối thêm nội dung vào cuối file, nếu file chưa tồn tại thì tạo mới
 - fs.open(): Mở file
 - fs.writeFile(): Ghi file
 
