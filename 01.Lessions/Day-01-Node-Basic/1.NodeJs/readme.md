@@ -261,6 +261,80 @@ const math = require('./math');
 const { add, subtract } = require('./math');
 ```
 
+Ngoài ra, bạn cũng có thể sử dụng cú pháp "import/export" trong Node.js bằng cách sử dụng các phiên bản JavaScript gần đây hơn (như ECMAScript modules - ES modules) và cấu hình tùy chọn. 
+
+Để sử dụng cú pháp "import/export" trong Node.js, bạn cần tạo một tệp tin cấu hình (ví dụ: package.json) và thiết lập thuộc tính "type": "module" trong tệp tin cấu hình đó.
+
+```bash
+npm init -y
+```
+
+Mở tệp tin package.json và thêm thuộc tính "type": "module" vào nội dung của tệp tin
+
+```json
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js"
+}
+```
+
+Ví dụ
+
+```javascript
+// File: myModule.js
+export function myFunction() {
+  console.log('Hello from myModule!');
+}
+
+// File: main.js
+import { myFunction } from './myModule.js';
+
+myFunction();
+```
+
+
+Dưới đây là một ví dụ về cách sử dụng export default:
+
+```javascript
+// File: myModule.js
+const myFunction = () => {
+  console.log('This is a default function.');
+};
+
+export default myFunction;
+
+
+// File: main.js
+import myFunction from './myModule.js';
+
+myFunction();
+```
+
+Lưu ý rằng mỗi module chỉ được xuất một giá trị mặc định duy nhất. Nếu bạn muốn xuất nhiều giá trị, bạn có thể sử dụng export default kết hợp với các xuất bổ sung bằng export thông thường.
+
+Ví dụ:
+
+```javascript
+// File: myModule.js
+const myFunction = () => {
+  console.log('This is a default function.');
+};
+
+const myVariable = 42;
+
+export { myVariable };
+export default myFunction;
+
+
+//Sử dụng
+// File: main.js
+import myFunction, { myVariable } from './myModule.js';
+
+myFunction(); // Xuất giá trị mặc định
+console.log(myVariable); // Xuất giá trị thông thường
+```
 
 ## 💛 Tìm hiểu các Module thường sử dụng
 
