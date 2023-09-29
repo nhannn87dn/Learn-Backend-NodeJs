@@ -418,7 +418,20 @@ Chi tiết: https://typeorm.io/data-source-api
 
 ## 💛 Relations - Các kiểu quan hệ
 
-Chi tiết: https://typeorm.io/relations
+### One-to-one
+
+Chi tiết: https://typeorm.io/one-to-one-relations
+
+
+### Many-to-one / one-to-many
+
+Chi tiết: https://typeorm.io/many-to-one-one-to-many-relations
+
+
+### Many-to-many
+
+Chi tiết: https://typeorm.io/many-to-many-relations
+
 
 ---
 
