@@ -200,6 +200,41 @@ HTTP Request có cấu tạo gồm ba phần chính. Đó là request line, head
 
 3. Request Body: nội dung mà request mang theo để gửi lên server
 
+
+### 🚩Mapping requests
+
+Mapping requests (định tuyến yêu cầu) là quá trình xác định cách xử lý các yêu cầu HTTP đến các địa chỉ URL cụ thể trong một ứng dụng web. Trong ngữ cảnh của một ứng dụng web, "mapping" ám chỉ việc liên kết (mapping) các yêu cầu từ người dùng đến các tác vụ xử lý tương ứng.
+
+Khi một yêu cầu HTTP được gửi đến máy chủ, máy chủ cần biết xử lý yêu cầu đó bằng cách nào. Mapping requests giúp xác định điểm cuối (endpoints) trong ứng dụng web mà yêu cầu sẽ được chuyển đến để xử lý.
+
+Trong các framework phát triển ứng dụng web, như Node.js với Express, Django trong Python, ASP.NET trong C#, hay Ruby on Rails, việc mapping requests thường được thực hiện thông qua các route (đường dẫn) và các hàm xử lý tương ứng.
+
+Ví dụ, trong Express framework của Node.js, bạn có thể định nghĩa các route và các hàm xử lý tương ứng như sau:
+
+```javascript
+const express = require('express');
+const app = express();
+
+// Định nghĩa route và hàm xử lý cho yêu cầu GET đến đường dẫn '/'
+app.get('/', (req, res) => {
+  res.send('Hello, World!');
+});
+
+// Định nghĩa route và hàm xử lý cho yêu cầu POST đến đường dẫn '/users'
+app.post('/users', (req, res) => {
+  // Xử lý yêu cầu tạo người dùng mới
+});
+
+// ...các route và hàm xử lý khác
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
+```
+
+Trong ví dụ trên, các yêu cầu GET đến đường dẫn '/' sẽ được chuyển đến hàm xử lý liên kết, và các yêu cầu POST đến đường dẫn '/users' sẽ được chuyển đến hàm xử lý tạo người dùng mới.
+
+Việc mapping requests đóng vai trò quan trọng trong việc quyết định xử lý yêu cầu của người dùng và cung cấp phản hồi tương ứng trong ứng dụng web.
 ### 🚩 Handling Parameters
 
 Trong Express, "handling parameters" (xử lý tham số) đề cập đến cách lấy và sử dụng các tham số được truyền trong các yêu cầu HTTP. 
