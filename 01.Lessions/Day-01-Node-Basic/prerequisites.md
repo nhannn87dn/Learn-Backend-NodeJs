@@ -1,6 +1,6 @@
 # Prerequisites
 
-## 1. Cài đặt các Extensions cho Visual Studio Code
+## 💛1. Cài đặt các Extensions cho Visual Studio Code
 
 - ESLint (Microsoft)
 - IntelliCode (Microsoft)
@@ -10,8 +10,96 @@
 - TSLint (Microsoft)
 - Better Comments (Aaron Bond)
 
+## 💛 2. Tạo một dự án trong NodeJs
 
-## 2. JavaScript (ES Next)
+Bước 1: Khởi tạo dự án
+
+Tạo một thư mục `js-typescript` sau đó mở thư mục này trong terminal của VSCode
+
+```bash
+yarn init -y
+yarn add -D typescript @types/node
+```
+
+Cài 2 gói `typescript` và `@types/node` vào Devdependency
+
+
+Bước 2: Tạo tệp tin cấu hình TypeScript
+
+Tạo một tệp tin có tên `tsconfig.json` trong thư mục gốc của dự án và thêm nội dung sau vào tệp tin:
+
+```bash
+npx tsc --init
+```
+
+Sau đó sửa file lại với nội dung như sau:
+
+```json
+{
+  "compilerOptions": {
+    "lib": ["es5"],  // sử dụng các tính năng của ECMAScript 5 và 6.
+    "target": "es2016", //mã sẽ được biên dịch thành ECMAScript 2016.
+    "allowJs": true,//cho phép sử dụng javascript
+    "module": "commonjs",
+    "outDir": "dist/", //Đường dẫn đến thư mục đầu ra cho các tệp JavaScript đã biên dịch
+    "strict": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true //ảm bảo tính nhất quán trong cách đặt tên tệp.
+  },
+  "include": ["src/**/*"], //bao gồm tất cả file trong thư mục src
+  "exclude": ["node_modules"] //loại trừ 
+}
+
+```
+
+Bước 3:  Cấu trúc dự án
+
+Tạo thư mục `src`
+
+```bash
+mkdir src #tạo thư mục src
+echo "console.log('Hello, TypeScript!')" > src/index.ts # tạo file index.ts
+```
+
+Nội dung file index.ts
+
+```ts
+// File: src/index.ts
+console.log('Hello, TypeScript!');
+```
+
+Bước 4: Biên dịch và chạy ứng dụng
+
+```bash
+npx tsc #biên dịch
+node dist/index.js #chạy file sau khi biên dịch
+```
+
+Như vậy mất thời gian để đánh lệnh rất nhiều lần trong quá trình dev. Nên chúng ta có cách sau:
+
+
+```bash
+yarn add ts-node-dev --save-dev
+```
+Chỉnh sửa package.json
+
+```json
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsnd --respawn ./index.ts",
+    "build": "tsc ./src/index.ts --outDir ./build"
+  },
+
+```
+
+Ôn lại kiến thức JavaScript kết hợp với TypeScript
+
+Học TypeScript: https://www.w3schools.com/typescript/index.php
+
+## 💛 3. JavaScript (ES Next)
 
 
 ## 🔶 JavaScript let

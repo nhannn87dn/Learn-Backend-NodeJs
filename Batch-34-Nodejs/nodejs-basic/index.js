@@ -4,7 +4,3 @@ const hello = require('./myModule');
 const {sub, sum} = require('./myModuleV2');
 //dùng module
 // hello();
-import {helloV3} from './myModulev3'
-
-// sum(2,3);
-helloV3()
