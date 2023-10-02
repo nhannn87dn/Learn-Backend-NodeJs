@@ -3,13 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "author": "",
+  "license": "ISC",
   "scripts": {
     "test": "jest",
     "test:getById": "jest src/tests/products/getById.test.js",
     "dev": "nodemon server.js"
   },
-  "author": "",
-  "license": "ISC",
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
   "dependencies": {
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",

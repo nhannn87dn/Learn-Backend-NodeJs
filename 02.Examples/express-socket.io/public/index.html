@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Real-time Chat</title>
+  <style>
+    #message-list {
+      height: 200px;
+      overflow-y: scroll;
+    }
+  </style>
+</head>
+<body>
+  <h1>Real-time Chat</h1>
+
+  <div>
+    <label for="username">Username:</label>
+    <input type="text" id="username">
+    <button onclick="joinChat()">Join Chat</button>
+  </div>
+
+  <div id="chat-container" style="display: none;">
+    <div id="user-list"></div>
+    <div id="message-list"></div>
+    <div>
+      <input type="text" id="message">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    function joinChat() {
+      const username = document.getElementById('username').value;
+      if (username.trim() !== '') {
+        document.getElementById('username').disabled = true;
+        document.getElementById('chat-container').style.display = 'block';
+
+        socket.emit('join', username);
+      }
+    }
+
+    function sendMessage() {
+      const message = document.getElementById('message').value;
+      if (message.trim() !=='') {
+        document.getElementById('message').value = '';
+        const messageItem = document.createElement('div');
+        messageItem.textContent = message;
+        document.getElementById('message-list').appendChild(messageItem);
+
+        socket.emit('message', message);
+      }
+    }
+
+    socket.on('userJoined', (user) => {
+      const userItem = document.createElement('div');
+      userItem.textContent = `${user} joined the chat`;
+      document.getElementById('user-list').appendChild(userItem);
+    });
+
+    socket.on('userList', (users) => {
+      const userList = document.getElementById('user-list');
+      userList.innerHTML = '';
+      users.forEach((user) => {
+        const userItem = document.createElement('div');
+        userItem.textContent = user;
+        userList.appendChild(userItem);
+      });
+    });
+
+    socket.on('message', (data) => {
+      const messageItem = document.createElement('div');
+      messageItem.textContent = `${data.user}: ${data.message}`;
+      document.getElementById('message-list').appendChild(messageItem);
+    });
+
+    socket.on('userLeft', (user) => {
+      const userItem = document.createElement('div');
+      userItem.textContent = `${user} left the chat`;
+      document.getElementById('user-list').appendChild(userItem);
+    });
+  </script>
+</body>
+</html>

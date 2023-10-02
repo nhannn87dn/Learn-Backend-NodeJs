@@ -1,6 +1,6 @@
 # Using MongoDB and SQL Server
 
-## Cấu hình SQL Server
+## 💛 Cấu hình SQL Server
 
 ### Bước 1 - Chuyển chế độ đăng nhập
 
