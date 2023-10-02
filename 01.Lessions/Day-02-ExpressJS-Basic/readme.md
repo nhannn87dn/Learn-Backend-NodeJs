@@ -235,6 +235,9 @@ app.listen(3000, () => {
 Trong ví dụ trên, các yêu cầu GET đến đường dẫn '/' sẽ được chuyển đến hàm xử lý liên kết, và các yêu cầu POST đến đường dẫn '/users' sẽ được chuyển đến hàm xử lý tạo người dùng mới.
 
 Việc mapping requests đóng vai trò quan trọng trong việc quyết định xử lý yêu cầu của người dùng và cung cấp phản hồi tương ứng trong ứng dụng web.
+
+![res](img/req-res.png)
+
 ### 🚩 Handling Parameters
 
 Trong Express, "handling parameters" (xử lý tham số) đề cập đến cách lấy và sử dụng các tham số được truyền trong các yêu cầu HTTP. 
