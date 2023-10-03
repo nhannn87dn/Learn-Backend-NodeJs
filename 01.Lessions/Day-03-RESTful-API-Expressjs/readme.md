@@ -261,11 +261,15 @@ app.use('/api/users', usersRouter);
 Tạo tiếp các enpoints khác
 
 Resources User
-  - GET : api/v1/users
-  - GET : api/v1/users/:id
-  - POST : api/v1/users/:id
-  - PUT : api/v1/users/:id
-  - DELETE: api/v1/users/:id
+
+| HTTP Method | Endpoint              | Description                     |
+|-------------|-----------------------|---------------------------------|
+| GET         | api/v1/users          | Retrieve all users               |
+| GET         | api/v1/users/:id      | Retrieve a specific user         |
+| POST        | api/v1/users/:id      | Create a new user                |
+| PUT         | api/v1/users/:id      | Update a specific user           |
+| DELETE      | api/v1/users/:id      | Delete a specific user           |
+
 
 
 ## 💛 Errors Handling App
