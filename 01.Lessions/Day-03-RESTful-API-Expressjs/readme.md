@@ -122,7 +122,7 @@ Cài thêm
 ```bash
 npm i -D typescript nodemon @types/express @types/node
 #or
-yarn add -D typescript nodemon @types/express @types/node
+yarn add -D typescript nodemon @types/express @types/node ts-node-dev
 ```
 
 Tạo file tsconfig.json
