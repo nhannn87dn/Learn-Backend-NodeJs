@@ -78,13 +78,13 @@ Cài đặt xem lại ở bài học trước với TypeScript
 
 
 
-**/Controllers** - Thư mục này sẽ chứa tất cả các chức năng dể viết các API của bạn. Cách đặt tên: xxxxx.controller.js trong đó xxx là nhiệm vụ thôi, ví dụ: login.controller.js
+**/Controllers** - Thư mục này sẽ chứa tất cả các chức năng dể viết các API của bạn. Cách đặt tên: xxxxx.controller.ts trong đó xxx là nhiệm vụ thôi, ví dụ: login.controller.ts
 
-**/Routes** - Thư mục này sẽ chứa tất cả các tuyến đường mà bạn đã tạo bằng cách sử dụng Express Router và kết hợp với Controllers. Cách đặt tên cũng như trên xxxxx.routes.js
+**/Routes** - Thư mục này sẽ chứa tất cả các tuyến đường mà bạn đã tạo bằng cách sử dụng Express Router và kết hợp với Controllers. Cách đặt tên cũng như trên xxxxx.routes.ts
 
-**/Models** - Thư mục này sẽ chứa tất cả các files như schema của bạn và và các chức năng cần thiết cho schema cũng sẽ nằm ở đây. Đặt tên xxxxx.model.js
+**/Models** - Thư mục này sẽ chứa tất cả các files như schema của bạn và và các chức năng cần thiết cho schema cũng sẽ nằm ở đây. Đặt tên xxxxx.model.ts
 
-**/Middleware** - Thư mục này sẽ chứa tất cả phần mềm trung gian mà bạn đã tạo, ví dụ như là xác thực chẳng hạn... Cách đặt tên: xxxxx.middleware.js /
+**/Middleware** - Thư mục này sẽ chứa tất cả phần mềm trung gian mà bạn đã tạo, ví dụ như là xác thực chẳng hạn... Cách đặt tên: xxxxx.middleware.ts /
 
 **Helpers** - Các chức năng phổ biến mà bạn sẽ yêu cầu nhiều lần trong suốt mã của mình ví dụ như check missing params trước khi xử lý dữ liệu chẳng hạn. Rất cần thiết.
 
@@ -92,9 +92,9 @@ Cài đặt xem lại ở bài học trước với TypeScript
 
 Đó là những folders rất quan trọng, có thể nói là không thể thiếu. Ngoài ra còn những files trong root như là:
 
-**server.js** - Tập tin khởi chạy ứng dụng Express
+**server.ts** - Tập tin khởi chạy ứng dụng Express
 
-**app.js** - Tệp này về cơ bản sẽ là khai báo của ứng dụng Express
+**app.ts** - Tệp này về cơ bản sẽ là khai báo của ứng dụng Express
 
 **package.json** - File này chứa tất cả các chi tiết npm của dự án, các lệnh chạy như scripts và các phần dependencies
 
@@ -376,7 +376,7 @@ Trong Express, có 5 kiểu middleware có thể sử dụng :
 
 ## 🌻 Cách để tạo ra một middleware theo nhu cầu
 
-Tại thư mục middleware, tạo một file tên: mylogger.middleware.js
+Tại thư mục middleware, tạo một file tên: mylogger.middleware.ts
 
 ```js
 //Tạo và export luôn
@@ -409,7 +409,7 @@ Tạo thêm 2 ví dụ về middleware nữa để thấy được sự chuyển
 
 ### 🌻 Express middleware
 
-Sử dụng các thư viện phổ biến để làm middleware cho src/app.js
+Sử dụng các thư viện phổ biến để làm middleware cho src/app.ts
 
 Tham khảo: <https://expressjs.com/en/resources/middleware.html>
 
@@ -455,7 +455,7 @@ app.use(helmet());
 
 - Ghi log lại mỗi requests gửi lên server express
 
-Thêm đoạn này vào app.js
+Thêm đoạn này vào app.ts
 
 ```js
 // Middleware to log request parameters
