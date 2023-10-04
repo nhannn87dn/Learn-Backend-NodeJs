@@ -567,29 +567,32 @@ Thông thường người ta tạo ra một bảng danh mục mã lỗi kèm mes
 Tạo một file `src\helpers\responseHandler.ts` để handle việc đó
 
 ```js
-const sendJsonSuccess = (req: Request, message: string, code: number) => {
-  return (data, globalData) => {
-    code = code || 200;
-    res.status(code).json({
-      statusCode: code,
-      message: message || 'Success',
-      data,
-      ...globalData,
+import {Request, Response} from 'express';
+const sendJsonSuccess = (res: Response, message: string, code: number) => {
+    return (data: any, globalData: any) => {
+      code = code || 200;
+      res.status(code).json({
+        statusCode: code,
+        message: message || 'Success',
+        data,
+        ...globalData,
+      });
+    };
+  };
+  
+  const sendJsonErrors = (req: Request, res: Response, error: any) => {
+    console.log(error);
+    return res.status(error.status || 500).json({
+      statusCode: error.status || 500,
+      message: error.message || 'Unhandled Error',
+      error,
     });
   };
-};
+  
+export {
+    sendJsonSuccess,
+    sendJsonErrors,
+  };
 
-const sendJsonErrors = (req: Request, res: Response, error: any) => {
-  console.log(error);
-  return res.status(error.status || 500).json({
-    statusCode: error.status || 500,
-    message: error.message || 'Unhandled Error',
-    error,
-  });
-};
 
-module.exports = {
-  sendJsonSuccess,
-  sendJsonErrors,
-};
 ```
