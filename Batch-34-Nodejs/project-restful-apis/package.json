@@ -1,12 +1,12 @@
 {
   "name": "project-restful-apis",
   "version": "1.0.0",
-  "main": "app.ts",
+  "main": "server.ts",
   "license": "MIT",
   "scripts": {
     "build": "npx tsc -p",
-    "start": "node app.ts",
-    "dev": "nodemon app.ts"
+    "start": "node server.ts",
+    "dev": "nodemon server.ts"
   },
   "dependencies": {
     "dotenv": "^16.3.1",
