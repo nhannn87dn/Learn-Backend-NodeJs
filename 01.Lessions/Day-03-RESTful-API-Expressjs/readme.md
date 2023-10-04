@@ -149,7 +149,59 @@ Sau đó mở file tsconfig.json và tìm sửa lại những thông tin sau:
 }
 
 ```
+
 Tạo File src/App.ts
+
+```ts
+import dotenv from 'dotenv';
+import express, { Express, Request, Response } from 'express';
+const app: Express = express();
+dotenv.config();
+
+const PORT = process.env.PORT || 9000;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).json({message: 'Express + TypeScript Server'});
+});
+
+
+app.listen(PORT, () => {
+    console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
+});
+```
+
+Cấu hình lại package.json
+
+```json
+ "scripts": {
+    "build": "npx tsc -p",
+    "start": "node app.ts",
+    "dev": "nodemon app.ts"
+  },
+```
+Tạo file .env ở thư mục gốc dự án, dùng để chứa các thông số bảo mật, biến môi trường
+
+```env
+NODE_ENV= development
+PORT= 8080
+```
+
+Khởi chạy dự án
+
+
+```bash
+yarn dev
+# hoặc
+npm run dev
+```
+
+Nhưng theo đề xuất thì nên tách server ra riêng và app ra riêng như sau:
+
+
+Sửa File src/App.ts
 
 ```ts
 import express, { Express, Request, Response } from 'express';
@@ -185,26 +237,10 @@ Cấu hình lại package.json
 ```json
  "scripts": {
     "build": "npx tsc -p",
-    "start": "node app.ts",
-    "dev": "nodemon app.ts"
+    "start": "node server.ts",
+    "dev": "nodemon server.ts"
   },
 ```
-Tạo file .env ở thư mục gốc dự án
-
-```env
-NODE_ENV= development
-PORT= 8080
-```
-
-Khởi chạy dự án
-
-
-```bash
-yarn dev
-# hoặc
-npm run dev
-```
-
 
 ### 🔶 Follow cách hoạt động của mô hình cấu trúc dự án
 
