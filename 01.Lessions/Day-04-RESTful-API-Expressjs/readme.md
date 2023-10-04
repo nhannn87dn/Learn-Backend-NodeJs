@@ -21,11 +21,15 @@ Tạo ra các phiên bản mới hơn như là để nâng cấp code cho phiên
 - Maintenance các routes demo phần trước, đưa vào v1
 
 - Resources User
-  - GET : api/v1/users
-  - GET : api/v1/users/:id
-  - POST : api/v1/users/:id
-  - PUT : api/v1/users/:id
-  - DELETE: api/v1/users/:id
+
+| HTTP Method | Endpoint              | Description                     |
+|-------------|-----------------------|---------------------------------|
+| GET         | api/v1/users          | Retrieve all users               |
+| GET         | api/v1/users/:id      | Retrieve a specific user         |
+| POST        | api/v1/users/:id      | Create a new user                |
+| PUT         | api/v1/users/:id      | Update a specific user           |
+| DELETE      | api/v1/users/:id      | Delete a specific user           |
+
 
 Tại src/routes/v1 tạo file user.route.js
 
