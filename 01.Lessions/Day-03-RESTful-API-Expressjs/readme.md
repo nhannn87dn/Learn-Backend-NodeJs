@@ -277,19 +277,18 @@ const users = [
   { id: 3, name: 'Tim', email: 'tim@gmail.com' },
 ];
 
-
 // Get all users
 router.get('/', async (req: Request, res: Response) => {
   res.status(200).json(users);
 });
 
-module.exports = router;
+export default = router;
 ```
 
 Gắn router vào app.ts
 
 ```js
-const usersRouter = require('./routes/users.route');
+import usersRouter from './routes/users.route'
 //API sẽ bắt đầu bằng api/users
 app.use('/api/users', usersRouter);
 ```
