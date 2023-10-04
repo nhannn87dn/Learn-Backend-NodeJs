@@ -31,7 +31,7 @@ Tạo ra các phiên bản mới hơn như là để nâng cấp code cho phiên
 | DELETE      | api/v1/users/:id      | Delete a specific user           |
 
 
-Tại src/routes/v1 tạo file user.route.js
+Tại src/routes/v1 tạo file user.route.ts
 
 ```js
 const express = require('express');
@@ -99,7 +99,7 @@ router.delete('/users/:id', async (req: Request,  res: Response, next: NextFunct
 module.exports = router;
 ```
 
-Gắn router vào app.js
+Gắn router vào app.ts
 
 ```js
 const usersRoute = require('./routes/users.route');
@@ -129,7 +129,7 @@ Tiếp tục refactor các routes, chuyển thành các controllers
 
 Tách xử lý business logic ra khỏi routes, giúp routes gọn hơn, dễ nhìn hơn, dễ bão trì hơn
 
-Tạo file src/controllers/users.controller.js
+Tạo file src/controllers/users.controller.ts
 
 ```js
 const createError = require('http-errors');
@@ -181,7 +181,7 @@ exports.deleteUserById = async (req: Request, res: Response) => {
 };
 ```
 
-refactor lại phần users Route src/routes/v1/users.route.js
+refactor lại phần users Route src/routes/v1/users.route.ts
 
 ```js
 const express = require('express');
@@ -201,7 +201,7 @@ router.delete('/:id', usersController.deleteUserById);
 module.exports = router;
 ```
 
-Sử dòng này ở app.js
+Sử dòng này ở app.ts
 
 ```js
 //app.use('/api/v1', usersRoute);
@@ -213,7 +213,7 @@ app.use('/api/v1/users', usersRoute);
 Nếu bạn muốn tách phần xử lý business logic fetch Data ra khỏi controller
 thì tạo thêm lớp Service. Controller chỉ nhận data và trả lại response
 
-Tạo file src/services/users.service.js
+Tạo file src/services/users.service.ts
 
 Lưu ý: nó trả về Data cho Controller nên sử dụng return
 
@@ -321,7 +321,7 @@ lại response.
 - validate Path parameter
 - validate Query parameter
 
-**Bước 1:** Chúng ta cần tạo một Middleware để handle validate `src\middlewares\validateSchema.middleware.js`
+**Bước 1:** Chúng ta cần tạo một Middleware để handle validate `src\middlewares\validateSchema.middleware.ts`
 
 Sử dụng thư viện `joi` để validate
 
@@ -366,7 +366,7 @@ module.exports = validateSchema;
 
 Tạo folder `src/validations`
 
-Trong folder này tạo file `user.validation.js
+Trong folder này tạo file `user.validation.ts
 
 ```js
 const Joi = require('joi');
@@ -413,7 +413,7 @@ Thì chúng ta gọi các vấn đề trên với một khái niệm là `Authen
 
 User sẽ mang token này để truy cập tới các private endpoint
 
-Tạo Schema Login src/validations/auth.validation.js
+Tạo Schema Login src/validations/auth.validation.ts
 
 ```js
 const Joi = require('joi');
@@ -430,7 +430,7 @@ module.exports = {
 };
 ```
 
-Tạo Route Auth src/routes/v1/auth.route.js
+Tạo Route Auth src/routes/v1/auth.route.ts
 
 ```js
 const express = require('express');
@@ -450,7 +450,7 @@ router.post(
 module.exports = router;
 ```
 
-Gắn route Auth vào app.js
+Gắn route Auth vào app.ts
 
 ```js
 //...
@@ -459,7 +459,7 @@ const authRouteV1 = require('./routes/v1/auth.route');
 app.use('/api/v1/auth', authRouteV1);
 ```
 
-Tạo Controller Auth src/controllers/auth.controller.js
+Tạo Controller Auth src/controllers/auth.controller.ts
 
 User login sẽ mang theo payload là email và password
 
@@ -476,7 +476,7 @@ module.exports = {
 };
 ```
 
-Tạo Service Auth src/services/auth.service.js
+Tạo Service Auth src/services/auth.service.ts
 
 ```js
 const createError = require('http-errors');

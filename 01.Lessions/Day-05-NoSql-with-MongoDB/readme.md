@@ -61,7 +61,7 @@ npm install mongodb
 ```
 2. Kết nối express với mongodb
 
-Tạo file constants/dbSetting.js
+Tạo file constants/dbSetting.ts
 
 ```js
 module.exports = {
@@ -72,7 +72,7 @@ module.exports = {
 
 Với Database bạn phải tạo trước trong MongoPass
 
-Tại một routes bất kỳ như routes/users.js
+Tại một routes bất kỳ như routes/users.router.ts
 
 ```js
 const express = require("express");
@@ -185,7 +185,7 @@ yarn add mongoose --save
 
 ## 💛 Kết nối với Database
 
-Đưa đoạn code này vào server.js
+Đưa đoạn code này vào server.ts
 
 ```js
 /// Start the server
@@ -231,7 +231,7 @@ Tham khảo: <https://mongoosejs.com/docs/schematypes.html>
 
 Doc: <https://mongoosejs.com/docs/guide.html#definition>
 
-Tạo thư mục models, trong thư mục này tạo file user.model.js
+Tạo thư mục models, trong thư mục này tạo file user.model.ts
 
 Cú pháp
 
@@ -365,7 +365,7 @@ Doc: <https://mongoosejs.com/docs/queries.html>
 
 ### 🔶 Insert - Thêm mới
 
-Bạn sửa funtion createUser trong services\users.service.js
+Bạn sửa funtion createUser trong services\users.service.ts
 lại như sau:
 
 ```js
