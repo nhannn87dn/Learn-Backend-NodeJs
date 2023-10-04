@@ -150,7 +150,7 @@ Sau đó mở file tsconfig.json và tìm sửa lại những thông tin sau:
 
 ```
 
-Tạo File src/App.ts
+Tạo File app.ts
 
 ```ts
 import dotenv from 'dotenv';
