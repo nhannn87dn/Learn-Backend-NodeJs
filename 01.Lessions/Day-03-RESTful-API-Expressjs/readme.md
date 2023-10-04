@@ -564,7 +564,7 @@ Thông thường người ta tạo ra một bảng danh mục mã lỗi kèm mes
 |    404     |   API Not Found    |
 |    500     |    Error Server    |
 
-Tạo một file `src\utilities\responseHandler.ts` để handle việc đó
+Tạo một file `src\helpers\responseHandler.ts` để handle việc đó
 
 ```js
 const sendJsonSuccess = (req: Request, message: string, code: number) => {
