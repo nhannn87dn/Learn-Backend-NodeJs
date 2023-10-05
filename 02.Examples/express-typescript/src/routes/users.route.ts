@@ -1,5 +1,6 @@
 import express, { Express} from 'express';
 import usersController from '../controllers/users.controller';
+import {authenticateToken} from '../middleware/auth.middleware';
 import { validateSchema } from '../middleware/validateSchema.middleware';
 import userSchema from '../validations/users.validation'
 const router: Express = express();
@@ -16,6 +17,6 @@ router.get('/', usersController.getAllUsers);
  * [GET] /api/v1/users/:id
  * 
  */
-router.get('/:id', validateSchema(userSchema.getById), usersController.getUserById);
+router.get('/:id', authenticateToken, validateSchema(userSchema.getById), usersController.getUserById);
 
 export default router;

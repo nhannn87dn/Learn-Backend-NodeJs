@@ -1,7 +1,7 @@
-const Joi = require('joi');
-const _ = require('lodash');
+import Joi from 'joi';
+import _ from 'lodash';
 import{ NextFunction, Request, Response } from 'express';
-import responseHandler from '../helpers/responseHandler'
+import {sendJsonErrors} from '../helpers/responseHandler'
 
 export const validateSchema = (schema: object) => (req: Request, res: Response, next: NextFunction) => {
   const pickSchema = _.pick(schema, ['params', 'body', 'query']);
@@ -19,7 +19,7 @@ export const validateSchema = (schema: object) => (req: Request, res: Response, 
     const errorMessage = error.details
       .map((detail: any) => detail.message)
       .join(', ');
-    return responseHandler.sendJsonErrors(res, {
+    return sendJsonErrors(res, {
       status: 400,
       message: errorMessage,
       typeError: 'validateSchema'

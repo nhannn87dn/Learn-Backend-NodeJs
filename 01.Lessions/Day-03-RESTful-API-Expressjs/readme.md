@@ -568,15 +568,10 @@ Tạo một file `src\helpers\responseHandler.ts` để handle việc đó
 
 ```js
 import {Request, Response} from 'express';
-const sendJsonSuccess = (res: Response, message: string, code: number) => {
-    return (data: any, globalData: any) => {
-      code = code || 200;
-      res.status(code).json({
-        statusCode: code,
-        message: message || 'Success',
-        data,
-        ...globalData,
-      });
+const sendJsonSuccess = (res: Response, message = 'Success', code = 200) => {
+    return (data: any = null) => {
+      const resData = data ? { statusCode: code, message, data} : { statusCode: code, message};
+      res.status(code).json(resData);
     };
   };
   

@@ -1,6 +1,7 @@
-import express, {Request, Response} from 'express';
+import express, {NextFunction, Request, Response} from 'express';
 import users from '../../constants/users.json';
 import {sendJsonSuccess} from '../../helpers/responseHandler'
+
 
 const router = express.Router();
 
@@ -14,11 +15,16 @@ router.get('/users', (req: Request, res: Response)=>{
     sendJsonSuccess(res)(users); // Gọi hàm mà có truyền giá trị cho data 
 });
 //get user by ID
-router.get('/users/:id([0-9]+)', (req: Request, res: Response)=>{
-    const {id} = req.params; //==> string
-    const user = users.find(user => user.id === parseInt(id))
-  
-    sendJsonSuccess(res)(user);
+router.get('/users/:id([0-9]+)', (req: Request, res: Response, next: NextFunction)=>{
+    try{
+        const {id} = req.params; //==> string
+        const user = users.find(user => user.id === parseInt(id))
+      
+        sendJsonSuccess(res)(user);
+    }catch (error){
+        next(error)
+    }
+   
 });
 
 

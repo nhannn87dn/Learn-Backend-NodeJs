@@ -17,5 +17,6 @@ export const appConfigs = {
     NODE_ENV: process.env.NODE_ENV || 'development',
     PORT: process.env.PORT || 8080,
     MONGODB_CONNECT_URL: process.env.MONGODB_CONNECT_URL,
-    MONGODB_DATABASE_NAME: process.env.MONGODB_DATABASE_NAME
+    MONGODB_DATABASE_NAME: process.env.MONGODB_DATABASE_NAME,
+    JWT_SECRET: process.env.JWT_SECRET,
 }

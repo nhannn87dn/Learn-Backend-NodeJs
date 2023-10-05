@@ -24,6 +24,7 @@ const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
 const getUserById = async (req: Request, res: Response, next: NextFunction) => {
     try {
      const {id} = req.params;
+     console.log('getUserById',id)
       const user = await usersService.getUserById(id);
       res.status(200).json({
         statusCode: "0",

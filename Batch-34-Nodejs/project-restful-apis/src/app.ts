@@ -14,7 +14,7 @@ const corsOptions = {
 }
 
 //Middleware Application ở đây
-app.use(cors()); //Cho phép gọi bất kỳ đâu
+app.use(cors({ origin: '*' })); //Cho phép gọi bất kỳ đâu
 
 //app.use(cors(corsOptions)); //cho phép gọi từ một domain xác định
 

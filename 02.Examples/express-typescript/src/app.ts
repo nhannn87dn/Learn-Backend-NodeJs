@@ -7,6 +7,7 @@ import { notFoundHandler, errorHandler } from './middleware';
 
 /* Import Models */
 import usersRoutes from './routes/users.route';
+import authRoute from './routes/auth.route'
 
 const app: Express = express();
 
@@ -25,7 +26,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/api/v1/users', usersRoutes);
-
+app.use('/api/v1/auth', authRoute);
 
 
 
