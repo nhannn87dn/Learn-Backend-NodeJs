@@ -75,7 +75,7 @@ Với Database bạn phải tạo trước trong MongoPass
 Tại một routes bất kỳ như routes/users.router.ts
 
 ```js
-const express = require("express");
+import express  from "express";
 const router = express.Router();
 const { CONNECTION_STRING, DATABASE_NAME } = require("../constants/dbSettings");
 const { MongoClient,ObjectId } = require("mongodb");

@@ -34,8 +34,8 @@ Tạo ra các phiên bản mới hơn như là để nâng cấp code cho phiên
 Tại src/routes/v1 tạo file user.route.ts
 
 ```js
-const express = require('express');
-const createError = require('http-errors');
+import express from 'express';
+import createError from 'http-errors';
 const router = express.Router();
 
 /* tách thành file json */
@@ -102,7 +102,7 @@ module.exports = router;
 Gắn router vào app.ts
 
 ```js
-const usersRoute = require('./routes/users.route');
+import usersRoute from './routes/users.route';
 
 //Response version API
 app.get('/', async (req: Request, res: Response) => {
@@ -132,7 +132,7 @@ Tách xử lý business logic ra khỏi routes, giúp routes gọn hơn, dễ nh
 Tạo file src/controllers/users.controller.ts
 
 ```js
-const createError = require('http-errors');
+import createError from 'http-errors';
 const users = [
   { id: 1, name: 'Jonh', email: 'jonh@gmail.com' },
   { id: 2, name: 'Dara', email: 'dara@gmail.com' },
@@ -184,9 +184,9 @@ exports.deleteUserById = async (req: Request, res: Response) => {
 refactor lại phần users Route src/routes/v1/users.route.ts
 
 ```js
-const express = require('express');
+import express  from "express";
 const router = express.Router();
-const usersController = require('../../controllers/users.controller');
+import usersController from '../../controllers/users.controller';
 
 router.get('/', usersController.getAllUsers);
 
@@ -218,7 +218,7 @@ Tạo file src/services/users.service.ts
 Lưu ý: nó trả về Data cho Controller nên sử dụng return
 
 ```js
-const createError = require('http-errors');
+import createError from 'http-errors';
 const users = [
   { id: 1, name: 'Jonh', email: 'jonh@gmail.com' },
   { id: 2, name: 'Dara', email: 'dara@gmail.com' },
@@ -275,8 +275,8 @@ Khi đó user Controller bạn refactor lại như sau:
 chuyển hết phần hander error sang service
 
 ```js
-const createError = require('http-errors');
-const usersService = require('../services/users.service');
+import createError from 'http-errors';
+import usersService from '../services/users.service';
 
 exports.getAllUsers = async (req: Request,  res: Response, next: NextFunction) => {
   try {
@@ -328,12 +328,12 @@ Sử dụng thư viện `joi` để validate
 Chi tiết cách sử dụng joi xem ở [link sau](https://joi.dev/api/?v=17.9.1)
 
 ```js
-const Joi = require('joi');
-const _ = require('lodash');
+import Joi from 'joi';
+import _ from 'lodash';
+import{ NextFunction, Request, Response } from 'express';
+import {sendJsonErrors} from '../helpers/responseHandler'
 
-//Midleware validateSchema
-const validateSchema = (schema) => (req: Request,  res: Response, next: NextFunction) => {
-  //dùng pick để chỉ chọn ra các phần tử cần lấy
+const validateSchema = (schema: object) => (req: Request, res: Response, next: NextFunction) => {
   const pickSchema = _.pick(schema, ['params', 'body', 'query']);
   const object = _.pick(req, Object.keys(pickSchema));
   const { value, error } = Joi.compile(pickSchema)
@@ -347,19 +347,19 @@ const validateSchema = (schema) => (req: Request,  res: Response, next: NextFunc
     .validate(object);
   if (error) {
     const errorMessage = error.details
-      .map((detail) => detail.message)
+      .map((detail: any) => detail.message)
       .join(', ');
-    return res.status(400).json({
+    return sendJsonErrors(res, {
       status: 400,
-      type: 'validateSchema Joi',
       message: errorMessage,
+      typeError: 'validateSchema'
     });
+
   }
   Object.assign(req, value);
   return next();
 };
-
-module.exports = validateSchema;
+export default validateSchema
 ```
 
 **Bước 2:** Tạo các Schema Validation
@@ -369,7 +369,7 @@ Tạo folder `src/validations`
 Trong folder này tạo file `user.validation.ts
 
 ```js
-const Joi = require('joi');
+import Joi from 'joi';
 
 const getUserById = {
   params: Joi.object().keys({
@@ -377,8 +377,8 @@ const getUserById = {
   }),
 };
 
-module.exports = {
-  getUserById,
+export {
+  getUserById
 };
 ```
 
@@ -416,7 +416,7 @@ User sẽ mang token này để truy cập tới các private endpoint
 Tạo Schema Login src/validations/auth.validation.ts
 
 ```js
-const Joi = require('joi');
+import Joi from 'joi';
 
 const userLogin = {
   body: Joi.object().keys({
@@ -425,7 +425,7 @@ const userLogin = {
   }),
 };
 
-module.exports = {
+export default {
   userLogin,
 };
 ```
@@ -433,12 +433,12 @@ module.exports = {
 Tạo Route Auth src/routes/v1/auth.route.ts
 
 ```js
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
-const authController = require('../../controllers/auth.controller');
-const validateSchema = require('../../middlewares/validateSchema.middleware');
-const authValidation = require('../../validations/auth.validation');
+import authController from '../../controllers/auth.controller';
+import validateSchema from'../../middlewares/validateSchema.middleware';
+import authValidation from'../../validations/auth.validation';
 
 //http://localhost:8686/api/v1/auth
 router.post(
@@ -447,14 +447,14 @@ router.post(
   authController.userLogin
 );
 
-module.exports = router;
+export default router;
 ```
 
 Gắn route Auth vào app.ts
 
 ```js
 //...
-const authRouteV1 = require('./routes/v1/auth.route');
+import authRouteV1 from './routes/v1/auth.route';
 
 app.use('/api/v1/auth', authRouteV1);
 ```
@@ -464,14 +464,15 @@ Tạo Controller Auth src/controllers/auth.controller.ts
 User login sẽ mang theo payload là email và password
 
 ```js
-const { authService } = require('../services/auth.service');
-const responseHandler = require('../utilities/responseHandler');
+import  authService from '../services/auth.service';
+import {sendJsonSuccess} from '../helpers/responseHandler'
 
-const userLogin = catchAsync(async (req: Request, res: Response) => {
+const userLogin = async (req: Request, res: Response) => {
   const user = await authService.userLogin(req.body);
-  requestHandler.sendJsonSuccess(res)(user);
-});
-module.exports = {
+  sendJsonSuccess(res)(user);
+};
+
+export default {
   userLogin,
 };
 ```
@@ -479,8 +480,9 @@ module.exports = {
 Tạo Service Auth src/services/auth.service.ts
 
 ```js
-const createError = require('http-errors');
-const jwt = require('jsonwebtoken');
+import  createError from 'http-errors';
+import jwt from 'jsonwebtoken';
+
 const users = [
   { id: 1, name: 'Jonh', email: 'jonh@gmail.com', password: '123' },
   { id: 2, name: 'Dara', email: 'dara@gmail.com', password: '123' },
@@ -492,7 +494,7 @@ const users = [
  * Nâng cấp lên mật khẩu phức tạp hơn để tăng độ khó
  */
 
-exports.userLogin = async (body) => {
+const userLogin = async (body) => {
   console.log(body);
   //Tìm xem có tồn tại user có email không
   let user = await users.find((user) => user.email === body.email);
@@ -514,5 +516,9 @@ exports.userLogin = async (body) => {
     token,
   };
 };
+
+export default {
+  AuthLogin
+}
 
 ```
