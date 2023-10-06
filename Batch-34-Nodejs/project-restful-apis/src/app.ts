@@ -55,7 +55,7 @@ app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   
   //res.status(statusCode).json({ statusCode: statusCode, message: err.message });
-  sendJsonErrors(req, res,err);
+  sendJsonErrors(res,err);
 });
 //Xuất app ra cho server.ts
 export default app
