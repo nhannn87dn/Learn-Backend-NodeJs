@@ -1,4 +1,4 @@
-import express, { Express, NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import createError from 'http-errors';
 import usersService from '../services/users.service';
 /**
@@ -26,6 +26,9 @@ const getUserById = async (req: Request, res: Response, next: NextFunction) => {
      const {id} = req.params;
      console.log('getUserById',id)
       const user = await usersService.getUserById(id);
+      if (!user) {
+        throw createError(404, 'User not found');
+      }
       res.status(200).json({
         statusCode: "0",
         message: 'success',

@@ -1,4 +1,4 @@
-import express, { Express, NextFunction, Request, Response } from 'express';
+import {  NextFunction, Request, Response } from 'express';
 import createError from 'http-errors';
 import User from  '../models/User.model'
 

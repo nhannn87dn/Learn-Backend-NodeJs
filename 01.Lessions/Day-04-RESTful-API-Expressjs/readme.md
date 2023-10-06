@@ -96,7 +96,7 @@ router.delete('/users/:id', async (req: Request,  res: Response, next: NextFunct
   // ...
 });
 
-module.exports = router;
+export default  router;
 ```
 
 Gắn router vào app.ts
@@ -140,12 +140,12 @@ const users = [
 ];
 
 // Get all users
-exports.getAllUsers = async (req: Request, res: Response) => {
+const getAllUsers = async (req: Request, res: Response) => {
   res.status(200).json(users);
 };
 
 // Get a user by ID
-exports.getUserById = async (req: Request,  res: Response, next: NextFunction) => {
+const getUserById = async (req: Request,  res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
 
@@ -166,19 +166,27 @@ exports.getUserById = async (req: Request,  res: Response, next: NextFunction) =
 };
 
 // Create a new user
-exports.createUser = async (req: Request, res: Response) => {
+const createUser = async (req: Request, res: Response) => {
   console.log('createUser');
 };
 
 // Update a user by ID
-exports.updateUserById = async (req: Request, res: Response) => {
+const updateUserById = async (req: Request, res: Response) => {
   console.log('updateUserById');
 };
 
 // Delete a user by ID
-exports.deleteUserById = async (req: Request, res: Response) => {
+const deleteUserById = async (req: Request, res: Response) => {
   console.log('deleteUserById');
 };
+
+export default {
+  getAllUsers,
+  getUserById,
+  createUser,
+  updateUserById,
+  deleteUserById
+}
 ```
 
 refactor lại phần users Route src/routes/v1/users.route.ts
@@ -198,7 +206,7 @@ router.put('/:id', usersController.updateUserById);
 
 router.delete('/:id', usersController.deleteUserById);
 
-module.exports = router;
+export default  router;
 ```
 
 Sử dòng này ở app.ts
@@ -226,12 +234,12 @@ const users = [
 ];
 
 // Get all users
-exports.getAllUsers = async (users) => {
+const getAllUsers = async (users) => {
   return users;
 };
 
 // Get a user by ID
-exports.getUserById = async (req) => {
+const getUserById = async (req) => {
   try {
     const { id } = req.params;
 
@@ -252,22 +260,30 @@ exports.getUserById = async (req) => {
 };
 
 // Create a new user
-exports.createUser = async () => {
+const createUser = async () => {
   console.log('createUser');
   return users;
 };
 
 // Update a user by ID
-exports.updateUserById = async () => {
+const updateUserById = async () => {
   console.log('updateUserById');
   return users;
 };
 
 // Delete a user by ID
-exports.deleteUserById = async () => {
+const deleteUserById = async () => {
   console.log('deleteUserById');
   return users;
 };
+
+export default {
+  getAllUsers,
+  getUserById,
+  createUser,
+  updateUserById,
+  deleteUserById
+}
 ```
 
 Khi đó user Controller bạn refactor lại như sau:
@@ -278,7 +294,7 @@ chuyển hết phần hander error sang service
 import createError from 'http-errors';
 import usersService from '../services/users.service';
 
-exports.getAllUsers = async (req: Request,  res: Response, next: NextFunction) => {
+const getAllUsers = async (req: Request,  res: Response, next: NextFunction) => {
   try {
     const users = await usersService.getAllUsers();
     res.status(200).send(users);
@@ -287,7 +303,7 @@ exports.getAllUsers = async (req: Request,  res: Response, next: NextFunction) =
   }
 };
 
-exports.getUserById = async (req: Request,  res: Response, next: NextFunction) => {
+const getUserById = async (req: Request,  res: Response, next: NextFunction) => {
   try {
     const user = await usersService.getUserById(req);
     res.send(user);
@@ -297,19 +313,26 @@ exports.getUserById = async (req: Request,  res: Response, next: NextFunction) =
 };
 
 // Create a new user
-exports.createUser = async (req: Request,  res: Response, next: NextFunction) => {
+const createUser = async (req: Request,  res: Response, next: NextFunction) => {
   console.log('createUser');
 };
 
 // Update a user by ID
-exports.updateUserById = async (req: Request,  res: Response, next: NextFunction) => {
+const updateUserById = async (req: Request,  res: Response, next: NextFunction) => {
   console.log('updateUserById');
 };
 
 // Delete a user by ID
-exports.deleteUserById = async (req: Request,  res: Response, next: NextFunction) => {
+const deleteUserById = async (req: Request,  res: Response, next: NextFunction) => {
   console.log('deleteUserById');
 };
+export default {
+  getAllUsers,
+  getUserById,
+  createUser,
+  updateUserById,
+  deleteUserById
+}
 ```
 
 Còn không bạn có thể dừng lại ở mức cơ bản là controller, fetch Data và trả
@@ -377,7 +400,7 @@ const getUserById = {
   }),
 };
 
-export {
+export default {
   getUserById
 };
 ```
