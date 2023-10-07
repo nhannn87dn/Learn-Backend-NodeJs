@@ -43,7 +43,7 @@ const createItem = async (payload: IUser) => {
   
 };
 
-const updateItem = async (id: number, playload: IUser) => {
+const updateItem = async (id: number, payload: IUser)  => {
  
     //Bước 1: Tìm xem  có tồn tại user có id không
     const user = users.find((user) => user.id === id);
@@ -56,7 +56,7 @@ const updateItem = async (id: number, playload: IUser) => {
     //Bước 2: Cập nhật lại thông tin của user có id
     const newUsers = users.map((user) => {
       if (user.id === id) {
-        const updateUser = { ...user, ...playload };
+        const updateUser = { ...user, ...payload };
         return updateUser;
       }
       return user;
@@ -68,7 +68,7 @@ const updateItem = async (id: number, playload: IUser) => {
     return newUsers;
 };
 
-const deleteItem = async (id: number) => {
+const deleteItem = async (id: number): Promise<IUser[]> => {
  
  
     //Bước 1: Tìm xem  có tồn tại user có id không
@@ -85,7 +85,7 @@ const deleteItem = async (id: number) => {
     //ghi nội dung xuống một file
     fs.writeFileSync(fileName, JSON.stringify(newUsers), { flag: 'w' });
 
-    return newUsers  ;
+    return newUsers;
 };
 
 export default {

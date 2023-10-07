@@ -1,5 +1,6 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 import usersRouter from './routes/v1/users.route';
+import categoriesRouter from './routes/v1/categories.route';
 import myloggerMiddleware from './middleware/mylogger.middleware';
 import secondsMiddleware from './middleware/seconds.middleware';
 import bodyParser from 'body-parser';
@@ -30,7 +31,9 @@ app.use(secondsMiddleware) //Middleware tự định nghĩa
 
 //Gắn thêm một route vào app.ts
 //localhost:8080/api/v1/users
-app.use('/api/v1',usersRouter);
+app.use('/api/v1/users',usersRouter);
+app.use('/api/v1/categories',categoriesRouter);
+
 ///Hết Middleware
 
 //Danh sách các routes

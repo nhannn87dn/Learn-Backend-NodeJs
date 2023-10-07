@@ -1,5 +1,7 @@
 import express from 'express';
 import usersController from '../../controllers/users.controller';
+import validateSchema from '../../middleware/validateSchema.middleware';
+import usersValidation from '../../validations/users.validation';
 /***
  * Route chỉ làm nhiệm vụ định tuyến
  * Mapping request giữa client với Server
@@ -8,25 +10,26 @@ import usersController from '../../controllers/users.controller';
 const router = express.Router();
 
 //Get All users from DB
-router.get('/users', usersController.getAllUsers);
+router.get('/', usersController.getAllUsers);
 
 //get user by ID
-router.get('/users/:id([0-9]+)', usersController.getUserById);
+//Gắn middleware vào để check id có phải là số không
+router.get('/:id', validateSchema(usersValidation.getUserById), usersController.getUserById);
 
 //Create a new user
-router.post('/users', usersController.createItem);
+router.post('/', usersController.createItem);
 
 /**
  * Update a user by ID
- * PATH /api/v1/users/:id
+ * PATH /api/v1//:id
  */
-router.patch('/users/:id([0-9]+)', usersController.updateItem);
+router.patch('/:id', validateSchema(usersValidation.updateItem), usersController.updateItem);
 
 /**
  * Delete a user by ID
- * DELETE /api/v1/users/:id
+ * DELETE /api/v1//:id
  */
-router.delete('/users/:id([0-9]+)', usersController.deleteItem);
+router.delete('/:id', usersController.deleteItem);
 
 //Xuất router ra
 export default router;
