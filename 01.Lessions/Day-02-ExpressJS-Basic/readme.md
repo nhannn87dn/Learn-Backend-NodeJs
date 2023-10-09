@@ -211,32 +211,28 @@ Trong các framework phát triển ứng dụng web, như Node.js với Express,
 
 Ví dụ, trong Express framework của Node.js, bạn có thể định nghĩa các route và các hàm xử lý tương ứng như sau:
 
+
+![res](img/req-res-1.png)
+
+Ví dụ khi người dùng (CLIENT)  nhập địa chỉ này lên URL trình duyệt ==> đồng nghĩa là đang gửi một request lên SERVER
+
+Và người Code Backend muốn CLIENT nhận lại được thông tin gì thì SERVER sẽ tạo ra một Route để phản hồi (Response) lại thông tin cho CLIENT tương ứng, ví dụ:
+
 ```javascript
 const express = require('express');
 const app = express();
 
-// Định nghĩa route và hàm xử lý cho yêu cầu GET đến đường dẫn '/'
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
-
-// Định nghĩa route và hàm xử lý cho yêu cầu POST đến đường dẫn '/users'
-app.post('/users', (req, res) => {
-  // Xử lý yêu cầu tạo người dùng mới
-});
-
-// ...các route và hàm xử lý khác
-
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+app.get('/users', (req, res) => {
+  res.send('get All Users');
 });
 ```
 
-Trong ví dụ trên, các yêu cầu GET đến đường dẫn '/' sẽ được chuyển đến hàm xử lý liên kết, và các yêu cầu POST đến đường dẫn '/users' sẽ được chuyển đến hàm xử lý tạo người dùng mới.
+Route này bạn định nghĩa đường dẫn tương tứng với request mà CLIENT gửi lên là `/users`
 
-Việc mapping requests đóng vai trò quan trọng trong việc quyết định xử lý yêu cầu của người dùng và cung cấp phản hồi tương ứng trong ứng dụng web.
+Cuối cùng 2 đường dẫn này khớp nhau: `/users` <==> `/users` thì gọi đó là mapping một request.
 
-![res](img/req-res.png)
+Ngoài khớp URL ra thì còn cần khớp thêm METHOD: GET, POST, PUT, DELETE...
+
 
 ### 🚩 Handling Parameters
 

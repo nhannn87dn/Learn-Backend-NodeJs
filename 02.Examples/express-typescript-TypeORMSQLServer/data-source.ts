@@ -10,16 +10,32 @@ import { OrderDetail } from './src/entities/order-details.entity';
 
 export const AppDataSource = new DataSource({
   type: 'mssql',
-  host: '113.160.224.121',
+  host: 'NHAN2',
   port: 1433,
-  username: 'developer',
-  password: 'developer',
-  database: 'TypeOrm',
+  username: 'nhan',
+  password: '123456789',
+  database: 'OnlineShop',
   // entities: ['entities/**/*.entity{.ts,.js}', 'entities/**/*.schema{.ts,.js}'],
   entities: [Category, Supplier, Customer, Employee, Product, Order, OrderDetail],
-  synchronize: true,
+  synchronize: false,
   logging: false,
   options: {
     encrypt: false,
   },
 });
+
+// export const AppDataSource = new DataSource({
+//   type: 'mssql',
+//   host: '113.160.224.121',
+//   port: 1433,
+//   username: 'developer',
+//   password: 'developer',
+//   database: 'TypeOrm',
+//   // entities: ['entities/**/*.entity{.ts,.js}', 'entities/**/*.schema{.ts,.js}'],
+//   entities: [Category, Supplier, Customer, Employee, Product, Order, OrderDetail],
+//   synchronize: true,
+//   logging: false,
+//   options: {
+//     encrypt: false,
+//   },
+// });
