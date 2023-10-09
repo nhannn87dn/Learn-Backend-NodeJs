@@ -1,4 +1,4 @@
-# Connecting SQL Server
+# Connecting SQL Server using Prisma ORM
 
 Prisma là một công cụ ORM (Object-Relational Mapping) và một lớp truy vấn dữ liệu mạnh mẽ được phát triển bởi Prisma Labs.
 
@@ -6,10 +6,11 @@ Prisma hỗ trợ nhiều loại cơ sở dữ liệu như MySQL, PostgreSQL và
 
 Tài liệu: https://www.prisma.io/docs/getting-started
 
-## Cài đặt Prisma vào ExpressJs
+## 💛 Cài đặt Prisma vào ExpressJs
 
-### Đối với dự án mới
-#### Create project setup
+### 🌻 Đối với dự án mới
+
+#### 🔸 Create project setup
 
 ```bash
 yarn init -y
@@ -34,7 +35,7 @@ Tạo file  Prisma schema
 npx prisma init
 ```
 
-#### Connect your database
+#### 🔸 Connect your database
 
 Bạn phải tạo database trong SQL Server trước, sau đó:
 
@@ -53,7 +54,7 @@ datasource db {
 }
 ```
 
-#### Creating the database schema
+#### 🔸 Creating the database schema
 
 Thêm vào `prisma/schema.prisma`
 
@@ -104,13 +105,13 @@ Error: Could not resolve @prisma/client in the current project. Please install i
 
 Yêu cầu bạn cài `@prisma/client`
 
-#### Install Prisma Client
+#### 🔸 Install Prisma Client
 
 ```bash
 yarn add @prisma/client
 ```
 
-#### Querying the database
+#### 🔸 Querying the database
 
 Thực hiện truy vấn với Prisma Client
 
@@ -138,9 +139,9 @@ router.get('/posts', async (req, res) => {
 
 ```
 
-### Đối với dự án đã tồn tại
+### 🌻 Đối với dự án đã tồn tại
 
-#### Cài thư viện Prisma
+#### 🔸 Cài thư viện Prisma
 
 ```bash
 yarn add prisma --save-dev
@@ -152,7 +153,7 @@ Tạo file  Prisma schema
 npx prisma init
 ```
 
-#### Connect your database
+#### 🔸 Connect your database
 
 Bạn phải tạo database trong SQL Server trước, sau đó:
 
@@ -161,20 +162,145 @@ Tạo file `.env`
 ```env
 DATABASE_URL="sqlserver://localhost:1433;database=PrismaNodeJs;user=nhan;password=123456789;trustServerCertificate=true"
 ```
-#### Connect your database
+#### 🔸 Cài đặt Prisma Client
 
-## Tạo các Model với TypeORM
+```bash
+yarn add @prisma/client
+```
+Sau đó bạn đánh lệnh sau để tạo ra file Schema
+
+```bash
+npx prisma generate
+```
+Sau đó bạn sửa lại `prisma/schema.prisma` đúng với database
+
+```schema
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(255)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  content   String?
+  published Boolean  @default(false)
+  authorId  Int
+  User      User     @relation(fields: [authorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Profile {
+  id     Int     @id @default(autoincrement())
+  bio    String?
+  userId Int     @unique
+  User   User    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model User {
+  id      Int      @id @default(autoincrement())
+  name    String?  @db.VarChar(255)
+  email   String   @unique @db.VarChar(255)
+  Post    Post[]
+  Profile Profile?
+}
+```
+
+
+## 💛 Tạo các Model 
 
 Làm tuần tự lần lượt 
 
-1. Employee 
-2. Customer 
-3. Category 
-4. Supplier 
+1. Employee
+2. Customer
+3. Category
+4. Supplier
 5. Product
-6. Order 
+6. Order
 7. OrderDetails
 
 Cấu trúc các bảng xem tại `Homeworks\Database-Structure`
 
-## Mockup DATA cho SQL Server
+## 💛 Mockup DATA cho SQL Server
+
+Xem: https://www.prisma.io/docs/guides/migrate/seed-database
+
+Bạn tạo file `prisma/seed.ts`
+
+```ts
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+async function main() {
+  const alice = await prisma.user.upsert({
+    where: { email: 'alice@prisma.io' },
+    update: {},
+    create: {
+      email: 'alice@prisma.io',
+      name: 'Alice',
+      posts: {
+        create: {
+          title: 'Check out Prisma with Next.js',
+          content: 'https://www.prisma.io/nextjs',
+          published: true,
+        },
+      },
+    },
+  })
+  const bob = await prisma.user.upsert({
+    where: { email: 'bob@prisma.io' },
+    update: {},
+    create: {
+      email: 'bob@prisma.io',
+      name: 'Bob',
+      posts: {
+        create: [
+          {
+            title: 'Follow Prisma on Twitter',
+            content: 'https://twitter.com/prisma',
+            published: true,
+          },
+          {
+            title: 'Follow Nexus on Twitter',
+            content: 'https://twitter.com/nexusgql',
+            published: true,
+          },
+        ],
+      },
+    },
+  })
+  console.log({ alice, bob })
+}
+main()
+  .then(async () => {
+    await prisma.$disconnect()
+  })
+  .catch(async (e) => {
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+  })
+```
+
+Chắc chắn rằng bạn đã cài các thư viện cho typescript
+
+```bash
+yarn add -D typescript ts-node @types/node
+```
+
+Sau đó bạn sửa thêm đoạn này vào `package.json`
+
+```json
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts" //<== Here
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.21",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  }
+}
+```
+
+Sau để để seed data bạn đánh lệnh
+
+```bash
+npx prisma db seed
+```
