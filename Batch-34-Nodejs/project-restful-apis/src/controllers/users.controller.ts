@@ -19,7 +19,7 @@ const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
 const getUserById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     
-    const user = await usersService.getUserById(parseInt(req.params.id))
+    const user = await usersService.getUserById(req.params.id)
 
     sendJsonSuccess(res)(user);
   } catch (error) {
@@ -44,7 +44,7 @@ const updateItem = async (req: Request, res: Response, next: NextFunction) => {
     console.log(id, req.body);
     const payload = req.body;
     //Bước 1: Tìm xem  có tồn tại user có id không
-    const newUsers = await usersService.updateItem(parseInt(id), payload);
+    const newUsers = await usersService.updateItem(id, payload);
    
     sendJsonSuccess(res)(newUsers); // Gọi hàm mà có truyền giá trị cho data
     //res.json('ok');
@@ -57,7 +57,7 @@ const deleteItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params; //id = 4
 
-    const newUsers = await usersService.deleteItem(parseInt(id));
+    const newUsers = await usersService.deleteItem(id);
     
     sendJsonSuccess(res)(newUsers); // Gọi hàm mà có truyền giá trị cho data
   } catch (err) {

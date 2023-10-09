@@ -1,91 +1,50 @@
-import createError from 'http-errors';
-import users from '../constants/users.json';
-import fs from 'fs';
-
+import User from '../models/users.model'
+import {IUser} from '../types/users';
 /**
  * Service == Dịch vụ
  * - Đi xử lí logic
  * - Tương tác trực tiếp với Database
  */
 
-//khi fs chạy, là nó lấy thư mục root của dự án làm gốc
-const fileName = './src/constants/users.json';
-
-interface IUser {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-}
 /**
  * Các hàm trong serice phải có return
  */
 
 
 const getAllUsers = async () => {
+  //Tương đương: SELECT * users (SQL)
+  const users = User.find();
   return users;
 };
 
-const getUserById = async (id: number) => {
-  const user = users.find((user) => user.id === id);
-  return user;
+const getUserById = async (id: string) => {
+ //SELECT * users WHERE id = id
+ console.log(id);
+ const user = await User.findById(id)
+ return user;
 };
 
 const createItem = async (payload: IUser) => {
- 
-    //thêm phần tử mới vào users[]
-    //const newUsers = [...users, {id: 4, name: 'Tom', email: 'tom@gmail.com'}];
-    const newUsers = [...users, payload];
-    //ghi nội dung xuống một file
-    fs.writeFileSync(fileName, JSON.stringify(newUsers), { flag: 'w' });
-    //trả lại thông tin cho clien
-    return newUsers;
+  // Lưu xuống database
+  const user =  await User.create(payload);
+  return user; 
   
 };
 
-const updateItem = async (id: number, payload: IUser)  => {
- 
-    //Bước 1: Tìm xem  có tồn tại user có id không
-    const user = users.find((user) => user.id === id);
-
-    //Nếu không tồn tại thì báo lỗi
-    if (!user) {
-      throw createError('404', 'User not found');
-    }
-
-    //Bước 2: Cập nhật lại thông tin của user có id
-    const newUsers = users.map((user) => {
-      if (user.id === id) {
-        const updateUser = { ...user, ...payload };
-        return updateUser;
-      }
-      return user;
-    });
-
-    //ghi nội dung xuống một file
-    fs.writeFileSync(fileName, JSON.stringify(newUsers), { flag: 'w' });
-
-    return newUsers;
+const updateItem = async (id: string, payload: IUser)  => {
+  const user = User.findByIdAndUpdate(id, payload, {
+    new: true, //==> trả về user với thông tin sau khi đã thay đổi
+  });
+  return user;
+    
 };
 
-const deleteItem = async (id: number): Promise<IUser[]> => {
+const deleteItem = async (id: string) => {
+  const user = User.findByIdAndDelete(id);
+  //DELETE FROM users WHERE _id = id
+  //const userv2 = User.findOneAndDelete({_id: id}); //==> trả về user với thông tin trước khi xóa
+  return user;
  
- 
-    //Bước 1: Tìm xem  có tồn tại user có id không
-    const user = users.find((user) => user.id === id);
-
-    //Nếu không tồn tại thì báo lỗi
-    if (!user) {
-      throw createError(404, 'User not found');
-    }
-
-    //Bước 2: Nếu tìm thấy thì mới đi xóa
-    const newUsers = users.filter((user) => user.id !== id);
-
-    //ghi nội dung xuống một file
-    fs.writeFileSync(fileName, JSON.stringify(newUsers), { flag: 'w' });
-
-    return newUsers;
 };
 
 export default {

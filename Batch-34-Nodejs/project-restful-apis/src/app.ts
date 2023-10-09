@@ -31,15 +31,18 @@ app.use(secondsMiddleware) //Middleware tự định nghĩa
 
 //Gắn thêm một route vào app.ts
 //localhost:8080/api/v1/users
-app.use('/api/v1/users',usersRouter);
-app.use('/api/v1/categories',categoriesRouter);
 
-///Hết Middleware
 
 //Danh sách các routes
 app.get('/', (req: Request, res: Response) => {
   res.status(200).json({message: 'Express + TypeScript Server'});
 });
+
+
+app.use('/api/v1/users',usersRouter);
+app.use('/api/v1/categories',categoriesRouter);
+
+///Hết Middleware
 
 
 /***

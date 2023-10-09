@@ -15,19 +15,29 @@ POST http://localhost:8080/api/v1/users HTTP/1.1
 content-type: application/json
 
 {
-  "id": 8,
-  "name": "Nhan",
-  "email": "nhan@gmail.com",
-  "password": "123456"
+  "firstName": "Ngoc Nhan",
+"lastName": "Nguyen",
+"email": "Nhanv2@gmail.com",
+"phoneNumber": "1234567899",
+"password": "Catfly200miles"
 }
 
 
 ###
 
 ## Update a  User by ID
-PATCH  http://localhost:8080/api/v1/users/8 HTTP/1.1
+PATCH  http://localhost:8080/api/v1/users/6523f7a4c210bef987185acc HTTP/1.1
 content-type: application/json
 
 {
-  "name": ""
+ 
+"firstName": "Ngoc Nhan",
+"lastName": "Nguyen",
+"email": "nhanv3@gmail.com",
+"phoneNumber": "1234567899",
+"password": "Catfly@200miles"
+
 }
+
+###
+DELETE   http://localhost:8080/api/v1/users/6523f6952afea2a5cd71ee3f HTTP/1.1
