@@ -64,7 +64,7 @@ npm install mongodb
 Tạo file constants/dbSetting.ts
 
 ```js
-module.exports = {
+export default {
     CONNECTION_STRING: 'mongodb://127.0.0.1:27017/AptechTest',
     DATABASE_NAME: 'AptechTest',
   };
@@ -77,7 +77,7 @@ Tại một routes bất kỳ như routes/users.router.ts
 ```js
 import express  from "express";
 const router = express.Router();
-const { CONNECTION_STRING, DATABASE_NAME } = require("../constants/dbSettings");
+import { CONNECTION_STRING, DATABASE_NAME }from "../constants/dbSettings";
 const { MongoClient,ObjectId } = require("mongodb");
 
 /* get All Users */
@@ -92,7 +92,7 @@ router.get("/", async (req, res, next) => {
     next(error)
   }
 });
-module.exports = router;
+export default = router;
 ```
 
 Trong ví dụ trên, chúng ta đã truy vấn tất cả các tài khoản người dùng từ bảng `users` trong cơ sở dữ liệu và trả về kết quả dưới dạng JSON.
@@ -246,29 +246,7 @@ schema.set(option, value);
 
 Xem các options ở link sau: <https://mongoosejs.com/docs/guide.html#options>
 
-Ví dụ về User Schema:
-
-```js
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
-
-//Tạo Schema
-const userSchema = new Schema(
-  {
-    name: String,
-    email: String,
-    password: String,
-    role: String,
-    isEmailVerified: Boolean,
-  },
-  { timestamps: true }
-);
-// Tạo Model User
-const User = new mongoose.model('User', userSchema);
-module.exports = User;
-```
-
-Nếu sử dụng với TypeScript
+Sử dụng với TypeScript
 
 ```ts
 import { Schema, model } from 'mongoose';
@@ -306,7 +284,7 @@ const userSchema = new Schema<IUser>(
 );
 //3. Tạo Model User
 const User = model<IUser>('User', userSchema);
-module.exports = User;
+export default User;
 ```
 
 ## 💛 Database Relationships
@@ -347,12 +325,21 @@ Dựa trên mối quan hệ giữa CSDL, Cấu trúc của một Document sẽ �
 
 Mô hình này có tốc độ truy vấn nhanh hơn. Nhưng nhược điểm là Data đúng chất NoSQL nó không có mối tương quan dữ liệu gì với các collection
 
+Dùng khi: Quan hệ MỘT - NHIỀU . 
+
+Nếu bạn có một quan hệ một-nhiều giữa các đối tượng và quan hệ này không thay đổi thường xuyên, embedding có thể là lựa chọn tốt
+
+
 - use references
 
 ![embed](img/references-model.PNG)
 
 Mặc dù mongoo được biết đến là NoSQL nhưng với mô hình này thì nó có quan hệ.
 Tốc độ truy vấn trong mô hình này chậm hơn kiểu `embed` vì phải tham chiếu nhiều collection để lấy dữ liệu.
+
+Dùng khi: Quan hệ NHIỀU - NHIỀU
+
+Nếu bạn có một quan hệ nhiều-nhiều giữa các đối tượng, Dữ liệu có tính nhất quán và thay đổi thường xuyên, sử dụng tham chiếu có thể là lựa chọn tốt
 
 Data Model Design: <https://www.mongodb.com/docs/manual/core/data-model-design/#data-model-design>
 
@@ -533,7 +520,6 @@ Nếu bạn thấy các tính năng validate có sẵn không đáp ứng đư�
 Ví dụ: Check số điện thoại đúng định dạng yêu cầu không
 
 ```js
-const validator = require('validator');
 
 const userSchema = new Schema({
   phone: {
@@ -581,6 +567,14 @@ userSchema.methods.generateAuthToken = function () {
 
 - Dùng để tạo ra một tính năng độc lập, không liên quan đến bên trong Model
 
+```js
+const user = await User.findById(id);
+if (user) {
+  const invalidPassword = user.invalidPassword(user.password,payload.password);
+  ///Nó là một method instance nên dùng nó sau khi instance được khởi tạo
+}
+```
+
 
 ## 💛 Static
 
@@ -598,12 +592,18 @@ userSchema.statics.isEmailTaken = async (email, excludeUserId) => {
   return !!user;
 };
 ```
+Cách dùng
+
+```javascript
+//check email đã tồn tại chưa trước khi update
+const isEmailExits = User.isEmailTaken(payload.email, currentUserId)
+```
 
 ## 💛 Virtuals
 
 Tạo ra một thuộc tính ảo.
 
-Ví dụ đang có sẳn firstName và LastName, bạn không cần tạo thêm FullName.
+Ví dụ đang có sẵn firstName và LastName, bạn không cần tạo thêm FullName.
 
 ```js
 // Virtual for this genre instance fullName.
@@ -621,7 +621,21 @@ userSchema.virtual('url').get(function () {
 });
 ```
 
+Nếu bạn muốn các virtuals xuất hiện trong `console.log` và `object json` bạn cần thiết lập thêm
+
+```javascript
+{
+  timestamps: false, //true tự tạo ra createAt và updateAt
+  toJSON: { virtuals: true }, // <-- include virtuals in `JSON.stringify()`
+  toObject: { virtuals: true },
+}
+```
+
+vào options của schema, sau đó khi truy vấn bạn sẽ thấy trường fullname xuất hiện.
+
 ## 💛 Query Helpers
+
+Giúp bạn tự tạo cho mình một hàm truy vấn riêng.
 
 Giúp bạn tạo ra cú pháp short hand, tránh lặp lại nhiều lần đoạn code dài dòng.
 

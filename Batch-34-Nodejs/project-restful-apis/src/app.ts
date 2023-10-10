@@ -56,12 +56,19 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
 
 // error handler --> tất cả lỗi khác rơi vào đây
 app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  
-  //res.status(statusCode).json({ statusCode: statusCode, message: err.message });
-  sendJsonErrors(res,err);
+  console.log('<<< Error Handler Stack >>>', err.stack);
+  //console.error('<< Middleware Error >>', err);
+  err.errorType = 'AppError';
+  if (err instanceof createError.HttpError) {
+    err.errorType = 'HttpError';
+  }
+  else if(err.name === 'ValidationError'){
+    err.errorType = 'ValidationMongooseSchema';
+  }
+  else if(err.name === 'MongoError'){
+    err.errorType = 'MongoError';
+  }
+  sendJsonErrors(res, err);
 });
 //Xuất app ra cho server.ts
 export default app

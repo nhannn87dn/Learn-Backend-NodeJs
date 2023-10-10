@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import {IUser} from '../types/users';
+import { object } from 'joi';
 
 
 //Tạo một schema
@@ -45,11 +46,24 @@ const userSchema = new Schema<IUser>({
     },
   }
 },
- {
-  timestamps: false //true tự tạo ra createAt và updateAt
- }
-
+//Các options
+{
+  timestamps: false, //true tự tạo ra createAt và updateAt
+  toJSON: { virtuals: true }, // <-- include virtuals in `JSON.stringify()`
+  toObject: { virtuals: true },
+}
 );
+
+//Thêm một phương thức mới cho Model User
+userSchema.methods.customMethod = function () {
+  return true
+};
+
+// Virtual for this genre instance fullName.
+userSchema.virtual('fullName').get(function () {
+  return this.firstName + ' ' + this.lastName;
+});
+
 
 //3. Tạo Model User
 const User = model<IUser>('User', userSchema);

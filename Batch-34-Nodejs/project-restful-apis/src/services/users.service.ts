@@ -1,5 +1,5 @@
 import User from '../models/users.model'
-import {IUser} from '../types/users';
+import {IUser, IUserSchema} from '../types/users';
 /**
  * Service == Dịch vụ
  * - Đi xử lí logic
@@ -20,11 +20,20 @@ const getAllUsers = async () => {
 const getUserById = async (id: string) => {
  //SELECT * users WHERE id = id
  console.log(id);
- const user = await User.findById(id)
+ 
+ const user: IUserSchema | null = await User.findById(id);
+
+ //static: User.isEmailTaken
+
+  if(user){
+    console.log(user.customMethod(), user.fullName);
+  }
+
  return user;
 };
 
 const createItem = async (payload: IUser) => {
+  //Kiểm tra xem email đã tồn tại chưa
   // Lưu xuống database
   const user =  await User.create(payload);
   return user; 

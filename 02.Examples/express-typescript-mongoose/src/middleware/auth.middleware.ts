@@ -1,4 +1,3 @@
-import { IUser } from '../types/models';
 import jwt, { JwtPayload }  from 'jsonwebtoken'
 import User from '../models/User.model'
 import { Request, Response, NextFunction } from "express";
@@ -36,7 +35,7 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
     }
 };
 
-const authorize = (roles: string[] = []) => {
+export const authorize = (roles: string[] = []) => {
     // roles param can be a single role string (e.g. Role.User or 'User') 
     // or an array of roles (e.g. [Role.Admin, Role.User] or ['Admin', 'User'])
     if (typeof roles === 'string') {
