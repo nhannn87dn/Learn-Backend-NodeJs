@@ -1,5 +1,5 @@
 import jwt, { JwtPayload }  from 'jsonwebtoken'
-import User from '../models/User.model'
+import Employee from '../models/Employee.model'
 import { Request, Response, NextFunction } from "express";
 import createError from 'http-errors';
 import {appConfigs} from '../constants/configs';
@@ -21,7 +21,7 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
     try {
       const decoded = jwt.verify(token, appConfigs.JWT_SECRET as string) as decodedJWT;
       //try verify user exits in database
-      const user = await User.findById(decoded._id);
+      const user = await Employee.findById(decoded._id);
 
       if (!user) {
         return next(createError(401, 'Unauthorized'));

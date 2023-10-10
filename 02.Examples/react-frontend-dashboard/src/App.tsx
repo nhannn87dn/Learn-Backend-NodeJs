@@ -33,6 +33,7 @@ function App() {
                             )
                           })
                         }
+                        
                     </Route>
                   )
                 }else{
@@ -45,7 +46,10 @@ function App() {
                 
               })
             }
-            <Route path='*' element={<NoPage />}  />
+            {/* 404 Not Found */}
+           <Route element={<DefaultLayout />}>
+              <Route path='*' element={<NoPage />}  />
+           </Route>
         </Routes>
     </BrowserRouter>
     </QueryClientProvider>
