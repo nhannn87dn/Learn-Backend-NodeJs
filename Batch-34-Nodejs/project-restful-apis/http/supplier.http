@@ -1,0 +1,11 @@
+
+## Creat a Supplier
+POST http://localhost:8080/api/v2/suppliers HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Dell",
+  "email": "dell@gmail.com",
+  "phoneNumber": "133777665",
+  "address": "90 Tran Tong"
+}

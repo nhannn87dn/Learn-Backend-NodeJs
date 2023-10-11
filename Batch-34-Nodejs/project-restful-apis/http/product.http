@@ -1,0 +1,13 @@
+## Creat a Product
+POST http://localhost:8080/api/v1/products HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Iphone 14 Pro 512gb",
+  "price": 450,
+  "discount": 5,
+  "stock": 10,
+  "description": "Iphone 14 Pro 512gb chính hãng giá rẻ, có bán trả góp",
+  "categoryId": "65268d426737772c9a252027",
+  "supplier": "65269c819452474a19380d57"
+}

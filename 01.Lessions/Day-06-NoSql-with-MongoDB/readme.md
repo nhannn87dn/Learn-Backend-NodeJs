@@ -41,6 +41,8 @@ DÙNG FILE `products-example.json` ĐỂ TEST
 | $ne  | Matches all values that are not equal to a specified value.         |
 | $nin | Matches none of the values specified in an array.                   |
 
+Doc: https://www.mongodb.com/docs/manual/reference/operator/query-comparison/
+
 ### 🔶 Tìm kiếm với Logical
 
 | Name | Description                                                         |
@@ -54,6 +56,8 @@ DÙNG FILE `products-example.json` ĐỂ TEST
 | $ne  | Matches all values that are not equal to a specified value.         |
 | $nin | Matches none of the values specified in an array.                   |
 
+Doc: https://www.mongodb.com/docs/manual/reference/operator/query-logical/
+
 ### 🔶 Array
 
 | Name       | Description                                                                                      |
@@ -62,6 +66,7 @@ DÙNG FILE `products-example.json` ĐỂ TEST
 | $elemMatch | Selects documents if element in the array field matches all the specified $elemMatch conditions. |
 | $size      | Selects documents if the array field is a specified size.                                        |
 
+Doc: https://www.mongodb.com/docs/manual/reference/operator/query-array/
 ## 💛 Sorting - Sắp xếp
 
 Sắp xếp kết quả trả về theo một thuộc tính nào đó với trật từ tăng dần hoặc giảm dần

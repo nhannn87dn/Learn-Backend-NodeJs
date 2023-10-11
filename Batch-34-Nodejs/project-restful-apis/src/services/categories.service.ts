@@ -1,94 +1,57 @@
-import createError from 'http-errors';
-import categories from '../constants/categories.json';
-import fs from 'fs';
-
+import Category from '../models/categories.model'
+import {ICategory} from '../types/models';
 /**
  * Service == Dịch vụ
  * - Đi xử lí logic
  * - Tương tác trực tiếp với Database
  */
 
-//khi fs chạy, là nó lấy thư mục root của dự án làm gốc
-const fileName = './src/constants/categories.json';
-
-interface ICategory {
-  id: number;
-  name: string;
-  description: string;
-}
 /**
  * Các hàm trong serice phải có return
  */
 
 
-const getAll = async () => {
+const getAllItems = async () => {
+  //Tương đương: SELECT * categories (SQL)
+  const categories = Category.find();
   return categories;
 };
 
-const getItemById = async (id: number) => {
-  const user = categories.find((user) => user.id === id);
-  return user;
+const getItemById = async (id: string) => {
+ //SELECT * categories WHERE id = id
+ console.log(id);
+ 
+ const user = await Category.findById(id);
+
+ return user;
 };
 
 const createItem = async (payload: ICategory) => {
- 
-    //thêm phần tử mới vào categories[]
-    //const newcategories = [...categories, {id: 4, name: 'Tom', email: 'tom@gmail.com'}];
-    const newcategories = [...categories, payload];
-    //ghi nội dung xuống một file
-    fs.writeFileSync(fileName, JSON.stringify(newcategories), { flag: 'w' });
-    //trả lại thông tin cho clien
-    return newcategories;
+  //Kiểm tra xem email đã tồn tại chưa
+  // Lưu xuống database
+  const user =  await Category.create(payload);
+  return user; 
   
 };
 
-const updateItem = async (id: number, payload: ICategory)  => {
- 
-    //Bước 1: Tìm xem  có tồn tại user có id không
-    const user = categories.find((user) => user.id === id);
-
-    //Nếu không tồn tại thì báo lỗi
-    if (!user) {
-      throw createError('404', 'User not found');
-    }
-
-    //Bước 2: Cập nhật lại thông tin của user có id
-    const newcategories = categories.map((user) => {
-      if (user.id === id) {
-        const updateUser = { ...user, ...payload };
-        return updateUser;
-      }
-      return user;
-    });
-
-    //ghi nội dung xuống một file
-    fs.writeFileSync(fileName, JSON.stringify(newcategories), { flag: 'w' });
-
-    return newcategories;
+const updateItem = async (id: string, payload: ICategory)  => {
+  const user = Category.findByIdAndUpdate(id, payload, {
+    new: true, //==> trả về user với thông tin sau khi đã thay đổi
+  });
+  return user;
+    
 };
 
-const deleteItem = async (id: number): Promise<ICategory[]> => {
+const deleteItem = async (id: string) => {
+  const user = Category.findByIdAndDelete(id);
+  //DELETE FROM categories WHERE _id = id
+  //const userv2 = Category.findOneAndDelete({_id: id}); //==> trả về user với thông tin trước khi xóa
+  return user;
  
- 
-    //Bước 1: Tìm xem  có tồn tại user có id không
-    const user = categories.find((user) => user.id === id);
-
-    //Nếu không tồn tại thì báo lỗi
-    if (!user) {
-      throw createError(404, 'User not found');
-    }
-
-    //Bước 2: Nếu tìm thấy thì mới đi xóa
-    const newcategories = categories.filter((user) => user.id !== id);
-
-    //ghi nội dung xuống một file
-    fs.writeFileSync(fileName, JSON.stringify(newcategories), { flag: 'w' });
-
-    return newcategories;
 };
 
 export default {
-  getAll,
+  getAllItems,
   getItemById,
   updateItem,
   createItem,

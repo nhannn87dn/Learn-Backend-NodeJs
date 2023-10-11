@@ -1,7 +1,5 @@
 import { Schema, model } from 'mongoose';
 import {IUser} from '../types/users';
-import { object } from 'joi';
-
 
 //Tạo một schema
 const userSchema = new Schema<IUser>({

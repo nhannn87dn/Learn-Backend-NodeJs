@@ -1,18 +1,22 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
-import usersRouter from './routes/v1/users.route';
-import categoriesRouter from './routes/v1/categories.route';
 import myloggerMiddleware from './middleware/mylogger.middleware';
 import secondsMiddleware from './middleware/seconds.middleware';
 import bodyParser from 'body-parser';
 import cors from "cors";
 import createError from 'http-errors';
-import {sendJsonErrors} from './helpers/responseHandler'
+import {sendJsonErrors} from './helpers/responseHandler';
+
+import usersRouter from './routes/v1/users.route';
+import categoriesRouter from './routes/v1/categories.route';
+import suppliersRouter from './routes/v2/supplier.route';
+import productsRouter from './routes/v1/products.route';
+
 const app: Express = express();
 
-const corsOptions = {
-  origin: 'https://ecshopvietnam.com', //chỉ cho gọi từ domain này
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
+// const corsOptions = {
+//   origin: 'https://ecshopvietnam.com', //chỉ cho gọi từ domain này
+//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+// }
 
 //Middleware Application ở đây
 app.use(cors({ origin: '*' })); //Cho phép gọi bất kỳ đâu
@@ -41,7 +45,8 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/api/v1/users',usersRouter);
 app.use('/api/v1/categories',categoriesRouter);
-
+app.use('/api/v2/suppliers',suppliersRouter);
+app.use('/api/v1/products',productsRouter);
 ///Hết Middleware
 
 
