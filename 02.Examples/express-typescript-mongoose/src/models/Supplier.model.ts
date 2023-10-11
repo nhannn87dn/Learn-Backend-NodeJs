@@ -80,7 +80,7 @@ supplierSchema.statics.isEmailTaken = async function(email, excludeId) {
 };
 
 supplierSchema.pre("save", async function (next) {
-  if(this.slug == ""){
+  if(!this.slug){
       this.slug = buildSlug(this.name);
   }
   next();

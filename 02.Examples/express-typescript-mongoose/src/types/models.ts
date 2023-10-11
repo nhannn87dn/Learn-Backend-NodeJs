@@ -67,11 +67,12 @@ export interface IProduct {
   discount: number;
   stock: number;
   description?: string;
-  categoryId: ObjectId;
+  category: ObjectId;
   supplierId: ObjectId;
   images?: string[];
   thumb: string;
 }
+
 
 //---------------Orders-----------------------//
 

@@ -11,7 +11,7 @@
   "category": {
     "$oid": "64e985dec6628ed4d2d7667f"
   },
-  "supplier": {
+  "supplierId": {
     "$oid": "64e985dec6628ed4d2d76665"
   },
   "__v": 0
@@ -29,7 +29,7 @@
   "category": {
     "$oid": "64e985dec6628ed4d2d7667d"
   },
-  "supplier": {
+  "supplierId": {
     "$oid": "64e985dec6628ed4d2d76667"
   },
   "__v": 0
@@ -47,7 +47,7 @@
   "category": {
     "$oid": "64e985dec6628ed4d2d76679"
   },
-  "supplier": {
+  "supplierId": {
     "$oid": "64e985dec6628ed4d2d76671"
   },
   "__v": 0
@@ -65,7 +65,7 @@
   "category": {
     "$oid": "64e985dec6628ed4d2d76675"
   },
-  "supplier": {
+  "supplierId": {
     "$oid": "64e985dec6628ed4d2d76661"
   },
   "__v": 0
@@ -83,7 +83,7 @@
   "category": {
     "$oid": "64e985dec6628ed4d2d76685"
   },
-  "supplier": {
+  "supplierId": {
     "$oid": "64e985dec6628ed4d2d76667"
   },
   "__v": 0
@@ -101,7 +101,7 @@
   "category": {
     "$oid": "64e985dec6628ed4d2d76683"
   },
-  "supplier": {
+  "supplierId": {
     "$oid": "64e985dec6628ed4d2d7666b"
   },
   "__v": 0
@@ -119,7 +119,7 @@
   "category": {
     "$oid": "64e985dec6628ed4d2d7667b"
   },
-  "supplier": {
+  "supplierId": {
     "$oid": "64e985dec6628ed4d2d7666b"
   },
   "__v": 0
@@ -137,7 +137,7 @@
   "category": {
     "$oid": "64e985dec6628ed4d2d76675"
   },
-  "supplier": {
+  "supplierId": {
     "$oid": "64e985dec6628ed4d2d76667"
   },
   "__v": 0
@@ -155,7 +155,7 @@
   "category": {
     "$oid": "64e985dec6628ed4d2d7667d"
   },
-  "supplier": {
+  "supplierId": {
     "$oid": "64e985dec6628ed4d2d76671"
   },
   "__v": 0
@@ -173,7 +173,7 @@
   "category": {
     "$oid": "64e985dec6628ed4d2d76683"
   },
-  "supplier": {
+  "supplierId": {
     "$oid": "64e985dec6628ed4d2d76669"
   },
   "__v": 0
