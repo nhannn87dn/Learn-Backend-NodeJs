@@ -42,6 +42,11 @@ const productSchema = new Schema<IProduct>({
     ref: 'Supplier',
     required: true
   },
+  thumbnail: {
+    type: String,
+    require: false,
+    maxLength: 500
+  },
   slug: {
     type: String,
     unique: true,

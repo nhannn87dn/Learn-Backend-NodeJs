@@ -24,5 +24,6 @@ export interface IProduct {
   description: string;
   categoryId: ObjectId;
   supplier: ObjectId;
-  slug: string
+  slug: string,
+  thumbnail: string
 }

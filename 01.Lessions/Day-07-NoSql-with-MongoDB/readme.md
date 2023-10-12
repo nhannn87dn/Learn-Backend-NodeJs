@@ -1,111 +1,240 @@
-# MongoDB
+# NoSql with MongoDB
 
-Tiếp tục hoàn thiện các Models khác trong mô hình E-Commerce theo thứ tự lần lượt:
+## 💛 Basic Authentication Systems
 
-## 💛 Xây dựng các Models
+Trong thực tế khi xây dựng một hệ thống Restull API sẽ có:
 
-### 1. Employee Model
+- Các routes ở chế độ public tức ai cũng có thể truy cập vào
+- Các routes ở chế độ private, chỉ những ai có quyền mới truy cập
 
-#### 🔹 Employee Schema 
+Thì chúng ta gọi các vấn đề trên với một khái niệm là `Authentication` (Xác thực danh tính)
 
-| Id | Column Name | Data Type     | Null | Default | Constraint |
-|----|-------------|---------------|------|---------|------------|
-| 1  | firstName   | string(50)  |      |         |            |
-| 2  | lastName    | string(50)  |      |         |            |
-| 3  | email       | string(50)   |      |         | UNIQUE     |
-| 4  | phoneNumber | string(50)   |      |         | UNIQUE     |
-| 5  | address     | string(500) |  yes   |         |            |
-| 6  | birthDay    | date      | yes  |         |            |
-| 7  | password    | string(255) |      |         |            |
-| 8  | photo       | string(255) | yes  |         |            |
+Đối với những User có quyền truy cập, thì lại có một vấn đề nữa là quyền hạn. User này có quyền truy cập đến những tài nguyên nào thì chúng ta gọi nó với một khái niệm là `Authorization`
 
-#### 🔹 Bảo vệ mật khẩu với thư viện `bcrypt`
+**Bước 1: Mỗi User phải có một token (chìa khóa) để truy cập tới các private endpoint**
 
-```bash
-yarn add bcrypt
+Để có được token, User phải đăng nhập vào hệ thống, nếu đúng email, password thì hệ thống sẽ sinh ra cho User một token.
+
+User sẽ mang token này để truy cập tới các private endpoint
+
+Tạo Schema Login `src/validations/auth.validation.ts`
+
+```ts
+import Joi from 'joi';
+
+const authLogin = {
+  body: Joi.object().keys({
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+  }),
+};
+
+export default  {
+  authLogin,
+};
 ```
-Xem cách sử dụng: <https://www.npmjs.com/package/bcrypt#user-content-usage>
 
-Cách so khớp password: <https://www.npmjs.com/package/bcrypt#user-content-to-check-a-password>
+Tạo Route Auth Service `src/services/auth.service.ts`
 
+```ts
+import createError from 'http-errors';
+import jwt  from 'jsonwebtoken';
+import User from  '../models/User.model'
+import {appConfigs} from '../constants/configs';
+import { IUser,UserSchema} from '../types/models';
 
-### 2. Categories Model
+const AuthLogin = async (userBody: {email: string, password: string}) => {
+  console.log('2 ==> ', userBody);
+  //Tìm xem có tồn tại user có email không
+  let user: UserSchema | null = await User.findOne({
+    email: userBody.email,
+  });
 
+  if (!user) {
+    throw createError(401, 'Invalid email or password');
+  }
 
-| Id | Column Name | Data Type     | Null | Key | Default | Constraint |
-|----|-------------|---------------|------|-----|---------|------------|
-| 1  | name        | string(100)  |      |     |         | UNIQUE     |
-| 2  | description | string(500) | yes  |     |         |            |
-| 3  | slug        | string(100) |      |     |         | UNIQUE     |
+  const invalidPasword = user.comparePassword(userBody.password);
 
+  if (!invalidPasword) throw  createError(401, 'Invalid email or password');
 
-### 3. Suppliers Model
+  //Tồn tại thì trả lại thông tin user kèm token
+  const token = jwt.sign(
+    { _id: user._id, email: user.email, name: user.name},
+    appConfigs.JWT_SECRET as string
+  );
 
-| Id | Column Name | Data Type     | Null | Key | Default | Constraint |
-|----|-------------|---------------|------|-----|---------|------------|
-| 1  | name        | string(100) |      |     |         |            |
-| 2  | email       | string(50)   |      |     |         | UNIQUE     |
-| 3  | phoneNumber | string(50)   |      |     |         | UNIQUE     |
-| 4  | address     | string(500) |   yes   |     |         |            |
-| 5  | slug        | string(100) |      |     |         | UNIQUE     |
-
-
-### 4. Customers Model
-
-| Id | Column Name | Data Type     | Null | Key | Default | Constraint |
-|----|-------------|---------------|------|-----|---------|------------|
-| 1  | firstName   | string(50)  |      |     |         |            |
-| 2  | lastName    | string(50)  |      |     |         |            |
-| 3  | email       | string(50)   |      |     |         | UNIQUE     |
-| 4  | phoneNumber | string(50)   |      |     |         | UNIQUE     |
-| 5  | address     | string(500) |      |     |         |            |
-| 6  | birthDay    | date    | yes  |     |         |            |
-| 7  | password    | string(255) |      |     |         |            |
-
-
-### 5. Products Model
+  const refreshToken  = jwt.sign(
+    { _id: user._id, email: user.email, name: user.name},
+    appConfigs.JWT_SECRET as string,
+    {
+      expiresIn: '365d', // expires in 24 hours (24 x 60 x 60)
+    }
+  );
 
 
-| Id | Column Name | Data Type     | Null | Key | Default | Constraint                  |
-|----|-------------|---------------|------|-----|---------|-----------------------------|
-| 1  | slug          | string(255)           |    |   |         | UNIQUE                  |
-| 2  | name        | string(255) |      |     |         | UNIQUE                      |
-| 3  | price       | number         |      |     |         | n > 0                       |
-| 4  | discount    | number |      |     | 0       | 0 <= n <= 90                |
-| 5  | stock       | number |      |     | 0       | n >= 0                      |
-| 6  | description | string(max) | yes  |     |         |                             |
-| 7  | categoryId  | ObjectId           |      | FK  |         | Refrence to Categories (Id) |
-| 8  | supplierId  | ObjectId           |      | FK  |         | Refrence to Suppliers (Id)  |
+  return {
+    user: { id: user._id, email: user.email, name: user.name},
+    token,
+    refreshToken
+  };
+}
 
 
-### 6. Orders Model
+const refreshToken  = async (user: IUser) => {
+  const refreshToken  = jwt.sign(
+    { _id: user._id, email: user.email, name: user.name},
+    appConfigs.JWT_SECRET as string,
+    {
+      expiresIn: '365d', // expires in 24 hours (24 x 60 x 60)
+    }
+  );
+  return refreshToken;
+}
+
+export default {
+  AuthLogin,
+  refreshToken
+}
+```
+
+Tạo Route Auth Controller `src/services/auth.controller.ts`
+
+```ts
+import { Request, Response, NextFunction } from "express";
+import  authService from '../services/auth.service';
+import {sendJsonSuccess} from '../helpers/responseHandler'
+
+const authLogin = async (req: Request, res: Response, next: NextFunction) => {
+  console.log('1 ==> auth req', req.body);
+  try {
+    const user = await authService.AuthLogin(req.body);
+    sendJsonSuccess(res)(user);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const refreshToken = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    /**
+     * Nhận được req.user từ auth.middleware forward qua
+     */
+    const token = await authService.refreshToken(res.locals.user);
+    sendJsonSuccess(res)(token);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export default {
+  authLogin,
+  refreshToken
+}
+```
+
+Tạo Route Auth `src/routes/auth.route.ts`
+
+```js
+import express, { Express } from 'express';
+const router: Express = express();
+import authController from '../controllers/auth.controller';
+
+//http://localhost:8686/api/v1/auth
+router.post('/', authController.authLogin);
+
+export default router;
+
+```
+
+Gắn route Auth vào app.ts
+
+```js
+//...
+import authRoute from './routes/auth.route';
+app.use('/api/v1/auth', authRoute);
+```
 
 
-| Id | Column Name     | Data Type     | Null | Key | Default | Constraint                         |
-|----|-----------------|---------------|------|-----|---------|------------------------------------|
-| 1  | _id             | ObjectId           |      | PK  |         | AUTONUMBER                         |
-| 2  | createdDate     | date     |      |     | NOW     |                                    |
-| 3  | shippedDate     | date     | yes  |     |         | n < CreatedDate                    |
-| 4  | status          | string(50)   |      |     | WAITING | n in [WAINTING, COMPLETED, CANCEL] |
-| 5  | description     | string(max) |      |     |         |                                    |
-| 6  | shippingAddress | string(500) | yes  |     |         |                                    |
-| 7  | shippingCity    | string(50)  |      |     |         |                                    |
-| 8  | paymentType     | string(20)   |      |     | CASH    | n in [CASH, CREDIT CARD]           |
-| 9  | customerId      | ObjectId           |      | FK  |         | Refrence to Customers (Id)         |
-| 10 | employeesId     | ObjectId           |      | FK  |         | Refrence to Employees (Id)         |
+**Bước 3: Tạo Auth Middleware - Anh gác cổng cho App**
 
-và trường orderDetails là subDocument của Order
+Tạo một file src/middleware/auth.middleware.ts
 
-| Id | Column Name | Data Type     | Null | Key     | Default | Constraint                |
-|----|-------------|---------------|------|---------|---------|---------------------------|
-| 1  | productId   | ObjectId           |      | PK + FK |         | Refrence to Products (Id) |
-| 2  | quantity    | number |      |         |         | n > 0                     |
-| 3  | price       | number |      |         |         | n > 0                     |
-| 4  | discount    | number |      |         |         | 0 <= n <=90               |
+```js
+import jwt, { JwtPayload }  from 'jsonwebtoken'
+import User from '../models/User.model'
+import { Request, Response, NextFunction } from "express";
+import createError from 'http-errors';
+import {appConfigs} from '../constants/configs';
 
+interface decodedJWT extends JwtPayload {
+   _id?: string
+ }
 
-***
+export const authenticateToken = async (req: Request, res: Response, next: NextFunction) => {
+  //Get the jwt token from the head
+  const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
 
-## 💛 Mockup Data to MongoDB
+     //If token is not valid, respond with 401 (unauthorized)
+    if (!token) {
+      return next(createError(401, 'Unauthorized'));
+    }
 
-Sử dụng thư viện <https://fakerjs.dev> để tạo các Data ảo một cách nhanh chóng
+    try {
+      const decoded = jwt.verify(token, appConfigs.JWT_SECRET as string) as decodedJWT;
+      //try verify user exits in database
+      const user = await User.findById(decoded._id);
+
+      if (!user) {
+        return next(createError(401, 'Unauthorized'));
+      }
+      //Đăng ký biến user global trong app
+      res.locals = user;
+
+      next();
+    } catch (err) {
+      return next(createError(403, 'Forbidden'));
+    }
+};
+
+export const authorize = (roles: string[] = []) => {
+    // roles param can be a single role string (e.g. Role.User or 'User') 
+    // or an array of roles (e.g. [Role.Admin, Role.User] or ['Admin', 'User'])
+    if (typeof roles === 'string') {
+        roles = [roles];
+    }
+
+    return (req: Request, res: Response, next: NextFunction) => {
+      if (roles.length && res.locals.user.role && !roles.includes(res.locals.user.role)) {
+        return next(createError(403, 'Forbidden'));
+      }
+        // authentication and authorization successful
+        next();
+    }
+}
+
+```
+
+**Bước 4: Bảo vệ Route với Auth Middleware**
+
+Ví dụ bạn muốn bảo vệ các route có phương thức POST, PUT, DELETE của users.route.js
+
+Sửa lại đoạn này
+
+```js
+router.put('/users/:id', async (req, res, next) => {
+
+})
+```
+
+Thành như sau
+
+```js
+//Thêm vào trên đầu
+const {authenticateToken} = require('../middleware/auth.middleware')
+//Thêm middleware vào trước
+router.put('/users/:id', authenticateToken,, async (req, res, next) => {
+
+})
+```

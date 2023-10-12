@@ -155,13 +155,13 @@ const productSchema = new new mongoose.Schema({
 
 ```js
 // Lấy tất cả thông tin từ category
-const product = await Product.find().populate('category').exec();
+const product = await Product.find().populate('category').;
 
 // Lấy tất cả thông tin từ category, loại trừ _v
-const product = await Product.find().populate('category', '-_v').exec();
+const product = await Product.find().populate('category', '-_v');
 
 //Chỉ lấy tên
-const product = await Product.find().populate('category', 'name').exec();
+const product = await Product.find().populate('category', 'name');
 ```
 
 Trường hợp category bạn đặt là `categoryID` thì để lấy được thông tin của danh mục
@@ -200,6 +200,24 @@ module.exports = {
   Product
 };
 
+```
+
+Sau đó bạn dùng
+
+```js
+//Chỉ lấy tên
+const product = await Product.find().populate('category', 'name').lean({virtuals: true})
+//Hoặc
+const product = await Product.find().populate({
+  path: 'category',
+  select: 'name'
+}).lean({virtuals: true})
+//Populate Có điều kiện ở collection cần populate
+const product = await Product.find().populate({
+  path: 'category',
+  select: 'name -__v',
+  match: { age: { $gte: 21 } },
+}).lean({virtuals: true})
 ```
 
 ## 💛 MongoDB Shell
