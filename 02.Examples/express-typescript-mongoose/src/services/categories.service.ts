@@ -29,7 +29,7 @@ const getById = async (id: string) => {
     console.log("<<< getUserById >>>", id, result);
   
     if (!result) {
-      throw createError(404, "User not found");
+      throw createError(404, "Category not found");
     }
   
     return result;

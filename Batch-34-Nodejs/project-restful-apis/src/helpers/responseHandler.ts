@@ -27,7 +27,7 @@ const sendJsonSuccess = (res: Response, message = 'Success', code = 200) => {
     console.log("sendJsonErrors",error);
     return res.status(error.status || 500).json({
       statusCode: error.status || 500,
-      errorType: error.typeError || 'error',
+      errorType: error.name || 'UnknownName',
       message: error.message || 'Unhandled Error'
       
     });

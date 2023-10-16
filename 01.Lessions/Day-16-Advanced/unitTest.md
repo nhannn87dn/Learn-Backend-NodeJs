@@ -24,18 +24,36 @@ Chúng ta cùng tìm hiểu về
 yarn add -D jest supertest
 ```
 
+Với typeScript bạn cài thêm
+
+```bash
+yarn add -D @types/jest  @types/supertest ts-jest
+```
+
 ### Step 2 - Cấu hình Jest
 
 Mở file `package.json` và thêm đoạn này vào cuối
 
-```json
- "jest": {
-    "testEnvironment": "node",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ]
-  },
+đánh lệnh `npx jest --init` để tạo ra file jest.config.ts
+
+
+Sau đó bạn sửa lại thành như sau cho gọn:
+
+```ts
+import type {Config} from 'jest';
+
+const config: Config = {
+    testEnvironment: 'node',
+    coveragePathIgnorePatterns: [ '/node_modules/' ],
+    moduleFileExtensions: [ 'ts', 'tsx', 'js' ],
+    transform: { '^.+\\.(ts|tsx)$': 'ts-jest' },
+    testMatch: [ '**/tests/*.+(ts|tsx|js)' ]
+};
+
+export default config;
+
 ```
+
 
 Thêm dòng sau vào thuộc tính `script`
 
@@ -43,9 +61,11 @@ Thêm dòng sau vào thuộc tính `script`
 "test": "jest"
 ```
 
-Tạo một thư mục `src/tests`, sau đó tạo một file `sample.test.js` với đoạn code sau:
+Tạo một thư mục `src/tests`, sau đó tạo một file `sample.test.ts` với đoạn code sau:
 
 ```js
+import * as request from 'supertest'
+
 describe('Sample Test', () => {
   it('should test that true === true', () => {
     expect(true).toBe(true)
@@ -75,12 +95,12 @@ Cài thêm thư viện
 yarn add -D cross-env
 ```
 
-Sau đó sửa file package.json tại mục scrip như say
+Sau đó sửa file package.json tại mục script như say
 
 ```json
 "scripts": {
-    "start": "server.js",
-    "dev": "nodemon server.js",
+    "start": "server.ts",
+    "dev": "nodemon server.ts",
     "test": "cross-env NODE_ENV=test jest --testTimeout=10000"
   }
 ```
@@ -117,7 +137,7 @@ Nếu thành lỗi:
 }
 ```
 
-Bạn tạo một file test với cấu trúc `src/tests/users/getById.test.js`
+Bạn tạo một file test với cấu trúc `src/tests/users/getById.test.ts`
 
 ```js
 const request = require('supertest');

@@ -21,7 +21,7 @@ export interface IEmployee  extends IUser{
 
 // Put all  instance methods in this interface:
 export  interface IEmployeeMethods {
-  comparePassword: (s : string)=> boolean;
+  comparePassword: (s : string)=> Promise<boolean>;
 }
 
 //put all static method in this interface:
@@ -73,8 +73,43 @@ export interface IProduct {
   thumb: string;
 }
 
-
 //---------------Orders-----------------------//
+
+
+export enum  EnumStatus {
+  Waiting = 'WAITING',
+  Completed = 'COMPLETE',
+  Cancel = 'CANCEL'
+}
+
+export enum  EnumPayments {
+  Cash = 'CASH',
+  Credit = 'CREDIT CARD',
+  Cod = 'COD'
+}
+
+//Chỉ chấp nhận số Dương
+type PositiveNumber = number & { __positiveNumber: true };
+
+
+export type orderDetail = {
+  _id: ObjectId;
+  quantity: number;
+  price: number;
+  discount: number;
+}
+export interface IOrder {
+  createdDate: Date,
+  shippedDate: Date,
+  status: EnumStatus,
+  description?: string,
+  shippingAddress: string,
+  shippingCity: string,
+  paymentType: EnumPayments,
+  customer: ObjectId;
+  employee: ObjectId;
+  orderDetail: orderDetail[]
+}
 
 
 //---------------OrderDetails-----------------------//

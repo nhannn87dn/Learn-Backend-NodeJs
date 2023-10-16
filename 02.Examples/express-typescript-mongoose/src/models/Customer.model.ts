@@ -86,6 +86,11 @@ customerSchema.statics.isEmailTaken = async function(email, excludeId) {
   return !!item;
 };
 
+customerSchema.methods.comparePassword = function (candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
+
 customerSchema.pre('save', function (next) {
     var user = this;
   
