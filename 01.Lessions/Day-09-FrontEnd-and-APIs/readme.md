@@ -5,9 +5,11 @@ Chúng ta sẽ tạo 2 project FrontEnd độc lập
 - react-ecommerce: dành cho khách hàng dùng
 - react-admin: dành cho chủ cửa hàng dùng
 
-## 💛 react-ecommerce
+
+## 💛 react-admin
 
 ### 🔸 Cấu trúc dự án
+
 
 ```html
 react-ecommerce/
@@ -19,17 +21,14 @@ react-ecommerce/
 │  ├─ hooks/
 │  ├─ library/
 │  ├─ pages/
-│       ├─ HomePage
+│       ├─ LoginPage
+│       ├─ DashboardPage
 │       ├─ CategoryPage
 │       ├─ ProductPage
-│       ├─ CartPage
-│       ├─ CheckOutPage
-│       ├─ CheckOutDonePage
-│       ├─ LoginPage
-│       ├─ RegisterPage
+│       ├─ OrdersPage
+│       ├─ SupplierPage
 │       ├─ CustomerPage
-│       ├─ CustomerOrderPage
-│       ├─ CustomerProfilePage
+│       ├─ EmployeePage
 │       ├─ NoPage
 │  ├─ App.tsx
 │  ├─ App.css
@@ -46,73 +45,51 @@ react-ecommerce/
 
 ### 🔸 Công nghệ sử dụng
 
-- React Vite / NextJs
-- Tailwind hoặc tự code Css
+- React Vite
+- Ant Design
 - React Query
 - Zustand
 
-
-
-### 🔸 **Yêu cầu các trang**
-
-**📄 HomePage** 
-
-- Danh sách danh mục sản phẩm
-
-- Hiển thị danh sách sản phẩm của 2 danh mục, mỗi danh mục 10 sản phẩm. Sử dụng swiperjs để slide
-
-
-**📄 CategoryPage** 
-
-- Cột bên trái: hiển thị bộ lọc sản phẩm, lọc theo phân khúc giá, sắp xếp giá tăng dần, giảm dần...
-- Cột bên phải: Hiển thị danh sách sản phẩm của danh mục khi click vào link ở HomePage, và chỉ lấy số lượng phân trang 10sp / 1 trang
-- Hiển thị phân trang bên dưới danh sách sản phẩm
-
-
-**📄 ProductPage** 
-
-- Hiển thị chi tiết sản phẩm
-- Có nút Thêm vào giỏ hàng
-
-
-**📄 CartPage** 
-
-- Hiển thị danh sách sản phẩm đã chọn thêm vào giỏ hàng
-- Có thể thay đổi số lượng, tổng tiền được tính lại
-- Button Checkout, để chuyển trang Checkout
-
-
-**📄 CheckoutPage** 
-
-- Tùy vào luồng xử lý: yêu cầu đăng nhập, hay cho phép mua hàng không cần đăng nhập
-- Page này hiển thị thông tin sả phẩm đã mua
-- Hiển thị form điền thông tin vận chuyển đơn
-- Hiển thị thông tin phương thức thanh toán
-- Button Đặt Hàng
-
-**📄 CheckOutDonePage** 
-
-- Thông báo trạng thái khi đặt hàng thành công
+### 🔸 Yêu cầu các trang
 
 **📄 LoginPage**
 
 - Form login
-- Login thành công, chuyển sang trang khách hàng CustomerPage
+- Login thành công, chuyển sang trang khách hàng DashboardPage
+
+
+**📄 DashboardPage** 
+
+- Layout: cột trái là danh sách menu
+- Bên phải là thông tin: Hiển thị một số thống kê nhỏ 
+
+
+**📄 CategoryPage** 
+
+- Quản lý danh mục sản phẩm: thêm mới, sửa, xóa
+
+**📄 ProductPage** 
+
+- Quản lý sản phẩm: thêm mới, sửa, xóa
 
 
 **📄 CustomerPage**
 
-- Cột bên trái là Danh sách Menu
-- Cột bên phải thông tin chung
-- Yêu cầu phải đăng nhập mới vào được trang này
+- Quản lý khách hàng: thêm mới, sửa, xóa
 
-**📄 CustomerOrderPage**
 
-- Hiển thị danh sách đơn hàng
-- Yêu cầu phải đăng nhập mới vào được trang này
+**📄 SupplierPage**
 
-**📄 CustomerProfilePage**
+- Quản lý nhà cung cấp: thêm mới, sửa, xóa
 
-- Hiển thị thông tin khách hàng
-- Cho phép thay đổi thông tin
-- Yêu cầu phải đăng nhập mới vào được trang này
+
+**📄 EmployeePage**
+
+- Quản lý nhân viên: thêm mới, sửa, xóa
+
+
+**📄 OrderPage**
+
+- Quản lý đơn hàng: thêm mới, sửa, xóa
+- Cho phép cập nhật thay đổi trạng thái đơn
+- Cho phép bổ sung hoặc bỏ sản phẩm trong đơn
