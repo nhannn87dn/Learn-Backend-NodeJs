@@ -1,0 +1,3 @@
+{   
+    "ignore": ["http/*.http", "src/seeds/**/*.ts", "src/tests/**/*.ts", "README", "jest.config.ts"] 
+}

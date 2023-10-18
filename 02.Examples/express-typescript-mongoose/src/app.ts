@@ -10,7 +10,7 @@ import categoriesRoutes from './routes/categories.route';
 import suppliersRoutes from './routes/suppliers.route';
 import customersRoutes from './routes/customers.route';
 import productsRoutes from './routes/products.route';
-
+import ordersRoutes from './routes/orders.route';
 
 const app: Express = express();
 /** =====     APP MIDDLEWARE    ==== */
@@ -32,6 +32,7 @@ app.use('/api/v1/categories', categoriesRoutes);
 app.use('/api/v1/suppliers', suppliersRoutes);
 app.use('/api/v1/customers', customersRoutes);
 app.use('/api/v1/products', productsRoutes);
+app.use('/api/v1/orders', ordersRoutes);
 
 /** =====     NOT EDIT BEGIN HERE ==== */
 app.use(notFoundHandler);

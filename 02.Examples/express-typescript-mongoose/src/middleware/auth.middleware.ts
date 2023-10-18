@@ -2,7 +2,7 @@ import jwt, { JwtPayload }  from 'jsonwebtoken'
 import Employee from '../models/Employee.model'
 import { Request, Response, NextFunction } from "express";
 import createError from 'http-errors';
-import {appConfigs} from '../constants/configs';
+import appConfigs from '../constants/configs';
 
 interface decodedJWT extends JwtPayload {
    _id?: string

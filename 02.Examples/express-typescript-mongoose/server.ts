@@ -1,4 +1,4 @@
-import {appConfigs} from './src/constants/configs';
+import appConfigs from './src/constants/configs';
 import app from './src/app';
 import mongoose from 'mongoose';
 
@@ -28,4 +28,9 @@ const mongooseDbOptions = {
     })
     .catch((err) => {
       console.error('Failed to Connect to MongoDB', err);
+    });
+    
+    //Show log debug
+    mongoose.set("debug", (collectionName, method, query, doc) => {
+        console.log(`${collectionName}.${method}`, JSON.stringify(query), doc);
     });

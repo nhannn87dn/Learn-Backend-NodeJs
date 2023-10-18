@@ -24,7 +24,7 @@ router.get('/:id', authenticateToken, validateSchema(employeeSchema.getById), em
  * [GET] /api/v1/employees/
  * 
  */
-router.post('/', authenticateToken, employeesController.create);
+router.post('/', employeesController.create);
 
 
 /**

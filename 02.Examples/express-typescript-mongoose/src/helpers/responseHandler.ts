@@ -1,4 +1,5 @@
 import {Response} from 'express';
+import createError from 'http-errors';
 /**
  * 
  * @param res  Response
@@ -24,10 +25,12 @@ const sendJsonSuccess = (res: Response, message = 'Success', code = 200) => {
    * @returns json response
    */
   const sendJsonErrors = (res: Response, error: any) => {
-    console.log("sendJsonErrors",error);
-    return res.status(error.status || 500).json({
-      statusCode: error.status || 500,
-      errorType: error.typeError || 'error',
+    console.log("sendJsonErrors",error.name);
+    const status = error.statusCode || error.status || 500;
+
+    return res.status(status).json({
+      statusCode: status,
+      errorType: error.name || 'UnknownName',
       message: error.message || 'Unhandled Error'
       
     });

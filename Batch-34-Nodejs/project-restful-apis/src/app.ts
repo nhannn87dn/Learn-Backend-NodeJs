@@ -67,16 +67,7 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
 app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
   console.log('<<< Error Handler Stack >>>', err.stack);
   //console.error('<< Middleware Error >>', err);
-  err.errorType = 'AppError';
-  if (err instanceof createError.HttpError) {
-    err.errorType = 'HttpError';
-  }
-  else if(err.name === 'ValidationError'){
-    err.errorType = 'ValidationMongooseSchema';
-  }
-  else if(err.name === 'MongoError'){
-    err.errorType = 'MongoError';
-  }
+  
   sendJsonErrors(res, err);
 });
 //Xuất app ra cho server.ts

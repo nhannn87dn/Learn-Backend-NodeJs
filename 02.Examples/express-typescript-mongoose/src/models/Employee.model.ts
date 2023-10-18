@@ -86,6 +86,11 @@ employeeSchema.statics.isEmailTaken = async function(email, excludeId) {
   return !!item;
 };
 
+employeeSchema.methods.comparePassword = function (candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
+
 employeeSchema.pre('save', function (next) {
     var user = this;
   

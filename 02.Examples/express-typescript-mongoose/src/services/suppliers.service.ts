@@ -17,7 +17,7 @@ const findById = async (id: string) => {
     const result = await Supplier.findById(id);
 
     if (!result) {
-        throw createError(404, `Nhà cung cấp không tồn tại`);
+        throw createError(404, `Supplier not found`);
     }
 
     return result;
@@ -30,7 +30,7 @@ const getById = async (id: string) => {
     console.log("<<< getById >>>", id, result);
 
     if (!result) {
-        throw createError(404, "Nhà cung cấp không tồn tại");
+        throw createError(404, "Supplier not found");
     }
 
     return result;
