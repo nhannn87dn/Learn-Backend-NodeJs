@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { sendJsonSuccess } from '../helpers/responseHandler';
-import suppliersService from '../services/suppliers.service';
+import employeesService from '../services/employees.service';
 
 /**
  * Controller - Điều khiển
@@ -10,8 +10,8 @@ import suppliersService from '../services/suppliers.service';
 
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const suppliers = await suppliersService.getAllItems();
-    sendJsonSuccess(res)(suppliers); // Gọi hàm mà có truyền giá trị cho data
+    const employees = await employeesService.getAllItems();
+    sendJsonSuccess(res)(employees); // Gọi hàm mà có truyền giá trị cho data
   } catch (error) {
     next(error);
   }
@@ -19,8 +19,8 @@ const getAll = async (req: Request, res: Response, next: NextFunction) => {
 
 const getItemById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const supplier = await suppliersService.getItemById(req.params.id);
-    sendJsonSuccess(res)(supplier);
+    const employee = await employeesService.getItemById(req.params.id);
+    sendJsonSuccess(res)(employee);
   } catch (error) {
     next(error);
   }
@@ -29,8 +29,8 @@ const getItemById = async (req: Request, res: Response, next: NextFunction) => {
 const createItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const payload = req.body;
-    const newSupplier = await suppliersService.createItem(payload);
-    sendJsonSuccess(res)(newSupplier);
+    const newEmployee = await employeesService.createItem(payload);
+    sendJsonSuccess(res)(newEmployee);
   } catch (error) {
     next(error);
   }
@@ -41,8 +41,8 @@ const updateItem = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     console.log(id, req.body);
     const payload = req.body;
-    const updatedSupplier = await suppliersService.updateItem(id, payload);
-    sendJsonSuccess(res)(updatedSupplier);
+    const updatedEmployee = await employeesService.updateItem(id, payload);
+    sendJsonSuccess(res)(updatedEmployee);
   } catch (error) {
     next(error);
   }
@@ -51,10 +51,8 @@ const updateItem = async (req: Request, res: Response, next: NextFunction) => {
 const deleteItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    //Nhận được user từ res.locals
-      console.log('<<=== 🚀 res.locals ===>>',res.locals);
-    const deletedSupplier = await suppliersService.deleteItem(id);
-    sendJsonSuccess(res)(deletedSupplier);
+    const deletedEmployee = await employeesService.deleteItem(id);
+    sendJsonSuccess(res)(deletedEmployee);
   } catch (err) {
     next(err);
   }

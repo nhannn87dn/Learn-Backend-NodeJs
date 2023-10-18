@@ -1,4 +1,4 @@
-import { ObjectId } from "mongoose";
+import { ObjectId, Date } from "mongoose";
 
 export interface ICategory {
   _id?: ObjectId;
@@ -26,4 +26,17 @@ export interface IProduct {
   supplier: ObjectId;
   slug: string,
   thumbnail: string
+}
+
+
+export interface IEmployee {
+  _id?: ObjectId;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  address?: string;
+  birthDay?: Date,
+  password: string;
+  photo?: string
 }
