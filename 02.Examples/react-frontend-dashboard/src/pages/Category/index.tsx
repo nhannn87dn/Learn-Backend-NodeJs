@@ -1,50 +1,42 @@
-
+import {  Table, Button, Popconfirm, Space, Image  } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
 import { useQuery } from '@tanstack/react-query';
-import { Link, useSearchParams  } from 'react-router-dom';
+import { useSearchParams  } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-
-
-
-interface Product {
+import { DeleteOutlined, EditOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { useNavigate } from "react-router-dom";
+interface CategoryType {
   id: number;
-  title: string;
-  price: number;
-  category: {
-    id: number
-  }
+  name: string;
+  image: string;
+ 
 }
 
-type FiltersType = {
-  categoryId? : number
-}
 
-const fetchData = (page: number, filters: FiltersType)=>{
+const fetchData = async (page: number)=>{
   // const page = 1;
   const offset = (page - 1) * 10;
-  let url = `https://api.escuelajs.co/api/v1/products?offset=${offset}&limit=10`;
-  
-  if(filters.categoryId && filters.categoryId > 0){
-    url += `&categoryId=${filters.categoryId}`;
-  }
+  const url = `https://api.escuelajs.co/api/v1/categories?offset=${offset}&limit=10`;
   
   return fetch(url).then(res => res.json())
 }
 
-const Category = () => {
-  const [params] = useSearchParams();
 
+const Category = () => {
+  
+  const [params] = useSearchParams();
+  const navigate = useNavigate();
    const page =  params.get('page');
    const int_page = page ? parseInt(page) : 1;
 
-   const cid =  params.get('categoryId');
-   const int_cid = cid ? parseInt(cid) : 0;
+
 
    console.log('<<=== 🚀 page ===>>',page);
    // Sử dụng useQuery để fetch data từ API
-   const { data, isLoading, isError, error } = useQuery<Product[], Error>({ 
-      queryKey: ['products', {page,cid}], 
-      queryFn: () =>  fetchData(int_page, {categoryId: int_cid})
+   const { data, isLoading, isError, error } = useQuery<CategoryType[], Error>({ 
+      queryKey: ['categories', {page}], 
+      queryFn: () =>  fetchData(int_page)
   })
 
   if(isLoading) return (
@@ -57,29 +49,81 @@ const Category = () => {
     return (<div>Error: {error.message}</div>)
   }
 
+
+  
+const columns: ColumnsType<CategoryType> = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    key: 'id'
+  },
+  {
+    title: 'Image',
+    dataIndex: 'image',
+    key: 'image',
+    render: (text) => <Image src={text} alt="Product" width={50} />,
+  },
+
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+    render: (text) => <a>{text}</a>,
+  },
+ 
+  {
+    title: 'Action',
+    key: 'action',
+    render: (_, record) => (
+      <Space size="middle">
+        <Button
+              type='dashed'
+              icon={<EditOutlined />}
+              onClick={() => {
+                console.log('EDIT', record);
+               
+              }}
+            />
+        <Popconfirm
+              title='Are you sure to delete?'
+              onConfirm={() => {
+                // DELETE
+                console.log('DELETE', record);
+              }}
+              icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+              onCancel={() => {}}
+              okText='Đồng ý'
+              okType='danger'
+              cancelText='Đóng'
+            >
+              <Button danger type='dashed' icon={<DeleteOutlined />} />
+            </Popconfirm>
+      </Space>
+    ),
+  },
+];
+
+
   return (
-    <>
-      <h1 className='py-5'>Category Page</h1>
-
-      <div className='border-b-4'>
-          <Link className='me-5' to={'/category/?categoryId=1'}>CID 1</Link>
-          <Link className='me-5' to={'/category/?categoryId=2'}>CID 2</Link>
-          <Link className='me-5' to={'/category/?categoryId=3'}>CID 3</Link>
+   <div>
+    <div className='grid grid-cols-12'>
+      <div className="col-span-12 md:col-span-8">
+      <h1 className="py-5 text-2xl text-bold">Categories List</h1>
       </div>
-      <ul>
-        {data && data.map((product: Product) => (
-          <li key={product.id}>
-            <Link to={`/product/${product.id}`}>{product.title} - {product.price} - CID: {product.category.id}</Link>
-          </li>
-        ))}
-      </ul>
-      <hr />
-      <div className="pagination my-5">
-          <Link className='py-2 px-2 border border-slate-950 me-3' to={'/category'}>1</Link>
-          <Link className='py-2 px-2 border border-slate-950 me-3' to={'/category?page=2'}>2</Link>
+      <div className="col-span-12 md:col-span-4">
+        <div className="flex">
+           <Button type='primary' onClick={()=> {
+            navigate('/category/add');
+           }}>Thêm mới</Button>
+        </div>
       </div>
-    </>
-  )
-}
+    </div>
+   
+    {/* ==============TABLET================= */}
+    <Table columns={columns} dataSource={data} />
+    
+   </div>
+  );
+};
 
-export default Category
+export default Category;

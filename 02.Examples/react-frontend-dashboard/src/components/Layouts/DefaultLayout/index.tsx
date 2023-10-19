@@ -6,7 +6,7 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined
 } from '@ant-design/icons';
-import { Layout, Menu, Button, theme } from 'antd';
+import { Layout, Menu, Button, theme, Flex } from 'antd';
 
 import { Outlet } from 'react-router-dom'
 import useAuth from "../../../hooks/useAuth"
@@ -94,7 +94,7 @@ const DefaultLayout: React.FC = () => {
         bottom: 0,
       }}
       >
-        <div className="sidebar_logo overflow-hidden px-1">{collapsed ? 'A' : 'Admin'}</div>
+        <div className="sidebar_logo">{collapsed ? 'A' : 'Admin'}</div>
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} onClick={({ key }) => {
           navigate('/' + key.split('-').join('/'));
           console.log(key);
@@ -111,7 +111,7 @@ const DefaultLayout: React.FC = () => {
 
            className='drop-shadow-sm'
            >
-          <div className="flex justify-between">
+        
             <Button
               type="text"
               icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -122,10 +122,8 @@ const DefaultLayout: React.FC = () => {
                 height: 64,
               }}
             />
-            <div className="header_right pe-[24px]">
-                <UserInfo />
-            </div>
-          </div>
+           <UserInfo />
+        
               
            
          
