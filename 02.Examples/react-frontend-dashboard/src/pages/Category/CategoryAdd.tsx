@@ -1,9 +1,9 @@
+import React from 'react';
 import { Button, Form, Input, Space, Card, message } from 'antd';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { 
   useMutation,  
   useQueryClient,
-  useQuery
 } from '@tanstack/react-query'
 
 
@@ -20,25 +20,20 @@ const tailLayout = {
 
 interface ICategory {
   name: string;
-  image?: string;
+  image: string;
 }
 
 
-const CategoryEdit = () => {
+const CategoryAdd = () => {
   
     const [form] = Form.useForm();
     const navigate = useNavigate();
-    const params = useParams();
-    console.log(params);
-
-    const id = params.id ? parseInt(params.id) : 0;
-
     const [messageApi, contextHolder] = message.useMessage();
 
     const msgSuccess = () => {
       messageApi.open({
         type: 'success',
-        content: 'Cập nhật danh mục thành công',
+        content: 'Thêm mới danh mục thành công',
       });
     };
   
@@ -51,40 +46,21 @@ const CategoryEdit = () => {
 
     const queryClient = useQueryClient();
 
-    /**
-     * Lấy chi tiết một danh mục
-     * @param id 
-     * @returns 
-     */
-    const fetchData = () =>
-    fetch(`https://api.escuelajs.co/api/v1/categories/${id}`, {
-      method: 'GET',
-    }).then((response) => response.json());
+    //hàm call API update sản phẩm
+    const fetchData = (payload: ICategory) =>
+      fetch('https://api.escuelajs.co/api/v1/categories/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      }).then((response) => response.json());
 
-
-    // Sử dụng useQuery để fetch data từ API
-    const query = useQuery<ICategory, Error>({
-      queryKey: ['categories_details', { id }],
-      queryFn: fetchData,
-    });
-
-
-   //hàm call API update sản phẩm
-    const updateData = (payload: ICategory) =>
-    fetch(`https://api.escuelajs.co/api/v1/categories/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    }).then((response) => response.json());
-
-  
     // Mutations
-    const updateMutation = useMutation({
-      mutationFn: updateData,
+    const addMutation = useMutation({
+      mutationFn: fetchData,
       onSuccess: () => {
-        console.log('Cập nhật thành công !');
+        console.log('Thêm mới thành công !');
         msgSuccess();
         // Sau khi thêm mới thành công thì update lại danh sách sản phẩm dựa vào queryKey
         queryClient.invalidateQueries({ queryKey: ['categories'] });
@@ -92,7 +68,7 @@ const CategoryEdit = () => {
         form.resetFields();
       },
       onError: (err)=> {
-        console.log('Cập nhật có lỗi !', err);
+        console.log('Thêm mới có lỗi !', err);
         msgError()
       }
     })
@@ -101,15 +77,13 @@ const CategoryEdit = () => {
   const onFinish = (values: ICategory) => {
     console.log(values);
 
-    updateMutation.mutate(values);
+    addMutation.mutate(values);
 
   };
 
   const onReset = () => {
     form.resetFields();
   };
-
-  console.log('<<=== 🚀 query ===>>',query.data);
 
   return (
 
@@ -122,7 +96,6 @@ const CategoryEdit = () => {
         form={form}
         name="control-hooks"
         onFinish={onFinish}
-        initialValues={query.data}
         style={{ maxWidth: 500 }}
       >
         <Form.Item name="name" label="Name" rules={[{ required: true }]}>
@@ -131,11 +104,11 @@ const CategoryEdit = () => {
         <Form.Item name="image" extra="Ex: https://loremflickr.com/200/200/fashion?lock=1234" label="Image Link" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
-       
+      
         <Form.Item {...tailLayout}>
           <Space>
 
-          <Button type="primary" htmlType="submit" loading={updateMutation.isLoading}>
+          <Button type="primary" htmlType="submit" loading={addMutation.isLoading}>
             Submit
           </Button>
           <Button htmlType="button" onClick={onReset}>
@@ -150,4 +123,4 @@ const CategoryEdit = () => {
   );
 };
 
-export default CategoryEdit;
+export default CategoryAdd;
