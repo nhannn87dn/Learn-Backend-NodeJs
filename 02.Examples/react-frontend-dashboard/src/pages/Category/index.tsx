@@ -1,9 +1,7 @@
-import { Table, Button, Popconfirm, Space, Image, Card, message } from 'antd';
+import { Table, Button, Popconfirm, Space, Image, Card, message, Spin } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
 import { DeleteOutlined, EditOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 interface CategoryType {
@@ -76,12 +74,6 @@ const Category = () => {
   })
 
 
-  if (isLoading)
-    return (
-      <>
-        <Skeleton count={10} />
-      </>
-    );
 
   if (isError) {
     return <div>Error: {error.message}</div>;
@@ -141,6 +133,11 @@ const Category = () => {
   ];
 
   return (
+    <div>
+      <ul>
+        <li>Sử dụng React Query để fetch và thêm mới, sửa, xóa</li>
+        <li>Các tính năng được chia thành từng trang một, tiện theo dõi việc code riêng cho từng phần</li>
+      </ul>
     <Card
       title="Categories List"
       extra={
@@ -156,8 +153,12 @@ const Category = () => {
     >
        {contextHolder}
       {/* ==============TABLET================= */}
-      <Table columns={columns} dataSource={data} />
+     {isLoading ? (<Spin tip="Loading">
+        <div className="content" />
+      </Spin>): <Table columns={columns} dataSource={data} />}
+      
     </Card>
+    </div>
   );
 };
 

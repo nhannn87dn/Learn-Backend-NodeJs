@@ -9,6 +9,7 @@ import Login from '../pages/Login';
 import EmptyLayout from '../components/Layouts/EmptyLayout';
 import CategoryAdd from '../pages/Category/CategoryAdd';
 import CategoryEdit from '../pages/Category/CategoryEdit';
+import Employees from '../pages/Employees';
 
 interface BaseProps {
     id: number;
@@ -36,7 +37,8 @@ const privateRoutes: Routes[] = [
     {id: 7, path: '/category/add', element: CategoryAdd},
     {id: 8, path: '/category/edit/:id', element: CategoryEdit},
     {id: 9, path: '/customers/profile', element: CustomerProfile},
-    {id: 10, path: '/customers/orders', element: CustomerOrders}
+    {id: 10, path: '/customers/orders', element: CustomerOrders},
+    {id: 11, path: '/employees', element: Employees},
 ];
 
 export {

@@ -63,9 +63,13 @@ const CategoryEdit = () => {
 
 
     // Sử dụng useQuery để fetch data từ API
-    const query = useQuery<ICategory, Error>({
+     useQuery<ICategory, Error>({
       queryKey: ['categories_details', { id }],
       queryFn: fetchData,
+      onSuccess: (data)=> {
+          console.log(data);
+          form.setFieldsValue(data);
+      }
     });
 
 
@@ -86,16 +90,15 @@ const CategoryEdit = () => {
       onSuccess: () => {
         console.log('Cập nhật thành công !');
         msgSuccess();
-        // Sau khi thêm mới thành công thì update lại danh sách sản phẩm dựa vào queryKey
+        // Sau khi thêm mới thành công thì update lại danh sách danh mucj dựa vào queryKey
         queryClient.invalidateQueries({ queryKey: ['categories'] });
-        //reset form
-        form.resetFields();
+        
       },
       onError: (err)=> {
         console.log('Cập nhật có lỗi !', err);
         msgError()
       }
-    })
+    });
 
 
   const onFinish = (values: ICategory) => {
@@ -105,15 +108,12 @@ const CategoryEdit = () => {
 
   };
 
-  const onReset = () => {
-    form.resetFields();
-  };
+ 
 
-  console.log('<<=== 🚀 query ===>>',query.data);
 
   return (
 
-      <Card title="Add new a category" extra={<Button type='primary' onClick={()=> {
+      <Card title="Edit a category" extra={<Button type='primary' onClick={()=> {
             navigate('/category');
            }}>Danh sách</Button>} >
             {contextHolder}
@@ -122,7 +122,6 @@ const CategoryEdit = () => {
         form={form}
         name="control-hooks"
         onFinish={onFinish}
-        initialValues={query.data}
         style={{ maxWidth: 500 }}
       >
         <Form.Item name="name" label="Name" rules={[{ required: true }]}>
@@ -138,9 +137,7 @@ const CategoryEdit = () => {
           <Button type="primary" htmlType="submit" loading={updateMutation.isLoading}>
             Submit
           </Button>
-          <Button htmlType="button" onClick={onReset}>
-            Reset
-          </Button>
+         
           </Space>
         
         </Form.Item>

@@ -4,9 +4,12 @@ import {
   SettingOutlined,
   DatabaseOutlined,
   MenuUnfoldOutlined,
-  MenuFoldOutlined
+  MenuFoldOutlined,
+  UserOutlined,
+  BarsOutlined,
+  FileTextOutlined
 } from '@ant-design/icons';
-import { Layout, Menu, Button, theme, Flex } from 'antd';
+import { Layout, Menu, Button, theme } from 'antd';
 
 import { Outlet } from 'react-router-dom'
 import useAuth from "../../../hooks/useAuth"
@@ -17,34 +20,28 @@ const { Header, Sider, Content, Footer } = Layout;
 
 
 const items = [
-  { label: 'Trang chủ', key: '', icon: <HomeOutlined /> }, // remember to pass the key prop
-  { label: 'Cấu hình', key: 'settings', icon: <SettingOutlined />,
-  children: [
-    { label: 'Hệ thống', key: 'management-employees'},
-    { label: 'Thanh toán', key: 'management-products' },
-  ],
-}, // which is required
+  { label: 'Dashboard', key: '', icon: <HomeOutlined /> }, // remember to pass the key prop
   {
-    label: 'Quản lý Danh mục SP',
+    label: 'Categories Management',
     key: 'category',
-    icon: <DatabaseOutlined />
+    icon: <BarsOutlined />
    
   },
   {
-    label: 'Quản lý sản phẩm',
+    label: 'Products Management',
     key: 'product',
     icon: <DatabaseOutlined />
    
   },
   {
-    label: 'Quản lý khách hàng',
+    label: 'Customer Management',
     key: 'customers',
-    icon: <DatabaseOutlined />
+    icon: <UserOutlined />
    
   },
   {
-    label: 'Quản lý Đơn hàng',
-    icon: <DatabaseOutlined />,
+    label: 'Orders Management',
+    icon: <FileTextOutlined />,
     key: 'sales',
     children: [
       {
@@ -52,13 +49,25 @@ const items = [
         key: 'sales-orders',
       },
       {
-        label: 'Thông kê theo trạng thái',
+        label: 'Thống kê theo trạng thái',
         key: 'sales-orders-status',
       },
       {
-        label: 'Thông kê theo thanh toán',
+        label: 'Thống kê theo thanh toán',
         key: 'sales-orders-payment-status ',
       },
+    ],
+  },
+  {
+    label: 'Employees Management',
+    key: 'employees',
+    icon: <UserOutlined />
+   
+  },
+  { label: 'Settings', key: 'settings', icon: <SettingOutlined />,
+    children: [
+      { label: 'Hệ thống', key: 'management-system'},
+      { label: 'Thanh toán', key: 'management-payments' },
     ],
   },
 ];
@@ -67,7 +76,6 @@ const DefaultLayout: React.FC = () => {
 
   const {isAuthenticated} = useAuth();
   const navigate = useNavigate();
-  
 
   React.useEffect(()=>{
     if(!isAuthenticated){
@@ -82,7 +90,8 @@ const DefaultLayout: React.FC = () => {
   } = theme.useToken();
 
   return (
-    <Layout hasSider style={{ minHeight: '100vh' }}>
+    <>
+      <Layout hasSider style={{ minHeight: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed} 
       
       style={{
@@ -138,11 +147,13 @@ const DefaultLayout: React.FC = () => {
             overflow: 'initial'
           }}
         >
+          
           <Outlet />
         </Content>
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
       </Layout>
     </Layout>
+    </>
   );
 };
 

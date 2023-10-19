@@ -1,4 +1,4 @@
-import { Table, Button, Popconfirm, Space, Image, Card, message, Spin, Modal, Form, Input, InputNumber, Select, Pagination  } from 'antd';
+import { Table, Button, Popconfirm, Space, Image, Card, message, Spin, Modal, Form, Input, Pagination  } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSearchParams, useNavigate } from 'react-router-dom';
@@ -6,50 +6,35 @@ import { DeleteOutlined, EditOutlined, QuestionCircleOutlined } from '@ant-desig
 import React from 'react';
 import type { PaginationProps } from 'antd';
 
-interface ProductType {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: {
-    id: number;
-    name: string;
-    image: string
-  };
-  images: string[];
-}
 
-interface CategoryType {
+interface EmployeeType {
   id: number;
+  email: string;
+  password: string;
+  role: string;
   name: string;
-  image: string;
+  avatar: string;
 }
 
-const fetchCategories = async () => {
-  const url = `https://api.escuelajs.co/api/v1/categories`;
-  return fetch(url).then((res) => res.json());
-};
-
-
-//Hàm get Sản phẩm
+//Hàm get Danh mục
 const fetchData = async (page: number, limit = 10) => {
   // const page = 1;
   const offset = (page - 1) * 10;
-  const url = `https://api.escuelajs.co/api/v1/products?offset=${offset}&limit=${limit}`;
+  const url = `https://api.escuelajs.co/api/v1/users?offset=${offset}&limit=${limit}`;
 
   return fetch(url).then((res) => res.json());
 };
 
 
 const fetchDelete = async (id: number) =>
-      fetch(`https://api.escuelajs.co/api/v1/products/${id}`, {
+      fetch(`https://api.escuelajs.co/api/v1/users/${id}`, {
         method: 'DELETE',
       }).then((response) => response.json());
 
 
-const updateData = async (formData: ProductType) => {
+const updateData = async (formData: EmployeeType) => {
   const {id, ...payload} = formData;
-  return fetch(`https://api.escuelajs.co/api/v1/products/${id}`, {
+  return fetch(`https://api.escuelajs.co/api/v1/users/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -58,7 +43,7 @@ const updateData = async (formData: ProductType) => {
   }).then((response) => response.json());
 }
 
-const fetchCreate = async (formData: ProductType) => fetch(`https://api.escuelajs.co/api/v1/products`, {
+const fetchCreate = async (formData: EmployeeType) => fetch(`https://api.escuelajs.co/api/v1/users`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -66,9 +51,9 @@ const fetchCreate = async (formData: ProductType) => fetch(`https://api.escuelaj
   body: JSON.stringify(formData),
 }).then((response) => response.json());
 /**
- * Component Product
+ * Component Employee
  */
-const Product = () => {
+const Employees = () => {
   const [params] = useSearchParams();
   const page = params.get('page');
   const limit = params.get('limit');
@@ -100,29 +85,28 @@ const Product = () => {
  //=========================== PHÂN TRANG =================================//
   const onChange: PaginationProps['onChange'] = (pageNumber) => {
     console.log('Page: ', pageNumber);
-    navigate(`/product?page=${pageNumber}`);
+    navigate(`/employees?page=${pageNumber}`);
   };
 
+  const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current, pageSize) => {
+    console.log(current, pageSize);
+    navigate(`/employees?page=1&limit=${pageSize}`);
+  };
   
-  // Sử dụng useQuery để fetch data từ API
-  const queryCategory = useQuery<CategoryType[], Error>({
-    queryKey: ['categories'],
-    queryFn: fetchCategories,
-  });
   
   //=========================== FETCH DELETE =================================//
   // Mutations Để xóa danh mục
   const deleteMutation = useMutation({
     mutationFn: fetchDelete,
     onSuccess: () => {
-      console.log('Xóa Product thành công !');
-      msgSuccess('Xóa Product thành công !');
+      console.log('Xóa Employee thành công !');
+      msgSuccess('Xóa Employee thành công !');
       // Sau khi thêm mới thành công thì update lại danh sách sản phẩm dựa vào queryKey
-      queryClient.invalidateQueries({ queryKey: ['products', page] });
+      queryClient.invalidateQueries({ queryKey: ['employees', page] });
     },
     onError: (err)=> {
       console.log('Xóa có lỗi !', err);
-      msgError('Xóa Product không thành công !');
+      msgError('Xóa Employee không thành công !');
     }
   });
 
@@ -134,7 +118,7 @@ const Product = () => {
       onSuccess: () => {
         msgSuccess('Cập nhật thành công !');
         // Sau khi thêm mới thành công thì update lại danh sách danh mucj dựa vào queryKey
-        queryClient.invalidateQueries({ queryKey: ['products', page] });
+        queryClient.invalidateQueries({ queryKey: ['employees', page] });
         
         setEditFormVisible(false);
       },
@@ -145,7 +129,7 @@ const Product = () => {
       }
     });
 
-  const onUpdateFinish = (values: ProductType) => {
+  const onUpdateFinish = (values: EmployeeType) => {
     console.log('onUpdateFinish',values);
     updateMutation.mutate(values);
   };
@@ -164,7 +148,7 @@ const Product = () => {
       setCreateFormVisible(false);
       msgSuccess('Thêm mới thành công !');
       // Sau khi thêm mới thành công thì update lại danh sách sản phẩm dựa vào queryKey
-      queryClient.invalidateQueries({ queryKey: ['products', page] });
+      queryClient.invalidateQueries({ queryKey: ['employees', page] });
       //reset form
       createForm.resetFields();
     },
@@ -173,7 +157,7 @@ const Product = () => {
       msgError('Thêm mới có lỗi !')
     }
   })
-  const onAddFinish = (values: ProductType) => {
+  const onAddFinish = (values: EmployeeType) => {
     console.log('onAddFinish',values);
     addMutation.mutate(values);
     
@@ -185,8 +169,8 @@ const Product = () => {
 
   //=========================== FETCH LẤY DANH SÁCH =================================//
   // Sử dụng useQuery để fetch data từ API
-  const { data, isLoading, isError, error } = useQuery<ProductType[], Error>({
-    queryKey: ['products', page],
+  const { data, isLoading, isError, error } = useQuery<EmployeeType[], Error>({
+    queryKey: ['employees', page],
     queryFn: () => fetchData(int_page, int_limit)
   });
 
@@ -197,36 +181,34 @@ const Product = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  const columns: ColumnsType<ProductType> = [
+  const columns: ColumnsType<EmployeeType> = [
     {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
     },
     {
-      title: 'Image',
-      dataIndex: 'images',
-      key: 'images',
-      render: (_,record) => <Image src={record.images[0]} alt="Avatar" width={50} />,
+      title: 'Avatar',
+      dataIndex: 'avatar',
+      key: 'avatar',
+      render: (text) => <Image src={text} alt="Avatar" width={50} />,
     },
 
     {
-      title: 'Title',
-      dataIndex: 'title',
-      key: 'title',
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
-      render: (text) => <span>$ {text}</span>,
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email'
     },
     {
-      title: 'Category',
-      dataIndex: 'category',
-      key: 'category',
-      render: (_,record) => <span>{record.category.name}</span>,
+      title: 'Role',
+      dataIndex: 'role',
+      key: 'role'
     },
 
     {
@@ -239,7 +221,7 @@ const Product = () => {
             icon={<EditOutlined />}
             onClick={() => {
               console.log('EDIT', record);
-              updateForm.setFieldsValue({...record, categoryId: record.category.id});
+              updateForm.setFieldsValue(record);
               setEditFormVisible(true);
             }}
           />
@@ -271,7 +253,7 @@ const Product = () => {
         <li>Các tính năng thêm mới, sửa, xóa chung một trang</li>
       </ul>
     <Card
-      title="Product List"
+      title="Employees List"
       extra={
         <Button
           type="primary"
@@ -299,8 +281,9 @@ const Product = () => {
           <Pagination
             defaultCurrent={int_page}
             total={200}
-            showSizeChanger={false}
+            showSizeChanger
             onChange={onChange}
+            onShowSizeChange={onShowSizeChange}
             showQuickJumper
             showTotal={(total) => `Total ${total} items`}
           />
@@ -312,7 +295,7 @@ const Product = () => {
     </Card>
     {/* ====================== EDIT MODAL ================================ */}
      <Modal 
-     title="Edit Product" 
+     title="Edit Employee" 
      open={editFormVisible} 
      onOk={()=>{
         console.log('update submit');
@@ -323,52 +306,32 @@ const Product = () => {
      }}>
         <Form form={updateForm} name='update-form' labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} 
         onFinish={onUpdateFinish} 
-        onFinishFailed={onUpdateFinishFailed}
+        onFinishFailed={onUpdateFinishFailed} 
         autoComplete='on'
         >
-          <Form.Item label='Title' name='title' rules={[{ required: true, message: 'Chưa nhập title' }]} hasFeedback>
+          <Form.Item label='Name' name='name' rules={[{ required: true, message: 'Chưa nhập Name' }]} hasFeedback>
             <Input />
           </Form.Item>
 
 
-          <Form.Item label='Price' name='price' 
-           rules={[
-            { required: true, message: 'Chưa nhập price' }
-          ]}
-           hasFeedback>
-            <InputNumber addonAfter='$' min={0} style={{ width: '100%' }} />
+          <Form.Item label='Role' name='role' rules={[{ required: true, message: 'Chưa nhập Role' }]} hasFeedback>
+            <Input />
           </Form.Item>
 
           <Form.Item
             hasFeedback
-            label='Description'
-            name='description'
-           
+            label='Thư điện tử'
+            name='email'
+            rules={[
+              { required: true, message: 'Chưa nhập Thư điện tử' },
+              { type: 'email', message: 'Thư điện tử không hợp lệ' },
+            ]}
           >
-            <Input.TextArea />
+            <Input />
           </Form.Item>
-
-          <Form.Item
-            hasFeedback
-            label='Category'
-            name='categoryId'
-            
-            rules={[{ required: true, type: 'number', message: 'Chưa nhập Category' }]}
-          >
-         <Select
-              options={
-                queryCategory.data &&
-                queryCategory.data.map((c) => {
-                  return {
-                    value: c.id,
-                    label: c.name,
-                  };
-                })
-              }
-            />
-
+          <Form.Item extra='Ex: https://loremflickr.com/100/100/business' label='Avatar Link' name='avatar' rules={[{ required: false}]} hasFeedback>
+            <Input />
           </Form.Item>
-        
             
           <Form.Item hidden label='Id' name='id' hasFeedback>
             <Input />
@@ -378,7 +341,7 @@ const Product = () => {
       </Modal>
       {/* ====================== CREATE MODAL ================================ */}
      <Modal 
-     title="Create new a Product" 
+     title="Create new a Employee" 
      open={createFormVisible} 
      onOk={()=>{
         console.log('add submit');
@@ -426,4 +389,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default Employees;
