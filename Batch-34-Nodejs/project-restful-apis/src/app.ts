@@ -9,7 +9,9 @@ import {sendJsonErrors} from './helpers/responseHandler';
 import usersRouter from './routes/v1/users.route';
 import categoriesRouter from './routes/v1/categories.route';
 import suppliersRouter from './routes/v2/supplier.route';
+import employeesRouter from './routes/v2/employees.route';
 import productsRouter from './routes/v1/products.route';
+import authRoute from './routes/v1/auth.route';
 
 const app: Express = express();
 
@@ -46,7 +48,9 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api/v1/users',usersRouter);
 app.use('/api/v1/categories',categoriesRouter);
 app.use('/api/v2/suppliers',suppliersRouter);
+app.use('/api/v2/employees',employeesRouter);
 app.use('/api/v1/products',productsRouter);
+app.use('/api/v1/auth',authRoute);
 ///Hết Middleware
 
 

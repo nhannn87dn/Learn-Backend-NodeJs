@@ -10,7 +10,12 @@ import productsService from '../services/products.service';
 
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const products = await productsService.getAllItems();
+    //Lấy số trang hiện tại từ URL xuống
+    const page = req.query.page ?  parseInt(req.query.page as string) :  1; //Mặc định lấy page = 1
+    const limit = req.query.limit ?  parseInt(req.query.limit as string) :  10; //Mặc định 10 items/1 page
+
+    const products = await productsService.getAllItems(page,limit);
+    console.log(products.length);
     sendJsonSuccess(res)(products); // Gọi hàm mà có truyền giá trị cho data
   } catch (error) {
     next(error);

@@ -9,3 +9,9 @@ content-type: application/json
   "phoneNumber": "133777665",
   "address": "90 Tran Tong"
 }
+
+###
+
+DELETE  http://localhost:8080/api/v2/suppliers/652fbcdaae1b9ad5c0071369 HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTJmYzg3NTJkYzI5NDU0NmZhZGY1MDUiLCJlbWFpbCI6Im5oYW5AZ21haWwuY29tIiwiaWF0IjoxNjk3NjMyNjQzLCJleHAiOjE2OTg5Mjg2NDN9.NrzmwBV7U4FThU_UrHJL5LMWjj2T7x6h7InjgWvTxeg

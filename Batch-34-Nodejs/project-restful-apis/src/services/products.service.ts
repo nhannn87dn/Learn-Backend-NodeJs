@@ -1,9 +1,21 @@
 import Product from '../models/products.model';
 import { IProduct } from '../types/models';
 
-const getAllItems = async () => {
+const getAllItems = async (currentPage: number, pageSize: number) => {
+
+  /**
+   * Page 1: 0 - 10 (Lấy 10 sp đầu)
+   * Page 2: 11 - 20 (Lấy 10 sp tiếp theo)
+   * ...
+   */
+  //const currentPage = 2; //trang hiện tại
+  //const pageSize = 10; // Số lượng items trên 1 trang
   // Tương đương: SELECT * FROM products (SQL)
-  const products = Product.find().populate('supplier');
+  const products = Product.find({}, ' -__v -description').populate('supplier', '-__v ').
+  skip((currentPage - 1) * pageSize).
+  limit(pageSize);
+  
+
   return products;
 };
 
