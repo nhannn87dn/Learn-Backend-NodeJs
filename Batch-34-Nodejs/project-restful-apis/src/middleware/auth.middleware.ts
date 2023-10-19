@@ -40,6 +40,26 @@ const checkToken = async (req:Request, res: Response, next:NextFunction)=>{
     //b3.chuyển tiếp middleware để xử lý tiếp
 }
 
+
+export const checkAuthorize = (roles: string[] = []) => {
+  // roles param can be a single role string (e.g. Role.User or 'User') 
+  // or an array of roles (e.g. [Role.Admin, Role.User] or ['Admin', 'User'])
+  // if (typeof roles === 'string') {
+  //     roles = [roles];
+  // }
+
+  return (req: Request, res: Response, next: NextFunction) => {
+    console.log('<<=== 🚀 res.locals ===>>',res.locals);
+    const user = res.locals;
+    if (roles.length && user.role && !roles.includes(user.role)) {
+      return next(createError(403, 'Forbidden'));
+    }
+      // authentication and authorization successful
+      next();
+  }
+}
+
 export default {
-  checkToken
+  checkToken,
+  checkAuthorize
 }

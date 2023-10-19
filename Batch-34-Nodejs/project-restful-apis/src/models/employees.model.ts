@@ -44,6 +44,12 @@ const employeeSchema = new Schema<IEmployee>({
   },
   photo: {
     type: String
+  },
+  role: {
+    type: String,
+    required: true,
+    enum: ["Admin", "User", "Editor"], //Chỉ cho phép 1 trong 3 giá trị này
+    default: 'User' //Mặc định nó có quyền cơ bản nhất
   }
 });
 

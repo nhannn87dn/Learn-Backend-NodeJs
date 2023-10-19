@@ -5,10 +5,10 @@ content-type: application/json
 
 {
   "firstName": "Nguyen Ngoc",
-  "lastName": "Nhan",
-  "email": "nhan@gmail.com",
-  "phoneNumber": "133777665",
-  "address": "90 Tran Tong",
+  "lastName": "Phat",
+  "email": "phat@gmail.com",
+  "phoneNumber": "133777668",
+  "address": "38 yenbai",
   "birthDay": "2000-12-12",
   "password": "Catfly200miles",
   "photo": "https://avatars.githubusercontent.com/u/97165289"

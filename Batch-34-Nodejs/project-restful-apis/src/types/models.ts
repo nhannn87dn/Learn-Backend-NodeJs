@@ -38,5 +38,6 @@ export interface IEmployee {
   address?: string;
   birthDay?: Date,
   password: string;
-  photo?: string
+  photo?: string;
+  role: string;
 }
