@@ -18,7 +18,7 @@ type FiltersType = {
   categoryId? : number
 }
 
-const fetchData = (page: number, filters: FiltersType)=>{
+const fetchData = async (page: number, filters: FiltersType)=>{
   // const page = 1;
   const offset = (page - 1) * 10;
   let url = `https://api.escuelajs.co/api/v1/products?offset=${offset}&limit=10`;
@@ -77,6 +77,7 @@ const Category = () => {
           <Link className='py-2 px-2 border border-slate-950 me-3' to={'/category'}>1</Link>
           <Link className='py-2 px-2 border border-slate-950 me-3' to={'/category?page=2'}>2</Link>
       </div>
+      <p>Tham khảo phân trang: https://hygraph.com/blog/react-pagination hoặc https://www.educative.io/answers/how-to-implement-pagination-in-reactjs</p>
     </>
   )
 }
