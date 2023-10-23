@@ -12,6 +12,7 @@ import suppliersRouter from './routes/v2/supplier.route';
 import employeesRouter from './routes/v2/employees.route';
 import productsRouter from './routes/v1/products.route';
 import authRoute from './routes/v1/auth.route';
+import ordersRoute from './routes/v1/orders.route';
 
 const app: Express = express();
 
@@ -51,6 +52,7 @@ app.use('/api/v2/suppliers',suppliersRouter);
 app.use('/api/v2/employees',employeesRouter);
 app.use('/api/v1/products',productsRouter);
 app.use('/api/v1/auth',authRoute);
+app.use('/api/v1/orders',ordersRoute);
 ///Hết Middleware
 
 

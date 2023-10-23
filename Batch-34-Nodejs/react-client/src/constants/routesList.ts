@@ -7,8 +7,9 @@ import CustomerOrders from '../pages/Customers/CustomerOrders';
 import ProductDetails from '../pages/ProductDetails';
 import Login from '../pages/Login';
 import EmptyLayout from '../components/Layouts/EmptyLayout';
-import OnlyHeaderLayout from '../components/Layouts/OnlyHeaderLayout';
-
+import CategoryAdd from '../pages/Category/CategoryAdd';
+import CategoryEdit from '../pages/Category/CategoryEdit';
+import Employees from '../pages/Employees';
 
 interface BaseProps {
     id: number;
@@ -23,18 +24,22 @@ interface Routes extends  BaseProps {
 //Public routes
 
 const publicRoutes: Routes[] = [
-    {id: 1, path: '/', element: Home},
-    {id: 2, path: '/products', element: Product},
-    {id: 3, path: '/products/:id', element: ProductDetails},
     {id: 5, path: '/login', element: Login, layout: EmptyLayout},
-    {id: 6, path: '/customers', element: Customers, layout: OnlyHeaderLayout, nested: [
-        {id: 1, path: '/customers/profile', element: CustomerProfile},
-        {id: 2, path: '/customers/orders', element: CustomerOrders}
-    ]}
 ]
 
 //Private routes
-const privateRoutes: Routes[] = [];
+const privateRoutes: Routes[] = [
+    {id: 1, path: '/', element: Home},
+    {id: 2, path: '/product', element: Product},
+    {id: 3, path: '/product/:id', element: ProductDetails},
+    {id: 4, path: '/category', element: Category},
+    {id: 6, path: '/customers', element: Customers},
+    {id: 7, path: '/category/add', element: CategoryAdd},
+    {id: 8, path: '/category/edit/:id', element: CategoryEdit},
+    {id: 9, path: '/customers/profile', element: CustomerProfile},
+    {id: 10, path: '/customers/orders', element: CustomerOrders},
+    {id: 11, path: '/employees', element: Employees},
+];
 
 export {
     publicRoutes,
