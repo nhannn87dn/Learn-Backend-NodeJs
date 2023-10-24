@@ -62,6 +62,10 @@ Có rất nhiều Tools ORM: Sequelize, Prisma, TypeORM ...hỗ trợ javascript
 
 ## 💛 SQL Server with TypeORM library
 
+TypeORM là một Object-Relational Mapper (ORM) cho TypeScript và JavaScript (ES7, ES6, ES5). Nó giúp bạn tạo ra các đối tượng và cơ sở dữ liệu chung, tạo và thực thi truy vấn.
+
+MSSQL (Microsoft SQL Server) là một hệ thống quản lý cơ sở dữ liệu phổ biến của Microsoft.
+
 ### Cài đặt
 
 ```bash
@@ -105,11 +109,11 @@ export const AppDataSource = new DataSource({
 });
 ```
 
-#### Bước 2 - Tạo Các Model
+#### Bước 2 - Tạo Các Model - Entities
 
 Trong thư mục src tạo folder `entities` chứa tất cả Entity (Model)
 
-Tạo một file Entity `employee.entity.ts`
+Tạo một file Entity `src/entities/employee.entity.ts`
 
 Chi tiết xem: https://typeorm.io/#create-an-entity
 
@@ -121,10 +125,10 @@ export class Employee {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 20, nullable: false })
+  @Column({ length: 20, type: 'nvarchar', nullable: false })
   firstName: string;
 
-  @Column({ length: 20, nullable: false })
+  @Column({ length: 20, type: 'nvarchar', nullable: false })
   lastName: string;
 
   @Column({ length: 120, nullable: false })
@@ -133,7 +137,7 @@ export class Employee {
   @Column({ length: 50, nullable: false })
   email: string;
 
-  @Column({ length: 50, nullable: true })
+  @Column({ length: 50, type: 'nvarchar', nullable: true })
   address: string;
 
   @Column({ type: 'date', nullable: true })
@@ -183,89 +187,75 @@ Kiểm tra Database của bạn xem, table employee có được tạo không
 🚀[ExpressJs] Server ready at: http://localhost:9000
 ```
 
-### Sử dụng kết nối trong các Routes
+### Sử dụng kết nối trong các Service
 
-Ví dụ bạn tạo file src/routes/employee.route.ts
+Ví dụ bạn tạo file src/services/employeeTypeORM.service.ts
 
 ```ts
 import { AppDataSource } from '../../AppDataSource';
 import { Router, NextFunction, Request, Response } from 'express';
 import { Employee } from '../entities/employee.entity';
-const router = Router();// register routes
 const repository = AppDataSource.getRepository(Employee);
 
 
-router.get("/", async function (req: Request, res: Response, next: NextFunction) {
-    try {
-        const employees = await repository.find()
-        res.json(employees)
-    }
-    catch(err){
-        next(err)
-    }
-   
-})
+const getAll = ()=> {
+    const employees = await repository.find();
+    return employees;
+});
 
-router.get("/:id", async function (req: Request, res: Response, next: NextFunction) {
-    try {
-        const results = await repository.findOneBy({
-            id: parseInt(req.params.id),
-        })
-        res.json(results)
-    }
-    catch(err){
-        next(err)
-    }
-})
+const getItemById = async (id: string) => {
+    const result = await repository.findOneBy({
+        id: parseInt(req.params.id),
+    });
+    return result;
+});
 
-router.post("/", async function (req: Request, res: Response, next: NextFunction) {
-    try {
-        const employee = await repository.create(req.body)
-        const results = await repository.save(employee)
-        res.json(results)
-    }
-    catch(err){
-        next(err)
-    }
-})
+const createItem = async (payload: IEmployee) =>  {
+    const employee = await repository.create(payload);
+    const result = await repository.save(employee);
+    return result;
+});
 
-router.put("/:id", async function (req: Request, res: Response, next: NextFunction) {
-    try {
-        const employee = await repository.findOneBy({
-            id: parseInt(req.params.id),
-        })
-        repository.merge(employee, req.body)
-        const results = await repository.save(employee)
-        res.json(results)
+const updateItem = async (id: string, payload: IEmployee)  => {
+    
+    const employee = await getItemById(id);
+    
+    if (!employee) {
+      throw createError(404, "Employee not found");
     }
-    catch(err){
-        next(err)
-    }
-})
+    //repository.merge(employee, payload);
+    Object.assign(employee, payload);
 
-router.delete("/:id", async function (req: Request, res: Response, next: NextFunction) {
-    try {
-    const results = await repository.delete(req.params.id)
-    res.json(results)
-    }
-    catch(err){
-        next(err)
-    }
-})
+    const result = await repository.save(employee)
+    return result;
+});
 
-export default router;
+const deleteItem = async (id: string) => {
+    const employee = await getItemById(id);
+    
+    if (!employee) {
+      throw createError(404, "Employee not found");
+    }
+
+    const result = await repository.delete({
+        id: employee.id
+    })
+    return result;
+});
+
+export default {
+  getAllItems,
+  getItemById,
+  updateItem,
+  createItem,
+  deleteItem,
+};
+
 
 ```
 
-Sau đó gắn nó vào app.ts
+Sau đó bạn tại employeesTypeORMController sử dụng service trên
 
-```ts
-import employeeRoutes from "./routes/employee.route"
-//...
-app.use('/api/v1/employees', employeeRoutes);
-```
-
----
 
 ==> TEST CÁC APIs
 
@@ -305,6 +295,7 @@ export class User {
   @Column()
   name: string;
 
+  //Address được lồng vào User
   @Embedded(() => Address)
   address: Address;
 }
@@ -334,6 +325,7 @@ Trong TypeORM, "View Entities" là một tính năng cho phép bạn định ngh
 Chi tiết: https://typeorm.io/view-entities
 
 ---
+
 IMPORTANT
 
 Ngoài cách bạn định nghĩa Enity với decorators, chúng ta còn có thể định nghĩa với một khái niệm gọi là `entity schemas` trong TypeORM
@@ -424,6 +416,36 @@ Chi tiết: https://typeorm.io/one-to-one-relations
 
 Chi tiết: https://typeorm.io/many-to-one-one-to-many-relations
 
+Ví dụ:
+
+```ts
+import { Column, Entity, PrimaryGeneratedColumn, BaseEntity, OneToMany } from 'typeorm';
+import { Product } from './product.entity';
+
+@Entity({ name: 'Categories' })
+export class Category extends BaseEntity {
+  @PrimaryGeneratedColumn({ name: 'Id' })
+  id: number;
+
+  // ----------------------------------------------------------------------------------------------
+  // NAME
+  // ----------------------------------------------------------------------------------------------
+  @Column({ name: 'Name', unique: true, length: 50 })
+  name: string;
+
+  // ----------------------------------------------------------------------------------------------
+  // DESCRIPTION
+  // ----------------------------------------------------------------------------------------------
+  @Column({ name: 'Description', length: 500, nullable: true })
+  description: string;
+
+  // ----------------------------------------------------------------------------------------------
+  // RELATIONS
+  // ----------------------------------------------------------------------------------------------
+  @OneToMany(() => Product, (p) => p.category)
+  products: Product[];
+}
+```
 
 ### Many-to-many
 
@@ -433,14 +455,14 @@ Chi tiết: https://typeorm.io/many-to-many-relations
 Ví dụ:
 
 ```ts
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, BaseEntity, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Category } from './category.entity';
 import { Supplier } from './supplier.entity';
 import { OrderDetail } from './order-details.entity';
 
 @Entity({ name: 'Products' })
-export class Product {
+export class Product extends BaseEntity {
   @PrimaryGeneratedColumn({ name: 'Id' })
   id: number;
 
@@ -534,7 +556,7 @@ Ngoài việc bạn sử dụng DataSource để truy vấn bạn còn có thể
 ---
 
 
-## Tạo các Model với TypeORM
+## Tạo các Entities với TypeORM
 
 Làm tuần tự lần lượt 
 

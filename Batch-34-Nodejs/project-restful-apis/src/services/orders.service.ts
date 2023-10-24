@@ -1,5 +1,5 @@
 import createError from 'http-errors';
-import Order from '../models/Order.model';
+import Order from '../models/order.model';
 import { IOrder } from "../types/models";
 
 /**
