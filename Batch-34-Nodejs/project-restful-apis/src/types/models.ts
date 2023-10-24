@@ -41,3 +41,46 @@ export interface IEmployee {
   photo?: string;
   role: string;
 }
+
+
+
+//---------------Orders-----------------------//
+
+
+export enum  EnumStatus {
+  Waiting = 'WAITING',
+  Completed = 'COMPLETE',
+  Cancel = 'CANCEL'
+}
+
+export enum  EnumPayments {
+  Cash = 'CASH',
+  Credit = 'CREDIT CARD',
+  Cod = 'COD'
+}
+
+//Chỉ chấp nhận số Dương
+type PositiveNumber = number & { __positiveNumber: true };
+
+
+export type orderDetail = {
+  _id: ObjectId;
+  quantity: number;
+  price: number;
+  discount: number;
+}
+export interface IOrder {
+  createdDate: Date,
+  shippedDate: Date,
+  status: EnumStatus,
+  description?: string,
+  shippingAddress: string,
+  shippingCity: string,
+  paymentType: EnumPayments,
+  customer: ObjectId;
+  employee: ObjectId;
+  orderDetail: orderDetail[]
+}
+
+
+//---------------OrderDetails-----------------------//

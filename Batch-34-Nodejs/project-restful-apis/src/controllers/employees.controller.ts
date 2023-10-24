@@ -26,6 +26,7 @@ const getItemById = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+
 const createItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const payload = req.body;
@@ -63,5 +64,5 @@ export default {
   getItemById,
   updateItem,
   createItem,
-  deleteItem,
+  deleteItem
 };

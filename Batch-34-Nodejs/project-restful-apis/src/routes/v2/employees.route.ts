@@ -1,6 +1,6 @@
 import express from 'express';
 import employeesController from '../../controllers/employees.controller';
-
+import authMiddleware from '../../middleware/auth.middleware'
 /***
  * Route chỉ làm nhiệm vụ định tuyến
  * Mapping request giữa client với Server
@@ -11,9 +11,11 @@ const router = express.Router();
 //Get All employees from DB
 router.get('/', employeesController.getAll);
 
+
 //get user by ID
 //Gắn middleware vào để check id có phải là số không
 router.get('/:id', employeesController.getItemById);
+
 
 //Create a new user
 router.post('/', employeesController.createItem);

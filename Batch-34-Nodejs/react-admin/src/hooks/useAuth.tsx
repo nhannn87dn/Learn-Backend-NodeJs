@@ -1,14 +1,16 @@
 import { create } from 'zustand';
 import { axiosClient } from '../library/axiosClient';
 import { persist, createJSONStorage, } from 'zustand/middleware'
-
+import config from '../constants/config';
 interface User {
-  id: number;
+  _id: string;
   email: string;
-  password: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
   role: string;
-  avatar: string;
+  photo: string;
+  address: string;
 }
 
 interface Auth {
@@ -32,14 +34,14 @@ const useAuth = create(
     login: async (email: string, password: string) => {
       try {
         set({isLoading: true });
-        const response = await axiosClient.post('https://api.escuelajs.co/api/v1/auth/login', { email, password });
-        console.log(response);
+        const response = await axiosClient.post(config.urlAPI+'/auth/login', { email, password });
+        console.log('useAuth',response);
   
-        if (response && response.status === 201) {
-          const isAuthenticated = response.status === 201;
+        if (response && response.status === 200) {
+          const isAuthenticated = response.status === 200;
           //Gọi tiếp API lấy thông tin User
-          const {data} = await axiosClient.get('https://api.escuelajs.co/api/v1/auth/profile');
-          set({user: data, isAuthenticated,isLoading: false });
+          const {data} = await axiosClient.get(config.urlAPI+'/auth/profile');
+          set({user: data.data, isAuthenticated,isLoading: false });
           return { isAuthenticated, error: '',isLoading: false };
         } else {
           return { isAuthenticated: false, isLoading: false , error: 'Username or password is invalid' };

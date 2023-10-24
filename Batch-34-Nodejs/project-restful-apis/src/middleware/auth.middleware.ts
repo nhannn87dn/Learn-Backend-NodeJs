@@ -26,11 +26,15 @@ const checkToken = async (req:Request, res: Response, next:NextFunction)=>{
       //try verify user exits in database
       const user = await Employee.findById(decoded._id);
 
+
+
       if (!user) {
         return next(createError(401, 'Unauthorized'));
       }
+
+      console.log('<<=== 🚀 user ===>>',user);
       //Đăng ký biến user global trong app
-      res.locals = user;
+      res.locals.user = user;
 
       next();
     } catch (err) {

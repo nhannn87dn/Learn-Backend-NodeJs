@@ -44,6 +44,46 @@ const login = async(payload: {email: string, password: string})=>{
   };
 }
 
+const refreshToken = async (employee: {_id: string, email: string})=>{
+
+  const token = jwt.sign(
+    { _id: employee._id, email: employee.email},
+    process.env.JWT_SECRET as string,
+    {
+      expiresIn: '15d', // expires in 15 days
+    }
+  );
+
+  const refreshToken  = jwt.sign(
+    { _id: employee._id, email: employee.email},
+    process.env.JWT_SECRET as string,
+    {
+      expiresIn: '30d', // expires in 30 days
+    }
+  );
+  return {
+    token,
+    refreshToken
+  };
+}
+
+
+const getProfile = async (id: string) => {
+  // SELECT * FROM employees WHERE id = id
+  console.log(id);
+
+  const employee = await Employee.
+  findOne({
+    _id: id
+  }).
+  select('-password -__v');
+  
+  return employee;
+};
+
+
 export default {
-  login
+  login,
+  refreshToken,
+  getProfile
 }

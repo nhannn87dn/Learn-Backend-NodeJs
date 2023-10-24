@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = 'https://api.escuelajs.co/api/v1/auth'
+const API_URL = 'http://localhost:8080/api/v1/auth/login';
 
 const axiosClient = axios.create({
   baseURL: API_URL,
@@ -27,13 +27,18 @@ axiosClient.interceptors.request.use(
 
 axiosClient.interceptors.response.use(
   async (response) => {
-    const { access_token, refresh_token } = response.data;
+    /**
+     * Tùy vào response của BACKEND API trả về với cấu trúc như thế nào 
+     * bạn điều chỉnh lại cho đúng với cách code của bạn
+     */
+    console.log('<<=== 🚀 axiosClient response.data  ===>>',response.data.data);
+    const { token, refreshToken } = response.data.data;
     // LOGIN
-    if (access_token) {
-      window.localStorage.setItem('token', access_token);
+    if (token) {
+      window.localStorage.setItem('token', token);
     }
-    if (refresh_token) {
-      window.localStorage.setItem('refreshToken', refresh_token);
+    if (refreshToken) {
+      window.localStorage.setItem('refreshToken', refreshToken);
     }
 
     return response;
@@ -62,16 +67,16 @@ axiosClient.interceptors.response.use(
 
         const refreshToken = window.localStorage.getItem('refreshToken');
         if (refreshToken) {
-          const response = await axiosClient.post('/refresh-token', {
+          const response = await axiosClient.post('/auth/refresh-token', {
             refreshToken: refreshToken,
           });
 
-          const { access_token } = response.data;
-          window.localStorage.setItem('token', access_token);
+          const { token } = response.data.data;
+          window.localStorage.setItem('token', token);
 
           originalConfig.headers = {
             ...originalConfig.headers,
-            authorization: `Bearer ${access_token}`,
+            authorization: `Bearer ${token}`,
           };
 
           return axiosClient(originalConfig);

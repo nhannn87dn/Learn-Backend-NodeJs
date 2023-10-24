@@ -17,6 +17,7 @@ const getAllItems = async () => {
   return employees;
 };
 
+
 const getItemById = async (id: string) => {
   // SELECT * FROM employees WHERE id = id
   console.log(id);

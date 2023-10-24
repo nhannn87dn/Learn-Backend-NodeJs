@@ -16,6 +16,34 @@ const login = async(req:Request, res: Response, next: NextFunction)=>{
   }
 }
 
+
+const getProfile = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const {_id} = res.locals.user;
+    console.log(`res.locals`,res.locals);
+    const employee = await authService.getProfile(_id);
+    
+    sendJsonSuccess(res)(employee);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+const freshToken = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const user = res.locals.user;
+    const tokens = await authService.refreshToken(user);
+    sendJsonSuccess(res)(tokens);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
 export default {
-  login
+  login,
+  getProfile,
+  freshToken
 }
