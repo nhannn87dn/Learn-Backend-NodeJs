@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
-import {IEmployee} from '../types/models'
+import {ICustomer} from '../types/models'
 
-const employeeSchema = new Schema<IEmployee>({
+const customerSchema = new Schema<ICustomer>({
   firstName: {
     type: String,
     require: true,
@@ -33,7 +33,6 @@ const employeeSchema = new Schema<IEmployee>({
     type: Date
   },
   password: {
-    required: true,
     type: String,
     min: [8, "Ít nhất là 8 kí tự"],
     validate: {
@@ -46,14 +45,14 @@ const employeeSchema = new Schema<IEmployee>({
   photo: {
     type: String
   },
-  role: {
+  level: {
     type: String,
     required: true,
-    enum: ["Admin", "User", "Editor"], //Chỉ cho phép 1 trong 3 giá trị này
-    default: 'User' //Mặc định nó có quyền cơ bản nhất
+    enum: ["customer", "member", "vip"], //Chỉ cho phép 1 trong 3 giá trị này
+    default: 'customer' //Mặc định nó có quyền cơ bản nhất
   }
 });
 
 
-const Employee = model<IEmployee>('Employee', employeeSchema);
-export default Employee;
+const Customer = model<ICustomer>('Customer', customerSchema);
+export default Customer;

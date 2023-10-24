@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button,  Form, Input, Alert } from 'antd';
-import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,7 +10,7 @@ type FieldType = {
 };
 
 const Login = () => {
-  const {login} = useAuth();
+  const {login, isLoading} = useAuth();
   const [msg, setMsg] = React.useState("")
   const navigate = useNavigate();
   
@@ -19,11 +18,12 @@ const Login = () => {
     console.log('Success:', values);
 
     try {
+      //Dùng hàm login ở store để login
       const res =  await login(values.email, values.password);
 
       console.log(res);
       if(res.isAuthenticated) {
-        navigate('/'); //Login thanh  chuyen huong qua dashboad
+        navigate('/'); //Login thanh cong thi chuyen huong qua dashboad
       }else{
         setMsg(res.error);
       }
@@ -73,8 +73,9 @@ const Login = () => {
      
   
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" htmlType="submit">
-          Submit
+        {/* Khóa nút nhấn khi form đang submit để tránh nhấp chuột nhiều lần */}
+        <Button type="primary" htmlType="submit" disabled={isLoading}>
+          {isLoading ? 'Submitting...' : 'Submit'}
         </Button>
       </Form.Item>
     </Form>

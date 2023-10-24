@@ -12,6 +12,7 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use(
   (config) => {
     const token = window.localStorage.getItem('token');
+    //Check nếu có token thì đính kèm token vào header
     if (token) {
       config.headers['Authorization'] = 'Bearer ' + token;
     }
@@ -23,7 +24,7 @@ axiosClient.interceptors.request.use(
   },
 );
 
-// RESPONSE
+// RESPONSE TRẢ VỀ
 
 axiosClient.interceptors.response.use(
   async (response) => {
@@ -33,7 +34,7 @@ axiosClient.interceptors.response.use(
      */
     console.log('<<=== 🚀 axiosClient response.data  ===>>',response.data.data);
     const { token, refreshToken } = response.data.data;
-    // LOGIN
+    // khi LOGIN oK ==> LƯU token và freshTOken xuống localStorage
     if (token) {
       window.localStorage.setItem('token', token);
     }
@@ -44,11 +45,16 @@ axiosClient.interceptors.response.use(
     return response;
   },
   async (error) => {
+
+    //Khi lỗi, và lỗi không phải 401 --> trả lại lỗi
+
     if (error?.response?.status !== 401) {
       return Promise.reject(error);
     }
 
     const originalConfig = error.config;
+
+     //Khi lỗi, và lỗi 401 --> ko có quyền truy cập ==> đi làm mới lại token
 
     if (error?.response?.status === 401 && !originalConfig.sent) {
       console.log('Error 🚀', error);
@@ -64,7 +70,9 @@ axiosClient.interceptors.response.use(
           }
           return Promise.reject(error);
         }
-
+        //Nếu tồn tại token, thì làm mới token sau mỗi request
+        //Để quá trình login ko bị gián đoạn
+        
         const refreshToken = window.localStorage.getItem('refreshToken');
         if (refreshToken) {
           const response = await axiosClient.post('/auth/refresh-token', {

@@ -13,7 +13,7 @@ interface CustomRequest extends Request {
 //Tạo và export luôn
 export default function (req: CustomRequest, res: Response, next: NextFunction) {
     //Logic Here
-    console.log('second', req?.user);
+    //console.log('second', req?.user);
 
 
    

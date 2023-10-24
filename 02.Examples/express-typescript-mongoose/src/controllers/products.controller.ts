@@ -8,7 +8,10 @@ import { IProduct } from '../types/models';
  */
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const products = await productsService.findAll();
+        const page = req.query.page ? parseInt(req.query.page as string) : 1;
+        const limit = req.query.limit ? parseInt(req.query.limit as string) : 5;
+        
+        const products = await productsService.findAll(page, limit);
         sendJsonSuccess(res)(products);
     } catch (error) {
         next(error);

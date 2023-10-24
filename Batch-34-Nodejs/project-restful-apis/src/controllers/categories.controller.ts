@@ -10,7 +10,11 @@ import categoriesService from '../services/categories.service';
 
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const categories = await categoriesService.getAllItems();
+    // destructure page and limit and set default values
+    const page = req.query.page ? parseInt(req.query.page as string) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit as string) : 5;
+
+    const categories = await categoriesService.getAllItems(page, limit);
     sendJsonSuccess(res)(categories); // Gọi hàm mà có truyền giá trị cho data
   } catch (error) {
     next(error);

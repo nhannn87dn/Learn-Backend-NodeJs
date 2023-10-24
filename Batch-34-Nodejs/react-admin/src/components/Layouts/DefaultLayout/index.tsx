@@ -78,8 +78,16 @@ const DefaultLayout = () => {
   return (
     <QueryClientProvider client={queryClient}>
     <Layout>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical" >Admin</div>
+      <Sider trigger={null} collapsible collapsed={collapsed}
+      
+      >
+        <div className="demo-logo-vertical" style={{
+          color: 'white',
+          whiteSpace: 'nowrap',
+          fontSize: '20px',
+          fontWeight: 'bold',
+          padding: '10px 20px',
+        }} >Admin</div>
         <Menu
           theme="dark"
           mode="inline"
@@ -118,7 +126,7 @@ const DefaultLayout = () => {
           style={{
             margin: '24px 16px',
             padding: 24,
-            minHeight: 280,
+            minHeight: 580,
             background: colorBgContainer,
           }}
         >

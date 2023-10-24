@@ -43,6 +43,19 @@ export interface IEmployee {
 }
 
 
+export interface ICustomer {
+  _id?: ObjectId;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  address?: string;
+  birthDay?: Date,
+  password: string;
+  photo?: string;
+  level: string;
+}
+
 
 //---------------Orders-----------------------//
 
@@ -58,9 +71,6 @@ export enum  EnumPayments {
   Credit = 'CREDIT CARD',
   Cod = 'COD'
 }
-
-//Chỉ chấp nhận số Dương
-type PositiveNumber = number & { __positiveNumber: true };
 
 
 export type orderDetail = {

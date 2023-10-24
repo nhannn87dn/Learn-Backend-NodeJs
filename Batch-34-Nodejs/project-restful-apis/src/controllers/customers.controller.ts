@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { sendJsonSuccess } from '../helpers/responseHandler';
-import suppliersService from '../services/suppliers.service';
+import customersService from '../services/customers.service';
 
 /**
  * Controller - Điều khiển
@@ -10,10 +10,8 @@ import suppliersService from '../services/suppliers.service';
 
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const page = req.query.page ? parseInt(req.query.page as string) : 1;
-    const limit = req.query.limit ? parseInt(req.query.limit as string) : 5;
-    const suppliers = await suppliersService.getAllItems(page, limit);
-    sendJsonSuccess(res)(suppliers); // Gọi hàm mà có truyền giá trị cho data
+    const customers = await customersService.getAllItems();
+    sendJsonSuccess(res)(customers); // Gọi hàm mà có truyền giá trị cho data
   } catch (error) {
     next(error);
   }
@@ -21,18 +19,19 @@ const getAll = async (req: Request, res: Response, next: NextFunction) => {
 
 const getItemById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const supplier = await suppliersService.getItemById(req.params.id);
-    sendJsonSuccess(res)(supplier);
+    const customer = await customersService.getItemById(req.params.id);
+    sendJsonSuccess(res)(customer);
   } catch (error) {
     next(error);
   }
 };
 
+
 const createItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const payload = req.body;
-    const newSupplier = await suppliersService.createItem(payload);
-    sendJsonSuccess(res)(newSupplier);
+    const newCustomer = await customersService.createItem(payload);
+    sendJsonSuccess(res)(newCustomer);
   } catch (error) {
     next(error);
   }
@@ -43,8 +42,8 @@ const updateItem = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     console.log(id, req.body);
     const payload = req.body;
-    const updatedSupplier = await suppliersService.updateItem(id, payload);
-    sendJsonSuccess(res)(updatedSupplier);
+    const updatedCustomer = await customersService.updateItem(id, payload);
+    sendJsonSuccess(res)(updatedCustomer);
   } catch (error) {
     next(error);
   }
@@ -53,10 +52,8 @@ const updateItem = async (req: Request, res: Response, next: NextFunction) => {
 const deleteItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    //Nhận được user từ res.locals
-      console.log('<<=== 🚀 res.locals ===>>',res.locals);
-    const deletedSupplier = await suppliersService.deleteItem(id);
-    sendJsonSuccess(res)(deletedSupplier);
+    const deletedCustomer = await customersService.deleteItem(id);
+    sendJsonSuccess(res)(deletedCustomer);
   } catch (err) {
     next(err);
   }
@@ -67,5 +64,5 @@ export default {
   getItemById,
   updateItem,
   createItem,
-  deleteItem,
+  deleteItem
 };
