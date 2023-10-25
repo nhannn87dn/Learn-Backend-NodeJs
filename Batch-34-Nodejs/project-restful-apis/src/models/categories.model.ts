@@ -12,7 +12,11 @@ const categorySchema = new Schema<ICategory>({
     type: String,
     maxLength: 500
   }
-});
+},
+{
+  timestamps: true //tạo thêm trường ngày tháng
+}
+);
 
 //3. Tạo Model Category
 const Category = model<ICategory>('Category', categorySchema);

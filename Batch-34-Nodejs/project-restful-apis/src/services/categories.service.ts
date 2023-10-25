@@ -18,6 +18,8 @@ const getAllItems = async (page: number, limit: number) => {
                   select('-__v').
                   skip((page - 1) * limit).
                   limit(limit);
+                  //.sort({createAt: -1} ==> sắp xếp giảm dần
+                  //Hoặc thêm một trường sort vào model category
 
   /// get total documents in the Categories collection 
   const totalRecords = await Category.count();
@@ -25,6 +27,7 @@ const getAllItems = async (page: number, limit: number) => {
   //return response with Categories, total pages, and current page
   return {
     categories,
+    totalRecords,
     totalPages: Math.ceil(totalRecords / limit),
     currentPage: page,
     recordsPerPage: limit
