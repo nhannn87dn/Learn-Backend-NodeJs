@@ -46,11 +46,13 @@ react-ecommerce/
 
 ### 🔸 Công nghệ sử dụng
 
-- React Vite / NextJs
-- Tailwind hoặc tự code Css
-- React Query
+- React Vite
+- Tailwind, [shadcn/ui](https://ui.shadcn.com/), [DaisyUI](https://daisyui.com/) hoặc tự code Css
+- React Query, Axios
 - Zustand
 
+
+Xem thêm: https://shuffle.dev/components/tailwind
 
 
 ### 🔸 **Yêu cầu các trang**

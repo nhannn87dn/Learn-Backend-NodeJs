@@ -8,6 +8,8 @@ import ProductDetails from '../pages/ProductDetails';
 import Login from '../pages/Login';
 import EmptyLayout from '../components/Layouts/EmptyLayout';
 import OnlyHeaderLayout from '../components/Layouts/OnlyHeaderLayout';
+import ShoppingCart from '../pages/ShoppingCart';
+import Checkout from '../pages/Checkout';
 
 
 interface BaseProps {
@@ -30,7 +32,9 @@ const publicRoutes: Routes[] = [
     {id: 6, path: '/customers', element: Customers, layout: OnlyHeaderLayout, nested: [
         {id: 1, path: '/customers/profile', element: CustomerProfile},
         {id: 2, path: '/customers/orders', element: CustomerOrders}
-    ]}
+    ]},
+    {id: 7, path: '/cart', element: ShoppingCart, layout: OnlyHeaderLayout},
+    {id: 8, path: '/checkout', element: Checkout, layout: OnlyHeaderLayout},
 ]
 
 //Private routes

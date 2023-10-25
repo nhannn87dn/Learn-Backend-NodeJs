@@ -1,3 +1,4 @@
+import CartInfo from "../../CartInfo";
 import Navigation from "../../Navigation";
 import UserInfo from "../../UserInfo";
 import styles from "./Header.module.css";
@@ -12,7 +13,10 @@ const Header = () => {
         <div className={styles.header_wrapper}>
           <div className="logo">FakeShop</div>
           <Navigation />
-          <UserInfo  />
+          <div className="area_right">
+            <UserInfo  />
+            <CartInfo />
+          </div>
         </div>
       </div>
     </header>

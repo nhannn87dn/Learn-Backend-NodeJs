@@ -4,7 +4,7 @@ import axios  from 'axios';
 import { Helmet } from "react-helmet";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-
+import { useCartStore } from '../../hooks/useCartStore';
 interface Product {
     id: number;
     title: string;
@@ -35,6 +35,9 @@ function Loading() {
 
 
 const ProductDetails = () => {
+
+    const {addItem} = useCartStore();
+
     const params = useParams();
     console.log(params);
 
@@ -67,11 +70,24 @@ const ProductDetails = () => {
           />
           </Helmet>
 
-           <h1>{data.title}</h1>
+           <h1 className='text-3xl text-bold my-3'>{data.title}</h1>
            <img height={300} width={300} src={data.images[0]} alt="" />
            <div className="price">
                 <strong>Price: ${data.price}</strong>
            </div>
+           <button type='button'
+           className='btn-primary'
+           onClick={()=>{
+              console.log('Thêm vào giỏ hàng', data.id);
+              addItem({
+                id: data.id,
+                name: data.title,
+                price: data.price,
+                quantity: 1,
+                thumb: data.images[0]
+              })
+           }}
+           >Add to Cart</button>
            <div>
            {data.description}
            </div>

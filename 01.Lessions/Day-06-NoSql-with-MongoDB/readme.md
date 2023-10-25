@@ -220,9 +220,165 @@ const product = await Product.find().populate({
 }).lean({virtuals: true})
 ```
 
+
+
+## 💛 Instance methods
+
+Là một số phương thức được có sẵn của Document
+
+<https://mongoosejs.com/docs/api/document.html>
+
+Tự tạo một document instance method
+
+Cú pháp: `Schema.methods`
+
+Ví dụ
+
+```js
+// So sánh pass
+// Usage: user.invalidPassword()
+userSchema.methods.invalidPassword = function (req_password, user_password) {
+  return bcrypt.compare(req_password, user_password);
+};
+// Tạo Token
+userSchema.methods.generateAuthToken = function () {
+  const token = jwt.sign(
+    { _id: this.id, email: this.email, role: this.role },
+    config.jwt.secure_key
+  );
+  return token;
+};
+```
+
+- Lưu ý instance method không chấp nhận từ khóa `this` nên sử dụng function truyền thống để định nghĩa.
+
+- Dùng để tạo ra một tính năng độc lập, không liên quan đến bên trong Model
+
+```js
+const user = await User.findById(id);
+if (user) {
+  const invalidPassword = user.invalidPassword(user.password,payload.password);
+  ///Nó là một method instance nên dùng nó sau khi instance được khởi tạo
+}
+```
+
+
+## 💛 Static
+
+Dùng khi bạn cần tạo ra một chức năng (function), có sử dụng đến Model
+
+```js
+// Usage: Model.isEmailTaken()
+userSchema.statics.isEmailTaken = async (email, excludeUserId) => {
+  const user = await this.findOne({
+    email,
+    _id: {
+      $ne: excludeUserId,
+    },
+  });
+  return !!user;
+};
+```
+Cách dùng
+
+```javascript
+//check email đã tồn tại chưa trước khi update
+const isEmailExits = User.isEmailTaken(payload.email, currentUserId)
+```
+
+## 💛 Virtuals
+
+Tạo ra một thuộc tính ảo.
+
+Ví dụ đang có sẵn firstName và LastName, bạn không cần tạo thêm FullName.
+
+```js
+// Virtual for this genre instance fullName.
+userSchema.virtual('fullName').get(function () {
+  return this.fistName + ' ' + this.lastName;
+});
+```
+
+Tạo một URL
+
+```js
+// Virtual for this genre instance URL.
+userSchema.virtual('url').get(function () {
+  return '/users/' + this._id;
+});
+```
+
+Nếu bạn muốn các virtuals xuất hiện trong `console.log` và `object json` bạn cần thiết lập thêm
+
+```javascript
+{
+  timestamps: false, //true tự tạo ra createAt và updateAt
+  toJSON: { virtuals: true }, // <-- include virtuals in `JSON.stringify()`
+  toObject: { virtuals: true },
+}
+```
+
+vào options của schema, sau đó khi truy vấn bạn sẽ thấy trường fullname xuất hiện.
+
+## 💛 Query Helpers
+
+Giúp bạn tự tạo cho mình một hàm truy vấn riêng.
+
+Giúp bạn tạo ra cú pháp short hand, tránh lặp lại nhiều lần đoạn code dài dòng.
+
+```js
+// Or, Assign a function to the "query" object of our animalSchema
+userSchema.query.byName = function (name) {
+  return this.where({ name: new RegExp(name, 'i') });
+};
+```
+
+Cách sử dụng
+
+```js
+User.find()
+  .byName('fido')
+  .exec((err, animals) => {
+    console.log(animals);
+  });
+```
+
+Tạo thuộc tính ảo cho Model
+
+## 💛 Middleware
+
+Mongoose cung cấp một số Middleware, giúp bạn can thiệp xử lý dữ liệu trước khi nó đã ghi vào Database
+
+Xem chi tiết: <https://mongoosejs.com/docs/middleware.html>
+
+Ví dụ
+
+- Mã hóa password trước khi save xuống
+- Convert ngày tháng sang kiểu khác
+
+```js
+userSchema.pre('save', async function (next) {
+  const rounds = 10; // what you want number for round password
+  const hash = await bcrypt.hash(this.password, rounds);
+  this.password = hash;
+
+  this.createdAt = moment.utc(this.createdAt).format('YYYY-MM-DD hh:mm:ssZ');
+  this.updatedAt = moment.utc(this.updatedAt).format('YYYY-MM-DD hh:mm:ssZ');
+
+  next();
+});
+```
+
+## 💛 TypeScript Support
+
+Nếu code theo kiểu TypeScript thì xem link sau <https://mongoosejs.com/docs/typescript.html>
+
+
 ## 💛 MongoDB Shell
 
 > TIP: Install extension for VS Code: https://www.mongodb.com/products/vs-code
+
+Một công cụ giúp bạn tương tác với moongoDB không cần đến Model như trên.
 
 ### Insert Documents
 
