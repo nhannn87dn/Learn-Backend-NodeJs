@@ -24,7 +24,7 @@ router.post('/', authMiddleware.checkToken, authMiddleware.checkAuthorize(["User
  * Update a user by ID
  * PATH /api/v1//:id
  */
-router.patch('/:id',  categoriesController.updateItem);
+router.patch('/:id', authMiddleware.checkToken,  categoriesController.updateItem);
 
 /**
  * Delete a user by ID
