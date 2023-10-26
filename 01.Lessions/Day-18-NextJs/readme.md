@@ -4,6 +4,7 @@ Trong bài học tiếp theo này chúng ta tìm hiểu:
 
 - Các khái niệm Rendering trong NextJs
 - Data Fetching - Cách lấy dữ liệu từ API
+- Optimization - Tối ưu Performance
 
 ## 💛Rendering
 
@@ -12,6 +13,7 @@ Mặc định nextjs sẽ **pre-render** có nghĩa là Nextjs sẽ tạo ra fil
 Điều này giúp tăng performance và SEO
 
 Vậy Pe-render là gì ?
+
 ### 🔹 Pre-rendering
 
 NextJs có 2 hình thức pre-rendering:
@@ -61,3 +63,254 @@ Cụ thể như thế nào chúng ta tìm hiểu trong phần tiếp sau đây
 ---
 
 ## 💛 Data Fetching
+
+### getServerSideProps - Server-side Rendering (SSR)
+
+ Với cách dùng `getServerSideProps` thì API sẽ được fetch lại cho mỗi request đến trang chủ.
+
+
+Fetch data cho trang chủ:
+
+- https://api.escuelajs.co/api/v1/products/?categoryId=1&offset=0&limit=4
+- https://api.escuelajs.co/api/v1/products/?categoryId=2&offset=0&limit=4
+
+
+```tsx
+
+// This gets called on every request
+export async function getServerSideProps() {
+  // Fetch data from external API
+  const resClothes = await fetch(`https://api.escuelajs.co/api/v1/products/?categoryId=1&offset=0&limit=4`);
+  const clothes = await res.json();
+
+  const resElectronics = await fetch(`https://api.escuelajs.co/api/v1/products/?categoryId=1&offset=0&limit=4`);
+  const electronics = await res.json();
+ 
+  /**
+   * Truyền giá trị lấy được lên qua props của component
+   */
+  return { props: { 
+        clothes,
+        electronics 
+      }
+    }
+}
+
+/**
+ * Bạn nhận được kết quả nó như sau
+ */
+export default function Page({ clothes,  electronics}) {
+  // Render data...
+}
+ 
+```
+
+
+### getStaticProps - Static Site Generation (SSG)
+
+Với cách dùng `getStaticProps` thì Nextjs sẽ pre-render và gen thành file HTML tĩnh khi bạn đánh lệnh `next build`
+
+Fetch data cho trang Products: https://fakeapi.platzi.com/en/rest/products
+
+
+```tsx
+export default function Page({ products }) {
+  // Render products...
+}
+ 
+// This function gets called at build time
+//Context parameter: https://nextjs.org/docs/pages/api-reference/functions/get-static-props#context-parameter
+export async function getStaticProps() {
+  // Call an external API endpoint to get posproductsts
+  const res = await fetch('https://api.escuelajs.co/api/v1/products?offset=0&limit=10')
+  const products = await res.json();
+
+  
+ 
+  // By returning { props: { postproductss } }, the User component
+  // will receive `products` as a prop at build time
+  return {
+    props: {
+      products,
+    },
+  }
+}
+```
+
+
+### getStaticProps - Incremental Static Regeneration (ISR)
+
+- Cách này thường dùng cho các site dynamic routes.
+- Tất cả các đường dẫn fetch được sẽ gen thành html page khi build.
+- Nếu có set `revalidate` thì sau thời gian ấn định, NextJS sẽ tự render và tạo page khi có URL mới phát sinh.
+
+
+```tsx
+function Page({ product }) {
+  return (
+    <ul>
+      {products.map((post) => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  )
+}
+ 
+// This function gets called at build time on server-side.
+// It may be called again, on a serverless function, if
+// revalidation is enabled and a new request comes in
+//Context parameter: https://nextjs.org/docs/pages/api-reference/functions/get-static-props#context-parameter
+export async function getStaticProps({params}) {
+  const {id} = params.id;
+  const res = await fetch(`https://api.escuelajs.co/api/v1/products/${id}`)
+  const product = await res.json();
+
+  if (!data) {
+    return {
+      notFound: true,
+    }
+  }
+ 
+  return {
+    props: {
+      product,
+    },
+    // Next.js will attempt to re-generate the page:
+    // - When a request comes in
+    // - At most once every 10 seconds
+    revalidate: 10, // In seconds
+  }
+}
+ 
+// This function gets called at build time on server-side.
+// It may be called again, on a serverless function, if
+// the path has not been generated.
+export async function getStaticPaths() {
+  const res = await fetch('https://api.escuelajs.co/api/v1/products')
+  const products = await res.json()
+ 
+  // Get the paths we want to pre-render based on products
+  const paths = products.map((product) => ({
+    params: { id: product.id },
+  }))
+ 
+  // We'll pre-render only these paths at build time.
+  // { fallback: 'blocking' } will server-render pages
+  // on-demand if the path doesn't exist.
+  return { paths, fallback: 'blocking' }
+}
+ 
+export default Page
+```
+
+
+### Client-side Fetching
+
+- Dùng khi trang của bạn không cần SEO, vì nó render ở trình duyệt.
+- Dùng useEffect và fetch API như trong React
+
+```tsx
+import { useState, useEffect } from 'react'
+ 
+function Profile() {
+  const [data, setData] = useState(null)
+  const [isLoading, setLoading] = useState(true)
+ 
+  useEffect(() => {
+    fetch('/api/profile-data')
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data)
+        setLoading(false)
+      })
+  }, [])
+ 
+  if (isLoading) return <p>Loading...</p>
+  if (!data) return <p>No profile data</p>
+ 
+  return (
+    <div>
+      <h1>{data.name}</h1>
+      <p>{data.bio}</p>
+    </div>
+  )
+}
+```
+
+- Có thể dùng các thư viện khác như React Query, SWR để fetch, cache và mutation Data
+
+```tsx
+import useSWR from 'swr'
+ 
+const fetcher = (...args) => fetch(...args).then((res) => res.json())
+ 
+function Profile() {
+  const { data, error } = useSWR('/api/profile-data', fetcher)
+ 
+  if (error) return <div>Failed to load</div>
+  if (!data) return <div>Loading...</div>
+ 
+  return (
+    <div>
+      <h1>{data.name}</h1>
+      <p>{data.bio}</p>
+    </div>
+  )
+}
+```
+
+
+## 💛 Optimization - Tối ưu Performance
+
+### Tối ưu load Ảnh - Images
+
+Chi tiết: https://nextjs.org/docs/pages/building-your-application/optimizing/images
+
+```tsx
+import Image from 'next/image'
+ 
+export default function Page() {
+  return (
+    <>
+     <Image
+      src="./local-images.png"
+      alt="local-images"
+      width={500}
+      height={500}
+    <Image
+      src="https://s3.amazonaws.com/my-bucket/profile.png"
+      alt="Picture of the author"
+      width={500}
+      height={500}
+    />
+    </>
+  )
+}
+```
+
+Với các hình ảnh từ bên ngoài bạn cần phải cấu hình thêm ở file `next.config.js`:
+
+```ts
+module.exports = {
+  images: {
+    domains: ['s3.amazonaws.com'],
+  },
+}
+```
+
+Xem thêm: https://nextjs.org/docs/app/api-reference/components/image#remotepatterns
+
+
+### Tối ưu load Font
+
+Chi tiết xem: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
+
+### Tối ưu SEO với meta Tag
+
+Chi tiết xem: https://nextjs.org/docs/pages/api-reference/components/head
+
+Các Tips chủ đề về SEO: https://nextjs.org/learn/seo/introduction-to-seo
+
+### Tối ưu load Component - Lazy Loading
+
+Xem chi tiết: https://nextjs.org/docs/app/building-your-application/optimizing/lazy-loading
