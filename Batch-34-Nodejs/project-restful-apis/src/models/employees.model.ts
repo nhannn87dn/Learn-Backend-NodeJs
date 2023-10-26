@@ -52,6 +52,11 @@ const employeeSchema = new Schema<IEmployee>({
     enum: ["Admin", "User", "Editor"], //Chỉ cho phép 1 trong 3 giá trị này
     default: 'User' //Mặc định nó có quyền cơ bản nhất
   }
+}
+,
+//Các options
+{
+  timestamps: true, //true tự tạo ra createAt và updateAt
 });
 
 

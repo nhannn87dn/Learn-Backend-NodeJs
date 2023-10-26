@@ -45,7 +45,7 @@ const DefaultLayout = () => {
       label: 'Dashboard',
     },
     {
-      key: 'category',
+      key: 'categories',
       icon: <VideoCameraOutlined />,
       label: 'Categories Management',
     },
@@ -55,7 +55,7 @@ const DefaultLayout = () => {
       label: 'Products Management',
     },
     {
-      key: 'customer',
+      key: 'customers',
       icon: <UploadOutlined />,
       label: 'Customers Management',
     },

@@ -15,7 +15,6 @@ const getAll = async (req: Request, res: Response, next: NextFunction) => {
     const limit = req.query.limit ?  parseInt(req.query.limit as string) :  10; //Mặc định 10 items/1 page
 
     const products = await productsService.getAllItems(page,limit);
-    console.log(products.length);
     sendJsonSuccess(res)(products); // Gọi hàm mà có truyền giá trị cho data
   } catch (error) {
     next(error);

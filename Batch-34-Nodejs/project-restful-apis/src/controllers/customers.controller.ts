@@ -10,7 +10,11 @@ import customersService from '../services/customers.service';
 
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const customers = await customersService.getAllItems();
+    // destructure page and limit and set default values
+    const page = req.query.page ? parseInt(req.query.page as string) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit as string) : 5;
+
+    const customers = await customersService.getAllItems(page, limit);
     sendJsonSuccess(res)(customers); // Gọi hàm mà có truyền giá trị cho data
   } catch (error) {
     next(error);

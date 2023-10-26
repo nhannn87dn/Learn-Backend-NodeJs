@@ -5,9 +5,22 @@ import { IOrder } from "../types/models";
 /**
  * Lấy tất cả các Order
  */
-const findAll = async () => {
-    const result = await Order.find();
-    return result;
+const findAll = async (page: number, limit: number) => {
+    const orders = await Order.find().
+    select('-__v').
+    skip((page - 1) * limit).
+    limit(limit);
+    /// get total documents in the Categories collection 
+  const totalRecords = await Order.count();
+
+  //return response with Categories, total pages, and current page
+  return {
+    orders,
+    totalRecords,
+    totalPages: Math.ceil(totalRecords / limit),
+    currentPage: page,
+    recordsPerPage: limit
+  };
 }
 
 /**

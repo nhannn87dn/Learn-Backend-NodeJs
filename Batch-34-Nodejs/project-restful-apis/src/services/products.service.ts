@@ -11,10 +11,23 @@ const getAllItems = async (currentPage: number, pageSize: number) => {
   //const currentPage = 2; //trang hiện tại
   //const pageSize = 10; // Số lượng items trên 1 trang
   // Tương đương: SELECT * FROM products (SQL)
-  const products = Product.find({}, ' -__v -description').populate('supplier', '-__v ').
+  const products = await Product.find({}, ' -__v').
+  populate('supplier', '-__v ').
+  populate('category', '-__v ').
   skip((currentPage - 1) * pageSize).
   limit(pageSize);
   
+  /// get total documents in the Categories collection 
+  const totalRecords = await Product.countDocuments();
+
+  //return response with Categories, total pages, and current page
+  return {
+    products,
+    totalRecords,
+    totalPages: Math.ceil(totalRecords / pageSize),
+    currentPage: currentPage,
+    recordsPerPage: pageSize
+  };
 
   return products;
 };

@@ -68,6 +68,10 @@ const productSchema = new Schema<IProduct>({
       message: 'Slug must be unique and contain only letters, numbers, and hyphens'
     },
   }
+}
+,
+{
+  timestamps: true //tạo thêm trường ngày tháng
 });
 
 

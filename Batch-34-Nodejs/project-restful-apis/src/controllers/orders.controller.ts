@@ -8,7 +8,10 @@ import { IOrder } from '../types/models';
  */
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const orders = await ordersService.findAll();
+        const page = req.query.page ? parseInt(req.query.page as string) : 1;
+        const limit = req.query.limit ? parseInt(req.query.limit as string) : 5;
+    
+        const orders = await ordersService.findAll(page, limit);
         sendJsonSuccess(res)(orders);
     } catch (error) {
         next(error);

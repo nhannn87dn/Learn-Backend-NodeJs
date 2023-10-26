@@ -17,7 +17,7 @@ interface DataType {
  
 }
 
-const Category= () => {
+const Customers= () => {
 
   const [messageApi, contextHolder] = message.useMessage();
   //Toggle Modal Edit
@@ -34,13 +34,13 @@ const Category= () => {
   const int_limit = limit ? parseInt(limit) :5;
   const onChangePagination: PaginationProps['onChange'] = (pageNumber) => {
     console.log('Page: ', pageNumber);
-    navigate(`/categories?page=${pageNumber}`);
+    navigate(`/category?page=${pageNumber}`);
   };
 
  
   //Lay danh sach danhmuc
   const getCategories = async (page = 1, limit = 5)=> {
-      return axiosClient.get(config.urlAPI+`/v1/categories?page=${page}&limit=${limit}`);
+      return axiosClient.get(config.urlAPI+`/categories?page=${page}&limit=${limit}`);
   }
 
   // Access the client
@@ -57,7 +57,7 @@ const Category= () => {
 
   //======= Sự kiện XÓA =====//
   const fetchDelete = async (objectID: string)=> {
-      return axiosClient.delete(config.urlAPI+'/v1/categories/'+objectID);
+      return axiosClient.delete(config.urlAPI+'/categories/'+objectID);
   } 
   // Mutations => Thêm mới, xóa, edit
   const mutationDelete = useMutation({
@@ -79,7 +79,7 @@ const Category= () => {
   //======= Sự kiện EDit =====//
   const fetchUpdate = async (formData: DataType) => {
     const {_id, ...payload} = formData;
-    return axiosClient.patch(config.urlAPI+'/v1/categories/'+_id, payload);
+    return axiosClient.patch(config.urlAPI+'/categories/'+_id, payload);
   } 
   // Mutations => Thêm mới, xóa, edit
   const mutationUpdate = useMutation({
@@ -127,7 +127,7 @@ const Category= () => {
 
   //======= Sự kiện Create =====//
   const fetchCreate = async (formData: DataType) => {
-    return axiosClient.post(config.urlAPI+'/v1/categories', formData);
+    return axiosClient.post(config.urlAPI+'/categories', formData);
   } 
   // Mutations => Thêm mới, xóa, edit
   const mutationCreate = useMutation({
@@ -314,4 +314,4 @@ const Category= () => {
   )
 };
 
-export default Category;
+export default Customers;

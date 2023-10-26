@@ -11,10 +11,24 @@ import { IEmployee } from '../types/models';
  * Các hàm trong service phải có return
  */
 
-const getAllItems = async () => {
+const getAllItems = async (page: number, limit: number) => {
   // Tương đương: SELECT * FROM employees (SQL)
-  const employees = Employee.find();
-  return employees;
+  const employees = await Employee.find().
+  select('-__v').
+  skip((page - 1) * limit).
+  limit(limit);
+
+  /// get total documents in the Categories collection 
+  const totalRecords = await Employee.count();
+
+  //return response with Categories, total pages, and current page
+  return {
+    employees,
+    totalRecords,
+    totalPages: Math.ceil(totalRecords / limit),
+    currentPage: page,
+    recordsPerPage: limit
+  };
 };
 
 

@@ -51,6 +51,10 @@ const customerSchema = new Schema<ICustomer>({
     enum: ["customer", "member", "vip"], //Chỉ cho phép 1 trong 3 giá trị này
     default: 'customer' //Mặc định nó có quyền cơ bản nhất
   }
+},
+//Các options
+{
+  timestamps: true, //true tự tạo ra createAt và updateAt
 });
 
 

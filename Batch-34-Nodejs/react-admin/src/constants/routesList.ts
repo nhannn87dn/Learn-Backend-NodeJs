@@ -1,14 +1,9 @@
-import Home from '../pages/Home';
-import Product from '../pages/Product';
+import Dashboard from '../pages/Dashboard';
+import Products from '../pages/Products';
 import Category from '../pages/Category';
 import Customers from '../pages/Customers';
-import CustomerProfile from '../pages/Customers/CustomerProfile';
-import CustomerOrders from '../pages/Customers/CustomerOrders';
-import ProductDetails from '../pages/ProductDetails';
 import Login from '../pages/Login';
 import EmptyLayout from '../components/Layouts/EmptyLayout';
-import CategoryAdd from '../pages/Category/CategoryAdd';
-import CategoryEdit from '../pages/Category/CategoryEdit';
 import Employees from '../pages/Employees';
 
 interface BaseProps {
@@ -29,16 +24,13 @@ const publicRoutes: Routes[] = [
 
 //Private routes
 const privateRoutes: Routes[] = [
-    {id: 1, path: '/', element: Home},
-    {id: 2, path: '/product', element: Product},
-    {id: 3, path: '/product/:id', element: ProductDetails},
-    {id: 4, path: '/category', element: Category},
+    {id: 1, path: '/', element: Dashboard},
+    {id: 2, path: '/products', element: Products},
+    {id: 3, path: '/suppliers', element: Category},
+    {id: 4, path: '/categories', element: Category},
+    {id: 5, path: '/orders', element: Category},
     {id: 6, path: '/customers', element: Customers},
-    {id: 7, path: '/category/add', element: CategoryAdd},
-    {id: 8, path: '/category/edit/:id', element: CategoryEdit},
-    {id: 9, path: '/customers/profile', element: CustomerProfile},
-    {id: 10, path: '/customers/orders', element: CustomerOrders},
-    {id: 11, path: '/employees', element: Employees},
+    {id: 7, path: '/employees', element: Employees},
 ];
 
 export {

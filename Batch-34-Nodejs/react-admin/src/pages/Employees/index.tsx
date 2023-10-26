@@ -17,7 +17,7 @@ interface DataType {
  
 }
 
-const Category= () => {
+const Employees= () => {
 
   const [messageApi, contextHolder] = message.useMessage();
   //Toggle Modal Edit
@@ -34,7 +34,7 @@ const Category= () => {
   const int_limit = limit ? parseInt(limit) :5;
   const onChangePagination: PaginationProps['onChange'] = (pageNumber) => {
     console.log('Page: ', pageNumber);
-    navigate(`/categories?page=${pageNumber}`);
+    navigate(`/category?page=${pageNumber}`);
   };
 
  
@@ -314,4 +314,4 @@ const Category= () => {
   )
 };
 
-export default Category;
+export default Employees;

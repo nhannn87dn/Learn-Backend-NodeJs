@@ -22,6 +22,10 @@ const supplierSchema = new Schema<ISupplier>({
     type: String,
     maxLength: 255
   }
+},
+//Các options
+{
+  timestamps: true, //true tự tạo ra createAt và updateAt
 });
 
 //3. Tạo Model Category
