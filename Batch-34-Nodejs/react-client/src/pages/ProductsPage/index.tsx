@@ -7,31 +7,32 @@ import {
 import axios from 'axios';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import Pagination from '../../components/Pagination';
 
 
 const ProductsPage = () => {
-  // const [product, setProduct] = React.useState(null);
+  const navigate = useNavigate();
+  const [params] = useSearchParams();
 
-  // React.useEffect(()=>{
-  //     const fetchData = async ()=> {
-  //         const res = await fetch(config.urlAPI+'/v1/products');
-  //         const data = await res.json();
-  //         console.log(data.data.products);
+  
 
-  //     }
-  //     fetchData();
-  // },[]);
+  const page = params.get('page');
+  const limit = 9;
+  const int_page = page? parseInt(page) : 1;
+
+
+  const [currentPage, setCurrentPage] = React.useState(int_page);
 
   //Hàm fetch products
-  const getProducts = async ()=> {
-    return axios.get(config.urlAPI+'/v1/products');
+  const getProducts = async (page=1, limit=9)=> {
+    return axios.get(config.urlAPI+`/v1/products?page=${page}&limit=${limit}`);
   }
 
    // Queries
    const queryProducts = useQuery({ 
-    queryKey: ['products'],
-    queryFn: getProducts,
+    queryKey: ['products', int_page, limit],
+    queryFn: ()=>getProducts(int_page, limit),
     onSuccess: (data)=>{
       //Thành công thì trả lại data
       console.log(data.data.data.products);
@@ -51,6 +52,8 @@ const ProductsPage = () => {
     </Helmet>
       <h1 className='text-2xl text-bold'>Products List</h1>
       {queryProducts.isLoading ? (<Skeleton count={10} />) : (
+        <>
+        
         <section id="Projects"
         className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
     
@@ -81,6 +84,25 @@ const ProductsPage = () => {
           }) : null
         }
     </section>
+    <div className='flex gap-x-3 justify-center'>
+       <Pagination currentPage={currentPage} totalPages={queryProducts?.data.data.data.totalPages} setCurrentPage={setCurrentPage} />
+        {/* <button onClick={()=>{
+          navigate(`/products?page=1`)
+        }} type='button' className='border border-indigo-500 rounded p-3'>
+          1
+        </button>
+        <button onClick={()=>{
+          navigate(`/products?page=2`)
+        }} type='button' className='border border-indigo-500 rounded p-3'>
+          2
+        </button>
+        <button onClick={()=>{
+          navigate(`/products?page=3`)
+        }} type='button' className='border border-indigo-500 rounded p-3'>
+          3
+        </button> */}
+    </div>
+    </>
       )}
       
     </div>

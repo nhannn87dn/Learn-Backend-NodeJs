@@ -7,7 +7,7 @@ import {
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css';
 import {Helmet} from "react-helmet";
-
+import { useCartStore } from '../../hooks/useCartStore';
 interface IProduct {
   data: {
     name: string;
@@ -19,6 +19,9 @@ interface IProduct {
 }
 
 const ProductDetailsPage = () => {
+
+  const {addItem} = useCartStore();
+
   let params = useParams();
     console.log(params);
   //const id = params.id;
@@ -56,6 +59,15 @@ const ProductDetailsPage = () => {
       </div>
       <button onClick={()=>{
         console.log('Thêm giỏ hàng ID',slug);
+        const item = product?.data?.data;
+
+        addItem({
+          id: item._id,
+          price: item.price,
+          name: item.name,
+          quantity: 1,
+          thumb: item.thumbnail
+        });
       }} type='button' className='bg-indigo-500 text-white py-2 px-5 rounded'>Add to Cart</button>
     </div>
   )
