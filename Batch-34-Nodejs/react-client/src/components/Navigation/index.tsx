@@ -17,7 +17,7 @@ const SingleNav = ({item} : {item: SingleNavType}) =>{
     return (
         <li>
             {/* <a href={item.link}>{item.name}</a> */}
-            <Link className='text-slate-100' to={item.link}>{item.name}</Link>
+            <Link className='text-white' to={item.link}>{item.name}</Link>
             {
                 item.childs && item.childs.length > 0 ? (
                    <div>
@@ -37,8 +37,8 @@ const SingleNav = ({item} : {item: SingleNavType}) =>{
 
 const Navigation = () => {
   return (
-    <nav className="h-full overflow-y-auto">
-    <ul className='flex flex-col gap-y-4 p-2'>
+    <nav>
+    <ul className='flex gap-x-5'>
       {
         navigation.map((item)=> <SingleNav key={item.id} item={item} />)
       }

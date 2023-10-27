@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = 'https://api.escuelajs.co/api/v1/auth'
+const API_URL = 'http://localhost:8080/api/v1/auth/login';
 
 const axiosClient = axios.create({
   baseURL: API_URL,
@@ -12,6 +12,7 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use(
   (config) => {
     const token = window.localStorage.getItem('token');
+    //Check nếu có token thì đính kèm token vào header
     if (token) {
       config.headers['Authorization'] = 'Bearer ' + token;
     }
@@ -23,27 +24,37 @@ axiosClient.interceptors.request.use(
   },
 );
 
-// RESPONSE
+// RESPONSE TRẢ VỀ
 
 axiosClient.interceptors.response.use(
   async (response) => {
-    const { access_token, refresh_token } = response.data;
-    // LOGIN
-    if (access_token) {
-      window.localStorage.setItem('token', access_token);
+    /**
+     * Tùy vào response của BACKEND API trả về với cấu trúc như thế nào 
+     * bạn điều chỉnh lại cho đúng với cách code của bạn
+     */
+    console.log('<<=== 🚀 axiosClient response.data  ===>>',response.data.data);
+    const { token, refreshToken } = response.data.data;
+    // khi LOGIN oK ==> LƯU token và freshTOken xuống localStorage
+    if (token) {
+      window.localStorage.setItem('token', token);
     }
-    if (refresh_token) {
-      window.localStorage.setItem('refreshToken', refresh_token);
+    if (refreshToken) {
+      window.localStorage.setItem('refreshToken', refreshToken);
     }
 
     return response;
   },
   async (error) => {
+
+    //Khi lỗi, và lỗi không phải 401 --> trả lại lỗi
+
     if (error?.response?.status !== 401) {
       return Promise.reject(error);
     }
 
     const originalConfig = error.config;
+
+     //Khi lỗi, và lỗi 401 --> ko có quyền truy cập ==> đi làm mới lại token
 
     if (error?.response?.status === 401 && !originalConfig.sent) {
       console.log('Error 🚀', error);
@@ -59,19 +70,21 @@ axiosClient.interceptors.response.use(
           }
           return Promise.reject(error);
         }
-
+        //Nếu tồn tại token, thì làm mới token sau mỗi request
+        //Để quá trình login ko bị gián đoạn
+        
         const refreshToken = window.localStorage.getItem('refreshToken');
         if (refreshToken) {
-          const response = await axiosClient.post('/refresh-token', {
+          const response = await axiosClient.post('/auth/refresh-token', {
             refreshToken: refreshToken,
           });
 
-          const { access_token } = response.data;
-          window.localStorage.setItem('token', access_token);
+          const { token } = response.data.data;
+          window.localStorage.setItem('token', token);
 
           originalConfig.headers = {
             ...originalConfig.headers,
-            authorization: `Bearer ${access_token}`,
+            authorization: `Bearer ${token}`,
           };
 
           return axiosClient(originalConfig);

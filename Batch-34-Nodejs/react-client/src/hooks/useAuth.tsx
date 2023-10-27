@@ -1,14 +1,16 @@
 import { create } from 'zustand';
 import { axiosClient } from '../library/axiosClient';
 import { persist, createJSONStorage, } from 'zustand/middleware'
-
+import config from '../constants/config';
 interface User {
-  id: number;
+  _id: string;
   email: string;
-  password: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
   role: string;
-  avatar: string;
+  photo: string;
+  address: string;
 }
 
 interface Auth {
@@ -27,26 +29,37 @@ const useAuth = create(
     setUser: (user: User) => {
       set({ user });
     },
-    isLoading: false,
+    isLoading: false, // set trạng thái cho sự kiện login
     isAuthenticated: false, //trạng thái user đã login chưa
     login: async (email: string, password: string) => {
       try {
+        //Khi nhấn nút login thì cập nhật trạng thái loading
         set({isLoading: true });
-        const response = await axiosClient.post('https://api.escuelajs.co/api/v1/auth/login', { email, password });
-        console.log(response);
-  
-        if (response && response.status === 201) {
-          const isAuthenticated = response.status === 201;
+
+        //dùng thư viện axiosClient để handle việc check, gửi và lưu token xuống localStorage
+        const response = await axiosClient.post(config.urlAPI+'/auth/login', { email, password });
+        console.log('useAuth',response);
+        //Check nếu login thành công
+        if (response && response.status === 200) {
+          const isAuthenticated = response.status === 200; //==> TRUE
           //Gọi tiếp API lấy thông tin User
-          const {data} = await axiosClient.get('https://api.escuelajs.co/api/v1/auth/profile');
-          set({user: data, isAuthenticated,isLoading: false });
+          const {data} = await axiosClient.get(config.urlAPI+'/auth/profile');
+
+          //cập nhật lại state
+          set({user: data.data, isAuthenticated,isLoading: false });
+          
+          //trả lại thông tin cho hàm login
           return { isAuthenticated, error: '',isLoading: false };
-        } else {
+        }
+        //Ngược lại thất bại
+        else {
           return { isAuthenticated: false, isLoading: false , error: 'Username or password is invalid' };
         }
-      } catch (error) {
+      }
+      //Gọi API lỗi
+      catch (error) {
         console.log('login error',error);
-        return { isAuthenticated: false,isLoading: false, error: 'Username or password is invalid' };
+        return { isAuthenticated: false,isLoading: false, error: 'Login failed' };
       }
     },
     logout: () => {

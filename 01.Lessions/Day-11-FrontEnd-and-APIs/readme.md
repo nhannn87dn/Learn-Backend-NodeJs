@@ -20,8 +20,8 @@ react-ecommerce/
 │  ├─ library/
 │  ├─ pages/
 │       ├─ HomePage
-│       ├─ CategoryPage
 │       ├─ ProductPage
+│       ├─ ProductDetailPage
 │       ├─ CartPage
 │       ├─ CheckOutPage
 │       ├─ CheckOutDonePage
