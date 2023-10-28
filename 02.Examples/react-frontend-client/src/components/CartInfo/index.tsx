@@ -7,6 +7,7 @@ const CartInfo = () => {
      <Link to={'/cart'}>
     <span style={{
       backgroundColor: "#fff",
+      color: "#222",
       padding: "5px 10px",
       borderRadius: "20px",
       marginLeft: "15px",

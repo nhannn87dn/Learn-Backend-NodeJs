@@ -69,9 +69,13 @@ const ProductDetails = () => {
             content={data.description}
           />
           </Helmet>
-
-           <h1 className='text-3xl text-bold my-3'>{data.title}</h1>
-           <img height={300} width={300} src={data.images[0]} alt="" />
+            <div className="grid grid-cols-12 my-10">
+                <div className="col-span-4">
+                  <img height={300} width={300} src={data.images[0]} alt="" />
+                </div>
+                <div className="col-span-8">
+                <h1 className='text-3xl text-bold my-3'>{data.title}</h1>
+           
            <div className="price">
                 <strong>Price: ${data.price}</strong>
            </div>
@@ -91,6 +95,9 @@ const ProductDetails = () => {
            <div>
            {data.description}
            </div>
+                </div>
+            </div>
+           
         </>
         )}
         

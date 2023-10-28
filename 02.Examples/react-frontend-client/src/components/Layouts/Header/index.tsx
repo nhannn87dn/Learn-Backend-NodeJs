@@ -1,17 +1,16 @@
 import CartInfo from "../../CartInfo";
 import Navigation from "../../Navigation";
 import UserInfo from "../../UserInfo";
-import styles from "./Header.module.css";
-import clsx from 'clsx';
+
 
 const Header = () => {
     console.log('Header render');
     //className={`bg-color ${styles.header}`}
   return (
-    <header className={clsx('bg-color',styles.header)}>
+    <header className='bg-indigo-500 text-white'>
       <div className="container mx-auto">
-        <div className={styles.header_wrapper}>
-          <div className="logo">FakeShop</div>
+        <div className="flex justify-between py-5">
+          <div className="text-3xl text-bold ">E-commerce</div>
           <Navigation />
           <div className="area_right">
             <UserInfo  />
