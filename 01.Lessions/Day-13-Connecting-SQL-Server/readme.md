@@ -120,7 +120,7 @@ Chi tiết xem: https://typeorm.io/#create-an-entity
 ```ts
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'Employees' }) //đặt tên table
 export class Employee {
   @PrimaryGeneratedColumn()
   id: number;
@@ -275,7 +275,7 @@ Trong TypeORM, "Embedded Entities" là một khái niệm cho phép nhúng (embe
 ```ts
 import { Entity, Column, PrimaryGeneratedColumn, Embedded } from 'typeorm';
 
-@Embedded()
+@Embedded() //Nếu không đặt tên, thì tên = Class
 export class Address {
   @Column()
   street: string;

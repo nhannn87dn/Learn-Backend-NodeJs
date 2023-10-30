@@ -43,11 +43,12 @@ const OrderDetailsSchema = new Schema<orderDetail>(
 const orderSchema = new Schema<IOrder>({
   createdDate: {
     type: Date,
-    required: true
+    required: true,
+    default: new Date
   },
   shippedDate: {
     type: Date,
-    required: true
+    required: false
   },
   status: {
     type: String,

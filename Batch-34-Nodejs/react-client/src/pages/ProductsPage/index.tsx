@@ -43,6 +43,12 @@ const ProductsPage = () => {
 
   })
 
+  // Handle lỗi khi ko fetch được API
+  if(queryProducts.isError){
+    return (
+      <h1>Error Processing</h1>
+    )
+  }
 
   return (
     <div>
