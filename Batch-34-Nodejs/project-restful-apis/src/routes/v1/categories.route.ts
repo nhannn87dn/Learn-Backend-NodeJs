@@ -1,6 +1,7 @@
 import express from 'express';
 import categoriesController from '../../controllers/categories.controller';
 import authMiddleware from '../../middleware/auth.middleware';
+import categoriesTypeORMController from '../../controllers/categoriesTypeORM.controller';
 /***
  * Route chỉ làm nhiệm vụ định tuyến
  * Mapping request giữa client với Server
@@ -10,6 +11,9 @@ const router = express.Router();
 
 //Get All categories from DB
 router.get('/', categoriesController.getAll);
+//Test typeORM
+router.get('/typeorm/getall', categoriesTypeORMController.getAll);
+
 
 //get user by ID
 //Gắn middleware vào để check id có phải là số không

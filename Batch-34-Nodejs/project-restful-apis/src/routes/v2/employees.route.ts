@@ -1,6 +1,7 @@
 import express from 'express';
 import employeesController from '../../controllers/employees.controller';
-import authMiddleware from '../../middleware/auth.middleware'
+import authMiddleware from '../../middleware/auth.middleware';
+import employeesTypeORMController from '../../controllers/employeesTypeORM.controller';
 /***
  * Route chỉ làm nhiệm vụ định tuyến
  * Mapping request giữa client với Server
@@ -9,7 +10,8 @@ import authMiddleware from '../../middleware/auth.middleware'
 const router = express.Router();
 
 //Get All employees from DB
-router.get('/', employeesController.getAll);
+//router.get('/', employeesController.getAll);
+router.get('/', employeesTypeORMController.getAll);
 
 
 //get user by ID
