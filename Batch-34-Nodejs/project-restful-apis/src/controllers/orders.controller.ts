@@ -37,6 +37,7 @@ const getById = async (req: Request, res: Response, next: NextFunction) => {
 const create = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const payload: IOrder = req.body;
+        console.log('payload Order',payload);
         const order = await ordersService.create(payload);
         sendJsonSuccess(res)(order);
     } catch (error) {

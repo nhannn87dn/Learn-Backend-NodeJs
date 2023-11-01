@@ -81,7 +81,7 @@ const orderSchema = new Schema<IOrder>({
   employee: {
     type: Schema.Types.ObjectId,
     ref: 'Employee',
-    required: true,
+    required: false,
   },
   orderDetail: [OrderDetailsSchema]
  

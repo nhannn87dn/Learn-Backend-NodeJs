@@ -66,6 +66,12 @@ TypeORM là một Object-Relational Mapper (ORM) cho TypeScript và JavaScript (
 
 MSSQL (Microsoft SQL Server) là một hệ thống quản lý cơ sở dữ liệu phổ biến của Microsoft.
 
+Cài đặt nhanh:
+
+```bash
+npx typeorm init --name express-sqlserver --database mssql --express
+```
+
 Xem bài viết sử dụng TypeORM với Express: https://typeorm.io/example-with-express
 
 ### Cài đặt
