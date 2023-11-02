@@ -43,8 +43,16 @@
 ###  Bước 4 - Bật  TCP/IP
 
 - Vào Sql Server Configruration Manager
+
+![sql](img/sql-6.png)
+
 - Tại mục SQL Server Network Configruration --> chọn Protocals for MSSQLSERVER
 - Tại cửa sổ bên phải: Click phải lên TCP/IP --> Enable
+
+- Sau đó click phải lên TCP/IP --> Properties
+![sql](img/sql-7.png)
+
+Chọn qua tab IP Address --> Tìm đến dòng cuối cùng mục IPAll --> Sửa TCPT Port thành 1433
 
 
 ## 💛 Connecting to SQL Server 
@@ -66,55 +74,139 @@ TypeORM là một Object-Relational Mapper (ORM) cho TypeScript và JavaScript (
 
 MSSQL (Microsoft SQL Server) là một hệ thống quản lý cơ sở dữ liệu phổ biến của Microsoft.
 
-Cài đặt nhanh:
+### Cài đặt nhanh:
 
 ```bash
 npx typeorm init --name express-sqlserver --database mssql --express
 ```
+Công cụ sẽ tạo cho bạn một project với code mẫu.
 
-Xem bài viết sử dụng TypeORM với Express: https://typeorm.io/example-with-express
 
-### Cài đặt
+### Cài đặt thủ công với Express
+
+Xem bài viết: https://typeorm.io/example-with-express
+
+**Bước 1**
+
+Tạo một thư mục dự án mới `express-sqlserver` sau đó bạn mở nó trong Terminal và đánh lệnh
 
 ```bash
-yarn add typeorm reflect-metadata mssql 
+yarn init -y
 ```
+**Bước 2**
+
+Cài đặt typescript
 
 ```bash
-yarn add -D @types/node
+yarn add -D typescript ts-node-dev
 ```
 
-**TypeScript configuration**
-
-Sửa file tsconfig.json, thêm vào compilerOptions
+Sau đó tạo file `tsconfig.json` và copy nội dung này vào:
 
 ```json
-"emitDecoratorMetadata": true,
-"experimentalDecorators": true,
+{
+    "compilerOptions": {
+        "lib": ["es5", "es6", "dom"],
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
+    }
+}
 ```
 
-Sữa thuộc tính `strict` thành `false`
+**Bước 3**
+
+Tạo file `app.ts`
+
+```ts
+console.log('Hello Application')
+```
+
+**Bước 4**
+
+Cấu hình script tại file `package.json`
 
 ```json
-"strict": false,
+ "scripts": {
+    "dev": "ts-node-dev app.ts"
+  },
 ```
 
-### Kết nối Expressjs Với SQL Server sử dụng TypeORM
+**Bước 5**
 
-#### Bước 1 - Tạo file AppDataSource.ts để cấu hình kết nối
+Cài express vào dự án
+
+
+```bash
+yarn add express
+yarn add -D @types/express
+```
+
+Sau đó thay nội dung cho file `app.ts` thành như sau
+
+```ts
+import * as express from "express"
+import { Request, Response } from "express"
+
+// create and setup express app
+const app = express()
+app.use(express.json())
+
+// register routes
+
+app.get("/users", function (req: Request, res: Response) {
+    // here we will have logic to return all users
+})
+
+app.get("/users/:id", function (req: Request, res: Response) {
+    // here we will have logic to return user by id
+})
+
+app.post("/users", function (req: Request, res: Response) {
+    // here we will have logic to save a user
+})
+
+app.put("/users/:id", function (req: Request, res: Response) {
+    // here we will have logic to update a user by a given user id
+})
+
+app.delete("/users/:id", function (req: Request, res: Response) {
+    // here we will have logic to delete a user by a given user id
+})
+
+// start express server
+app.listen(3000, ()=> {
+  console.log('Connect server successful');
+})
+```
+
+
+**Bước 6**
+
+Cài TypeORM vào ứng dụng
+
+```bash
+yarn add typeorm mssql reflect-metadata
+```
+
+**Bước 7**
+
+Tạo file `data-soucre.ts` để cấu hình kết nối
 
 ```ts
 import "reflect-metadata";
 import { DataSource } from 'typeorm';
 
-export const AppDataSource = new DataSource({
+export const myDataSource = new DataSource({
   type: 'mssql',
-  host: 'PCNHAN',
+  host: 'NHAN2',
   port: 1433,
   username: 'nhan',
   password: '123456789',
-  database: 'AptechTest',
-  entities: ['src/entities/**/*.entity{.ts,.js}', 'src/entities/**/*.schema{.ts,.js}'],
+  database: 'ExpressSQLServer34',
+  entities: ['entities/**/*.entity{.ts,.js}'],
   synchronize: true,
   logging: false,
   options: {
@@ -123,154 +215,131 @@ export const AppDataSource = new DataSource({
 });
 ```
 
-#### Bước 2 - Tạo Các Model - Entities
+**Bước 8** 
+
+Tạo Các Model - Entities
 
 Trong thư mục src tạo folder `entities` chứa tất cả Entity (Model)
 
-Tạo một file Entity `src/entities/employee.entity.ts`
+Tạo một file Entity `src/entities/user.entity.ts`
 
 Chi tiết xem: https://typeorm.io/#create-an-entity
 
 ```ts
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm"
 
-@Entity({ name: 'Employees' }) //đặt tên table
-export class Employee {
-  @PrimaryGeneratedColumn()
-  id: number;
+@Entity()
+export class User {
+    @PrimaryGeneratedColumn()
+    id: number
 
-  @Column({ length: 20, type: 'nvarchar', nullable: false })
-  firstName: string;
+    @Column()
+    firstName: string
 
-  @Column({ length: 20, type: 'nvarchar', nullable: false })
-  lastName: string;
-
-  @Column({ length: 120, nullable: false })
-  numberPhone: string;
-
-  @Column({ length: 50, nullable: false })
-  email: string;
-
-  @Column({ length: 50, type: 'nvarchar', nullable: true })
-  address: string;
-
-  @Column({ type: 'date', nullable: true })
-  birthday: Date;
-
-  @Column({ length: 255, nullable: false })
-  password: string;
+    @Column()
+    lastName: string
 }
 
 ```
 
-Sau khi kết nối hệ thống sẽ tự động tạo ra trong Database của bạn một table có tên `employee`
+Sau khi kết nối hệ thống sẽ tự động tạo ra trong Database của bạn một table có tên `user`
 
-#### Bước 3 - Kết nối AppDataSource vào server Express
 
-bạn sửa code server.ts thành như sau:
+**Bước 9** 
+
+ Kết nối myDataSource vào server Express
+
+bạn sửa code app.ts thành như sau:
 
 ```ts
-import dotenv from 'dotenv';
-import { AppDataSource } from "./AppDataSource";
+import * as express from "express"
+import { Request, Response } from "express"
+import { User } from "./entities/user.entity"
+import { myDataSource } from "./data-source"
 
-dotenv.config();
+// establish database connection
+myDataSource
+    .initialize()
+    .then(() => {
+        console.log("Data Source has been initialized!")
+    })
+    .catch((err) => {
+        console.error("Error during Data Source initialization:", err)
+    })
 
-const app = require("./src/app");
-const PORT = process.env.PORT || 9000;
+// create and setup express app
+const app = express()
+app.use(express.json())
 
-AppDataSource.initialize().then(() => {
-    console.log("🚀[SQL Server] Data Source has been initialized!");
-
-
-        const server = app.listen(PORT, () =>
-        console.log(`🚀[ExpressJs] Server ready at: http://localhost:${PORT}`),
-        )
-
+// register routes
+app.get("/users", async function (req: Request, res: Response) {
+    const users = await myDataSource.getRepository(User).find()
+    res.json(users)
 })
-.catch((err) => {
-    console.error("Error during Data Source initialization:", err)
+
+app.get("/users/:id", async function (req: Request, res: Response) {
+    const results = await myDataSource.getRepository(User).findOneBy({
+        id: parseInt(req.params.id),
+    })
+    return res.send(results)
+})
+
+app.post("/users", async function (req: Request, res: Response) {
+    const user = await myDataSource.getRepository(User).create(req.body)
+    const results = await myDataSource.getRepository(User).save(user)
+    return res.send(results)
+})
+
+app.put("/users/:id", async function (req: Request, res: Response) {
+    const user = await myDataSource.getRepository(User).findOneBy({
+        id: parseInt(req.params.id),
+    })
+    myDataSource.getRepository(User).merge(user, req.body)
+    const results = await myDataSource.getRepository(User).save(user)
+    return res.send(results)
+})
+
+app.delete("/users/:id", async function (req: Request, res: Response) {
+    const results = await myDataSource.getRepository(User).delete(req.params.id)
+    return res.send(results)
+})
+
+// start express server
+app.listen(3000, ()=> {
+  console.log('Connect server successful');
 })
 ```
 
-Cho Server SQL khởi động thành công trước, sau đó khởi động server Express
+**Bước 10**
 
-Kết quả Nếu bạn thấy ở log của Terminal là kết nối thành công
-Kiểm tra Database của bạn xem, table employee có được tạo không
+Chạy thử
 
 ```bash
-🚀[SQL Server] Data Source has been initialized!
-🚀[ExpressJs] Server ready at: http://localhost:9000
+yarn dev
 ```
 
-### Sử dụng kết nối trong các Service
+Nếu thành công bạn sẽ thấy log 
 
-Ví dụ bạn tạo file src/services/employeeTypeORM.service.ts
+```bash
+Data Source has been initialized!
+Connect server successful
+
+```
+
+Nễu lỗi và cách Fix:
+
+- ConnectionError: Failed to connect to XXX:1433 - getaddrinfo ==> Lỗi này do thông số Host bị sai
+- Error during Data Source initialization: ConnectionError: Failed to connect to XXX:1433 - self-signed certificate ==> Lỗi này cho đang bật SSL trên localhost
+
+Thêm thông số này vào `data-source.ts`
 
 ```ts
-import { AppDataSource } from '../../AppDataSource';
-import { Router, NextFunction, Request, Response } from 'express';
-import { Employee } from '../entities/employee.entity';
-const repository = AppDataSource.getRepository(Employee);
-
-
-const getAll = ()=> {
-    const employees = await repository.find();
-    return employees;
-});
-
-const getItemById = async (id: string) => {
-    const result = await repository.findOneBy({
-        id: parseInt(req.params.id),
-    });
-    return result;
-});
-
-const createItem = async (payload: IEmployee) =>  {
-    const employee = await repository.create(payload);
-    const result = await repository.save(employee);
-    return result;
-});
-
-const updateItem = async (id: string, payload: IEmployee)  => {
-    
-    const employee = await getItemById(id);
-    
-    if (!employee) {
-      throw createError(404, "Employee not found");
-    }
-    //repository.merge(employee, payload);
-    Object.assign(employee, payload);
-
-    const result = await repository.save(employee)
-    return result;
-});
-
-const deleteItem = async (id: string) => {
-    const employee = await getItemById(id);
-    
-    if (!employee) {
-      throw createError(404, "Employee not found");
-    }
-
-    const result = await repository.delete({
-        id: employee.id
-    })
-    return result;
-});
-
-export default {
-  getAllItems,
-  getItemById,
-  updateItem,
-  createItem,
-  deleteItem,
-};
-
-
+options: {
+    encrypt: false,
+  },
 ```
 
-Sau đó bạn tại employeesTypeORMController sử dụng service trên
-
+- originalError: ConnectionError: Login failed for user 'xxx' ==> Kiểm tra lại user đó có được cấp quyền cho database không? Rà soát lại thông tin user, password...
 
 ==> TEST CÁC APIs
 
