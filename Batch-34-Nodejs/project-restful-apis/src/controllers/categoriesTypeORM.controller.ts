@@ -24,7 +24,7 @@ const getAll = async (req: Request, res: Response, next: NextFunction) => {
 
 const getItemById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const product = await categoriesTypeORMService.getItemById(req.params.id);
+    const product = await categoriesTypeORMService.getItemById(parseInt(req.params.id));
     sendJsonSuccess(res)(product);
   } catch (error) {
     next(error);
@@ -46,7 +46,7 @@ const updateItem = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     console.log(id, req.body);
     const payload = req.body;
-    const updatedCategory = await categoriesTypeORMService.updateItem(id, payload);
+    const updatedCategory = await categoriesTypeORMService.updateItem(parseInt(id), payload);
     sendJsonSuccess(res)(updatedCategory);
   } catch (error) {
     next(error);
@@ -56,7 +56,7 @@ const updateItem = async (req: Request, res: Response, next: NextFunction) => {
 const deleteItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    const deletedCategory = await categoriesTypeORMService.deleteItem(id);
+    const deletedCategory = await categoriesTypeORMService.deleteItem(parseInt(id));
     sendJsonSuccess(res)(deletedCategory);
   } catch (err) {
     next(err);

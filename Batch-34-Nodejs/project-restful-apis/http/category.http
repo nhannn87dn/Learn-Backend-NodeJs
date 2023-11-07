@@ -17,8 +17,8 @@ content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTJmYzg3NTJkYzI5NDU0NmZhZGY1MDUiLCJlbWFpbCI6Im5oYW5AZ21haWwuY29tIiwiaWF0IjoxNjk3NjMyNjQzLCJleHAiOjE2OTg5Mjg2NDN9.NrzmwBV7U4FThU_UrHJL5LMWjj2T7x6h7InjgWvTxeg
 
 {
-  "name": "Laptop",
-  "description": "Top 100 Laptop bán chạy nhất tháng 10"
+  "name": "Camera",
+  "description": "Top 100 Camera bán chạy nhất tháng 10"
 }
 
 ### User Phat
@@ -26,4 +26,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTJmYzg3N
 
 DELETE http://localhost:8080/api/v1/categories/652fdf469a994675234c5416 HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTJmYzg3NTJkYzI5NDU0NmZhZGY1MDUiLCJlbWFpbCI6Im5oYW5AZ21haWwuY29tIiwiaWF0IjoxNjk3NjMyNjQzLCJleHAiOjE2OTg5Mjg2NDN9.NrzmwBV7U4FThU_UrHJL5LMWjj2T7x6h7InjgWvTxegeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTJmZGZiNTgxMjhiYjhhMTY3OTQ0YTEiLCJlbWFpbCI6InBoYXRAZ21haWwuY29tIiwiaWF0IjoxNjk3NjM2MzA4LCJleHAiOjE2OTg5MzIzMDh9.KLy-CtZvx2oi6tmOA00yJq_L9g4ow39-xP2jx2aznWs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTJmYzg3NTJkYzI5NDU0NmZhZGY1MDUiLCJlbWFpbCI6Im5oYW5AZ21haWwuY29tIiwiaWF0IjoxNjk3NjMyNjQzLCJleHAiOjE2OTg5Mjg2NDN9.NrzmwBV7U4FThU_UrHJL5LMWjj2T7x6h7InjgWvTxegeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTJmZGZiNTgxMjhiYjhhMTY3OTQ0YTEiLCJlbWFpbCI6InBoYXRAZ21haWwuY29tIiwiaWF0IjoxNjk3NjM2MzA4LCJleHAiOjE2OTg5MzIzMDh9.KLy-CtZvx2oi6tmOA00yJq_L9g4ow39-xP2jx2aznWs1
+
+###
+DELETE http://localhost:8080/api/v1/categories/4
+
+###
+PATCH  http://localhost:8080/api/v1/categories/4 HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Camera v3",
+  "description": "Top 100 Camera v3 bán chạy nhất tháng 10"
+}
