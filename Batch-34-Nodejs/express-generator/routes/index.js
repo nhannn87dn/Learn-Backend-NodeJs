@@ -3,7 +3,7 @@ var router = express.Router();
 const multer  = require('multer')
 var slugify = require('slugify');
 const path = require('path');
-
+const nodemailer = require('nodemailer');
 /**
  *  Cấu hình tùy chỉnh 
  */
@@ -61,6 +61,18 @@ const products = [
   {id: 2, name: "iPhone 15", price: 500},
   {id: 3, name: "iPhone 15 Pro Max", price: 700}
 ]
+
+//Cấu hình gửi mail
+// Tạo transporter
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false, // true for 465, false for other ports
+  auth: {
+      user: 'nhannn87dn@gmail.com',
+      pass: 'mqrnmnhqksmyyrvd' //mật khẩu ứng dụng
+  }
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -131,7 +143,31 @@ router.post('/photos', function (req, res, next) {
     res.send('UP load thanh cong');
   })
 
- 
 })
+
+router.post('/send-email',function(req,res, next){
+
+  // Tạo nội dung email
+  const mailOptions = {
+    from: 'nhannn87dn@gmail.com',
+    to: 'nhannn@softech.vn',
+    subject: 'Thong bao email tu Lab 9',
+    //text: 'Hello world!', //gửi email với text thuần
+    html: '<h2>Đây là nội dung email bằng html</h2>'
+  };
+
+  // Gửi email
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+        console.log(error);
+    } else {
+        console.log('Email sent: ' + info.response);
+    }
+  });
+
+  res.send('send-email');
+});
+
+
 
 module.exports = router;
