@@ -1,5 +1,59 @@
 var express = require('express');
 var router = express.Router();
+const multer  = require('multer')
+var slugify = require('slugify');
+const path = require('path');
+
+/**
+ *  Cấu hình tùy chỉnh 
+ */
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/images')
+  },
+  filename: function (req, file, cb) {
+
+    //lấy thông tin file vừa up lên
+    const fileInfo = path.parse(file.originalname);
+
+    console.log('<<=== 🚀 fileInfo ===>>',fileInfo);
+
+   
+    cb(null, slugify(fileInfo.name,{
+      lower: true,
+      remove: /[*+~.()'"!:@]/g,
+      strict: true,
+      locale: 'vi',
+  }) + '-' +  Date.now() + fileInfo.ext)
+  }
+})
+
+
+/** Bộ lọc hình ảnh */
+const imageFilter  = function(req, file, cb) {
+  // Accept images only
+  const mimetypeAllow = ["image/png", "image/jpg", "image/gif", "image/jpeg", "image/webp"];
+  if (!mimetypeAllow.includes(file.mimetype)) {
+      req.fileValidationError = 'Only .png, .gif, .jpg, webp, and .jpeg format allowed!';
+      return cb(new Error('Only .png, .gif, .jpg, webp, and .jpeg format allowed!'), false);
+  }
+  cb(null, true);
+};
+
+const uploadMulti = multer({
+   storage: storage,
+   fileFilter: imageFilter,
+   limits: { fileSize: 10  }, //2MB in bytes
+  })
+  .array('photos',2);
+
+  const uploadSingle = multer({
+    storage: storage,
+    fileFilter: imageFilter,
+    limits: { fileSize: 2000000  }, //2MB in bytes
+   })
+   .single('photo');
 
 //Biến này mô phỏng lấy ra từ database
 const products = [
@@ -38,5 +92,46 @@ router.get('/products/:id', function(req, res, next) {
    */
   res.render('product', { title: 'product', id, product });
 });
+
+router.get('/form', function(req, res, next) {
+  res.render('form');
+});
+
+/* Up load 1 hình */
+router.post('/photo', function (req, res, next) {
+  console.log('photos',req.file);
+
+  uploadSingle(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading.
+      console.log('Lỗi',err);
+    } else if (err) {
+      // An unknown error occurred when uploading.
+      console.log('Lỗi ko ro nguyen nhan',err);
+    }
+  
+    res.send('UP load thanh cong');
+  })
+
+  res.send('form');
+})
+
+/* Up load nhiều hình */
+router.post('/photos', function (req, res, next) {
+  
+  uploadMulti(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading.
+      console.log('Lỗi',err);
+    } else if (err) {
+      // An unknown error occurred when uploading.
+      console.log('Lỗi ko ro nguyen nhan',err);
+    }
+  
+    res.send('UP load thanh cong');
+  })
+
+ 
+})
 
 module.exports = router;
