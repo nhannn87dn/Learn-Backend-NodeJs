@@ -20,7 +20,8 @@ router.get('/:id', employeesController.getItemById);
 
 
 //Create a new user
-router.post('/', employeesController.createItem);
+//router.post('/', employeesController.createItem);
+router.post('/', employeesTypeORMController.createItem);
 
 /**
  * Update a user by ID

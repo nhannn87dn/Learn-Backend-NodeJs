@@ -1,4 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BeforeUpdate, } from 'typeorm';
+import {
+  validate,
+  validateOrReject,
+  Contains,
+  IsInt,
+  Length,
+  IsEmail,
+  IsFQDN,
+  IsDate,
+  Min,
+  Max,
+} from 'class-validator';
 
 @Entity({ name: 'Employees' }) //đặt tên table
 export class Employee {
@@ -15,6 +27,7 @@ export class Employee {
   numberPhone: string;
 
   @Column({ length: 50, nullable: false })
+  @IsEmail()
   email: string;
 
   @Column({ length: 50, type: 'nvarchar', nullable: true })
@@ -25,4 +38,13 @@ export class Employee {
 
   @Column({ length: 255, nullable: false })
   password: string;
+
+
+  // HOOKS (AUTO VALIDATE)
+  @BeforeInsert()
+  @BeforeUpdate()
+  async validate() {
+    await validateOrReject(this);
+  }
+
 }

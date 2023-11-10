@@ -3,6 +3,7 @@ import { IEmployee } from '../types/models';
 import { Employee } from '../entities/employee.entity';
 import {AppDataSource} from '../../data-soucre';
 
+
 const repository = AppDataSource.getRepository(Employee);
 
 const getAllItems = async (page: number, limit: number) => {
@@ -22,7 +23,15 @@ const getItemById = async (id: string) => {
 const createItem = async (payload: IEmployee) => {
   // Kiểm tra xem email đã tồn tại chưa
   // Lưu xuống database
+  console.log(payload);
   
+
+  const category = repository.create(payload);
+
+ 
+  //Tụ động validate bởi hOok ở entity
+  const res = await repository.save(category);
+  return res;
 };
 
 const updateItem = async (id: string, payload: IEmployee) => {

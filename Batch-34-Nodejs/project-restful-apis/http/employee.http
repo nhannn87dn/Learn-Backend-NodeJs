@@ -5,9 +5,9 @@ content-type: application/json
 
 {
   "firstName": "Nguyen Ngoc",
-  "lastName": "Phat",
-  "email": "phat@gmail.com",
-  "phoneNumber": "133777668",
+  "lastName": "Trong",
+  "email": "strong",
+  "numberPhone": "132377668",
   "address": "38 yenbai",
   "birthDay": "2000-12-12",
   "password": "Catfly200miles",
