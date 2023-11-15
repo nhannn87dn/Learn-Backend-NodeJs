@@ -1,11 +1,15 @@
 import DefaultLayout from "@/components/layouts/DefaultLayout"
 import Image from "next/image"
 import { IProduct } from "@/types/FakeAPI";
-
+import Head from 'next/head'
 
 export default function Home({clothes, electronics}: {clothes: IProduct[], electronics: IProduct[]}) {
   return (
     <DefaultLayout>
+      <Head>
+        <title>Trang chủ</title>
+        
+      </Head>
       <h1 className='text-2xl font-bold'>Hello NextJs </h1>
       <p>Sử dụng hình ảnh local</p>
 

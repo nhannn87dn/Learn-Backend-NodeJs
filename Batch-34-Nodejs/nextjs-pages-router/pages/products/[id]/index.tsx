@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import DefaultLayout from "@/components/layouts/DefaultLayout"
 import { IProduct } from '@/types/FakeAPI'
+import Head from 'next/head'
 
 export default function ProductsDetails({product}: {product: IProduct}) {
 
@@ -8,6 +9,10 @@ export default function ProductsDetails({product}: {product: IProduct}) {
 
   return <DefaultLayout>
     ProductsDetails Page- ID Product: {router.query.id}
+    <Head>
+      <title>{product.title}</title>
+      <meta name="description" content={product.description} />
+    </Head>
     <h2>{product.title}</h2>
     <div>
       <strong>{product.price}</strong>

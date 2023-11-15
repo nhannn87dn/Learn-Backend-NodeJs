@@ -1,0 +1,7 @@
+###
+PUT https://api.escuelajs.co/api/v1/products/7
+content-type: application/json
+
+{
+  "price": 571
+}

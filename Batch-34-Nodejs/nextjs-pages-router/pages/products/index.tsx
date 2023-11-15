@@ -1,10 +1,13 @@
 import DefaultLayout from "@/components/layouts/DefaultLayout"
 import { IProduct } from "@/types/FakeAPI";
 import Link from "next/link"
+import Head from 'next/head'
 
 export default function Products({products}: {products: IProduct[]}) {
   return <DefaultLayout>
-
+    <Head>
+      <title>Danh sách sản phẩm</title>
+    </Head>
     <h1 className="text-2xl font-bold">Products Page</h1>
 
     <ul>
