@@ -30,6 +30,9 @@ export default function RootLayout({
               <li>
                 <Link href={'/todos'}>Todos</Link>
               </li>
+              <li>
+                <Link href={'/login'}>Login</Link>
+              </li>
             </ul>
           </nav>
         </header>
