@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Link from 'next/link'
-
+import { NextAuthProvider } from './providers/authProviders'
+import UserInfo from './ui/UserInfo'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -16,10 +17,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
+    <NextAuthProvider>
     <html lang="en">
       <body className={inter.className}>
         <header className='bg-indigo-500 text-white'>
-          <nav className='container mx-auto py-5'>
+          <nav className='container mx-auto py-5 flex justify-between'>
             <ul className='flex gap-x-5'>
               <li>
                 <Link href={'/'}>Home</Link>
@@ -33,8 +35,13 @@ export default function RootLayout({
               <li>
                 <Link href={'/login'}>Login</Link>
               </li>
+              <li>
+                <Link href={'/customers'}>Customers</Link>
+              </li>
             </ul>
+            <UserInfo />
           </nav>
+          
         </header>
         <main className='container mx-auto my-5'>
         {children}
@@ -46,5 +53,6 @@ export default function RootLayout({
         </footer>
         </body>
     </html>
+    </NextAuthProvider>
   )
 }
