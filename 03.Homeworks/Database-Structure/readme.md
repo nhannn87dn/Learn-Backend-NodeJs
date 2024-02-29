@@ -114,6 +114,7 @@ và trường orderDetails là subDocument của Order
 Sử dụng thư viện <https://fakerjs.dev> để tạo các Data ảo một cách nhanh chóng
 
 ## 💛 Xây dựng các Table SQL Server
+
 ### Categories
 
 | Id | Column Name | Data Type     | Null | Key | Default | Constraint |

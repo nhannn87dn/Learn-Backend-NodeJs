@@ -51,9 +51,9 @@ export interface ICustomer {
   phoneNumber: string;
   address?: string;
   birthDay?: Date,
-  password: string;
+  password?: string;
   photo?: string;
-  level: string;
+  level?: string;
 }
 
 

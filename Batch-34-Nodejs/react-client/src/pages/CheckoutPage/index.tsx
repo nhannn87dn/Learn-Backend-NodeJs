@@ -1,44 +1,79 @@
 import { useCartStore } from '../../hooks/useCartStore';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from "react-hook-form"
 
+type FormData = {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    shippingAddress: string;
+    shippingCity: string;
+    paymentType: string;
+    description: string;
+
+  }
 
 const CheckoutPage = () => {
 
     const navigate = useNavigate();
-    const { items, total, itemCount} = useCartStore();
+    const { items, total, itemCount, placeOrder, isLoading, error} = useCartStore();
 
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+      } = useForm<FormData>()
+      const onSubmit = handleSubmit(async (data) => {
+        console.log(data);
+        //Send Data qua API
+        const payload = {...data, orderDetail: items};
+        const result =  await placeOrder(payload);
+        if(result.ok){
+            navigate('/checkout-done');
+        }
+
+    })
+      // firstName and lastName will have correct type
     
   return (
     <div className="container p-12 mx-auto">
+        {
+            error ? (<div className='p-5 text-red-500 bg-red-100'>{error}</div>) : null
+        }
     <div className="flex flex-col w-full px-0 mx-auto md:flex-row">
         <div className="flex flex-col md:w-full">
             <h2 className="mb-4 font-bold md:text-xl text-heading ">Shipping Information
             </h2>
-            <form className="justify-center w-full mx-auto">
+            <form onSubmit={onSubmit} className="justify-center w-full mx-auto">
                 <div className="">
                     <div className="space-x-0 lg:flex lg:space-x-4">
                         <div className="w-full lg:w-1/2">
                             <label  className="block mb-3 text-sm font-semibold text-gray-500">First
                                 Name</label>
-                            <input name="firstName" type="text" placeholder="First Name"
+                            <input {...register("firstName", {required: true, minLength: 2, maxLength: 50})} name="firstName" type="text" placeholder="First Name"
                                 className="w-full px-4 py-2 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600" />
+                             {errors.firstName?.type === "required" && (
+                              <p className='text-red-500' role="alert">First name is required</p>
+                            )}
                         </div>
                         <div className="w-full lg:w-1/2 ">
                             <label  className="block mb-3 text-sm font-semibold text-gray-500">Last
                                 Name</label>
-                            <input name="lastName" type="text" placeholder="Last Name"
+                            <input {...register("lastName", {required: true, minLength: 2, maxLength: 50})} name="lastName" type="text" placeholder="Last Name"
                                 className="w-full px-4 py-2 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600" />
                         </div>
                     </div>
                     <div className="space-x-0 lg:flex lg:space-x-4 mt-4">
                         <div className="w-full lg:w-1/2">
                             <label  className="block mb-3 text-sm font-semibold text-gray-500">Email</label>
-                            <input name="email" type="email" placeholder="Email"
+                            <input {...register("email", {required: true})} name="email" type="email" placeholder="Email"
                                 className="w-full px-4 py-2 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600" />
                         </div>
                         <div className="w-full lg:w-1/2 ">
                             <label  className="block mb-3 text-sm font-semibold text-gray-500">Phone number</label>
-                            <input name="phoneNumber" type="text" placeholder="Phone number"
+                            <input {...register("phoneNumber", {required: true})} name="phoneNumber" type="text" placeholder="Phone number"
                                 className="w-full px-4 py-2 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600" />
                         </div>
                     </div>
@@ -46,16 +81,17 @@ const CheckoutPage = () => {
                         <div className="w-full">
                             <label
                                 className="block mb-3 text-sm font-semibold text-gray-500">Address</label>
-                            <input
+                            <input 
+                                {...register("shippingAddress", {required: true})}
                                 className="w-full px-4 py-2 text-xs border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
-                                name="Address" placeholder="Address"></input>
+                                name="shippingAddress" placeholder="Address"></input>
                         </div>
                     </div>
                     <div className="space-x-0 lg:flex lg:space-x-4 mt-4">
                         <div className="w-full lg:w-1/2">
                             <label 
                                 className="block mb-3 text-sm font-semibold text-gray-500">City</label>
-                            <input name="city" type="text" placeholder="City"
+                            <input {...register("shippingCity", {required: true})} name="shippingCity" type="text" placeholder="City"
                                 className="w-full px-4 py-2 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600" />
                         </div>
                         <div className="w-full lg:w-1/2 ">
@@ -73,7 +109,7 @@ const CheckoutPage = () => {
                     </div>
                     <div className="relative pt-3 xl:pt-6"><label
                             className="block mb-3 text-sm font-semibold text-gray-500"> Notes
-                            (Optional)</label><textarea name="note"
+                            (Optional)</label><textarea {...register("description")}
                             className="flex items-center w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-600"
                             rows={2} placeholder="Notes for delivery"></textarea>
                     </div>
@@ -81,16 +117,16 @@ const CheckoutPage = () => {
             </h2>   
                     <div className="mt-4 flex justify-between">
                         <div className="w-full lg:w-1/3 flex items-center gap-x-4">
-                            <input className='h-5 w-5' id='paymentCash' type="radio" name="paymentType" value="CASH" />
+                            <input {...register("paymentType", {required: true})} className='h-5 w-5' id='paymentCash' type="radio" name="paymentType" value="CASH" />
                             <label  htmlFor='paymentCash'>Cash</label>
                         </div>
                         
                         <div className="w-full lg:w-1/3 flex items-center gap-x-4">
-                            <input className='h-5 w-5' id='paymentCod' type="radio" name="paymentType" value="COD" />
+                            <input {...register("paymentType", {required: true})} className='h-5 w-5' id='paymentCod' type="radio" name="paymentType" value="COD" />
                             <label  htmlFor='paymentCod'>COD</label>
                         </div>
                         <div className="w-full lg:w-1/3 flex items-center gap-x-4">
-                            <input className='h-5 w-5' id='paymentCredit' type="radio" name="paymentType" value="CREDIT CARD" />
+                            <input {...register("paymentType", {required: true})} className='h-5 w-5' id='paymentCredit' type="radio" name="paymentType" value="CREDIT CARD" />
                             <label  htmlFor='paymentCredit'>Credit Card</label>
                         </div>
                     </div>
@@ -106,7 +142,11 @@ const CheckoutPage = () => {
                     </div>
                     <div className="mt-4">
                         <button
-                            className="w-full px-6 py-3 text-white bg-indigo-600 hover:bg-indio-900 rounded font-bold text-xl">Place Order</button>
+                         type='submit'
+                         disabled={isLoading}
+                        className="w-full px-6 py-3 text-white bg-indigo-600 hover:bg-indio-900 rounded font-bold text-xl">
+                            {isLoading ? 'Submitting....': 'Place Order'}
+                        </button>
                     </div>
                 </div>
             </form>

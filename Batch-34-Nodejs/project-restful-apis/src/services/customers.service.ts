@@ -1,6 +1,6 @@
 import Customer from '../models/customers.model';
 import { ICustomer } from '../types/models';
-
+import createError from 'http-errors'
 /**
  * Service - Dịch vụ
  * - Đi xử lí logic
@@ -41,7 +41,14 @@ const getItemById = async (id: string) => {
 };
 
 const createItem = async (payload: ICustomer) => {
-  // Kiểm tra xem email đã tồn tại chưa
+  //TODO: Kiểm tra xem email đã tồn tại chưa
+  const isEmailExits = await Customer.findOne({
+    email: payload.email
+  });
+  //Nếu tồn tại
+  if(isEmailExits){
+    throw createError(500, 'Email is already')
+  }
   // Lưu xuống database
   const customer = await Customer.create(payload);
   return customer;

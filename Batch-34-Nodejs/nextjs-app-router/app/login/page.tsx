@@ -1,0 +1,10 @@
+import LoginForm from "../ui/LoginForm"
+
+export default  function Page() {
+  return (
+    <>
+    <h1>Login Page</h1>
+    <LoginForm />
+    </>
+  )
+}

@@ -31,7 +31,6 @@ content-type: application/json
       "_id": "64e985dec6628ed4d2d766a3"
       }
   ],
-  "employee": "64e985dec6628ed4d2d7664b",
   "customer": "64e985dec6628ed4d2d76636"
 
 }

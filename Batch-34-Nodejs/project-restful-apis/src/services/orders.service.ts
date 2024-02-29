@@ -1,12 +1,13 @@
 import createError from 'http-errors';
 import Order from '../models/order.model';
-import { IOrder } from "../types/models";
-
-/**
+import { IOrder, ICustomer } from "../types/models";
+import customersService from './customers.service';
+/*
  * Lấy tất cả các Order
  */
 const findAll = async (page: number, limit: number) => {
     const orders = await Order.find().
+    populate('customer', '-__v').
     select('-__v').
     skip((page - 1) * limit).
     limit(limit);
@@ -50,11 +51,29 @@ const getById = async (id: string) => {
 };
 
 // Tạo một Order mới
-const create = async (payload: IOrder) => {
+const create = async (payload: any) => {
     console.log("createOrder");
-
+    //B1. Tạo customer trước
+    const createDataCustomer = {
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        email: payload.email,
+        phoneNumber: payload.phoneNumber,
+        address: payload.shippingAddress+ ' '+payload.shippingCity
+    }
+    const customer = await customersService.createItem(createDataCustomer);
+    //b2. Tạo Order sau
+    const createDataOrder = {
+        createdDate: new Date,
+        description: payload.description,
+        shippingAddress: payload.shippingAddress,
+        shippingCity: payload.shippingCity,
+        paymentType: payload.paymentType,
+        orderDetail: payload.orderDetail,
+        customer: customer._id
+    }
     // Lưu xuống cơ sở dữ liệu
-    const result = await Order.create(payload);
+    const result = await Order.create(createDataOrder);
 
     /* Trả lại thông tin cho response */
     return result;

@@ -26,6 +26,7 @@ router.post('/', authMiddleware.checkToken, authMiddleware.checkAuthorize(["User
  */
 router.patch('/:id', authMiddleware.checkToken,  categoriesController.updateItem);
 
+
 /**
  * Delete a user by ID
  * DELETE /api/v1//:id

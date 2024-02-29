@@ -17,6 +17,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import CheckoutDonePage from './pages/CheckoutDonePage';
 
 // Create a client
 const queryClient = new QueryClient()
@@ -41,6 +42,9 @@ function App() {
           </Route>
           <Route path='/checkout' element={<OnlyHeaderLayout />}>
               <Route index element={<CheckoutPage />} />
+          </Route>
+          <Route path='/checkout-done' element={<OnlyHeaderLayout />}>
+              <Route index element={<CheckoutDonePage />} />
           </Route>
           {/* Nested Layout */}
           <Route path='/customers' element={<OnlyHeaderLayout />}>

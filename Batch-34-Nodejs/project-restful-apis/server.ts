@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import app from './src/app';
 import mongoose from 'mongoose';
+//import {AppDataSource} from './data-soucre'
 
 dotenv.config();
 //Khai báo port cho server
@@ -35,3 +36,19 @@ const mongooseDbOptions = {
       console.error('Failed to Connect to MongoDB', err);
     });
 
+
+//Kết nối với SQL server
+
+// AppDataSource.initialize().then(() => {
+    
+//   console.log("🚀[SQL Server] Data Source has been initialized!");
+
+
+//   const server = app.listen(PORT, () =>
+//   console.log(`🚀[ExpressJs] Server ready at: http://localhost:${PORT}`),
+//   )
+
+// })
+// .catch((err) => {
+//   console.error("Error during Data Source initialization:", err)
+// })
