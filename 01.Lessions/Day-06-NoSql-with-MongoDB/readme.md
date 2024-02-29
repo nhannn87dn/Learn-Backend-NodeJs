@@ -67,6 +67,9 @@ Doc: https://www.mongodb.com/docs/manual/reference/operator/query-logical/
 | $size      | Selects documents if the array field is a specified size.                                        |
 
 Doc: https://www.mongodb.com/docs/manual/reference/operator/query-array/
+
+---
+
 ## 💛 Sorting - Sắp xếp
 
 Sắp xếp kết quả trả về theo một thuộc tính nào đó với trật từ tăng dần hoặc giảm dần
@@ -85,6 +88,8 @@ await Person.find().sort({ age: -1 }); // returns age starting from 10 as the fi
 await Person.find().sort({ age: 1 }); // returns age starting from 0 as the first entry
 ```
 
+---
+
 ## 💛 Find
 
 ```js
@@ -96,12 +101,12 @@ await MyModel.find({ name: 'john', age: { $gte: 18 } }).exec();
 
 // find all documents named john and at least 18 and not including _v
 await MyModel.find({ name: 'john', age: { $gte: 18 } })
-  .select('-_v')
+  .select('-_v') //Lấy tất cả ngoại trừ -v
   .exec();
 
 // find all documents named john and at least 18
 await MyModel.find({ name: 'john', age: { $gte: 18 } })
-  .select('name friends')
+  .select('name friends') //Chỉ lấy 2 trường
   .exec();
 
 // executes, name LIKE john and only selecting the "name" and "friends" fields
@@ -112,6 +117,65 @@ await MyModel.find({ name: /john/i }, null, { skip: 10 }).exec();
 ```
 
 Xem thêm về select: <https://mongoosejs.com/docs/api/query.html#Query.prototype.select()>
+
+
+## 💛 GROUP BY và Aggregation 
+
+Chi tiết xem:
+
+- https://mongoosejs.com/docs/api/aggregate.html#Aggregate()
+- https://www.mongodb.com/docs/manual/core/aggregation-pipeline/
+- https://www.mongodb.com/docs/manual/reference/aggregation/
+
+Ví dụ 1: Tính tổng số lượng đơn hàng theo trạng thái
+
+```js
+const Order = require('./Order.model');
+
+Order.aggregate([
+    { $group: { _id: "$status", totalOrders: { $sum: 1 } } }
+]).exec((err, result) => {
+    if (err) {
+        console.error(err);
+    } else {
+        console.log(result);
+    }
+});
+```
+
+Ví dụ 2: Tính tổng doanh thu từ các đơn hàng đã hoàn thành
+
+```js
+const Order = require('./Order.model');
+
+Order.aggregate([
+    { $match: { status: "Completed" } },
+    { $group: { _id: null, totalRevenue: { $sum: "$orderAmount" } } }
+]).exec((err, result) => {
+    if (err) {
+        console.error(err);
+    } else {
+        console.log(result);
+    }
+});
+```
+
+Ví dụ 3: Đếm số lượng sản phẩm theo mức giảm giá
+
+```js
+Product.aggregate([
+    { $group: { _id: "$discount", totalProducts: { $sum: 1 } } }
+]).exec((err, result) => {
+    if (err) {
+        console.error(err);
+    } else {
+        console.log(result);
+    }
+});
+```
+
+
+---
 
 ## 💛 Pagination - Phân trang
 

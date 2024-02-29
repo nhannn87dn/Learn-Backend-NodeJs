@@ -34,27 +34,37 @@ Event loop trong Node.js là một thành phần quan trọng trong kiến trúc
 Trong Node.js, mã JavaScript chạy trong một luồng duy nhất, còn được gọi là luồng chính (main thread). Tuy nhiên, để xử lý các yêu cầu I/O không đồng bộ, như đọc và ghi vào tệp, gọi API mạng hoặc truy vấn cơ sở dữ liệu, Node.js sử dụng mô hình sự kiện và non-blocking I/O.
 
 
-
-![node-flow](img/node-flow.png)
-
-
-
 Client gửi các REQUEST đến SERVER để tương tác với ứng dụng web. Các REQUESTs này có thể là Blocking hoặc Non-Blocking
 
 - Truy vấn dữ liệu
 - Xóa dữ liệu
 - Cập nhật dữ liệu
 
-Node.JS tiếp nhận các Request gửi đến và thêm chúng vào hàng đợi Event Queue
+Node.JS tiếp nhận các Request gửi đến và thêm chúng vào hàng đợi `Event Queue`
 
-Sau đó các yêu cầu (Request) này được xử lý lần lượt thông qua Event Loop.
+Sau đó các yêu cầu `Request` này được xử lý lần lượt thông qua `Event Loop`.
 
-Event loop là một vòng lặp vô tận để kiểm tra các sự kiện và thực hiện các callback tương ứng. Nó cũng điều khiển việc thực hiện các tác vụ khác trong chương trình Node.js, như đọc và ghi từ các I/O, gửi và nhận dữ liệu từ mạng, v.v.
 
-Có hai loại sự kiện mà event loop xử lý: sự kiện đồng bộ và sự kiện bất đồng bộ
 
-- Sự kiện đồng bộ được xử lý ngay lập tức trong vòng lặp event loop
-- Sự kiện bất đồng bộ được đưa vào một hàng đợi và xử lý sau khi các sự kiện đồng bộ đã được xử lý xong
+![node-flow](img/node-flow.png)
+
+
+
+Cơ chế hoạt động của **Event Loop**:
+
+1. **Requests (Yêu cầu)**: Các yêu cầu từ người dùng được đưa vào **Hàng đợi sự kiện (Event Queue)**. Đây là nơi lưu trữ các sự kiện cần được xử lý.
+
+2. **Event Loop (Vòng lặp sự kiện)**: Event Loop liên tục kiểm tra hàng đợi sự kiện để xem có sự kiện nào cần được xử lý hay không. Nếu có, nó sẽ lấy sự kiện ra khỏi hàng đợi và chuyển nó tới **Thread Pool** để xử lý. Các hoạt động không chặn (non-blocking operations) sẽ được xử lý trực tiếp, trong khi các hoạt động chặn (blocking operations) sẽ được gửi tới các nguồn tài nguyên bên ngoài như cơ sở dữ liệu, hệ thống tệp, v.v.
+
+3. **Thread Pool (Nhóm luồng)**: Thread Pool xử lý các hoạt động chặn. Nó sẽ tạo ra các luồng riêng biệt để xử lý các tác vụ này.
+
+4. **I/O Polling (Kiểm tra I/O)**: Có một hộp "I/O Polling" kết nối với Thread Pool, đại diện cho các cơ chế kiểm tra I/O như epoll, kqueue, v.v.
+
+5. **External Resources (Nguồn tài nguyên bên ngoài)**: Khi công việc đã được hoàn thành, kết quả sau cùng sẽ được trả lại thông qua Event Loop và gửi lại cho người dùng.
+
+
+
+Cơ chế này giúp Node.js xử lý nhiều yêu cầu một cách hiệu quả, đồng thời duy trì tính không chặn của ứng dụng. 
 
 
 ### Những ứng dụng nên viết bằng Node.JS ?
@@ -168,6 +178,8 @@ Chi tiết [prerequisites.md](prerequisites.md)
 
 Node.js cho phép bạn xây dựng các ứng dụng web phía máy chủ. Nghĩa là bạn có thể tạo ra một ứng dụng web với Node.js
 
+Trong thư mục dự án, bạn tạo file `main.js` với nội dung sau:
+
 ```js
 const http = require('http');
 
@@ -194,7 +206,13 @@ server.listen(3000, () => {
 
 ```
 
-Khi bạn gửi một request lên server, server đang chạy ở port `3000` sẽ lắng nghe và phản hồi lại thông tin tương ứng.
+Sau đó trong terminal đứng tại vị trí thư mục dự án bạn gỏ lệnh
+
+```bash
+node main.js
+```
+
+Khi đó NodeJs sẽ khởi tạo một server chạy ở port `3000` , server này sẽ lắng nghe và phản hồi lại thông tin tương ứng.
 
 ## 💛 Node Modules
 
@@ -229,7 +247,7 @@ Chủ yếu đi tìm hiểu các Module có đánh dấu ❤️
 
 Ngoài những module có sẳn của Node.js bạn có thể tự tạo cho mình một module với cách làm như sau:
 
-Trong thư mục dự án bạn tạo một file ví dụ: myModule.js
+Trong thư mục dự án bạn tạo một file ví dụ: `myModule.js`
 
 ```js
 function hello() {
@@ -239,11 +257,12 @@ function hello() {
 module.exports = hello;
 ```
 
-Khi đó trong file khác bạn có thể sử dụng `require` để nạp module đó vào sử dụng:
+Khi đó trong file khác ví dụ `index.js` bạn có thể sử dụng `require` để nạp module đó vào sử dụng:
 
 
 ```js
-const hello = require('./first-module');
+//index.js
+const hello = require('./myModule');
 hello();
 ```
 
@@ -252,6 +271,7 @@ Cú pháp `require` là một tính năng của CommonJS, một chuẩn module c
 Bạn có thể xuất ra một object khi có nhiều biến, function cần chia sẽ như bên dưới:
 
 ```js
+//file math.js
 const add = (a, b) => {
   return a + b;
 };
@@ -282,7 +302,7 @@ const { add, subtract } = require('./math');
 
 Ngoài ra, bạn cũng có thể sử dụng cú pháp `import/export` trong Node.js bằng cách sử dụng các phiên bản JavaScript gần mới hơn (như ECMAScript modules - ES modules) và cấu hình tùy chọn. 
 
-Để sử dụng cú pháp "import/export" trong Node.js, bạn cần tạo một tệp tin cấu hình (ví dụ: package.json) và thiết lập thuộc tính "type": "module" trong tệp tin cấu hình đó.
+Để sử dụng cú pháp `import/export` trong Node.js, bạn cần tạo một tệp tin cấu hình (ví dụ: package.json) và thiết lập thuộc tính "type": "module" trong tệp tin cấu hình đó.
 
 ```bash
 yarn init -y
@@ -299,7 +319,7 @@ Mở tệp tin package.json và thêm thuộc tính "type": "module" vào nội 
 }
 ```
 
-Ví dụ
+Ví dụ: Bạn tại 2 file với nội dung như sau
 
 ```javascript
 // File: myModuleEsNext.js
@@ -308,7 +328,7 @@ export function myFunction() {
 }
 
 // File: app.js
-import { myFunction } from './myModuleEsNext';
+import { myFunction } from './myModuleEsNext.js';
 
 myFunction();
 ```
@@ -326,7 +346,7 @@ export default myFunctionV2;
 
 
 // File: app.js
-import myFunctionV2 from './myModuleEsNextDefault';
+import myFunctionV2 from './myModuleEsNextDefault.js';
 
 myFunctionV2();
 ```
@@ -349,7 +369,7 @@ export default myFunction;
 
 //Sử dụng
 // File: app.js
-import myFunction, { myVariable } from './myModuleEsNext';
+import myFunction, { myVariable } from './myModuleEsNext.js';
 
 myFunction(); // Xuất giá trị mặc định
 console.log(myVariable); // Xuất giá trị thông thường

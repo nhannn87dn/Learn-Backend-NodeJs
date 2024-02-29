@@ -48,13 +48,14 @@ Sau khi cài xong, sinh ra cho bạn một dự án express với cấu trúc th
 │   ├── index.js
 │   └── users.js
 └── views
-    ├── error.pug
-    ├── index.pug
-    └── layout.pug
+    ├── error.jade
+    ├── index.jade
+    └── layout.jade
 
 7 directories, 9 files
 ```
 
+Lưu ý: `express-generator` đã dùng `jade` làm engine mặc định cho view thay cho `pug` trước đó.
 
 ## 💛 2. Route và HTTP Methods
 
@@ -307,6 +308,75 @@ ExpressJs hỗ trợ các phương thức response như sau:
 | res.sendFile()   | Send a file as an octet stream.                                                       |
 | res.sendStatus() | Set the response status code and send its string representation as the response body. |
 
+---
+
+Dưới đây là ví dụ về một số phương thức trả về (response methods) trong Express.js:
+
+1. **`res.send(data)`**: Gửi dữ liệu về cho client. Phương thức này tự động xác định kiểu nội dung và chuyển đổi tham số thành một chuỗi JSON bằng cách sử dụng `JSON.stringify()`. Tham số có thể là bất kỳ kiểu dữ liệu JSON nào, bao gồm object, array, string, Boolean, number hoặc null. Bạn cũng có thể sử dụng nó để chuyển đổi các giá trị khác thành JSON.
+
+    ```javascript
+    app.get('/', (req, res) => {
+      res.send('Hello, Express!');
+    });
+    ```
+
+2. **`res.json(data)`**: Trả về dữ liệu dưới dạng JSON. Phương thức này tương tự như `res.send()`, nhưng chỉ chuyển đổi tham số thành chuỗi JSON mà không cần xác định kiểu nội dung.
+
+    ```javascript
+    app.get('/user', (req, res) => {
+      res.json({ name: 'John', age: 30 });
+    });
+    ```
+
+3. **`res.status(code)`**: Xác định mã trạng thái HTTP cho phản hồi. Ví dụ, bạn có thể sử dụng nó để trả về mã 404 (Not Found) hoặc 500 (Internal Server Error).
+
+    ```javascript
+    app.get('/not-found', (req, res) => {
+      res.status(404).send('Page not found');
+    });
+    ```
+
+4. **`res.redirect(path)`**: Chuyển hướng đến một đường dẫn cụ thể.
+
+    ```javascript
+    app.get('/old-page', (req, res) => {
+      res.redirect('/new-page');
+    });
+    ```
+
+5. **`res.render(view, locals)`**: Trả về một view template. Bạn cần cài đặt một template engine như Pug, EJS hoặc Handlebars để sử dụng phương thức này.
+
+    ```javascript
+    app.get('/profile', (req, res) => {
+      res.render('profile', { username: 'john_doe' });
+    });
+    ```
+
+
+6. **`Gửi tệp tin để tải về (Download File)`**:
+    - Sử dụng phương thức `res.download(file)` để gửi tệp tin đến client và cho phép người dùng tải về.
+    - Đảm bảo rằng bạn đã cài đặt Express và có một tệp tin để thử nghiệm.
+
+    ```javascript
+    app.get('/download', (req, res) => {
+      const file = `${__dirname}/path/to/your/file.txt`;
+      res.download(file); // Gửi tệp tin đến client
+    });
+    ```
+
+7. **`Gửi tệp tin (Send File)`**:
+    - Sử dụng phương thức `res.sendFile()` để gửi tệp tin HTML hoặc tệp tin khác đến client.
+    - Đảm bảo rằng bạn đã có tệp tin `test.html` trong thư mục của bạn.
+
+    ```javascript
+    app.get('/myendpoint', (req, res) => {
+      res.sendFile(`${__dirname}/test.html`);
+    });
+    ```
+
+
+---
+
 ## 💛 Tìm hiểu về HTTP Status Code
 
 Khi nhận và phiên dịch một HTTP Request, Server sẽ gửi tín hiệu phản hồi là một HTTP Response, trong đó có một thành phần là Status code.
@@ -321,6 +391,7 @@ Status code (Mã hóa trạng thái thường được gọi là mã trạng th�
 
 Xem chi tiết [link sau](http-status-code.md)
 
+---
 
 ## 💛 Serving static files in Express
 
@@ -373,6 +444,8 @@ http://localhost:3000/static/hello.html
 ```
 
 Thực tế không tồn tại thư mục /static trên server, thư mục ảo
+
+---
 
 ## 💛 Sử dụng template engines với Express
 
@@ -443,10 +516,12 @@ Tương tự cho các trang còn lại
 
 Bạn có thể nhúng Tailwind Css, Bootstrap, jQuery vào các templates trên một cách bình thường như bên HTML
 
+---
 
 ## 💛 So sánh GET với POST
 
 Xem: https://timoday.edu.vn/cac-phuong-thuc-request-trong-giao-thuc-http/#So_sanh_GET_voi_POST
+
 
 ## 💛 PUT and PATH
 
