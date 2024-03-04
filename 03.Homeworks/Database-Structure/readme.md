@@ -20,6 +20,10 @@ Viết các câu lệnh tạo bảng như phần mô tả dưới đây
 | 4   | slug   | NVARCHAR | 50      |         |             |             |              |   UNIQUE         |       |
 
 
+Trong đó `slug` được tạo ra tự động từ  `category_name` nếu nó không được điền.
+
+Sử dụng thư viện `slugify` để convert `category_name` thành `slug`
+
 **Sample Data Categories**
 
 | category_id | category_name | description |
@@ -32,13 +36,16 @@ Viết các câu lệnh tạo bảng như phần mô tả dưới đây
 
 ## 💥 Table  brands
 
-| No. | FieldName   | DataType | DataSize | Allow null | Key         | Foreign Key | DefaultValue | Constraint     | Notes |
-| --- | ----------- | -------- | -------- | ---------- | ----------- | ----------- | ------------ | -------------- | ----- |
-| 1   | brand_id    | INT      |          |            | Primary Key |             |              | IDENTITY(1, 1) |       |
-| 2   | brand_name  | NVARCHAR | 100      |            |             |             |              | UNIQUE         |       |
-| 3   | description | NVARCHAR | 500      | YES        |             |             |              |                |       |
+| No. | FieldName   | DataType | DataSize | Allow null | Key         | Foreign Key | DefaultValue | Constraint     | Notes  |
+|-----|-------------|----------|----------|------------|-------------|-------------|--------------|----------------|--------|
+| 1   | brand_id    | INT      |          |            | Primary Key |             |              | IDENTITY(1, 1) |        |
+| 2   | brand_name  | NVARCHAR | 100      |            |             |             |              | UNIQUE         |        |
+| 3   | description | NVARCHAR | 500      | YES        |             |             |              |                |        |
+| 4   | slug        |          | 100      |            |             |             |              | UNIQUE         |        |
 
+Trong đó `slug` được tạo ra tự động từ  `brand_name` nếu nó không được điền.
 
+Sử dụng thư viện `slugify` để convert `category_name` thành `slug`
 
 **Sample Data Brands**
 
@@ -54,17 +61,31 @@ Viết các câu lệnh tạo bảng như phần mô tả dưới đây
 
 ## 💥 Table customers
 
-| No. | FieldName   | DataType | DataSize | Allow null | Key         | Foreign Key | DefaultValue | Constraint     | Notes |
-| --- | ----------- | -------- | -------- | ---------- | ----------- | ----------- | ------------ | -------------- | ----- |
-| 1   | customer_id | INT      |          |            | Primary Key |             |              | IDENTITY(1, 1) |       |
-| 2   | first_name  | NVARCHAR | 50       |            |             |             |              |                |       |
-| 3   | last_name   | NVARCHAR | 50       |            |             |             |              |                |       |
-| 4   | phone       | VARCHAR  | 50       |            |             |             |              | UNIQUE         |       |
-| 6   | email       | VARCHAR  | 150      |            |             |             |              | UNIQUE         |       |
-| 7   | street      | NVARCHAR | 255      |            |             |             |              |                |       |
-| 7   | city        | NVARCHAR | 50       |            |             |             |              |                |       |
-| 7   | state       | NVARCHAR | 50       |            |             |             |              |                |       |
-| 7   | zip_code    | VARCHAR  | 5        | YES        |             |             |              |                |       |
+| No. | FieldName   | DataType | DataSize | Allow null | Key         | Foreign Key | DefaultValue | Constraint     | Notes  |
+|-----|-------------|----------|----------|------------|-------------|-------------|--------------|----------------|--------|
+| 1   | customer_id | INT      |          |            | Primary Key |             |              | IDENTITY(1, 1) |        |
+| 2   | first_name  | NVARCHAR | 50       |            |             |             |              |                |        |
+| 3   | last_name   | NVARCHAR | 50       |            |             |             |              |                |        |
+| 4   | phone       | VARCHAR  | 50       |            |             |             |              | UNIQUE         |        |
+| 6   | email       | VARCHAR  | 150      |            |             |             |              | UNIQUE         |        |
+| 7   | street      | NVARCHAR | 255      |            |             |             |              |                |        |
+| 8   | city        | NVARCHAR | 50       |            |             |             |              |                |        |
+| 9   | state       | NVARCHAR | 50       |            |             |             |              |                |        |
+| 10  | zip_code    | VARCHAR  | 5        | YES        |             |             |              |                |        |
+| 11  | password    | VARCHAR  | 255      | YES        |             |             | NULL         |                |        |
+
+
+Bạn sử dụng thư viện sau để tăng bảo mật cho trường `password`
+
+```bash
+yarn add bcrypt
+```
+Xem cách sử dụng: <https://www.npmjs.com/package/bcrypt#user-content-usage>
+
+Cách so khớp password: <https://www.npmjs.com/package/bcrypt#user-content-to-check-a-password>
+
+
+
 
 **Sample Data Customers**
 
@@ -88,18 +109,21 @@ Viết các câu lệnh tạo bảng như phần mô tả dưới đây
 | 16          | Charlotte  | Reyes     | 456-789-0123| charlotte.reyes@example.com | 1991-05-19 | 567 Maple St | Sometown  | FL    | 56789    |
 | 17          | Elijah     | Wong      | 789-012-3456| elijah.wong@example.com   | 1986-02-09 | 890 Cedar St | Othertown | CA    | 01234    |
 
+
+
 ## 💥 Table  staffs
 
-| No. | FieldName  | DataType | DataSize | Allow null | Key         | Foreign Key | DefaultValue | Constraint                  | Notes                      |
-| --- | ---------- | -------- | -------- | ---------- | ----------- | ----------- | ------------ | --------------------------- | -------------------------- |
-| 1   | staff_id   | INT      |          |            | Primary Key |             |              | IDENTITY(1, 1)              |                            |
-| 2   | first_name | NVARCHAR | 50       |            |             |             |              |                             |                            |
-| 3   | last_name  | NVARCHAR | 50       |            |             |             |              |                             |                            |
-| 4   | phone      | VARCHAR  | 50       |            |             |             |              | UNIQUE                      |                            |
-| 5   | email      | VARCHAR  | 150      |            |             |             |              | UNIQUE                      |                            |
-| 6   | active     | TINYINT  |          |            |             |             | 0            |                             | 0 = no active, 1 = actived |
-| 7   | store_id   | INIT     |          |            |             | Foreign Key |              | Reference stores (store_id) |                            |
-| 8   | manage_id  | INIT     |          |            |             | Foreign Key |              | Reference staffs (staff_id) |                            |
+| No. | FieldName  | DataType | DataSize | Allow null | Key         | Foreign Key | DefaultValue | Constraint                  | Notes                       |
+|-----|------------|----------|----------|------------|-------------|-------------|--------------|-----------------------------|-----------------------------|
+| 1   | staff_id   | INT      |          |            | Primary Key |             |              | IDENTITY(1, 1)              |                             |
+| 2   | first_name | NVARCHAR | 50       |            |             |             |              |                             |                             |
+| 3   | last_name  | NVARCHAR | 50       |            |             |             |              |                             |                             |
+| 4   | phone      | VARCHAR  | 50       |            |             |             |              | UNIQUE                      |                             |
+| 5   | email      | VARCHAR  | 150      |            |             |             |              | UNIQUE                      |                             |
+| 6   | active     | TINYINT  |          |            |             |             | 0            |                             | 0 = no active, 1 = actived  |
+| 7   | store_id   | INIT     |          |            |             | Foreign Key |              | Reference stores (store_id) |                             |
+| 8   | manage_id  | INIT     |          |            |             | Foreign Key |              | Reference staffs (staff_id) |                             |
+| 9   | password   | VARCHAR  | 255      |            |             |             |              |                             |                             |
 
 
 Bạn sử dụng thư viện sau để tăng bảo mật cho trường `password`
@@ -127,16 +151,18 @@ Cách so khớp password: <https://www.npmjs.com/package/bcrypt#user-content-to-
 ## 💥 Table  products
 
 
-| No. | FieldName    | DataType       | DataSize | Allow null | Key         | Foreign Key | DefaultValue | Constraint                         | Notes |
-| --- | ------------ | -------------- | -------- | ---------- | ----------- | ----------- | ------------ | ---------------------------------- | ----- |
-| 1   | product_id   | INT            |          |            | Primary Key |             |              | IDENTITY(1, 1)                     |       |
-| 2   | product_name | NVARCHAR       | 50       |            |             |             |              |                                    |       |
-| 3   | price        | DECIMAL(18, 2) |          |            |             |             | 0            | Check: price >= 0                  |       |
-| 4   | discount     | DECIMAL(18, 2) |          |            |             |             | 0            | Check: discount BETWEEN 0 AND 70   |       |
-| 5   | category_id  | INT            |          |            |             | Foreign Key |              | Reference categories (category_id) |       |
-| 6   | brand_id     | INT            |          |            |             | Foreign Key |              | Reference brands (brand_id)        |       |
-| 7   | description  | NVARCHAR       | MAX      | Yes        |             |             |              |                                    |       |
-| 8   | model_year   | SMALL INIT     |          |            |             |             |              |                                    |       |
+| No. | FieldName    | DataType       | DataSize | Allow null | Key         | Foreign Key | DefaultValue | Constraint                         | Notes  |
+|-----|--------------|----------------|----------|------------|-------------|-------------|--------------|------------------------------------|--------|
+| 1   | product_id   | INT            |          |            | Primary Key |             |              | IDENTITY(1, 1)                     |        |
+| 2   | product_name | NVARCHAR       | 255      |            |             |             |              | UNIQUE                             |        |
+| 3   | price        | DECIMAL(18, 2) |          |            |             |             | 0            | Check: price >= 0                  |        |
+| 4   | discount     | DECIMAL(18, 2) |          |            |             |             | 0            | Check: discount BETWEEN 0 AND 70   |        |
+| 5   | category_id  | INT            |          |            |             | Foreign Key |              | Reference categories (category_id) |        |
+| 6   | brand_id     | INT            |          |            |             | Foreign Key |              | Reference brands (brand_id)        |        |
+| 7   | description  | NVARCHAR       | MAX      | Yes        |             |             | Null         |                                    |        |
+| 8   | model_year   | SMALL INIT     |          |            |             |             |              |                                    |        |
+| 9   | slug         | VARCHAR        | 255      |            |             |             | Null         | UNIQUE                             |        |
+| 10  | thumbnail    | VARCHAR        | 255      | Yes        |             |             |              |                                    |        |
 
 
 **Sample Data Products**
@@ -239,6 +265,10 @@ Cách so khớp password: <https://www.npmjs.com/package/bcrypt#user-content-to-
 
 
 ## 💥 Table order_items
+
+
+Trong MongoDB `order_items` là sub Schema của `Order` ở dạng `embedding`
+
 
 | No. | FieldName  | DataType       | DataSize | Allow null | Key         | Foreign Key | DefaultValue | Constraint                       |
 | --- | ---------- | -------------- | -------- | ---------- | ----------- | ----------- | ------------ | -------------------------------- |
