@@ -1,5 +1,9 @@
 # NoSql with MongoDB
 
+## 💛 JWT Token
+
+Tìm hiểu [JWT](../Day-15-Advanced/JWT.md)
+
 ## 💛 Basic Authentication Systems
 
 Trong thực tế khi xây dựng một hệ thống Restull API sẽ có:

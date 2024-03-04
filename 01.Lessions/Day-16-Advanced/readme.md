@@ -15,3 +15,12 @@ Sử dụng với React: https://socket.io/how-to/use-with-react
 Unit test là một phương pháp kiểm thử phần mềm tập trung vào việc kiểm tra tính đúng đắn của các đơn vị (units) nhỏ nhất của mã nguồn
 
 Xem bài viết: [UnitTest](unitTest.md)
+
+## 💛 Deployment
+
+Cách để deploy ứng dụng NodeJS lên một số dịch vụ miễn phí có hỗ trợ
+
+- https://mdbgo.com
+- https://console.qovery.com/login
+- https://render.com
+- https://www.netlify.com
