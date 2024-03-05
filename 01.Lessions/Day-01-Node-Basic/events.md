@@ -9,7 +9,7 @@ Mỗi hành động trên máy tính đều được coi là 1 sự kiện, ví 
 Để sử dụng event trong nodejs, trước tiên chúng ta cần phải sử dụng một module có sẵn trong nodejs đó là events. Tất cả các phương thức hay thuộc tính của event đều là 1 biểu hiện của EventEmitter, do đó để sử dụng các phương thức hay thuộc tính này, chúng ta cần tạo 1 đối tượng EventEmitter.
 
 ```js
-var events = require('events');
+var events = require('node:events');
 var eventEmitter = new events.EventEmitter();
 ```
 
@@ -78,7 +78,7 @@ Giới thiệu về phương thức inherits
 Có một cách để các Object khác cũng có thể sử dụng các phương thức của event đó là sử dụng inherits trong module util (cũng là 1 module có sẵn của nodejs)
 
 ```js
-var events = require('events');
+var events = require('node:events');
 var util = require('util');
 
 var Students = function (name) {

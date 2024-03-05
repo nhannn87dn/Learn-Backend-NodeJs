@@ -178,10 +178,39 @@ Chi tiết [prerequisites.md](prerequisites.md)
 
 Node.js cho phép bạn xây dựng các ứng dụng web phía máy chủ. Nghĩa là bạn có thể tạo ra một ứng dụng web với Node.js
 
+Trước hết ta chùng `Hello world` xem cách mà Node.js tạo một server như thế nào !
+
+```js
+const http = require('node:http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+//Hàm tạo server: createServer
+const server = http.createServer((req, res) => {
+  //Phản hồi lại client Hello world
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello, World!\n');
+});
+//Lắng nghe request ở cổng 3000
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+```
+Sau đó trong terminal đứng tại vị trí thư mục dự án bạn gỏ lệnh
+
+```bash
+node main.js
+```
+
+Khi đó NodeJs sẽ khởi tạo một server chạy ở port `3000` , server này sẽ lắng nghe và phản hồi lại thông tin tương ứng.
+
+Và với Nodejs bạn hoàn toàn có thể tạo một ứng dụng web với nhiều pages. Mỗi page có nội dung khác nhau.
+
 Trong thư mục dự án, bạn tạo file `main.js` với nội dung sau:
 
 ```js
-const http = require('http');
+const http = require('node:http');
 
 const server = http.createServer((req, res) => {
   // Xử lý yêu cầu
@@ -206,13 +235,7 @@ server.listen(3000, () => {
 
 ```
 
-Sau đó trong terminal đứng tại vị trí thư mục dự án bạn gỏ lệnh
 
-```bash
-node main.js
-```
-
-Khi đó NodeJs sẽ khởi tạo một server chạy ở port `3000` , server này sẽ lắng nghe và phản hồi lại thông tin tương ứng.
 
 ## 💛 Node Modules
 

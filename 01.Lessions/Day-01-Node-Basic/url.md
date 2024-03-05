@@ -1,9 +1,12 @@
 # URL Module
 
+Chi tiết: https://nodejs.org/docs/latest/api/url.html
+
+
 Phân tích các thành phần của URL
 
 ```js
-var url = require('url');
+var url = require('node:url');
 // Ví dụ có một URL, hoặc có thể tạo server rồi lấy url bằng req.url
 var adr = 'http://localhost:8080/default.htm?year=2017&month=february';
 var q = url.parse(adr, true);
@@ -19,8 +22,8 @@ console.log(qdata.month); //returns 'february'
 Ví dụ 2:
 
 ```js
-var http = require('http');
-var url = require('url');
+var http = require('node:http');
+var url = require('node:url');
 
 http
   .createServer(function (req, res) {

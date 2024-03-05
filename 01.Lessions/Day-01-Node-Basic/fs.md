@@ -8,12 +8,15 @@ Module này dùng để thao tác với file:
 - Delete files
 - Rename files
 
-> Tìm hiểu thêm https://www.w3schools.com/nodejs/nodejs_filesystem.asp
+> Tìm hiểu thêm 
+> - https://nodejs.org/docs/latest/api/fs.html
+> - https://www.w3schools.com/nodejs/nodejs_filesystem.asp
+
 
 Cách sử dụng
 
 ```js
-const fs = require('fs');
+const fs = require('node:fs');
 ```
 
 ## Read Files
@@ -34,8 +37,9 @@ Ví dụ có có một file demofile1.html
 và một file main.js
 
 ```js
-var http = require('http');
-var fs = require('fs');
+const http = require('node:http');
+const fs = require('node:fs');
+
 http
   .createServer(function (req, res) {
     fs.readFile('demofile1.html', function (err, data) {
@@ -60,7 +64,7 @@ File System module có một số phương thưc tạo mới file như sau:
 Ex1: Sử dụng `appendFile()`:
 
 ```js
-const fs = require('fs');
+const fs = require('node:fs');
 
 fs.appendFile('mynewfile1.txt', 'Hello content!', function (err) {
   if (err) throw err;
@@ -71,7 +75,7 @@ fs.appendFile('mynewfile1.txt', 'Hello content!', function (err) {
 Ex2: Dùng `fs.open()` , sử dụng tham số thứ hai `w` để ghi, nếu file không tồn tại thì nó tạo file trống mới.
 
 ```js
-const fs = require('fs');
+const fs = require('node:fs');
 
 fs.open('mynewfile2.txt', 'w', function (err, file) {
   if (err) throw err;
@@ -82,7 +86,7 @@ fs.open('mynewfile2.txt', 'w', function (err, file) {
 Ex3: Dùng `fs.writeFile()` nó sẽ thay thế nội dung file đã tồn tại, nếu không nó tạo file mới và ghi nội dung vào file đó.
 
 ```js
-const fs = require('fs');
+const fs = require('node:fs');
 
 fs.writeFile('mynewfile3.txt', 'Hello content!', function (err) {
   if (err) throw err;
@@ -100,7 +104,7 @@ Sử dụng 2 phương thức
 Ex1: Nối thêm `This is my tex` vào cuối file mynewfile1.txt
 
 ```js
-const fs = require('fs');
+const fs = require('node:fs');
 
 fs.appendFile('mynewfile1.txt', ' This is my text.', function (err) {
   if (err) throw err;
@@ -111,7 +115,7 @@ fs.appendFile('mynewfile1.txt', ' This is my text.', function (err) {
 Ex2: fs.writeFile() thay thế nội dung của file (ghi đè)
 
 ```js
-const fs = require('fs');
+const fs = require('node:fs');
 
 fs.writeFile('mynewfile3.txt', 'This is my text', function (err) {
   if (err) throw err;
@@ -124,7 +128,7 @@ fs.writeFile('mynewfile3.txt', 'This is my text', function (err) {
 Xóa file mynewfile2.txt sử dụng `fs.unlink()`
 
 ```js
-const fs = require('fs');
+const fs = require('node:fs');
 
 fs.unlink('mynewfile2.txt', function (err) {
   if (err) throw err;
@@ -137,7 +141,7 @@ fs.unlink('mynewfile2.txt', function (err) {
 Rename "mynewfile1.txt" to "myrenamedfile.txt":
 
 ```js
-const fs = require('fs');
+const fs = require('node:fs');
 
 fs.rename('mynewfile1.txt', 'myrenamedfile.txt', function (err) {
   if (err) throw err;

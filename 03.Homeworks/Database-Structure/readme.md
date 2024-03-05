@@ -1,5 +1,5 @@
 
-# Cấu trúc database online-shop
+# Cấu trúc database BikeStore
 
 Dưới đây là các table được thiết kế cho CSDL SQL Server, hay chuyển nó thành các Model trong MongoDB theo quy tắc
 

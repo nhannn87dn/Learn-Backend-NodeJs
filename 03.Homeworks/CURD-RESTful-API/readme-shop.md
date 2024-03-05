@@ -1,7 +1,7 @@
 # Bài tập CRUD với RESTful API
 
 
-Dưới đây là ví dụ về RESTful API cho các tài nguyên Categories, Brands, Customers, Staffs, Products và Orders. Mỗi tài nguyên sẽ có các endpoint tương ứng để thực hiện các hoạt động CRUD (Create, Read, Update, Delete).
+Dưới đây là ví dụ về RESTful API cho các tài nguyên Categories, Suppliers, Customers, Employees, Products và Orders. Mỗi tài nguyên sẽ có các endpoint tương ứng để thực hiện các hoạt động CRUD (Create, Read, Update, Delete).
 
 ## 1. RESTful API cho Categories
 
@@ -35,36 +35,36 @@ Dưới đây là ví dụ về RESTful API cho các tài nguyên Categories, Br
   DELETE /categories/:id
   ```
 
-## 2. RESTful API cho Brands
+## 2. RESTful API cho Suppliers
 
-- Get all Brands:
-
-  ```
-  GET /brands
-  ```
-
-- Get Brand by id:
+- Get all Suppliers:
 
   ```
-  GET /brands/:id
+  GET /suppliers
   ```
 
-- Create a new Brand:
+- Get Supplier by id:
 
   ```
-  POST /brands
+  GET /suppliers/:id
   ```
 
-- Update Brand by id:
+- Create a new Supplier:
 
   ```
-  PUT /brands/:id
+  POST /suppliers
   ```
 
-- Delete Brand by id:
+- Update Supplier by id:
 
   ```
-  DELETE /brands/:id
+  PUT /suppliers/:id
+  ```
+
+- Delete Supplier by id:
+
+  ```
+  DELETE /suppliers/:id
   ```
 
 
@@ -132,36 +132,36 @@ Dưới đây là ví dụ về RESTful API cho các tài nguyên Categories, Br
   DELETE /customers/:id
   ```
 
-## 5. RESTful API cho Staffs
+## 5. RESTful API cho Employees
 
-- Get all Staffs:
-
-  ```
-  GET /staffs
-  ```
-
-- Get Staff by id:
+- Get all Employees:
 
   ```
-  GET /staffs/:id
+  GET /employees
   ```
 
-- Create a new Staff:
+- Get Employee by id:
 
   ```
-  POST /staffs
+  GET /employees/:id
   ```
 
-- Update Staff by id:
+- Create a new Employee:
 
   ```
-  PUT /staffs/:id
+  POST /employees
   ```
 
-- Delete Staff by id:
+- Update Employee by id:
 
   ```
-  DELETE /staffs/:id
+  PUT /employees/:id
+  ```
+
+- Delete Employee by id:
+
+  ```
+  DELETE /employees/:id
   ```
 
 
@@ -195,71 +195,4 @@ Dưới đây là ví dụ về RESTful API cho các tài nguyên Categories, Br
 
   ```
   DELETE /orders/:id
-  ```
-
-Lưu ý: Order_items là con của Orders
-
-
-## 6. RESTful API cho Stores
-
-- Get all Stores:
-
-  ```
-  GET /stores
-  ```
-
-- Get Store by id:
-
-  ```
-  GET /stores/:id
-  ```
-
-- Create a new Store:
-
-  ```
-  POST /stores
-  ```
-
-- Update Store by id:
-
-  ```
-  PUT /stores/:id
-  ```
-
-- Delete Store by id:
-
-  ```
-  DELETE /stores/:id
-  ```
-
-## 7. RESTful API cho Stocks
-
-- Get all Stocks: Tức là tất cả các lệnh nhập kho
-
-  ```
-  GET /stocks
-  ```
-
-- Get Stock by id:
-
-  ```
-  GET /stocks/:id
-  ```
-
-- Create a new Stock:
-
-  ```
-  POST /stocks
-  ```
-
-- Update Stock by id:
-
-  ```
-  PUT /stocks/:id
-  ```
-
-- Delete Stock by id:
-
-  ```
-  DELETE /stocks/:id
   ```
