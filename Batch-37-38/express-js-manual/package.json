@@ -1,0 +1,14 @@
+{
+  "name": "express-js-manual",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.3",
+    "nodemon": "^3.1.0"
+  },
+  "scripts": {
+    "dev": "nodemon app.js"
+  }
+}

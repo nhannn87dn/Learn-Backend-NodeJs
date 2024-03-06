@@ -120,9 +120,9 @@ yarn add express dotenv
 Cài thêm
 
 ```bash
-npm i -D typescript nodemon @types/express @types/node
+npm i -D typescript  @types/express @types/node ts-node-dev
 #or
-yarn add -D typescript nodemon @types/express @types/node ts-node-dev
+yarn add -D typescript  @types/express @types/node ts-node-dev
 ```
 
 Tạo file tsconfig.json
@@ -179,7 +179,7 @@ Cấu hình lại package.json
  "scripts": {
     "build": "npx tsc -p",
     "start": "node app.ts",
-    "dev": "nodemon app.ts"
+    "dev": "ts-node-dev --respawn --transpile-only app.ts"
   },
 ```
 Tạo file .env ở thư mục gốc dự án, dùng để chứa các thông số bảo mật, biến môi trường
@@ -238,7 +238,7 @@ Cấu hình lại package.json
  "scripts": {
     "build": "npx tsc -p",
     "start": "node server.ts",
-    "dev": "nodemon server.ts"
+    "dev": "ts-node-dev --respawn --transpile-only server.ts"
   },
 ```
 
