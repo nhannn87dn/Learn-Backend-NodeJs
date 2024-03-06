@@ -1,0 +1,17 @@
+POST http://localhost:3000/products
+content-type: application/json
+
+{
+    "id": 1,
+    "name": "iPhone 16"
+}
+
+###
+
+PUT http://localhost:3000/products
+content-type: application/json
+
+{
+    "id": 2,
+    "name": "iPhone 16 pro max"
+}
