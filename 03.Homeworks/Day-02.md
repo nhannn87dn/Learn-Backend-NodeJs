@@ -2,7 +2,7 @@
 
 ## Task 1
 
-Tạo một ứng dụng Express.js đơn giản với các route sau:
+Tự Tạo một ứng dụng Express.js thủ công đơn giản với các route sau:
 
 1. Route `/` - Trả về chuỗi “Trang chủ”.
 1. Route `/about` - Trả về chuỗi “Trang giới thiệu”.
