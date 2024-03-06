@@ -1,7 +1,7 @@
 # Bài tập CRUD với RESTful API
 
 
-Dưới đây là ví dụ về RESTful API cho các tài nguyên Categories, Suppliers, Customers, Employees, Products và Orders. Mỗi tài nguyên sẽ có các endpoint tương ứng để thực hiện các hoạt động CRUD (Create, Read, Update, Delete).
+Dưới đây là ví dụ về RESTful API cho các tài nguyên Categories, Brands, Customers, Staffs, Products và Orders. Mỗi tài nguyên sẽ có các endpoint tương ứng để thực hiện các hoạt động CRUD (Create, Read, Update, Delete).
 
 ## 1. RESTful API cho Categories
 
@@ -35,36 +35,36 @@ Dưới đây là ví dụ về RESTful API cho các tài nguyên Categories, Su
   DELETE /categories/:id
   ```
 
-## 2. RESTful API cho Suppliers
+## 2. RESTful API cho Brands
 
-- Get all Suppliers:
-
-  ```
-  GET /suppliers
-  ```
-
-- Get Supplier by id:
+- Get all Brands:
 
   ```
-  GET /suppliers/:id
+  GET /brands
   ```
 
-- Create a new Supplier:
+- Get Brand by id:
 
   ```
-  POST /suppliers
+  GET /brands/:id
   ```
 
-- Update Supplier by id:
+- Create a new Brand:
 
   ```
-  PUT /suppliers/:id
+  POST /brands
   ```
 
-- Delete Supplier by id:
+- Update Brand by id:
 
   ```
-  DELETE /suppliers/:id
+  PUT /brands/:id
+  ```
+
+- Delete Brand by id:
+
+  ```
+  DELETE /brands/:id
   ```
 
 
@@ -132,36 +132,36 @@ Dưới đây là ví dụ về RESTful API cho các tài nguyên Categories, Su
   DELETE /customers/:id
   ```
 
-## 5. RESTful API cho Employees
+## 5. RESTful API cho Staffs
 
-- Get all Employees:
-
-  ```
-  GET /employees
-  ```
-
-- Get Employee by id:
+- Get all Staffs:
 
   ```
-  GET /employees/:id
+  GET /staffs
   ```
 
-- Create a new Employee:
+- Get Staff by id:
 
   ```
-  POST /employees
+  GET /staffs/:id
   ```
 
-- Update Employee by id:
+- Create a new Staff:
 
   ```
-  PUT /employees/:id
+  POST /staffs
   ```
 
-- Delete Employee by id:
+- Update Staff by id:
 
   ```
-  DELETE /employees/:id
+  PUT /staffs/:id
+  ```
+
+- Delete Staff by id:
+
+  ```
+  DELETE /staffs/:id
   ```
 
 
@@ -196,3 +196,6 @@ Dưới đây là ví dụ về RESTful API cho các tài nguyên Categories, Su
   ```
   DELETE /orders/:id
   ```
+
+Lưu ý: Order_items là con của Orders
+

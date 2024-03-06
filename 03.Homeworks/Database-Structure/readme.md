@@ -1,5 +1,5 @@
 
-# Cấu trúc database online-shop
+# Cấu trúc database BikeStore
 
 Dưới đây là các table được thiết kế cho CSDL SQL Server, hay chuyển nó thành các Model trong MongoDB theo quy tắc
 
@@ -8,7 +8,9 @@ Dưới đây là các table được thiết kế cho CSDL SQL Server, hay chuy
 
 ## 💛 Xây dựng các Table 
 
-Viết các câu lệnh tạo bảng như phần mô tả dưới đây
+Để đơn giản hơn cho dự án:
+- Đã loại bỏ table `stocks` và `stores`
+- Trường số lượng sản phẩm được đưa vào table products với tên `stock`
 
 ## 💥 Table  categories
 
@@ -163,6 +165,7 @@ Cách so khớp password: <https://www.npmjs.com/package/bcrypt#user-content-to-
 | 8   | model_year   | SMALL INIT     |          |            |             |             |              |                                    |        |
 | 9   | slug         | VARCHAR        | 255      |            |             |             | Null         | UNIQUE                             |        |
 | 10  | thumbnail    | VARCHAR        | 255      | Yes        |             |             |              |                                    |        |
+| 11  | stock        | SMALL INIT     | 5        |            |             |             | 0            | Check: stock>= 0                   |        |
 
 
 **Sample Data Products**
@@ -186,64 +189,6 @@ Cách so khớp password: <https://www.npmjs.com/package/bcrypt#user-content-to-
 | 15         | Electric Bike XL| 1000 | 0       | 5           | 5        | Extra large electric bike powered by electric motor | 2022 |
 
 
-
-## 💥 Table  stores
-
-
-| No. | FieldName  | DataType | DataSize | Allow null | Key         | Foreign Key | DefaultValue | Constraint      |
-| --- | ---------- | -------- | -------- | ---------- | ----------- | ----------- | ------------ | --------------- |
-| 1   | store_id   | INT      |          |            | Primary Key |             |              | IDENTITY (1, 1) |
-| 2   | store_name | NVARCHAR | 50       |            |             |             |              | UNIQUE          |
-| 3   | phone      | VARCHAR  | 50       | Yes        |             |             |              |                 |
-| 4   | email      | VARCHAR  | 150      | Yes        |             |             |              |                 |
-| 5   | street     | NVARCHAR | 255      | Yes        |             |             |              |                 |
-| 6   | city       | NVARCHAR | 50       | Yes        |             |             |              |                 |
-| 7   | state      | NVARCHAR | 50       | Yes        |             |             |              |                 |
-| 8   | zip_code   | VARCHAR  | 5        | Yes        |             |             |              |                 |
-
-
-**Sample Data Stores**
-
-
-| store_id | store_name    | phone      | email              | street         | city       | state | zip_code |
-|----------|---------------|------------|--------------------|----------------|------------|-------|----------|
-| 1        | Main Store    | 123-456-789| main@store.com     | 123 Main St    | Anytown    | CA    | 12345    |
-| 2        | Downtown Store| 456-789-012| downtown@store.com | 456 Elm St     | Downtown   | NY    | 67890    |
-| 3        | West Store    | 789-012-345| west@store.com     | 789 Oak St     | Westside   | TX    | 23456    |
-| 4        | East Store    | 012-345-678| east@store.com     | 012 Pine St    | Eastside   | FL    | 78901    |
-| 5        | South Store   | 345-678-901| south@store.com    | 345 Maple St   | Southside  | WA    | 56789    |
-
-
-## 💥 Table stocks
-
-| No. | FieldName  | DataType | DataSize | Allow null | Key         | Foreign Key | DefaultValue | Constraint                      |
-| --- | ---------- | -------- | -------- | ---------- | ----------- | ----------- | ------------ | ------------------------------- |
-| 1   | store_id   | INT      |          |            | Primary Key | Foreign Key |              | Reference stores (store_id)     |
-| 2   | product_id | INIT     |          |            | Primary Key | Foreign Key |              | Reference products (product_id) |
-| 3   | quantity   | INIT     |          |            |             |             | 0            |                                 |
-
-
-**Sample Data Stocks**
-
-| store_id | product_id | quantity |
-|----------|------------|----------|
-| 1        | 1          | 100      |
-| 2        | 2          | 150      |
-| 3        | 3          | 200      |
-| 4        | 4          | 120      |
-| 5        | 5          | 80       |
-| 1        | 6          | 50       |
-| 2        | 7          | 70       |
-| 3        | 8          | 90       |
-| 4        | 9          | 110      |
-| 5        | 10         | 60       |
-| 1        | 11         | 130      |
-| 2        | 12         | 140      |
-| 3        | 13         | 100      |
-| 4        | 14         | 85       |
-| 5        | 15         | 95       |
-
-
 ## 💥 Table  orders
 
 | No. | FieldName        | DataType       | DataSize | Allow null | Key         | Foreign Key | DefaultValue | Constraint                        | Notes                                                                  |
@@ -254,7 +199,6 @@ Cách so khớp password: <https://www.npmjs.com/package/bcrypt#user-content-to-
 | 4   | order_date       | VARCHAR        | 50       |            |             |             | NOW          |                                   |                                                                        |
 | 5   | require_date     | DATETIME       |          | YES        |             |             |              |                                   |                                                                        |
 | 6   | shipping_date    | DATETIME       |          |            |             |             |              |                                   |                                                                        |
-| 7   | store_id         | INIT           | 50       |            |             | Foreign Key |              | Reference stores (store_id)       |                                                                        |
 | 8   | staff_id         | INIT           | 20       |            |             | Foreign Key |              | Reference staffs (staff_id)       |                                                                        |
 | 9   | order_note       | NVARCHAR       |          | YES        |             |             |              |                                   |                                                                        |
 | 10  | shipping_address | NVARCHAR       |          | YES        |             |             |              |                                   |                                                                        |
@@ -291,8 +235,6 @@ Trong MongoDB `order_items` là sub Schema của `Order` ở dạng `embedding`
 - customers
 - staffs
 - products
-- stores
-- stocks
 - orders
 - order_items
 
