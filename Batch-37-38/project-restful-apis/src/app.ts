@@ -5,6 +5,7 @@ const app: Express = express();
 
 //Import cac Routes
 import routeCategories from './routes/v1/categories.route';
+import routeBrands from './routes/v2/brands.route'
 
 //Để bắt được kiểu JSON từ client gửi lên
 app.use(express.json());
@@ -18,8 +19,7 @@ app.get('/', (req: Request, res: Response) => {
 //Cau hinh route cho App
 //http://localhost:8080/api/v1/categories
 app.use('/api/v1/categories', routeCategories)
-
-
+app.use('/api/v1/brands', routeBrands)
 
 
 

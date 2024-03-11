@@ -1,8 +1,11 @@
-PUT http://localhost:8080/api/v1/categories/1
+PUT http://localhost:8080/api/v1/categories/4
 Content-Type: application/json
 
+
 {
-    "category_name": "Mobile"
+    "name": "Road bike",
+    "description": "Road bike description"
+
 }
 
 ### Create a new category
@@ -11,10 +14,10 @@ POST  http://localhost:8080/api/v1/categories
 Content-Type: application/json
 
 {
-    "category_name": "Laptop",
-    "description": "Laptop description"
-
+    "id": 5,
+    "name": "Mountain",
+    "description": "Off-road and trail bicycles"
 }
 
 ### Delete
-DELETE http://localhost:8080/api/v1/categories/1
+DELETE http://localhost:8080/api/v1/categories/4

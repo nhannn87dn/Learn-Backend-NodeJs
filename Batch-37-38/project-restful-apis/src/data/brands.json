@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "name": "Trek",
+        "description": "High-quality bikes for all terrains"
+    },
+    {
+        "id": 2,
+        "name": "Giant update",
+        "description": "Road bike description"
+    }
+]
