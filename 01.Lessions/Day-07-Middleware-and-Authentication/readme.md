@@ -1,7 +1,5 @@
 # Middleware and Authentication
 
-
-
 ## 💛  Tổng quan Middleware
 
 ### 🌻  Middleware là gì ?
@@ -66,6 +64,85 @@ app.use(myLogger);
 ### 🌻 Lớp middleware
 
 Tạo thêm 2 ví dụ về middleware nữa để thấy được sự chuyển tiếp giữa các lớp middleware
+
+
+
+## 💛 Validate Requests
+
+- validate Body parameter
+- validate Path parameter
+- validate Query parameter
+
+**Bước 1:** Chúng ta cần tạo một Middleware để handle validate `src\middlewares\validateSchema.middleware.ts`
+
+Sử dụng thư viện `joi` để validate
+
+Chi tiết cách sử dụng joi xem ở [link sau](https://joi.dev/api/?v=17.9.1)
+
+```js
+import Joi from 'joi';
+import _ from 'lodash';
+import{ NextFunction, Request, Response } from 'express';
+import {sendJsonErrors} from '../helpers/responseHandler'
+
+const validateSchema = (schema: object) => (req: Request, res: Response, next: NextFunction) => {
+  const pickSchema = _.pick(schema, ['params', 'body', 'query']);
+  const object = _.pick(req, Object.keys(pickSchema));
+  const { value, error } = Joi.compile(pickSchema)
+    .prefs({
+      errors: {
+        label: 'key',
+      },
+
+      abortEarly: false,
+    })
+    .validate(object);
+  if (error) {
+    const errorMessage = error.details
+      .map((detail: any) => detail.message)
+      .join(', ');
+    return sendJsonErrors(res, {
+      status: 400,
+      message: errorMessage,
+      typeError: 'validateSchema'
+    });
+
+  }
+  Object.assign(req, value);
+  return next();
+};
+export default validateSchema
+```
+
+**Bước 2:** Tạo các Schema Validation
+
+Tạo folder `src/validations`
+
+Trong folder này tạo file `category.validation.ts
+
+```js
+import Joi from 'joi';
+
+const getCategoryById = {
+  params: Joi.object().keys({
+    id: Joi.number().required(),
+  }),
+};
+
+export default {
+  getCategoryById
+};
+```
+
+Giải thích: chúng ta Cần validate cho sự kiện getCategoryById khi gọi
+
+```code
+localhost:8686/api/v1/categories/:id
+```
+
+Validate `id` phải được truyền vào yêu cầu là số
+
+Chúng ta lần lượt tạo thêm các Schema cho từng route của category Resources
 
 
 ## 💛 JWT Token
