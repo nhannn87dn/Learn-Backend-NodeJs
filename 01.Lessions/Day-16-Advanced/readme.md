@@ -10,11 +10,6 @@ Xem bài hướng dẫn: [socketIO](socket.io.md)
 
 Sử dụng với React: https://socket.io/how-to/use-with-react
 
-## 💛 Unit Test
-
-Unit test là một phương pháp kiểm thử phần mềm tập trung vào việc kiểm tra tính đúng đắn của các đơn vị (units) nhỏ nhất của mã nguồn
-
-Xem bài viết: [UnitTest](unitTest.md)
 
 ## 💛 Deployment
 
