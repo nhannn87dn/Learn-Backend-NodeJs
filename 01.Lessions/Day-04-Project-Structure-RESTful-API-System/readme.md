@@ -123,7 +123,31 @@ app.use('/api/v1', categoriesRoute);
 
 Tiếp tục refactor các routes, chuyển thành các controllers
 
-Tách xử lý business logic ra khỏi routes, giúp routes gọn hơn, dễ nhìn hơn, dễ bão trì hơn
+### Tại sao phải cần đến `Controller` ?
+
+**Trong mô hình API với Express.js và Node.js**, ba thành phần quan trọng là **Routes**, **Controllers**, và **Services** đóng vai trò quan trọng trong việc phát triển ứng dụng. Mỗi khái niệm nó có vai trò riêng:
+
+**Routes (Định tuyến)**:
+
+- Routes xác định các **tuyến API** và xử lý các yêu cầu HTTP từ client.
+- Chúng định nghĩa các **đường dẫn URL** và liên kết chúng với các **controllers** tương ứng.
+
+- Routes có thể xử lý các phương thức HTTP như **GET**, **POST**, **PUT**, và **DELETE**.
+- Ví dụ: Đường dẫn `/users` có thể liên kết với controller để xử lý việc lấy thông tin người dùng.
+
+**Controllers**:
+- Controllers là nơi **xử lý logic kinh doanh** của ứng dụng.
+- Khi một request đã đi qua Middleware, nó sẽ được chuyển đến Controller để xử lý.
+- Controllers thực hiện các nhiệm vụ như:
+  - **Gọi services** để truy vấn cơ sở dữ liệu.
+  - **Xử lý dữ liệu** từ request và chuẩn bị dữ liệu để trả về cho client.
+  - **Quản lý luồng logic** của ứng dụng.
+- Ví dụ: Controller xử lý việc lấy thông tin người dùng từ cơ sở dữ liệu.
+
+
+---
+
+### Refactor Code
 
 Tách dữ liệu fake categories thành file json
 
@@ -289,8 +313,16 @@ app.use('/api/v1/categories', categoriesRoute);
 
 ## 💛 Tạo Service
 
-Nếu bạn muốn tách phần xử lý business logic fetch Data ra khỏi controller
-thì tạo thêm lớp Service. Controller chỉ nhận data và trả lại response
+**Services**:
+- Services là lớp **quản lý dữ liệu** trong ứng dụng.
+- Chúng thực hiện các tác vụ như:
+    - **Truy vấn cơ sở dữ liệu** (sử dụng Model).
+    - **Xử lý logic kinh doanh** phức tạp.
+    - **Định nghĩa các quan hệ giữa các đối tượng** (nếu sử dụng cơ sở dữ liệu liên quan).
+- Services giúp tách biệt logic kinh doanh và cơ sở dữ liệu.
+- Ví dụ: Service thực hiện truy vấn thông tin người dùng từ cơ sở dữ liệu.
+
+---
 
 Tạo file `src/services/categories.service.ts`
 
@@ -482,3 +514,11 @@ export default {
 Còn không bạn có thể dừng lại ở mức cơ bản là controller, fetch Data và trả
 lại response.
 
+## 💛 Kết luận
+
+Luồng xử lý sát với dự án thực tế
+
+![follow](../Day-03-RESTful-API-Expressjs/img/flow.png)
+
+
+## 💛 Homeworks Guide
