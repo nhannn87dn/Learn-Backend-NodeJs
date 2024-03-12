@@ -335,5 +335,59 @@ app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
 });
 ```
 
+## 💛 Biến môi trường
+
+### Giải thích khái niệm
+
+**Biến môi trường (Environment Variables)** trong Node.js là một cách để **định cấu hình ứng dụng** của bạn dựa trên môi trường nó đang chạy. Điều này cho phép bạn **thiết lập các giá trị khác nhau** cho từng môi trường, chẳng hạn như **development**, **staging**, **test**, hoặc **production**.
+
+Dưới đây là một số bước để làm việc với biến môi trường trong Node.js:
+
+1. **Tạo file .env**: Đầu tiên, bạn cần tạo một tệp `.env` trong thư mục dự án của bạn. Trong tệp này, bạn sẽ định nghĩa các biến môi trường mà ứng dụng cần sử dụng. Ví dụ:
+
+    ```
+    NODE_ENV=development
+    MONGODB_URI=mongodb://localhost/demodatabase
+    SECRETKEY=SecretGarden
+    PORT=3000
+    ```
+
+2. **Đọc tệp .env**: Để đọc các biến môi trường từ tệp `.env`, bạn cần thực hiện các bước sau:
+
+    - Tạo một tệp `package.json` (nếu chưa có) bằng cách chạy lệnh `yarn init -y`.
+    - Cài đặt gói `dotenv` bằng lệnh `yarn add  dotenv`.
+    - Trong mã nguồn của ứng dụng, import `dotenv`:
+
+        ```javascript
+        require('dotenv').config();
+        import 'dotenv/config' //ES6
+        ```
+
+    - Bây giờ bạn có thể sử dụng các biến từ tệp `.env` trong mã nguồn của mình:
+
+        ```javascript
+        let server = app.listen(process.env.PORT || 3000, function () {
+            console.log(`Server listening on port ${server.address().port}`);
+        });
+        ```
+
+3. **Lưu ý**: Để tránh việc nội dung của tệp `.env` bị thay đổi giữa các môi trường khi cập nhật, bạn nên thêm tệp `.env` vào danh sách ignore trong tệp `.gitignore`.
+
+### Tại sao lại cần biến môi trường ?
+
+**Biến môi trường (Environment Variables)** là một phần quan trọng của việc phát triển ứng dụng. Dưới đây là một số lý do tại sao chúng ta cần sử dụng biến môi trường:
+
+1. **Bảo mật thông tin nhạy cảm**: Biến môi trường cho phép bạn lưu trữ các thông tin nhạy cảm như **khóa bí mật**, **mật khẩu**, hoặc **các thông tin kết nối đến cơ sở dữ liệu** mà không cần lưu trực tiếp trong mã nguồn. Điều này giúp tránh việc rò rỉ thông tin quan trọng khi mã nguồn được chia sẻ hoặc lưu trữ trên các hệ thống khác nhau.
+
+2. **Định cấu hình ứng dụng**: Biến môi trường cho phép bạn **định cấu hình ứng dụng** dựa trên môi trường nó đang chạy. Bạn có thể thiết lập các giá trị khác nhau cho từng môi trường như **development**, **staging**, **test**, hoặc **production**. Ví dụ, bạn có thể sử dụng một cơ sở dữ liệu khác nhau cho môi trường phát triển và môi trường sản xuất.
+
+3. **Dễ dàng thay đổi cấu hình**: Khi bạn cần thay đổi cấu hình ứng dụng, bạn chỉ cần sửa tệp `.env` thay vì phải sửa trực tiếp trong mã nguồn. Điều này giúp quản lý cấu hình dễ dàng hơn và tránh việc phải triển khai lại toàn bộ ứng dụng.
+
+4. **Tách biệt logic và cấu hình**: Sử dụng biến môi trường giúp tách biệt logic ứng dụng và cấu hình. Bạn có thể tập trung vào viết mã logic mà không phải lo lắng về việc cấu hình.
+
+5. **Hỗ trợ việc triển khai**: Khi bạn triển khai ứng dụng lên các môi trường khác nhau (như máy chủ thực tế, máy chủ thử nghiệm, máy chủ phát triển), việc sử dụng biến môi trường giúp đảm bảo rằng ứng dụng hoạt động đúng cách với cấu hình tương ứng.
+
+Tóm lại, sử dụng biến môi trường giúp bạn quản lý cấu hình ứng dụng một cách an toàn, linh hoạt và dễ dàng. 🌟
+
 ## 💛 Homework Guides
 
