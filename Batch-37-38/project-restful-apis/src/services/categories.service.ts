@@ -1,82 +1,39 @@
-import fs from 'node:fs'
 import createError from 'http-errors';
-const fileName = './src/data/categories.json';
-//Doc noi dung cua file, co chua tieng viet
-const data = fs.readFileSync(fileName, { encoding: 'utf-8', flag: 'r' });
-
-type ICategory = {id?: number, name: string, description: string}
-let categories: ICategory[] = JSON.parse(data);
-
+import Category from '../models/category.model';
+import { ICategory } from '../types/models';
 //Tra lai ket qua
-const getAllProduct = ()=>{
-    console.log('service',categories);
-    return categories
+const getAllProduct = async ()=>{
+    const result = await Category.find();
+    return result
 }
 
-const getCategoryById  = (id:number)=>{
+const getCategoryById  = async (id:string)=>{
+    //SELECT * FROM categories WHERE _id = id
+    const result = await Category.findById(id);
 
-    const data = categories.find(c => c.id === id)
-
-    if(!data){
-        throw createError(404,'Category not found')
+    if(!result){
+        throw createError(404,'Category not found');
     }
-    return data;
+    return result;
 }
 
-const createCategory = (data: ICategory)=>{
-    const newCategories = [...categories,data]
-
-    //ghi file
-    fs.writeFile(fileName, JSON.stringify(newCategories), function (err) {
-        if (err) throw err;
-        console.log('Saved!');
-    });
-    return data;
+const createCategory = async (data: ICategory)=>{
+    const result = await Category.create(data)
+    return result;
 }
 
-const updateCategory = (id: number,data: ICategory)=>{
+const updateCategory = async (id: string,data: ICategory)=>{
     //check xem id co ton tai khong
-    const category = categories.find(c=>c.id === id)
-    if(!category){
-        throw createError(404,'Category not found')
-    }
-
-    //Tim item co id va thay doi cac gia tri
-    categories.map((c)=>{
-       if(c.id ===  id){
-            c.name = data.name;
-            c.description = data.description
-       }
-    })
-
-    //ghi file
-
-    fs.writeFile(fileName, JSON.stringify(categories), function (err) {
-        if (err) throw err;
-        console.log('Saved!');
+    const category = await Category.findByIdAndUpdate(id, data, {
+        new: true,
     });
 
-    return data
+    return category
 }
 
-const deleteCategory = (id:number)=>{
+const deleteCategory = async (id:string)=>{
    
-    //check xem id co ton tai khong
-    const category = categories.find(c=>c.id === id)
-    if(!category){
-        throw createError(404,'Category not found')
-    }
-    console.log(id,categories);
-    
-    //Loc ra nhung item khong phai la item co ID dang xoa
-    const newCategories =  categories.filter(c=>c.id !== category?.id)
-    //Ghi file
-    fs.writeFile(fileName, JSON.stringify(newCategories), function (err) {
-        if (err) throw err;
-        console.log('Saved!');
-    });
-
-
+    const category = await Category.findByIdAndDelete(id);
     return category
 }
 

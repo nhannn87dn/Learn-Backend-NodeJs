@@ -15,9 +15,10 @@ Content-Type: application/json
 
 {
     "id": 2,
-    "name": "Giant",
+   "name": "Giant",
     "description": "Specializing in road and mountain bikes"
 }
+
 
 ### Delete
 DELETE http://localhost:8080/api/v1/brands/4

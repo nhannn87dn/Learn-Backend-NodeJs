@@ -2,17 +2,22 @@ import {Request,Response, NextFunction} from 'express'
 import categoriesService from '../services/categories.service';
 
 
-const getAllProduct = (req: Request, res: Response)=>{
-    const result = categoriesService.getAllProduct();
-    console.log('result',result);
-    res.status(200).json(result)
+const getAllProduct = async (req: Request, res: Response, next: NextFunction)=>{
+    try{
+        const result = await categoriesService.getAllProduct();
+        console.log('result',result);
+        res.status(200).json(result)
+    }
+    catch(err){
+        next(err)
+    }
 }
 
-const getCategoryById = (req: Request, res: Response, next: NextFunction)=>{
+const getCategoryById = async (req: Request, res: Response, next: NextFunction)=>{
     try {
         const {id} = req.params; //return id = string
 
-        const category = categoriesService.getCategoryById(parseInt(id))
+        const category = await categoriesService.getCategoryById(id)
 
         res.status(200).json(category)
     }
@@ -21,34 +26,44 @@ const getCategoryById = (req: Request, res: Response, next: NextFunction)=>{
     }
 }
 
-const createCategory = (req: Request, res: Response) => {
-    const data = req.body;
+const createCategory = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const data = req.body;
 
-    const category= categoriesService.createCategory(data)
+        const category=  await categoriesService.createCategory(data)
 
-    res.status(201).json({
-        message: `Create Category`,
-        category: category
-    })
+        res.status(201).json({
+            message: `Create Category`,
+            category: category
+        })
+    }
+    catch(err){
+        next(err)
+    }
 }
 
-const updateCategory = (req: Request, res: Response)=>{
-    const {id} = req.params;
-    const data = req.body;
-
-    
-    const category = categoriesService.updateCategory(parseInt(id),data)
-
-    res.status(200).json({
-        message: `Update Category by ID ${id}`,
-        category: category
-    })
-}
-
-const deleteCategory = (req: Request, res: Response,next: NextFunction)=>{
+const updateCategory = async (req: Request, res: Response, next: NextFunction)=>{
     try {
         const {id} = req.params;
-        const category = categoriesService.deleteCategory(parseInt(id))
+        const data = req.body;
+
+        
+        const category = await categoriesService.updateCategory(id,data)
+
+        res.status(200).json({
+            message: `Update Category by ID ${id}`,
+            category: category
+        })
+    }
+    catch(err){
+        next(err)
+    }
+}
+
+const deleteCategory = async (req: Request, res: Response,next: NextFunction)=>{
+    try {
+        const {id} = req.params;
+        const category = await categoriesService.deleteCategory(id)
         res.status(200).json({
             message: `Delete Category by ID ${id}`,
             category: category

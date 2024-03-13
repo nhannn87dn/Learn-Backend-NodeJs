@@ -1,9 +1,13 @@
-PUT http://localhost:8080/api/v1/categories/4
+### GET ALls
+GET http://localhost:8080/api/v1/categories
+
+### Update
+
+PUT http://localhost:8080/api/v1/categories/65f19ad11f0317396c586dcc
 Content-Type: application/json
 
-
 {
-    "name": "Road bike",
+    "categoryName": "Road bike",
     "description": "Road bike description"
 
 }
@@ -14,10 +18,10 @@ POST  http://localhost:8080/api/v1/categories
 Content-Type: application/json
 
 {
-    "id": 5,
-    "name": "Mountain",
-    "description": "Off-road and trail bicycles"
+    "categoryName": "Hybrid",
+    "description": "Versatile bikes for various terrains",
+    "slug": "hybrid"
 }
 
 ### Delete
-DELETE http://localhost:8080/api/v1/categories/4
+DELETE http://localhost:8080/api/v1/categories/65f19d7fcd2c7838ae158868
