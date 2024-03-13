@@ -2,9 +2,9 @@ import createError from 'http-errors';
 import Category from '../models/category.model';
 import { ICategory } from '../types/models';
 //Tra lai ket qua
-const getAllProduct = async ()=>{
-    const result = await Category.find();
-    return result
+const getAllProduct = ()=>{
+    console.log('service',categories);
+    return categories
 }
 
 const getCategoryById  = async (id:string)=>{
@@ -24,16 +24,47 @@ const createCategory = async (data: ICategory)=>{
 
 const updateCategory = async (id: string,data: ICategory)=>{
     //check xem id co ton tai khong
-    const category = await Category.findByIdAndUpdate(id, data, {
-        new: true,
+    const category = categories.find(c=>c.id === id)
+    if(!category){
+        throw createError(404,'Category not found')
+    }
+
+    //Tim item co id va thay doi cac gia tri
+    categories.map((c)=>{
+       if(c.id ===  id){
+            c.name = data.name;
+            c.description = data.description
+       }
+    })
+
+    //ghi file
+
+    fs.writeFile(fileName, JSON.stringify(categories), function (err) {
+        if (err) throw err;
+        console.log('Saved!');
     });
 
-    return category
+    return data
 }
 
-const deleteCategory = async (id:string)=>{
+const deleteCategory = (id:number)=>{
    
-    const category = await Category.findByIdAndDelete(id);
+    //check xem id co ton tai khong
+    const category = categories.find(c=>c.id === id)
+    if(!category){
+        throw createError(404,'Category not found')
+    }
+    console.log(id,categories);
+    
+    //Loc ra nhung item khong phai la item co ID dang xoa
+    const newCategories =  categories.filter(c=>c.id !== category?.id)
+    //Ghi file
+    fs.writeFile(fileName, JSON.stringify(newCategories), function (err) {
+        if (err) throw err;
+        console.log('Saved!');
+    });
+
+
     return category
 }
 

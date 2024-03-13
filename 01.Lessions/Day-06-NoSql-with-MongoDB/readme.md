@@ -437,8 +437,3 @@ userSchema.pre('save', async function (next) {
 
 Nếu code theo kiểu TypeScript thì xem link sau <https://mongoosejs.com/docs/typescript.html>
 
-## 💛 Fake Databse to MongoDB
-
-Tạo dữ liệu ảo nhập liệu cho MongoDB
-
-Sử dụng https://next.fakerjs.dev/

@@ -9,10 +9,11 @@ type IBrand = {id?: number, name: string, description: string}
 //Tra lai ket qua
 const getAll = ()=>{
     const data = fs.readFileSync(fileName, { encoding: 'utf-8', flag: 'r' });
+    //Trả về mảng rỗng nếu không thấy nội dung
     if(!data) {
         return []
     }
-    let brands: IBrand[] = JSON.parse(data);
+    const brands: IBrand[] = JSON.parse(data);
     console.log('service',brands);
     return brands
 }

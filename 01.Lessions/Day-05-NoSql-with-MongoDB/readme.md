@@ -36,9 +36,17 @@
 
 To be able to experiment with the code examples, you will need access to a MongoDB database.
 
-You can download a free MongoDB database at https://www.mongodb.com.
+You can download a free MongoDB database at:
 
 > <https://www.mongodb.com/try/download/community>
+
+- Chọn **Select Package**
+- Chọn Phiên bản, Chọn Plaform theo hiệu điều hành
+- Chọn **Download** để tải về
+
+Để cài cho MacOS trên Terminal: https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/
+
+---
 
 Compass Tool: Công cụ để quản lý MoogoDB bằng giao diện đồ họa
 
@@ -51,9 +59,30 @@ Extension for VS Code:
 PaaS: Get started right away with a MongoDB cloud service at https://www.mongodb.com/cloud/atlas.
 
 ---
-## 💛 Install MongoDB driver and Mongoose
 
-Sử dụng MongoDB qua thư viện Mongoose giúp thao tác dễ hơn về mặt cú pháp
+## 💛 Hướng dẫn sử dụng MongoDB Compass và MongoDB for VsCode
+
+### MongoDB Compass
+
+- Kết nối server
+- Tạo mới một Databse
+- Tạo Collection
+- Thêm mới một document (record)
+- Chỉnh sửa, xóa một document
+
+### MongoDB for VsCode
+
+- Kết nối server
+- Tạo mới một Databse
+- Tạo Collection
+- Thêm mới một document (record)
+- Chỉnh sửa, xóa một document
+
+---
+
+## 💛 Tích hợp MongoDB vào NodeJs
+
+Sử dụng MongoDB qua thư viện Mongoose (Database ORM) giúp thao tác dễ hơn về mặt cú pháp
 
 ```bash
 npm install mongoose --save
@@ -110,7 +139,7 @@ Tham khảo: <https://mongoosejs.com/docs/schematypes.html>
 
 Doc: <https://mongoosejs.com/docs/guide.html#definition>
 
-Tạo thư mục models, trong thư mục này tạo file user.model.ts
+Tạo thư mục `models`, trong thư mục này tạo file `staff.model.ts`
 
 Cú pháp
 
@@ -131,17 +160,22 @@ Sử dụng với TypeScript
 import { Schema, model } from 'mongoose';
 
 // 1. Tạo type
-interface IUser {
-  name: string;
+interface IStaff {
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   role: string;
   isEmailVerified: bolean;
 }
 //2.Tạo Schema
-const userSchema = new Schema<IUser>(
+const staffSchema = new Schema<IStaff>(
   {
-    name: {
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
         type: String,
         required: true
     },
@@ -161,9 +195,9 @@ const userSchema = new Schema<IUser>(
     }
   }
 );
-//3. Tạo Model User
-const User = model<IUser>('User', userSchema);
-export default User;
+//3. Tạo Model Staff
+const Staff = model<IStaff>('Staff', staffSchema);
+export default Staff;
 ```
 
 
@@ -290,13 +324,14 @@ Ví dụ: Một ngôi nhà có nhiều chủ, và nhiều chủ cùng sở hữu
 
 ```js
 const mongoose = require("mongoose")
-
+//Model chủ nhà
 const ownerSchema = new mongoose.Schema({
     name: String
 })
 
 const Owner = mongoose.model("Owner", ownerSchema)
 
+//Model nhà
 const houseSchema = new mongoose.Schema({
     street: String,
     city: String,
@@ -306,6 +341,7 @@ const houseSchema = new mongoose.Schema({
 
 const House = mongoose.model("House", houseSchema)
 
+//Model phụ để thể hiện quan hệ nhiều nhiều
 const houseOwnerSchema = {
     owner: {type: mongoose.Types.ObjectId, ref: "Owner"},
     house: {type: mongoose.Types.ObjectId, ref: "House"}
@@ -344,30 +380,31 @@ Doc: <https://mongoosejs.com/docs/queries.html>
 
 ### 🔶 Insert - Thêm mới
 
-Bạn sửa funtion createUser trong services\users.service.ts
+Bạn sửa funtion createStaff trong services\staffs.service.ts
 lại như sau:
 
 ```js
-const User = reuiqre('../models/user.model');
+const Staff = reuiqre('../models/staff.model');
 
-exports.createUser = async (req) => {
-  console.log('createUser');
+exports.createStaff = async (req) => {
+  console.log('createStaff');
 
   try {
     /* Lấy data từ request gửi lên */
     const payload = {
-      name: req.body.name,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       email: req.body.email,
       role: req.body.role,
       password: req.body.password,
       isEmailVerifie: req.body.isEmailVerifie,
     };
     // Lưu xuống database
-    const user = await User.create(payload);
-    // Or User.save(payload);
+    const staff = await Staff.create(payload);
+    // Or Staff.save(payload);
 
     /* Trả lại thông tin cho response */
-    return user;
+    return staff;
   } catch (err) {
     throw createError(500, err.message);
   }
@@ -378,31 +415,31 @@ exports.createUser = async (req) => {
 
 #### Select All
 
-Lấy tất cả Users
+Lấy tất cả Staffs
 
 ```js
-exports.getAllUsers = async () => {
-  const users = User.find();
-  return users;
+exports.getAllStaffs = async () => {
+  const staffs = Staff.find();
+  return staffs;
 };
 ```
 
 #### Select by ID
 
-Lấy thông tin một User theo ID
+Lấy thông tin một Staff theo ID
 
 ```js
-exports.getUserById = async (req) => {
+exports.getStaffById = async (req) => {
   try {
     const { id } = req.params;
 
-    const user = User.findById(id);
+    const staff = Staff.findById(id);
 
-    if (!user) {
-      throw createError(404, 'User not found');
+    if (!staff) {
+      throw createError(404, 'Staff not found');
     }
 
-    return user;
+    return staff;
   } catch (err) {
     throw createError(500, err.message);
   }
@@ -414,11 +451,11 @@ exports.getUserById = async (req) => {
 Lấy thông tin có điều kiện
 
 ```js
-exports.getAllUsers = async () => {
-  const users = User.find({
-    role: 'user',
+exports.getAllStaffs = async () => {
+  const staffs = Staff.find({
+    role: 'staff',
   });
-  return users;
+  return staffs;
 };
 ```
 
@@ -427,16 +464,16 @@ exports.getAllUsers = async () => {
 ### 🔶 Update
 
 ```js
-// Update a user by ID
-exports.updateUserById = async (req) => {
+// Update a staff by ID
+exports.updateStaffById = async (req) => {
   try {
     const { id } = req.params;
 
-    const user = User.findByIdAndUpdate(id, req.body, {
+    const staff = Staff.findByIdAndUpdate(id, req.body, {
       new: true,
     });
 
-    return user;
+    return staff;
   } catch (err) {
     throw createError(500, err.message);
   }
@@ -446,15 +483,15 @@ exports.updateUserById = async (req) => {
 ### 🔶 Delete
 
 ```js
-exports.deleteUserById = async (req) => {
-  console.log('deleteUserById');
+exports.deleteStaffById = async (req) => {
+  console.log('deleteStaffById');
 
   try {
     const { id } = req.params;
 
-    const user = User.findByIdAndDelete(id);
+    const staff = Staff.findByIdAndDelete(id);
 
-    return user;
+    return staff;
   } catch (err) {
     throw createError(500, err.message);
   }
@@ -467,12 +504,19 @@ Doc: <https://mongoosejs.com/docs/validation.html#built-in-validators>
 
 Trước khi dữ liệu được ghi vào Database, Mongosee cho phép chúng ta validate một lần nữa.
 
-Thực hiện ngay khi tạo Schema. Chúng ta sửa userShema lại có validation như sau:
+Thực hiện ngay khi tạo Schema. Chúng ta sửa staffShema lại có validation như sau:
 
 ```js
-const userSchema = new Schema(
+const staffSchema = new Schema(
   {
-    name: {
+    firstName: {
+      type: String,
+      required: true,
+      trim: true,
+      min: [6, 'Too few eggs'],
+      max: [12, 'Only allow Max 12 characters'],
+    },
+    lastName: {
       type: String,
       required: true,
       trim: true,
@@ -494,8 +538,8 @@ const userSchema = new Schema(
     role: {
       type: String,
       required: true,
-      enum: ['admin', 'booking', 'user'],
-      default: 'user',
+      enum: ['admin', 'customer', 'staff'],
+      default: 'staff',
     },
     isEmailVerified: {
       type: Boolean,
@@ -503,7 +547,9 @@ const userSchema = new Schema(
       default: true,
     },
   },
-  { timestamps: true }
+  { 
+    timestamps: true 
+  }
 );
 ```
 
@@ -515,7 +561,7 @@ Ví dụ: Check số điện thoại đúng định dạng yêu cầu không
 
 ```js
 
-const userSchema = new Schema({
+const staffSchema = new Schema({
   phone: {
     type: String,
     validate: {
@@ -524,8 +570,18 @@ const userSchema = new Schema({
       },
       message: (props) => `${props.value} is not a valid phone number!`,
     },
-    required: [true, 'User phone number required'],
+    required: [true, 'Staff phone number required'],
   },
 });
 ```
 
+## 💛 Fake Databse to MongoDB
+
+Tạo dữ liệu ảo nhập liệu cho MongoDB
+
+Sử dụng https://next.fakerjs.dev/
+
+
+## 💛 Homeworks Guide
+
+Hướng dẫn làm bài tập về nhà
