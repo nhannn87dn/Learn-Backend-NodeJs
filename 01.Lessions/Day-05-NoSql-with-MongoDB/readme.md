@@ -91,6 +91,8 @@ yarn add mongoose --save
 ---
 ## 💛 Kết nối với Database
 
+Chi tiết xem: https://mongoosejs.com/docs/connections.html
+
 Đưa đoạn code này vào server.ts
 
 ```js
@@ -137,7 +139,7 @@ Tham khảo: <https://mongoosejs.com/docs/schematypes.html>
 ---
 ## 💛Tạo một Model Schema với Mongoose
 
-Doc: <https://mongoosejs.com/docs/guide.html#definition>
+Doc: <https://mongoosejs.com/docs/models.html>
 
 Tạo thư mục `models`, trong thư mục này tạo file `staff.model.ts`
 
@@ -373,6 +375,14 @@ HoseOwner.find({house: mapleStreet}).populate("owner")
 
 \> Tham khảo bài viết: https://dev.to/alexmercedcoder/mongodb-relationships-using-mongoose-in-nodejs-54cc
 
+## 💛 SubDocument
+
+Khi mà một Schema lồng trong một Schema khác thì gọi nó là kiểu `SubDocument`.
+
+Thường được dùng trong 3 loại quan hệ trên.
+
+Xem chi tiết: https://mongoosejs.com/docs/subdocs.html
+
 ## 💛 Mongoose Basic Queries
 
 Danh sách các phương thức truy vấn xem ở link sau
@@ -500,7 +510,7 @@ exports.deleteStaffById = async (req) => {
 
 ## 💛 Mongoose Built-in Validators
 
-Doc: <https://mongoosejs.com/docs/validation.html#built-in-validators>
+Doc: <https://mongoosejs.com/docs/validation.html>
 
 Trước khi dữ liệu được ghi vào Database, Mongosee cho phép chúng ta validate một lần nữa.
 
