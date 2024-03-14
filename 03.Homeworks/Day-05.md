@@ -8,3 +8,5 @@ Tạo các `model` theo cấu trúc Database [BikeStore](Database-Structure/read
 - Model Customer
 - Model Staff
 - Model Order
+
+Sau đó nhập liệu để có dữ liệu truy vấn

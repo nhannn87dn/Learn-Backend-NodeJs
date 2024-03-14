@@ -107,7 +107,7 @@ const mongooseDbOptions = {
   useUnifiedTopology: true,
 };
 mongoose
-  .connect('mongodb://127.0.0.1:27017/myapp', mongooseDbOptions)
+  .connect('mongodb://127.0.0.1:27017/yourDatabaseName', mongooseDbOptions)
   .then(() => {
     console.log('Connected to MongoDB');
     //should listen app here
@@ -117,12 +117,12 @@ mongoose
   });
 ```
 
+
 Tips: Bạn có thể đưa đoạn code khởi tạo server của Express vào chổ `//should listen app here` để đảm bảo rằng. Phải kết nối server Mongoo thành công thì mới khởi tạo server NodeJs.
 
 ---
 ## 💛 Mongoose SchemaTypes
 
-Tham khảo: <https://mongoosejs.com/docs/schematypes.html>
 
 - String
 - Number
@@ -136,6 +136,10 @@ Tham khảo: <https://mongoosejs.com/docs/schematypes.html>
 - Map
 - Schema
 
+
+Chi tiết cách sử dụng các kiểu dữ liệu: <https://mongoosejs.com/docs/schematypes.html>
+
+
 ---
 ## 💛Tạo một Model Schema với Mongoose
 
@@ -146,58 +150,64 @@ Tạo thư mục `models`, trong thư mục này tạo file `staff.model.ts`
 Cú pháp
 
 ```js
-new Schema({..}, options);
+import { Schema, model } from 'mongoose';
 
+const schemaName new Schema({..}, options);
 // or
-const schema = new Schema({..});
+const schemaName = new Schema({..});
 schema.set(option, value);
 
+const ModelName = model('ModelName', schemaName);
+export default ModelName;
 ```
 
-Xem các options ở link sau: <https://mongoosejs.com/docs/guide.html#options>
+Xem các options ở link sau: <https://mongoosejs.com/docs/api/schema.html#options>
+
+Ví dụ: Tạo `Model Staff`
+
+```ts
+import { Schema, model } from 'mongoose';
+
+const staffSchema new Schema({
+  firstName: {
+    type: String
+  },
+  lastName: {
+    type: String
+  },
+  //Các trường khác
+}, 
+{
+  timestamps: true, //Tạo tự động thêm 2 trường createAt, updateAt
+});
+
+const Staff = model('Staff', staffSchema);
+export default Staff;
+```
 
 Sử dụng với TypeScript
 
 ```ts
 import { Schema, model } from 'mongoose';
 
-// 1. Tạo type
-interface IStaff {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  role: string;
-  isEmailVerified: bolean;
+interface IStaff{
+  firstName: string
+  lastName?: string
 }
-//2.Tạo Schema
-const staffSchema = new Schema<IStaff>(
-  {
-    firstName: {
-        type: String,
-        required: true
-    },
-    lastName: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    role: {
-        type: String,
-    },
-    isEmailVerified: {
-        type: Boolean
-    }
-  }
-);
-//3. Tạo Model Staff
+
+const staffSchema new Schema({
+  firstName: {
+    type: String
+  },
+  lastName: {
+    type: String
+  },
+  //Các trường khác
+}, 
+{
+  timestamps: true,
+});
+
 const Staff = model<IStaff>('Staff', staffSchema);
 export default Staff;
 ```
@@ -251,7 +261,7 @@ Kiểu quan hệ một một (one-to-one relationship) là một kiểu quan h�
 Ví dụ, trong một cơ sở dữ liệu quản lý nhân viên, mỗi nhân viên chỉ có một tài khoản lương duy nhất và mỗi tài khoản lương chỉ thuộc về một nhân viên duy nhất. Đây là một mối quan hệ một-một giữa bảng "Employees" và bảng "SalaryAccounts".
 
 ```js
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const SalaryAccountSchema = new Schema({
@@ -272,7 +282,7 @@ const Employee = mongoose.model('Employee', EmployeeSchema);
 Ví dụ QL Sinh viên: Mỗi sinh viên chỉ có một hồ sơ sinh viên duy nhất và mỗi hồ sơ sinh viên chỉ thuộc về một sinh viên duy nhất. Đây là một mối quan hệ một-một giữa bảng "Students" và bảng "StudentProfiles".
 
 ```js
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const StudentProfileSchema = new Schema({
@@ -298,7 +308,7 @@ Kiểu quan hệ một nhiều (one-to-many relationship) là một kiểu quan 
 Ví dụ, trong một cơ sở dữ liệu quản lý khách sạn, một khách sạn có thể có nhiều phòng, nhưng mỗi phòng chỉ thuộc về một khách sạn duy nhất. Đây là một mối quan hệ một nhiều giữa bảng "Hotels" và bảng "Rooms".
 
 ```js
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const RoomSchema = new Schema({
@@ -325,7 +335,7 @@ Ví dụ: Một ngôi nhà có nhiều chủ, và nhiều chủ cùng sở hữu
 
 
 ```js
-const mongoose = require("mongoose")
+import mongoose from 'mongoose';
 //Model chủ nhà
 const ownerSchema = new mongoose.Schema({
     name: String
@@ -394,9 +404,9 @@ Bạn sửa funtion createStaff trong services\staffs.service.ts
 lại như sau:
 
 ```js
-const Staff = reuiqre('../models/staff.model');
+import Staff  from '../models/staff.model';
 
-exports.createStaff = async (req) => {
+export createStaff = async (req) => {
   console.log('createStaff');
 
   try {
@@ -428,7 +438,7 @@ exports.createStaff = async (req) => {
 Lấy tất cả Staffs
 
 ```js
-exports.getAllStaffs = async () => {
+export getAllStaffs = async () => {
   const staffs = Staff.find();
   return staffs;
 };
@@ -439,7 +449,7 @@ exports.getAllStaffs = async () => {
 Lấy thông tin một Staff theo ID
 
 ```js
-exports.getStaffById = async (req) => {
+export getStaffById = async (req) => {
   try {
     const { id } = req.params;
 
@@ -461,7 +471,7 @@ exports.getStaffById = async (req) => {
 Lấy thông tin có điều kiện
 
 ```js
-exports.getAllStaffs = async () => {
+export getAllStaffs = async () => {
   const staffs = Staff.find({
     role: 'staff',
   });
@@ -475,7 +485,7 @@ exports.getAllStaffs = async () => {
 
 ```js
 // Update a staff by ID
-exports.updateStaffById = async (req) => {
+export updateStaffById = async (req) => {
   try {
     const { id } = req.params;
 
@@ -493,7 +503,7 @@ exports.updateStaffById = async (req) => {
 ### 🔶 Delete
 
 ```js
-exports.deleteStaffById = async (req) => {
+export deleteStaffById = async (req) => {
   console.log('deleteStaffById');
 
   try {

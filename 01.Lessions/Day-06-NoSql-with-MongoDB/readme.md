@@ -70,25 +70,6 @@ Doc: https://www.mongodb.com/docs/manual/reference/operator/query-array/
 
 ---
 
-## 💛 Sorting - Sắp xếp
-
-Sắp xếp kết quả trả về theo một thuộc tính nào đó với trật từ tăng dần hoặc giảm dần
-
-```js
-const personSchema = new mongoose.Schema({
-  age: Number,
-});
-
-const Person = mongoose.model('Person', personSchema);
-for (let i = 0; i < 10; i++) {
-  await Person.create({ age: i });
-}
-
-await Person.find().sort({ age: -1 }); // returns age starting from 10 as the first entry
-await Person.find().sort({ age: 1 }); // returns age starting from 0 as the first entry
-```
-
----
 
 ## 💛 Find
 
@@ -118,6 +99,27 @@ await MyModel.find({ name: /john/i }, null, { skip: 10 }).exec();
 
 Xem thêm về select: <https://mongoosejs.com/docs/api/query.html#Query.prototype.select()>
 
+---
+
+## 💛 Sorting - Sắp xếp
+
+Sắp xếp kết quả trả về theo một thuộc tính nào đó với trật từ tăng dần hoặc giảm dần
+
+```js
+const personSchema = new mongoose.Schema({
+  age: Number,
+});
+
+const Person = mongoose.model('Person', personSchema);
+for (let i = 0; i < 10; i++) {
+  await Person.create({ age: i });
+}
+
+await Person.find().sort({ age: -1 }); // returns age starting from 10 as the first entry
+await Person.find().sort({ age: 1 }); // returns age starting from 0 as the first entry
+```
+
+---
 
 ## 💛 GROUP BY và Aggregation 
 
