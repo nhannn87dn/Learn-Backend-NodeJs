@@ -7,6 +7,7 @@
     "build": "npx tsc -p",
     "start": "node server.ts",
     "seed": "ts-node-dev src/seeds/db.ts",
+    "demo": "ts-node-dev src/seeds/test.ts",
     "dev": "ts-node-dev --respawn --transpile-only server.ts"
   },
   "dependencies": {
@@ -14,6 +15,7 @@
     "express": "^4.18.3",
     "http-errors": "^2.0.0",
     "mongoose": "^8.2.1",
+    "mongoose-lean-virtuals": "^0.9.1",
     "slugify": "^1.6.6"
   },
   "devDependencies": {

@@ -31,6 +31,12 @@ export enum  EnumRole {
     User = 'user'
 }
 
+export enum  EnumBoolean {
+    Yes = 'true',
+    No = 'false',
+}
+
+
 
 export interface ICategory extends BaseProperties {
     categoryName: string,

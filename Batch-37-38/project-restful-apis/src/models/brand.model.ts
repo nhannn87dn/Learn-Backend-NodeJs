@@ -9,18 +9,20 @@ const brandSchema = new Schema(
         unique: [true, 'Brand Name khong the trung lap'],
         minLength: [2, 'Toi thieu phai du 5 ki tu'],
         maxLength : [50, 'Toi da cho phep 50 ki tu'],
+        //trim: true, // ' brand ' ==> 'brand'
       },
       description: {
         type: String,
         required: false,
-        max: 500
+        maxLength: 500
       },
+      //iphone-15
       slug: {
         type: String,
         required: true,
         lowercase: true,
         unique: true,
-        max: 255,
+        maxLength: 255,
         validate: {
             validator: function (value: string) {
                 const slugRegex = /^[a-z0-9\-]+$/;

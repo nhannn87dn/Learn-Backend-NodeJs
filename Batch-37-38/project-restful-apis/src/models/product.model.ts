@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { IProduct } from '../types/models';
+import mongooseLeanVirtuals from 'mongoose-lean-virtuals';
+import buildSlug from '../helpers/slugHelper'
 
 const productSchema = new Schema(
     {
@@ -53,7 +55,7 @@ const productSchema = new Schema(
       },
       slug: {
         type: String,
-        required: true,
+        required: false,
         lowercase: true,
         unique: true,
         max: 255,
@@ -107,6 +109,42 @@ const productSchema = new Schema(
         //updated_at
     }
 );
+
+/* Khai báo khóa ngoại với Category Model */
+productSchema.virtual('brand', {
+  ref: 'Brand',
+  localField: 'brandId',
+  foreignField: '_id',
+  justOne: true,
+});
+
+productSchema.set('toJSON', { virtuals: true });
+// Virtuals in console.log()
+productSchema.set('toObject', { virtuals: true });
+//dùng cái này cho hiệu suất join nhanh hơn
+//khi dùng thằng này
+//.lean({virtuals: true})
+productSchema.plugin(mongooseLeanVirtuals);
+
+productSchema.virtual('url').get(function () {
+  return '/products/' + this._id;
+});
+
+productSchema.query.byName = function (name: string) {
+  return this.where({ productName: new RegExp(name, 'i') });
+};
+//Middleware
+productSchema.pre("save", async function (next) {
+  /**
+   * Tự động tạo slug khi slug ko được truyền
+   * hoặc slug = ''
+   */
+  if(this.slug == "" || !this.slug){
+      this.slug = buildSlug(this.productName);
+  }
+  next();
+});
+
 
 const Product = model<IProduct>('Product', productSchema);
 export default Product;

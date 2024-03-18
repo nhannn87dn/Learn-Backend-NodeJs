@@ -2,17 +2,22 @@ import {Request,Response, NextFunction} from 'express'
 import brandsService from '../services/brands.service';
 
 
-const getAll = (req: Request, res: Response)=>{
-    const result = brandsService.getAll();
-    console.log('result',result);
-    res.status(200).json(result)
+const getAll = async (req: Request, res: Response, next: NextFunction)=>{
+    try{
+        const result = await brandsService.getAll();
+        console.log('result',result);
+        res.status(200).json(result)
+    }
+    catch(err){
+        next(err)
+    }
 }
 
-const getBrandById = (req: Request, res: Response, next: NextFunction)=>{
+const getBrandById = async (req: Request, res: Response, next: NextFunction)=>{
     try {
         const {id} = req.params; //return id = string
 
-        const brand = brandsService.getBrandById(parseInt(id))
+        const brand = await brandsService.getBrandById(id)
 
         res.status(200).json(brand)
     }
@@ -21,34 +26,44 @@ const getBrandById = (req: Request, res: Response, next: NextFunction)=>{
     }
 }
 
-const createBrand = (req: Request, res: Response) => {
-    const data = req.body;
+const createBrand = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const data = req.body;
 
-    const brand= brandsService.createBrand(data)
+        const brand=  await brandsService.createBrand(data)
 
-    res.status(201).json({
-        message: `Create Brand`,
-        brand: brand
-    })
+        res.status(201).json({
+            message: `Create Brand`,
+            brand: brand
+        })
+    }
+    catch(err){
+        next(err)
+    }
 }
 
-const updateBrand = (req: Request, res: Response)=>{
-    const {id} = req.params;
-    const data = req.body;
-
-    
-    const brand = brandsService.updateBrand(parseInt(id),data)
-
-    res.status(200).json({
-        message: `Update Brand by ID ${id}`,
-        brand: brand
-    })
-}
-
-const deleteBrand = (req: Request, res: Response,next: NextFunction)=>{
+const updateBrand = async (req: Request, res: Response, next: NextFunction)=>{
     try {
         const {id} = req.params;
-        const brand = brandsService.deleteBrand(parseInt(id))
+        const data = req.body;
+
+        
+        const brand = await brandsService.updateBrand(id,data)
+
+        res.status(200).json({
+            message: `Update Brand by ID ${id}`,
+            brand: brand
+        })
+    }
+    catch(err){
+        next(err)
+    }
+}
+
+const deleteBrand = async (req: Request, res: Response,next: NextFunction)=>{
+    try {
+        const {id} = req.params;
+        const brand = await brandsService.deleteBrand(id)
         res.status(200).json({
             message: `Delete Brand by ID ${id}`,
             brand: brand

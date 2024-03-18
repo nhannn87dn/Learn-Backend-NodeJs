@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { IStaff, EnumRole } from '../types/models';
+import { IStaff, EnumRole, EnumBoolean } from '../types/models';
 
 const staffSchema = new Schema<IStaff>(
     {
@@ -65,7 +65,7 @@ const staffSchema = new Schema<IStaff>(
       },
       isEmailVerified: {
         type: Boolean,
-        enum: ['true', 'false'],
+        enum: [EnumBoolean.Yes, EnumBoolean.No],
         default: true,
       },
       sort: {
@@ -80,9 +80,16 @@ const staffSchema = new Schema<IStaff>(
       }
     },
     { 
-      timestamps: true 
+      timestamps: true,
+      toJSON: { virtuals: true }, // <-- include virtuals in `JSON.stringify()`
+      toObject: { virtuals: true },
     }
 );
+
+
+staffSchema.virtual('fullName').get(function () {
+  return this.firstName + ' ' + this.lastName;
+});
 
 const Staff = model<IStaff>('Staff', staffSchema);
 export default Staff;

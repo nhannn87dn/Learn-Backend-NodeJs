@@ -7,6 +7,7 @@ const app: Express = express();
 import routeCategories from './routes/v1/categories.route';
 import routeBrands from './routes/v2/brands.route'
 import routeProduct from './routes/v1/products.route'
+import routeDemo from './routes/v1/demo.route'
 
 //Để bắt được kiểu JSON từ client gửi lên
 app.use(express.json());
@@ -22,7 +23,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api/v1/categories', routeCategories);
 app.use('/api/v1/brands', routeBrands);
 app.use('/api/v1/products', routeProduct);
-
+app.use('/api/v1/demo', routeDemo);
 
 
 // catch 404 and forward to error handler

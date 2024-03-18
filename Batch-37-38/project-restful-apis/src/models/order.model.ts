@@ -36,7 +36,7 @@ const OrderDetailsSchema = new Schema<TOrderItems>(
       required: true,
       default: 0,
       min: 0,
-      max: 90,
+      max: 70,
     },
   }
 );

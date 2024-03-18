@@ -9,8 +9,16 @@ Content-Type: application/json
 {
     "productName": "Road Bike",
     "description": "Road bike for paved roads",
-    "slug": "road-bike",
     "price": 500,
     "modelYear": "2020",
-    "category": "65f19895d962404e14fea487"
+    "category": "65f2be7b1d80b8bd5e195c39",
+    "brandId": "65f2be7b1d80b8bd5e195c3f"
+}
+
+###
+PUT http://localhost:8080/api/v1/products/65f2be7b1d80b8bd5e195c5a
+Content-Type: application/json
+
+{
+    "price": 500
 }
