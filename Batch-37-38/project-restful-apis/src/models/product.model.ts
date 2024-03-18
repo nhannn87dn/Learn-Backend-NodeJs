@@ -10,9 +10,18 @@ const productSchema = new Schema(
         minLength: [5, 'Toi thieu phai du 5 ki tu'],
         maxLength : [255, 'Toi da cho phep 255 ki tu'],
       },
+      /**
+       * QUAN HỆ ONE-ONE
+       * 1 SP thuộc 1 Danh mục
+       */
       category: {
         type: Schema.Types.ObjectId, //_id
         ref: 'Category',
+        required: true
+      },
+      brandId: {
+        type: Schema.Types.ObjectId, //_id
+        ref: 'Brand',
         required: true
       },
       price: {
@@ -64,6 +73,31 @@ const productSchema = new Schema(
       isActive: {
         type: Boolean,
         default: true,
+        enum: ['true', 'false']
+      },
+      isDelete: {
+        type: Boolean,
+        default: false,
+        enum: ['true', 'false']
+      },
+      isBest: {
+        type: Boolean,
+        default: false,
+        enum: ['true', 'false']
+      },
+      isNew: {
+        type: Boolean,
+        default: false,
+        enum: ['true', 'false']
+      },
+      isHot: {
+        type: Boolean,
+        default: false,
+        enum: ['true', 'false']
+      },
+      isHome: {
+        type: Boolean,
+        default: false,
         enum: ['true', 'false']
       }
     },

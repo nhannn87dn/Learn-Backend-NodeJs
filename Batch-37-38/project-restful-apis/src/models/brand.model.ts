@@ -1,13 +1,13 @@
 import { Schema, model } from 'mongoose';
-import { ICategory } from '../types/models';
+import { IBrand } from '../types/models';
 
-const categorySchema = new Schema(
+const brandSchema = new Schema(
     {
-      categoryName: {
+      brandName: {
         type: String,
-        required: [true, 'Yeu cau dien Category Name'],
-        unique: [true, 'Category Name khong the trung lap'],
-        minLength: [3, 'Toi thieu phai du 3 ki tu'],
+        required: [true, 'Yeu cau dien Brand Name'],
+        unique: [true, 'Brand Name khong the trung lap'],
+        minLength: [2, 'Toi thieu phai du 5 ki tu'],
         maxLength : [50, 'Toi da cho phep 50 ki tu'],
       },
       description: {
@@ -47,6 +47,6 @@ const categorySchema = new Schema(
     }
 );
 
-const Category = model<ICategory>('Category', categorySchema);
-export default Category;
+const Brand = model<IBrand>('Brand', brandSchema);
+export default Brand;
 

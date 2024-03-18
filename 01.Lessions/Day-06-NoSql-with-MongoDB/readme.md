@@ -1,5 +1,16 @@
 # Mongoose-CRUD-Operations
 
+## 💛 Hoàn thiện các Models Homeworks
+
+Hướng dẫn code các Models
+
+
+## 💛 Fake Database to MongoDB
+
+Tạo dữ liệu Fake  ==> Để có dữ liệu truy vấn.
+
+Sử dụng https://fakerjs.dev
+
 ## 💛 Queries
 
 Doc MongoDB CRUD: <https://www.mongodb.com/docs/manual/crud/>

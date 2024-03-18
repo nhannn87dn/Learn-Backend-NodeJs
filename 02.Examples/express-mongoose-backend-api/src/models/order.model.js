@@ -5,7 +5,7 @@ const actionLogsSchema = new Schema({
   action: {
     type: String,
     required: true,
-    default: 'note'
+    default: 'note',
   },
   note: {
     type: String,
@@ -18,33 +18,30 @@ const actionLogsSchema = new Schema({
   },
 });
 
-const OrderDetailsSchema = new mongoose.Schema(
-  {
-    product: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
-      required: true,
-    },
-    quantity: {
-      type: Number,
-      required: true,
-      min: 1,
-    },
-    price: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
-    discount: {
-      type: Number,
-      required: false,
-      default: 0,
-      min: 0,
-      max: 100,
-    },
-  }
-);
-
+const OrderDetailsSchema = new mongoose.Schema({
+  product: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+    min: 1,
+  },
+  price: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
+  discount: {
+    type: Number,
+    required: false,
+    default: 0,
+    min: 0,
+    max: 100,
+  },
+});
 
 const orderSchema = new mongoose.Schema({
   code: {
@@ -54,7 +51,7 @@ const orderSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
     required: true,
   },
   products: [OrderDetailsSchema],
@@ -109,28 +106,28 @@ const orderSchema = new mongoose.Schema({
   paymentMethod: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'PaymentMethod',
-    required: true
+    required: true,
   },
   shippingMethod: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ShippingMethod',
-    required: true
+    required: true,
   },
   status: {
     type: String,
     enum: [
-      "pending", //Mới đặt hàng
-      "confirmed", //Đã xác nhận đơn hàng
-      "canceled", //Hủy đơn hàng
-      "prepareShipping", //chuẩn bị giao hàng
-      "shipping", //đang giao hàng
-      "cancelShipping", //hủy giao hàng
-      "shipped", //đã giao hàng
-      "paid", //đã thanh toán
-      "refund", //hoàn tiền
-      "finished", //hoàn thành
+      'pending', //Mới đặt hàng
+      'confirmed', //Đã xác nhận đơn hàng
+      'canceled', //Hủy đơn hàng
+      'prepareShipping', //chuẩn bị giao hàng
+      'shipping', //đang giao hàng
+      'cancelShipping', //hủy giao hàng
+      'shipped', //đã giao hàng
+      'paid', //đã thanh toán
+      'refund', //hoàn tiền
+      'finished', //hoàn thành
     ],
-    default: "pending",
+    default: 'pending',
   },
   actionsLog: {
     type: [actionLogsSchema],
@@ -144,11 +141,11 @@ const orderSchema = new mongoose.Schema({
   createdDate: {
     type: Date,
     default: Date.now,
-    required: true
-  }
+    required: true,
+  },
 });
 
-orderSchema.pre("save", function (next) {
+orderSchema.pre('save', function (next) {
   const order = this;
   let total = 0;
 
@@ -163,6 +160,6 @@ orderSchema.pre("save", function (next) {
   next();
 });
 
-const Order = mongoose.model("Order", orderSchema);
+const Order = mongoose.model('Order', orderSchema);
 
-module.exports = Order
+module.exports = Order;

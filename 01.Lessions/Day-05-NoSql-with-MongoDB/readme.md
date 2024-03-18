@@ -595,7 +595,7 @@ const staffSchema = new Schema({
 });
 ```
 
-## 💛 Fake Databse to MongoDB
+## 💛 Fake Database to MongoDB
 
 Tạo dữ liệu ảo nhập liệu cho MongoDB
 
