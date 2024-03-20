@@ -4,7 +4,7 @@ import categoriesService from '../services/categories.service';
 
 const getAllProduct = async (req: Request, res: Response, next: NextFunction)=>{
     try{
-        const result = await categoriesService.getAllProduct();
+        const result = await categoriesService.getAll();
         console.log('result',result);
         res.status(200).json(result)
     }

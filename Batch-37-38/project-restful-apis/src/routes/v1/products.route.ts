@@ -1,17 +1,18 @@
 import express from "express";
 import productsController from "../../controllers/products.controller";
-
+import validateSchema from "../../middlewares/validateSchema.middleware";
+import productsValidation from "../../validations/products.validation";
 const router   = express.Router();
 
 //Dinh nghia cac routes cho resource Products
 
 //Get All
 //http://localhost:8080/api/v1/products
-router.get('', productsController.getAll)
+router.get('', validateSchema(productsValidation.getAll), productsController.getAll)
 
 //Get By ID
 //http://localhost:8080/api/v1/products/:id
-router.get('/:id', productsController.getProductById)
+router.get('/:id', validateSchema(productsValidation.getProductById), productsController.getProductById)
 
 
 //Create product 

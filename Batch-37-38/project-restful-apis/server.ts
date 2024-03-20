@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
-import app from './src/app'
-import dotenv from 'dotenv';
+import app from './src/app';
+import globalConfig from './src/constants/config'
+// import dotenv from 'dotenv';
+// dotenv.config();
 
-dotenv.config();
-
-const PORT = process.env.PORT || 9000;
+const PORT = globalConfig.PORT || 9000;
 
 /// Start the server
 const mongooseDbOptions = {
@@ -18,7 +18,7 @@ const mongooseDbOptions = {
   };
 
 mongoose
-.connect('mongodb://127.0.0.1:27017/Batch3738', mongooseDbOptions)
+.connect(globalConfig.MOBGODB_CONNECTION_STRING as string, mongooseDbOptions)
 .then(() => {
     console.log('⚡️[MongoDB]: Connected to MongoDB');
     //should listen app here

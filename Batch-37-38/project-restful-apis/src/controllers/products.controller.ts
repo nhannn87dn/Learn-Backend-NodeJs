@@ -1,12 +1,13 @@
 import {Request,Response, NextFunction} from 'express'
 import productsService from '../services/products.service';
-
+import { sendJsonSuccess } from '../helpers/responseHandler';
 
 const getAll = async (req: Request, res: Response, next: NextFunction)=>{
     try{
-        const result = await productsService.getAll();
-        console.log('result',result);
-        res.status(200).json(result)
+        const result = await productsService.getAll(req.query);
+        //console.log('result',result);
+        //res.status(200).json(result)
+        sendJsonSuccess(res)(result)
     }
     catch(err){
         next(err)
@@ -19,7 +20,8 @@ const getProductById = async (req: Request, res: Response, next: NextFunction)=>
 
         const product = await productsService.getProductById(id)
 
-        res.status(200).json(product)
+        //res.status(200).json(product)
+        sendJsonSuccess(res)(product)
     }
     catch(err){
         next(err)

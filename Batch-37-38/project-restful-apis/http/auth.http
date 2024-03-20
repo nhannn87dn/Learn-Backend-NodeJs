@@ -1,0 +1,50 @@
+
+### login Admin
+
+POST  http://localhost:8080/api/v1/auth
+Content-Type: application/json
+
+{
+    "email": "admin@gmail.com",
+    "password": "Admin@123456"
+}
+
+
+### login User
+
+POST  http://localhost:8080/api/v1/auth
+Content-Type: application/json
+
+{
+    "email": "user@gmail.com",
+    "password": "User@123456"
+}
+
+### Lay thong tin Staff
+GET  http://localhost:8080/api/v1/staffs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWYyYmU3YTFkODBiOGJkNWUxOTVjMmMiLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTcxMDk0MDU4MywiZXhwIjoxNzExNTQ1MzgzfQ.nPCPHIPwaKnkpCGtuV5_6DXCa5UK7Na_XOg4_fEyxck
+
+
+### Delete
+DELETE http://localhost:8080/api/v1/brands/4
+
+###
+
+POST  http://localhost:8080/api/v1/staffs
+Content-Type: application/json
+
+{
+    "firstName": "user2",
+    "lastName": "user2",
+    "email": "user2@gmail.com",
+    "password": "User@123456"
+}
+
+### Delete User
+DELETE http://localhost:8080/api/v1/staffs/65fae6de5404a270c8bf10e0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWZhZTRjOWI5ZjNmMTExNWEzNTNlODkiLCJlbWFpbCI6InVzZXJAZ21haWwuY29tIiwiaWF0IjoxNzEwOTQxNDc3LCJleHAiOjE3MTE1NDYyNzd9.4lyIuiFJSVo8IEjnVBXTUv6aQk021TdIcJ5pFpE3fZ0
+
+
+### Delete Admin
+DELETE http://localhost:8080/api/v1/staffs/65fae6de5404a270c8bf10e0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWYyYmU3YTFkODBiOGJkNWUxOTVjMmMiLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTcxMDk0MDU4MywiZXhwIjoxNzExNTQ1MzgzfQ.nPCPHIPwaKnkpCGtuV5_6DXCa5UK7Na_XOg4_fEyxck

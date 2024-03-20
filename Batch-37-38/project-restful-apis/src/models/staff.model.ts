@@ -34,7 +34,7 @@ const staffSchema = new Schema<IStaff>(
         type: String,
         required: false,
         trim: true,
-        unique: true,
+        unique: false,
         lowercase: true,
         validate: {
           validator: function (value: string) {
@@ -90,6 +90,11 @@ const staffSchema = new Schema<IStaff>(
 staffSchema.virtual('fullName').get(function () {
   return this.firstName + ' ' + this.lastName;
 });
+
+staffSchema.methods.comparePassword = function (candidatePassword: string) {
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
 
 const Staff = model<IStaff>('Staff', staffSchema);
 export default Staff;

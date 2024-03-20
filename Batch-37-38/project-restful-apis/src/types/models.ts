@@ -51,6 +51,7 @@ export interface IBrand extends BaseProperties {
 }
 
 export interface IStaff extends BaseProperties{
+    _id?: string,
     firstName: string,
     lastName: string,
     email: string,
