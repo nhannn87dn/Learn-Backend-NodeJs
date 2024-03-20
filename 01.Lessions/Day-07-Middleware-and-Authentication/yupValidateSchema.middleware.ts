@@ -1,0 +1,25 @@
+import * as yup from 'yup';
+import _ from 'lodash';
+import { NextFunction, Request, Response } from 'express';
+import { sendJsonErrors } from '../helpers/responseHandler';
+
+const validateSchema = (schema: object) => async (req: Request, res: Response, next: NextFunction) => {
+  const pickSchema = _.pick(schema, ['params', 'body', 'query']);
+  const object = _.pick(req, Object.keys(pickSchema));
+  try {
+    const value = await yup.object(pickSchema).validate(object, { abortEarly: false });
+    Object.assign(req, value);
+    return next();
+  } catch (error) {
+    const errorMessage = error.inner
+      .map((detail: any) => detail.message)
+      .join(', ');
+    return sendJsonErrors(res, {
+      status: 400,
+      message: errorMessage,
+      typeError: 'validateSchema'
+    });
+  }
+};
+
+export default validateSchema;

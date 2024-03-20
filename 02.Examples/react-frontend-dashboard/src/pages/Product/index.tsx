@@ -313,6 +313,7 @@ const Product = () => {
     {/* ====================== EDIT MODAL ================================ */}
      <Modal 
      title="Edit Product" 
+     width='80%'
      open={editFormVisible} 
      onOk={()=>{
         console.log('update submit');
@@ -321,7 +322,7 @@ const Product = () => {
      onCancel={()=>{
         setEditFormVisible(false);
      }}>
-        <Form form={updateForm} name='update-form' labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} 
+        <Form form={updateForm} name='update-form' labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} 
         onFinish={onUpdateFinish} 
         onFinishFailed={onUpdateFinishFailed}
         autoComplete='on'
@@ -378,7 +379,8 @@ const Product = () => {
       </Modal>
       {/* ====================== CREATE MODAL ================================ */}
      <Modal 
-     title="Create new a Product" 
+     title="Create new a Product"
+     width='80%' 
      open={createFormVisible} 
      onOk={()=>{
         console.log('add submit');
@@ -391,7 +393,7 @@ const Product = () => {
         setCreateFormVisible(false);
         createForm.resetFields();
      }}>
-        <Form form={createForm} name='add-form' labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} 
+        <Form form={createForm} name='add-form' labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} 
         onFinish={onAddFinish} 
         onFinishFailed={onAddFinishFailed} 
         autoComplete='on'

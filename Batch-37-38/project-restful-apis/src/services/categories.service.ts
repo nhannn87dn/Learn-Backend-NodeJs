@@ -23,17 +23,26 @@ const createCategory = async (data: ICategory)=>{
 }
 
 const updateCategory = async (id: string,data: ICategory)=>{
-    //check xem id co ton tai khong
-    const category = await Category.findByIdAndUpdate(id, data, {
-        new: true,
-    });
+    /* Tận dùng hàm có sẳn để tìm xem danh mục có tồn tại chưa */
+    const category = await getCategoryById(id);
+
+    /**
+     * Dùng assign để merge giữa cũ và mới lại với nhau
+     * Sau đó save lại
+     * Muốn update trường nào thì chỉ cần update trường đó
+     */
+    Object.assign(category, data);
+    await category.save();
 
     return category
 }
 
 const deleteCategory = async (id:string)=>{
    
-    const category = await Category.findByIdAndDelete(id);
+    //const category = await Category.findByIdAndDelete(id);
+    /* Tận dùng hàm có sẳn để tìm xem danh mục có tồn tại chưa */
+    const category = await getCategoryById(id);
+    await Category.deleteOne({ _id: category._id });
     return category
 }
 

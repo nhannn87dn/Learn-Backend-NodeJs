@@ -23,17 +23,25 @@ const createProduct = async (data: IProduct)=>{
 }
 
 const updateProduct = async (id: string,data: IProduct)=>{
-    //check xem id co ton tai khong
-    const product = await Product.findByIdAndUpdate(id, data, {
-        new: true,
-    });
+    /* Tận dùng hàm có sẳn để tìm xem danh mục có tồn tại chưa */
+    const product = await getProductById(id);
 
+    /**
+     * Dùng assign để merge giữa cũ và mới lại với nhau
+     * Sau đó save lại
+     * Muốn update trường nào thì chỉ cần update trường đó
+     */
+    Object.assign(product, data);
+    await product.save();
     return product
 }
 
 const deleteProduct = async (id:string)=>{
    
-    const product = await Product.findByIdAndDelete(id);
+    //const product = await Product.findByIdAndDelete(id);
+    /* Tận dùng hàm có sẳn để tìm xem danh mục có tồn tại chưa */
+    const product = await getProductById(id);
+    await Product.deleteOne({ _id: product._id });
     return product
 }
 
