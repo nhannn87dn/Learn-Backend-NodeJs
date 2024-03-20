@@ -80,6 +80,7 @@ const Product = () => {
   const navigate = useNavigate();
   const [editFormVisible, setEditFormVisible] = React.useState(false);
   const [createFormVisible, setCreateFormVisible] = React.useState(false);
+  const [selectedRecord, setSelectedRecord] = React.useState<ProductType | null>(null);
   const [updateForm] = Form.useForm();
   const [createForm] = Form.useForm();
 
@@ -239,6 +240,7 @@ const Product = () => {
             icon={<EditOutlined />}
             onClick={() => {
               console.log('EDIT', record);
+              setSelectedRecord(record);
               updateForm.setFieldsValue({...record, categoryId: record.category.id});
               setEditFormVisible(true);
             }}
@@ -398,28 +400,47 @@ const Product = () => {
         onFinishFailed={onAddFinishFailed} 
         autoComplete='on'
         >
-          <Form.Item label='Name' name='name' rules={[{ required: true, message: 'Chưa nhập Name' }]} hasFeedback>
+          <Form.Item label='Title' name='title' rules={[{ required: true, message: 'Chưa nhập title' }]} hasFeedback>
             <Input />
           </Form.Item>
 
 
-          <Form.Item label='Password' name='password' rules={[{ required: true, message: 'Chưa nhập mật khẩu' }]} hasFeedback>
-            <Input.Password />
+          <Form.Item label='Price' name='price' 
+           rules={[
+            { required: true, message: 'Chưa nhập price' }
+          ]}
+           hasFeedback>
+            <InputNumber addonAfter='$' min={0} style={{ width: '100%' }} />
           </Form.Item>
 
           <Form.Item
             hasFeedback
-            label='Email'
-            name='email'
-            rules={[
-              { required: true, message: 'Chưa nhập email' },
-              { type: 'email', message: 'Email không hợp lệ' },
-            ]}
+            label='Description'
+            name='description'
+           
           >
-            <Input />
+            <Input.TextArea />
           </Form.Item>
-          <Form.Item extra='Ex: https://loremflickr.com/100/100/business' label='Avatar Link' name='avatar' rules={[{ required: false}]} hasFeedback>
-            <Input />
+
+          <Form.Item
+            hasFeedback
+            label='Category'
+            name='categoryId'
+            
+            rules={[{ required: true, type: 'number', message: 'Chưa nhập Category' }]}
+          >
+         <Select
+              options={
+                queryCategory.data &&
+                queryCategory.data.map((c) => {
+                  return {
+                    value: c.id,
+                    label: c.name,
+                  };
+                })
+              }
+            />
+
           </Form.Item>
          
         </Form>
