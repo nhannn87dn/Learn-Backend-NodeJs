@@ -10,6 +10,7 @@ const getAll = {
       sortType: Joi.string().optional().valid('ASC', 'DESC'),
       price_min: Joi.number().min(0).optional(),
       price_max: Joi.number().min(0).greater(Joi.ref('price_min')).optional(),
+      cat_id: Joi.string().custom(customerValidator.objectId).optional(),
     }),
 };
 

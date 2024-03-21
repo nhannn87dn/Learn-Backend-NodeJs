@@ -51,6 +51,12 @@ const getAll = async (query: any)=>{
         //mặc định sắp xếp giá tăng dần khi lọc theo giá
         sortObject = {price: 1}
     }
+
+    //Lọc theo danh mục
+    if(query && query.cat_id && query.cat_id !== ''){
+        findFilters = {...findFilters, category: query.cat_id}
+        objectFilters = {...objectFilters, category: query.cat_id}
+    }
     
     //Đếm tổng số record hiện có của collection Product
     const count = await Product.countDocuments(objectFilters);
