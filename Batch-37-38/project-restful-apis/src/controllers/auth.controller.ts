@@ -3,7 +3,6 @@ import  authService from '../services/auth.service';
 import {sendJsonSuccess} from '../helpers/responseHandler'
 
 const authLogin = async (req: Request, res: Response, next: NextFunction) => {
-  console.log('1 ==> auth req', req.body);
   try {
     const staff = await authService.AuthLogin(req.body);
     sendJsonSuccess(res)(staff);

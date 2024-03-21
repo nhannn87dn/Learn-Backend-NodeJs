@@ -303,7 +303,8 @@ const product = await Product.find().populate({
 
 Là một số phương thức được có sẵn của Document
 
-<https://mongoosejs.com/docs/api/document.html>
+- <https://mongoosejs.com/docs/api/document.html>
+- https://mongoosejs.com/docs/api/schema.html#Schema.prototype.method()
 
 Tự tạo một document instance method
 
@@ -317,6 +318,12 @@ Ví dụ
 userSchema.methods.invalidPassword = function (req_password, user_password) {
   return bcrypt.compare(req_password, user_password);
 };
+//hoăc
+userSchema.method('invalidPassword', function (req_password, user_password) {
+  return bcrypt.compare(req_password, user_password);
+})
+
+
 // Tạo Token
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(

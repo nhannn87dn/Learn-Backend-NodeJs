@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import {IOrder, EnumPayments, EnumOrderStatus, TActionOrder, TOrderItems} from '../types/models';
+import {IOrder, EnumPayments, EnumOrderStatus, TActionOrder, TOrderItems, OrderModelType} from '../types/models';
 
 /**
  * Typescript
@@ -69,7 +69,7 @@ const actionSchema = new Schema<TActionOrder>(
 
 
 //Tạo một schema
-const orderSchema = new Schema<IOrder>({
+const orderSchema = new Schema<IOrder, OrderModelType>({
   //Ngày tạo đơn
   orderDate: {
     type: Date,
@@ -161,5 +161,5 @@ const orderSchema = new Schema<IOrder>({
 
 
 //3. Tạo Model User
-const Order = model<IOrder>('Order', orderSchema);
+const Order = model<IOrder, OrderModelType>('Order', orderSchema);
 export default Order;

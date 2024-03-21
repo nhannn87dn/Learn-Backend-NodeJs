@@ -1,7 +1,9 @@
 import { Schema, model } from 'mongoose';
-import { IStaff, EnumRole, EnumBoolean } from '../types/models';
+import { IStaff, EnumRole, EnumBoolean,StaffModel, IStaffMethods } from '../types/models';
+import bcrypt from 'bcrypt'
+const SALT_WORK_FACTOR = 10;
 
-const staffSchema = new Schema<IStaff>(
+const staffSchema = new Schema<IStaff,StaffModel, IStaffMethods>(
     {
       firstName: {
         type: String,
@@ -86,15 +88,38 @@ const staffSchema = new Schema<IStaff>(
     }
 );
 
-
+//Đăng ký một trường ảo
 staffSchema.virtual('fullName').get(function () {
   return this.firstName + ' ' + this.lastName;
 });
 
-staffSchema.methods.comparePassword = function (candidatePassword: string) {
+//Đăng ký một phương thức để so sánh mật khẩu
+staffSchema.method('comparePassword', function comparePassword(candidatePassword: string) {
   return bcrypt.compare(candidatePassword, this.password);
-};
+});
 
 
-const Staff = model<IStaff>('Staff', staffSchema);
+//Đăng ký middleware
+staffSchema.pre('save', function (next) {
+  var staff = this;
+
+  // only hash the password if it has been modified (or is new)
+  if (!staff.isModified('password')) return next();
+
+  /**
+   * Mã hóa mật khẩu mỗi ghi save, update
+   */
+  bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+    if (err) return next(err);
+    // hash the password using our new salt
+    bcrypt.hash(staff.password, salt, function (err, hash) {
+      if (err) return next(err);
+      // override the cleartext password with the hashed one
+      staff.password = hash;
+      next();
+    });
+  });
+});
+
+const Staff = model<IStaff, StaffModel>('Staff', staffSchema);
 export default Staff;

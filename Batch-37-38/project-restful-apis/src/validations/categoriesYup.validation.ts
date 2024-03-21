@@ -1,5 +1,4 @@
-import Yup from 'yup';
-import customerValidator from './custom.validation'
+import * as Yup from 'yup';
 
 
 const getAll = {
@@ -11,13 +10,14 @@ const getAll = {
     }),
 };
 
-const getProductById = {
+const getCategoryById = {
   params: Yup.object({
-    id: Yup.string().required(),
+    //Khớp với định dạng objectId
+    id: Yup.string().matches(/^[0-9a-fA-F]{24}$/, {message: 'ID is non-Objectid'}).required(),
   }),
 };
 
 export default {
     getAll,
-    getProductById
+    getCategoryById
 };

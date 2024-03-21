@@ -10,6 +10,8 @@ import routeProduct from './routes/v1/products.route'
 import routeDemo from './routes/v1/demo.route'
 import routerAuth from './routes/v1/auth.route';
 import routerStaff from './routes/v1/staffs.route';
+import routeCustomer from './routes/v1/customers.route';
+import routerOrder from './routes/v1/orders.route';
 import { logs } from './middlewares/logs.middleware';
 import { second } from './middlewares/second.middleware';
 //Để bắt được kiểu JSON từ client gửi lên
@@ -17,8 +19,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 
-app.use(logs)
-app.use(second)
+// app.use(logs)
+// app.use(second)
 
 
 // Định nghiax các routes
@@ -34,6 +36,9 @@ app.use('/api/v1/products', routeProduct);
 app.use('/api/v1/demo', routeDemo);
 app.use('/api/v1/auth', routerAuth);
 app.use('/api/v1/staffs', routerStaff);
+app.use('/api/v1/customers', routeCustomer);
+app.use('/api/v1/orders', routerOrder);
+
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {
   next(createError(404));

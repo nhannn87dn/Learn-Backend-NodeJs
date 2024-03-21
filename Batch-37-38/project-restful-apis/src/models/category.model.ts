@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { ICategory } from '../types/models';
+import buildSlug from '../helpers/slugHelper'
+import { NextFunction } from 'express';
 
 const categorySchema = new Schema(
     {
@@ -46,6 +48,19 @@ const categorySchema = new Schema(
         //updated_at
     }
 );
+
+//Middleware
+categorySchema.pre('save', async function (next) {
+  /**
+   * Tự động tạo slug khi slug ko được truyền
+   * hoặc slug = ''
+   */
+  if(this.slug == "" || !this.slug){
+      this.slug = buildSlug(this.categoryName);
+  }
+
+  next();
+});
 
 const Category = model<ICategory>('Category', categorySchema);
 export default Category;

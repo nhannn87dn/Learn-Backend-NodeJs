@@ -27,7 +27,7 @@ const customerSchema = new Schema<ICustomer>(
           validator: function (v: string) {
             return /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(v);
           },
-          message: (props) => `${props.value} is not a valid email!`,
+          message: (props:any) => `${props.value} is not a valid email!`,
         },
       },
       phone: {

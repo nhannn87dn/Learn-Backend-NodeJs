@@ -19,7 +19,6 @@ const getProductById = async (req: Request, res: Response, next: NextFunction)=>
         const {id} = req.params; //return id = string
 
         const product = await productsService.getProductById(id)
-
         //res.status(200).json(product)
         sendJsonSuccess(res)(product)
     }
@@ -34,10 +33,11 @@ const createProduct = async (req: Request, res: Response, next: NextFunction) =>
 
         const product=  await productsService.createProduct(data)
 
-        res.status(201).json({
-            message: `Create Product`,
-            product: product
-        })
+        // res.status(201).json({
+        //     message: `Create Product`,
+        //     product: product
+        // })
+        sendJsonSuccess(res, 'Create Product successfully', 201)(product)
     }
     catch(err){
         next(err)
@@ -52,10 +52,11 @@ const updateProduct = async (req: Request, res: Response, next: NextFunction)=>{
         
         const product = await productsService.updateProduct(id,data)
 
-        res.status(200).json({
-            message: `Update Product by ID ${id}`,
-            product: product
-        })
+        // res.status(200).json({
+        //     message: `Update Product by ID ${id}`,
+        //     product: product
+        // })
+        sendJsonSuccess(res)(product)
     }
     catch(err){
         next(err)
@@ -66,10 +67,11 @@ const deleteProduct = async (req: Request, res: Response,next: NextFunction)=>{
     try {
         const {id} = req.params;
         const product = await productsService.deleteProduct(id)
-        res.status(200).json({
-            message: `Delete Product by ID ${id}`,
-            product: product
-        })
+        // res.status(200).json({
+        //     message: `Delete Product by ID ${id}`,
+        //     product: product
+        // })
+        sendJsonSuccess(res)(product)
     }
     catch(err){
         next(err)

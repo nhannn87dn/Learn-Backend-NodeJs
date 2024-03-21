@@ -7,7 +7,7 @@ import { IStaff} from '../types/models';
 const AuthLogin = async (staffBody: {email: string, password: string}) => {
   console.log('2 ==> ', staffBody);
   //Tìm xem có tồn tại staff có email không
-  let staff: IStaff | null = await Staff.findOne({
+  let staff = await Staff.findOne({
     email: staffBody.email,
   });
 
@@ -15,8 +15,8 @@ const AuthLogin = async (staffBody: {email: string, password: string}) => {
     throw createError(401, 'Invalid email or password');
   }
 
-  //const invalidPasword = staff.comparePassword(staffBody.password);
-  const invalidPasword = staff.password === staffBody.password;
+  const invalidPasword: boolean = staff.comparePassword(staffBody.password);
+  //const invalidPasword = staff.password === staffBody.password;
 
   if (!invalidPasword) throw  createError(401, 'Invalid email or password');
 

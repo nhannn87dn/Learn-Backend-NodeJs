@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { IBrand } from '../types/models';
+import buildSlug from '../helpers/slugHelper'
 
 const brandSchema = new Schema(
     {
@@ -48,6 +49,19 @@ const brandSchema = new Schema(
         //updated_at
     }
 );
+
+
+//Middleware
+brandSchema.pre("save", async function (next) {
+  /**
+   * Tự động tạo slug khi slug ko được truyền
+   * hoặc slug = ''
+   */
+  if(this.slug == "" || !this.slug){
+      this.slug = buildSlug(this.brandName);
+  }
+  next();
+});
 
 const Brand = model<IBrand>('Brand', brandSchema);
 export default Brand;

@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { IProduct } from '../types/models';
+import { IProduct, ProductModelType} from '../types/models';
 import mongooseLeanVirtuals from 'mongoose-lean-virtuals';
 import buildSlug from '../helpers/slugHelper'
 
@@ -55,7 +55,7 @@ const productSchema = new Schema(
       },
       slug: {
         type: String,
-        required: false,
+        required: true,
         lowercase: true,
         unique: true,
         max: 255,
@@ -126,13 +126,13 @@ productSchema.set('toObject', { virtuals: true });
 //.lean({virtuals: true})
 productSchema.plugin(mongooseLeanVirtuals);
 
+
+//Đăng ký một trường ảo
 productSchema.virtual('url').get(function () {
   return '/products/' + this._id;
 });
 
-productSchema.query.byName = function (name: string) {
-  return this.where({ productName: new RegExp(name, 'i') });
-};
+
 //Middleware
 productSchema.pre("save", async function (next) {
   /**
@@ -146,6 +146,6 @@ productSchema.pre("save", async function (next) {
 });
 
 
-const Product = model<IProduct>('Product', productSchema);
+const Product = model<IProduct, ProductModelType>('Product', productSchema);
 export default Product;
 

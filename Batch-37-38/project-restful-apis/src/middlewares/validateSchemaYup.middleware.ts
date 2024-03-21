@@ -1,10 +1,11 @@
 import * as yup from 'yup';
 import _ from 'lodash';
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, query, Request, Response } from 'express';
 
 const validateSchemaYup = (schema: object) => async (req: Request, res: Response, next: NextFunction) => {
   const pickSchema = _.pick(schema, ['params', 'body', 'query']);
   const object = _.pick(req, Object.keys(pickSchema));
+ 
   try {
     const value = await yup.object(pickSchema).validate(object, { abortEarly: false });
     Object.assign(req, value);

@@ -1,4 +1,4 @@
-import {ObjectId} from 'mongoose';
+import {ObjectId, Model, HydratedDocument, QueryWithHelpers} from 'mongoose';
 
 interface BaseProperties {
     sort: number,
@@ -61,6 +61,13 @@ export interface IStaff extends BaseProperties{
     isEmailVerified?: boolean,
 }
 
+// Put all user instance methods in this interface:
+export interface IStaffMethods {
+    comparePassword(n: string): boolean;
+  }
+
+// Create a new Model type that knows about IUserMethods...
+export type StaffModel = Model<IStaff, {}, IStaffMethods>;
 export interface ICustomer extends BaseProperties{
     firstName: string,
     lastName: string,
@@ -91,6 +98,9 @@ export interface IProduct extends BaseProperties {
     isNew?: boolean,
     isHome?: boolean,
 }
+
+export type ProductModelType = Model<IProduct>;
+  
 
 export type TOrderItems = {
     product: ObjectId;
@@ -124,4 +134,5 @@ export interface IOrder {
     actions?: TActionOrder[],
     createdAt?: Date,
 }
-  
+// Models and schemas
+export type OrderModelType = Model<IOrder>;

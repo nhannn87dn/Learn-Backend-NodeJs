@@ -8,6 +8,8 @@ const getAll = {
       limit: Joi.number().min(5).max(50).optional(),
       sortBy: Joi.string().optional().valid('price', 'sort'),
       sortType: Joi.string().optional().valid('ASC', 'DESC'),
+      price_min: Joi.number().min(0).optional(),
+      price_max: Joi.number().min(0).greater(Joi.ref('price_min')).optional(),
     }),
 };
 

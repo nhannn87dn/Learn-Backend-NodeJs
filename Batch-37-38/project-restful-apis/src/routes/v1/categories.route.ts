@@ -1,17 +1,18 @@
 import express from "express";
 import categoriesController from "../../controllers/categories.controller";
-
+import validateSchemaYup from "../../middlewares/validateSchemaYup.middleware";
+import categoriesYupValidation from "../../validations/categoriesYup.validation";
 const router   = express.Router();
 
 //Dinh nghia cac routes cho resource Categories
 
 //Get All
 //http://localhost:8080/api/v1/categories
-router.get('', categoriesController.getAllProduct)
+router.get('', validateSchemaYup(categoriesYupValidation.getAll), categoriesController.getAll)
 
 //Get By ID
 //http://localhost:8080/api/v1/categories/:id
-router.get('/:id', categoriesController.getCategoryById)
+router.get('/:id', validateSchemaYup(categoriesYupValidation.getCategoryById), categoriesController.getCategoryById)
 
 
 //Create category 
