@@ -1,7 +1,6 @@
 import * as yup from 'yup';
 import _ from 'lodash';
 import { NextFunction, Request, Response } from 'express';
-import { sendJsonErrors } from '../helpers/responseHandler';
 
 const validateSchema = (schema: object) => async (req: Request, res: Response, next: NextFunction) => {
   const pickSchema = _.pick(schema, ['params', 'body', 'query']);
@@ -14,8 +13,8 @@ const validateSchema = (schema: object) => async (req: Request, res: Response, n
     const errorMessage = error.inner
       .map((detail: any) => detail.message)
       .join(', ');
-    return sendJsonErrors(res, {
-      status: 400,
+    return res.status(400).json({
+      statusCode: 400,
       message: errorMessage,
       typeError: 'validateSchema'
     });

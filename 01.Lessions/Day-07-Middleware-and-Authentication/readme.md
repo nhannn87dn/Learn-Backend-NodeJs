@@ -38,7 +38,7 @@ Tại thư mục middleware, tạo một file tên: mylogger.middleware.ts
 
 ```js
 //Tạo và export luôn
-module.exports = function (req: Request, res: Response, next: NextFunction) {
+export const myLogger = function (req: Request, res: Response, next: NextFunction) {
   //Logic Here
   console.log('LOGGED', req);
 
@@ -48,6 +48,7 @@ module.exports = function (req: Request, res: Response, next: NextFunction) {
   //End with next() -> chuyển tiếp sang middleware khác nếu có
   next();
 };
+
 ```
 
 ### 🌻 Gắn middleware vào Application
@@ -55,7 +56,7 @@ module.exports = function (req: Request, res: Response, next: NextFunction) {
 Tại express app
 
 ```js
-const myLogger require('./middlewares/mylogger.middleware');
+import {myLogger} from './middlewares/mylogger.middleware';
 
 //Gắn middleware vào app
 app.use(myLogger);
@@ -77,7 +78,7 @@ Tạo thêm 2 ví dụ về middleware nữa để thấy được sự chuyển
 
 Sử dụng thư viện `joi` để validate
 
-Chi tiết cách sử dụng joi xem ở [link sau](https://joi.dev/api/?v=17.9.1)
+Chi tiết cách sử dụng joi xem ở [link sau](joi.md)
 
 ```js
 import Joi from 'joi';
@@ -112,6 +113,9 @@ const validateSchema = (schema: object) => (req: Request, res: Response, next: N
 };
 export default validateSchema
 ```
+
+Xem ví dụ về sử dụng với Yup [tại đây](yupValidateSchema.middleware.ts)
+
 
 **Bước 2:** Tạo các Schema Validation
 
@@ -182,7 +186,7 @@ Ví dụ: Thành công có gửi kèm data
 ```
 
 Trong đó:
-- statusCode: là mã code mà bạn tự quy định cho việc xử lý tác vụ
+- statusCode: là mã code mà bạn tự quy định cho việc xử lý tác vụ (không phải là HTTP Status Code)
 - message: là lời nhắn trả lại cho client
 - data: là thông trả lại cho client nếu có
 
