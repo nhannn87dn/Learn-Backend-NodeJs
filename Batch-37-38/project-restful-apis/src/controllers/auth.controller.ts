@@ -23,7 +23,22 @@ const refreshToken = async (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
+
+const getProfile = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const {_id} = res.locals.staff;
+    console.log(`res.locals`,res.locals);
+    const staff = await authService.getProfile(_id);
+    
+    sendJsonSuccess(res)(staff);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 export default {
   authLogin,
-  refreshToken
+  refreshToken,
+  getProfile
 }

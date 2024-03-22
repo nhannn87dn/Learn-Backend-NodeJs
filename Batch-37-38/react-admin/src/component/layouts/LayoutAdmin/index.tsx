@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   HomeOutlined,
   SettingOutlined,
@@ -12,6 +12,8 @@ import {
 import { Layout, Menu, Button, theme } from "antd";
 import { Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import UserInfo from "../../ui/UserInfo";
+import useAuth from "../../../hooks/useAuth";
 
 const { Header, Sider, Content, Footer } = Layout;
 
@@ -75,6 +77,15 @@ const items = [
 
 const LayoutAdmin = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+
+  //Kiem tra xem user da dang nhap chua
+  //Neu chua thi chuyen sang login
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    }
+  }, [isAuthenticated]);
 
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -130,7 +141,7 @@ const LayoutAdmin = () => {
                 height: 64,
               }}
             />
-            <span>User Info</span>
+            <UserInfo />
           </Header>
           <Content
             style={{

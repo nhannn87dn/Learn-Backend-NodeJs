@@ -10,7 +10,7 @@ const UserInfo = () => {
       {user ? (
         <Space wrap size={16}>
           <Avatar size="small" icon={<UserOutlined />} />
-          <strong className="">{user.name}</strong>
+          <strong className="">{user.email}</strong>
           <span className="cursor-pointer" onClick={logout}>
             Đăng xuất
           </span>

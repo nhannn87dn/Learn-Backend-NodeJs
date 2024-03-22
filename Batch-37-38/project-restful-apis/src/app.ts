@@ -3,6 +3,7 @@ import express, { Express, Request, Response, NextFunction } from 'express';
 import createError  from 'http-errors';
 const app: Express = express();
 import { sendJsonErrors } from './helpers/responseHandler';
+import cors from 'cors'
 //Import cac Routes
 import routeCategories from './routes/v1/categories.route';
 import routeBrands from './routes/v2/brands.route'
@@ -18,7 +19,7 @@ import { second } from './middlewares/second.middleware';
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-
+app.use(cors({ origin: '*' })); //Cho phép gọi bất kỳ đâu
 // app.use(logs)
 // app.use(second)
 

@@ -57,7 +57,22 @@ const refreshToken  = async (staff: IStaff) => {
   return refreshToken;
 }
 
+
+const getProfile = async (id: string) => {
+  // SELECT * FROM staff WHERE id = id
+  console.log(id);
+
+  const staff = await Staff.
+  findOne({
+    _id: id
+  }).
+  select('-password -__v');
+  
+  return staff;
+};
+
 export default {
   AuthLogin,
-  refreshToken
+  refreshToken,
+  getProfile
 }
