@@ -268,6 +268,7 @@ const CategoriesPage = () => {
 
   return (
     <div>
+    {contextHolder}
       <h1>Categories List</h1>
       <Button
         type="primary"

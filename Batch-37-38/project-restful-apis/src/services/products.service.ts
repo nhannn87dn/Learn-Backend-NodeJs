@@ -94,8 +94,8 @@ const getProductById  = async (id:string)=>{
     const result = await Product
     .findById(id)
     .select('-__v')
-    .populate('category', '-__v')
-    .populate('brand', '-__v')
+    // .populate('category', '-__v')
+    // .populate('brand', '-__v')
 
     if(!result){
         throw createError(404,'Product not found');

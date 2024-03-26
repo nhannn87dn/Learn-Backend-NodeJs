@@ -8,10 +8,12 @@ import NoPage from "./pages/NoPage";
 import LayoutAdmin from "./component/layouts/LayoutAdmin";
 import CategoriesPage from "./pages/CategoriesPage";
 import BrandsPage from "./pages/BrandsPage";
-import ProductsPage from "./pages/ProductsPage";
+import ProductsPage from "./pages/ProductPage";
 import CustomerPage from "./pages/CustomersPage";
 import StaffsPage from "./pages/StaffsPage";
 import OrdersPage from "./pages/OrdersPage";
+import ProductEditPage from "./pages/ProductPage/ProductEditPage";
+import ProductAddPage from "./pages/ProductPage/ProductAddPage";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +28,8 @@ function App() {
               <Route path="/categories" element={<CategoriesPage />} />
               <Route path="/brands" element={<BrandsPage />} />
               <Route path="/products" element={<ProductsPage />} />
+              <Route path="/products/add" element={<ProductAddPage />} />
+              <Route path="/products/:id" element={<ProductEditPage />} />
               <Route path="/customers" element={<CustomerPage />} />
               <Route path="/staffs" element={<StaffsPage />} />
               <Route path="/orders" element={<OrdersPage />} />
