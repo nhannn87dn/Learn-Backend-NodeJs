@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "../react-client/src/pages/CustomerPage"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
