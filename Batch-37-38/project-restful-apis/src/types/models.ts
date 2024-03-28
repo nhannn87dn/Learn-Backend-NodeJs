@@ -21,7 +21,7 @@ export enum  EnumOrderStatus {
   
 export enum  EnumPayments {
     Cash = 'CASH',
-    Credit = 'CREDIT CARD',
+    Credit = 'CREDIT',
     Cod = 'COD'
 }
 

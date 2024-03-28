@@ -5,7 +5,7 @@ import customerValidator from './custom.validation'
 const getAll = {
     query: Joi.object().keys({
       page: Joi.number().min(1).optional(),
-      limit: Joi.number().min(5).max(50).optional(),
+      limit: Joi.number().min(1).max(50).optional(),
       sortBy: Joi.string().optional().valid('price', 'sort'),
       sortType: Joi.string().optional().valid('ASC', 'DESC'),
       price_min: Joi.number().min(0).optional(),
@@ -20,7 +20,15 @@ const getProductById = {
   }),
 };
 
+
+const getProductBySlug = {
+  params: Joi.object().keys({
+    slug: Joi.custom(customerValidator.slugFriendly).required(),
+  }),
+};
+
 export default {
     getAll,
-    getProductById
+    getProductById,
+    getProductBySlug
 };

@@ -14,11 +14,37 @@ const getAll = async (req: Request, res: Response, next: NextFunction)=>{
     }
 }
 
+const getAllClient = async (req: Request, res: Response, next: NextFunction)=>{
+    try{
+        const result = await productsService.getAllClient(req.query);
+        //console.log('result',result);
+        //res.status(200).json(result)
+        sendJsonSuccess(res)(result)
+    }
+    catch(err){
+        next(err)
+    }
+}
+
 const getProductById = async (req: Request, res: Response, next: NextFunction)=>{
     try {
         const {id} = req.params; //return id = string
 
         const product = await productsService.getProductById(id)
+        //res.status(200).json(product)
+        sendJsonSuccess(res)(product)
+    }
+    catch(err){
+        next(err)
+    }
+}
+
+
+const getProductBySlug = async (req: Request, res: Response, next: NextFunction)=>{
+    try {
+        const {slug} = req.params; //return id = string
+
+        const product = await productsService.getProductBySlug(slug)
         //res.status(200).json(product)
         sendJsonSuccess(res)(product)
     }
@@ -80,7 +106,9 @@ const deleteProduct = async (req: Request, res: Response,next: NextFunction)=>{
 
 export default {
     getAll,
+    getAllClient,
     getProductById,
+    getProductBySlug,
     createProduct,
     updateProduct,
     deleteProduct

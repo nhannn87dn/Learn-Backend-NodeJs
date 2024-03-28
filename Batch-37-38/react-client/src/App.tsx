@@ -13,8 +13,12 @@ import CustomerPage from "./pages/CustomerPage";
 import CustomerProfile from "./pages/CustomerPage/CustomerProfile";
 import CustomerOrders from "./pages/CustomerPage/CustomerOrders";
 import CustomerDashboard from "./pages/CustomerPage/CustomerDashboard";
+import numeral from 'numeral'
+import 'numeral/locales/vi';
 
 const queryClient = new QueryClient();
+//định dạng tiền tệ theo kiểu việt nam
+numeral.locale('vi');
 
 function App() {
   return (
@@ -25,7 +29,7 @@ function App() {
             <Route path="/" element={<LayoutDefault />}>
               <Route index element={<HomePage />} />
               <Route path="/categories/:id" element={<CategoryPage />} />
-              <Route path="/products/:id" element={<ProductPage />} />
+              <Route path="/products/:slug" element={<ProductPage />} />
               <Route path="/customer" element={<CustomerPage />}>
                 <Route index element={<CustomerDashboard />} />
                 <Route path="/customer/profile" element={<CustomerProfile />} />

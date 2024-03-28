@@ -51,7 +51,7 @@ const productSchema = new Schema(
       },
       thumbnail: {
         type: String,
-        maxLength: 50,
+        maxLength: 255,
       },
       slug: {
         type: String,
