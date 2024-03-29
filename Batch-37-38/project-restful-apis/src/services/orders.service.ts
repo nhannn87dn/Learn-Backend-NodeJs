@@ -9,8 +9,8 @@ const getAll = async (query: any)=>{
 
     //Sắp xếp tùy chọn theo trường
     let sortObject : any = {}; //Mặc định theo trường sort ASC
-    const sortBy = query &&  query.sortBy ? query.sortBy : 'sort'
-    const sortType = query &&  query.sortType && query.sortType === "DESC" ? -1 : 1;
+    const sortBy = query &&  query.sortBy ? query.sortBy : 'createdAt'
+    const sortType = query &&  query.sortType && query.sortType === "ASC" ? 1 : -1;
     //Thêm phần tử vảo object rỗng
     sortObject = {...sortObject, [sortBy]: sortType}
     

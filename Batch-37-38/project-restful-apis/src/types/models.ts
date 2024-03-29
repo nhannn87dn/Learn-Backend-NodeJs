@@ -1,3 +1,4 @@
+import { customers } from './../seeds/customer';
 import {ObjectId, Model, HydratedDocument, QueryWithHelpers} from 'mongoose';
 
 interface BaseProperties {
@@ -116,13 +117,16 @@ export type TActionOrder = {
     note: string;
   }
 export interface IOrder {
-    customer: ObjectId;
-    staff: ObjectId;
+    customer?: ObjectId;
+    staff?: ObjectId;
     orderDate: Date,
-    requiredDate: Date,
-    shippedDate: Date,
-    paidDate: Date,
+    requiredDate?: Date,
+    shippedDate?: Date,
+    paidDate?: Date,
     orderStatus: EnumOrderStatus,
+    customerName: string,
+    customerMobile: string,
+    customerEmail?: string,
     shippingAddress: string,
     shippingYard: string,
     shippingCity: string,

@@ -3,8 +3,10 @@ import axios from "axios";
 import globalConfigs from '../../constants/config'
 import { useQuery } from "@tanstack/react-query";
 import numeral from "numeral";
-
+import { useCartStore } from "../../hooks/useCartStore";
 const ProductPage = () => {
+  const {addItem} = useCartStore();
+
   const params = useParams();
   const navigate = useNavigate();
   const slug = params.slug || '';
@@ -42,7 +44,15 @@ const ProductPage = () => {
                     {product.data.description}
                   </div>
                   <div className="actions my-5">
-                      <button className="bg-indigo-700 hover:bg-indigo-900 text-white py-3 px-5 rounded">Add To Cart</button>
+                      <button onClick={()=>{
+                        addItem({
+                          product: product.data._id,
+                          name: product.data.productName,
+                          price: product.data.price,
+                          quantity: 1,
+                          thumb: product.data.thumbnail
+                        })
+                      }}  className="bg-indigo-700 hover:bg-indigo-900 text-white py-3 px-5 rounded">Add To Cart</button>
                   </div>
               </div>
           </div>

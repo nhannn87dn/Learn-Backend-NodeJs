@@ -73,7 +73,8 @@ const orderSchema = new Schema<IOrder, OrderModelType>({
   //Ngày tạo đơn
   orderDate: {
     type: Date,
-    required: true
+    required: true,
+    default: new Date()
   },
   //Ngày yêu cầu giao hàng
   requiredDate: {
@@ -111,6 +112,18 @@ const orderSchema = new Schema<IOrder, OrderModelType>({
   orderNote: {
     type: String
   },
+  customerName: {
+    type: String,
+    require: true
+  },
+  customerMobile: {
+    type: String,
+    require: true
+  },
+  customerEmail: {
+    type: String,
+    require: false
+  },
   shippingAddress: {
     type: String,
     require: true
@@ -136,12 +149,12 @@ const orderSchema = new Schema<IOrder, OrderModelType>({
   customer: {
     type: Schema.Types.ObjectId,
     ref: 'Customer',
-    required: true,
+    required: false,
   },
   staff: {
     type: Schema.Types.ObjectId,
     ref: 'Staff',
-    required: true,
+    required: false,
   },
   /**
    * Danh sách sản phẩm của Order

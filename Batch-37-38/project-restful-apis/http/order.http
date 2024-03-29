@@ -1,0 +1,30 @@
+POST  http://localhost:8080/api/v1/orders
+Content-Type: application/json
+
+{
+    "orderStatus": "pending",
+    "customerName": "test event purcharse",
+    "customerMobile": "0988077666",
+    "customerEmail": "john@mail.com",
+    "shippingAddress": "fdsfdsfd",
+    "shippingYard": "hai chau 1",
+    "shippingDistrict": "hai chau",
+    "shippingProvince": "Bắc Giang",
+    "paymentType": "COD",
+    "orderItems": [
+        {
+            "product": "6601616c922ab0bd14db307c",
+            "quantity": 1,
+            "price": 677,
+            "discount": 0,
+            "_id": "6606b9dcae9763fdafc009be"
+        },
+        {
+            "product": "6601616b922ab0bd14db307a",
+            "quantity": 1,
+            "price": 1200000,
+            "discount": 0,
+            "_id": "6606b9dcae9763fdafc009bf"
+        }
+    ]
+}

@@ -31,6 +31,7 @@ const getOrderById = async (req: Request, res: Response, next: NextFunction)=>{
 const createOrder = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const data = req.body;
+        console.log('<<=== 🚀 createOrder ===>>',data);
 
         const order=  await ordersService.createOrder(data)
 

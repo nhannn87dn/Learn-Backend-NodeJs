@@ -15,6 +15,8 @@ import CustomerOrders from "./pages/CustomerPage/CustomerOrders";
 import CustomerDashboard from "./pages/CustomerPage/CustomerDashboard";
 import numeral from 'numeral'
 import 'numeral/locales/vi';
+import CartPage from "./pages/CartPage";
+import Checkout from "./pages/Checkout";
 
 const queryClient = new QueryClient();
 //định dạng tiền tệ theo kiểu việt nam
@@ -35,6 +37,8 @@ function App() {
                 <Route path="/customer/profile" element={<CustomerProfile />} />
                 <Route path="/customer/orders" element={<CustomerOrders />} />
               </Route>
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/checkout" element={<Checkout />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="*" element={<NoPage />} />
             </Route>
