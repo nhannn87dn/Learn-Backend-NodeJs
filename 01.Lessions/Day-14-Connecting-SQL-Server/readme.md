@@ -1,38 +1,13 @@
 # Express with SQL Server
 
-Tiếp tục bài trước
+Truy vấn dữ liệu trong TypeORM
 
-## 💛 Entity Manager and Repository
-
-### 🔸 Entity Manager
-
-Bạn có thể : insert, update, delete, load, etc. với Entity Manager
-
-```ts
-import { AppDataSource } from "../../data-soucre.ts"
-import { User } from "./entities/User"
-
-//manager chính là EntityManager 
-const user = await myDataSource.manager.findOneBy(User, {
-    id: 1,
-});
-```
-
-
-Chi tiết các lệnh với `EntityManager`: https://typeorm.io/entity-manager-api
-
-
-### 🔸 Repository
-
-Nó giống như Entity Manager nhưng nó bị giới hạn tại một enity cụ thể
-
-
+## 💛 Sử dụng Repository
 
 ```ts
 import { AppDataSource } from "../../data-soucre.ts"
 import { User } from "./entities/User";
 
-//bị giới hạn tại một enity cụ thể ==> tức là bạn đang thao tác trên enity User đã cấu hình ngay từ đầu.
 
 const userRepository = AppDataSource.getRepository(User)
 const user = await userRepository.findOneBy({
@@ -42,9 +17,8 @@ const user = await userRepository.findOneBy({
 Chi tiết các lệnh với `Repository`: https://typeorm.io/repository-api
 
 
-Về cơ bản cả `EntityManager` và `Repository` có cách sử dụng tương đồng nhau
 
-#### 💡 Câu lênh SELECT
+### 💡 Câu lênh SELECT
 
 ```ts
 userRepository.find({
@@ -78,6 +52,109 @@ const timber = await userRepository.findOne({
 //SELECT * FROM "user" WHERE firstName = 'Timber' LIMIT 1
 ```
 
+Toán tử AND
+
+```ts
+userRepository.find({
+    where: {
+        firstName: "Timber",
+        lastName: "Saw",
+    },
+})
+//SELECT * FROM "user"
+//WHERE "firstName" = 'Timber' AND "lastName" = 'Saw'
+```
+
+Toán tử OR
+
+```ts
+userRepository.find({
+    where: [
+        { firstName: "Timber"},
+        { firstName: "Stan"},
+    ],
+})
+//SELECT * FROM "user" 
+//WHERE "firstName" = 'Timber'  OR "firstName" = 'Stan'
+```
+ 
+
+Toán tử SO SÁNH
+
+```ts
+import { 
+LessThan, 
+LessThanOrEqual, 
+MoreThan,
+MoreThanOrEqual,
+Equal
+} from "typeorm"
+
+const loadedPosts = await dataSource.getRepository(Post).findBy({
+    likes: LessThan(10),
+})
+//SELECT * FROM "post" WHERE "likes" < 10
+
+
+const loadedPosts = await dataSource.getRepository(Post).findBy({
+    likes: LessThanOrEqual(10),
+})
+//SELECT * FROM "post" WHERE "likes" <= 10
+
+
+const loadedPosts = await dataSource.getRepository(Post).findBy({
+    likes: MoreThan(10),
+})
+//SELECT * FROM "post" WHERE "likes" > 10
+
+const loadedPosts = await dataSource.getRepository(Post).findBy({
+    likes: MoreThanOrEqual(10),
+})
+//SELECT * FROM "post" WHERE "likes" >= 10
+
+
+const loadedPosts = await dataSource.getRepository(Post).findBy({
+    title: Equal("About #2"),
+})
+//SELECT * FROM "post" WHERE "title" = 'About #2'
+```
+
+Toán tử LIKE
+
+```ts
+import { Like } from "typeorm"
+
+const loadedPosts = await dataSource.getRepository(Post).findBy({
+    title: Like("%out #%"),
+})
+//SELECT * FROM "post" WHERE "title" LIKE '%out #%'
+```
+
+Toán tử Between
+
+
+```ts
+import { Between } from "typeorm"
+
+const loadedPosts = await dataSource.getRepository(Post).findBy({
+    likes: Between(1, 10),
+})
+//SELECT * FROM "post" WHERE "likes" BETWEEN 1 AND 10
+```
+
+Toán tử IN
+
+
+```ts
+import { In } from "typeorm"
+
+const loadedPosts = await dataSource.getRepository(Post).findBy({
+    title: In(["About #2", "About #3"]),
+})
+//SELECT * FROM "post" WHERE "title" IN ('About #2','About #3')
+```
+
+
 Tìm kiếm và phân trang
 
 
@@ -102,6 +179,7 @@ userRepository.find({
     },
 })
 ```
+
 Tương đương
 
 ```sql
@@ -146,7 +224,7 @@ userRepository.find({
 ```
 
 
-#### 💡 SLECT COUNT
+### 💡 SELECT COUNT
 
 ```ts
 const count = await repository.count({
@@ -158,7 +236,7 @@ const count = await repository.count({
 const count = await repository.countBy({ firstName: "Timber" })
 ```
 
-#### 💡 Câu lênh INSERT
+### 💡 Câu lệnh INSERT
 
 ```ts
 //Thêm một record
@@ -178,7 +256,8 @@ await repository.insert([
     },
 ])
 ```
-#### 💡 Câu lênh UPDATE
+
+### 💡 Câu lênh UPDATE
 
 
 ```ts
@@ -189,7 +268,7 @@ await repository.update(1, { firstName: "Rizzrak" })
 // executes UPDATE user SET firstName = Rizzrak WHERE id = 1
 ```
 
-#### 💡 Câu lênh DELETE
+### 💡 Câu lênh DELETE
 
 
 ```ts
@@ -199,46 +278,43 @@ await repository.delete({ firstName: "Timber" })
 ```
 
 
-#### 💡 Thực thi một SQL thuần
+### 💡 Thực thi một SQL thuần
 
 ```ts
 const rawData = await userRepository.query(`SELECT * FROM USERS`)
 ```
 
-#### 💡 Xóa data của mộ table
+### 💡 Xóa data của mộ table
 
 ```ts
 await repository.clear()
 
 ```
 
-## 💛 Query Builder
-
-Ngoài việc bạn sử dụng DataSource để truy vấn bạn còn có thể sử dụng Query Builder.
-
-QueryBuilder là một trong những tính năng mạnh mẽ nhất của TypeORM - nó cho phép bạn xây dựng các truy vấn SQL bằng cú pháp nhanh gọn và tiện lợi, thực thi chúng và tự động chuyển đổi các đối tượng.
-
-Khi nào dùng ?
-
-- Khi bạn có một câu lệnh truy vấn phức tạp
-
-
-Chi tiết các lệnh truy vấn:
-
-- SELECT: https://typeorm.io/select-query-builder
-- INSERT: https://typeorm.io/insert-query-builder
-- UPDATE: https://typeorm.io/update-query-builder
-- DELETE: https://typeorm.io/delete-query-builder
-
+XEM ĐẦY ĐỦ TẠI: https://typeorm.io/find-options
 
 ---
 
+## 💛 Cách thức truy vấn khác
 
+Ngoài cách sử dụng Repository trên bạn có thể sử dụng  
+
+### EntityManager
+
+- https://typeorm.io/working-with-entity-manager
+- https://typeorm.io/entity-manager-api
+
+### Query Builder
+
+- https://typeorm.io/select-query-builder 
+
+---
 
 ## 💛 Prisma with SQL Server
 
-Tham khảo thêm với cách sử dụng [Prisma SQL Server](prisma-SQLServer.md)
+Tham khảo thêm với cách sử dụng [Prisma SQL Server](prisma-SQLServer.md) một thư viện ORM mạnh mẽ khác
 
 
----
+
+--- 
 
