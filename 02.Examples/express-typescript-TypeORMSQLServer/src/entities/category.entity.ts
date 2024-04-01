@@ -41,6 +41,12 @@ export class Category extends BaseEntity {
   @BeforeInsert()
   @BeforeUpdate()
   async validate() {
-    await validateOrReject(this);
+    //await validateOrReject(this);
+    try {
+      await validateOrReject(this);
+    } catch (errors) {
+      console.log('Caught promise rejection (validation failed). Errors: ', errors);
+    }
+  
   }
 }

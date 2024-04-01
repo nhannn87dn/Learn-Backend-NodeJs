@@ -494,7 +494,7 @@ export class User {
 
 ### 🚩 Tính kế thừa của Entities
 
-Vì Entity được tạo bằng Class, do vậy nó có đặc tính kế thửa của Class.
+Vì Entity được tạo bằng Class, do vậy nó có đặc tính kế thừa của Class.
 
 ```ts
 /**
@@ -671,7 +671,7 @@ Ví dụ:
 import { Column, Entity, ManyToOne, OneToMany, BaseEntity, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Category } from './category.entity';
-import { Supplier } from './supplier.entity';
+import { Brand } from './brand.entity';
 import { OrderDetail } from './order-details.entity';
 
 @Entity({ name: 'Products' })
@@ -698,8 +698,8 @@ export class Product extends BaseEntity {
   @ManyToOne(() => Category, (c) => c.products)
   category: Category;
 
-  @ManyToOne(() => Supplier, (s) => s.products)
-  supplier: Supplier;
+  @ManyToOne(() => Brand, (s) => s.products)
+  brand: Brand;
 
   @OneToMany(() => OrderDetail, (od) => od.product)
   orderDetails: OrderDetail[];
@@ -724,7 +724,7 @@ Sử dụng
 
 
 ```ts
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { BeforeInsert, BeforeUpdate, Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 import {
     Contains,
     IsInt,
@@ -734,6 +734,7 @@ import {
     IsDate,
     Min,
     Max,
+    validateOrReject
 } from "class-validator"
 
 @Entity()
@@ -771,6 +772,16 @@ export class MyEntity {
     @IsDate()
     createDate: Date
 
+    //validator
+    @BeforeInsert() //Truoc khi them moi
+    @BeforeUpdate() //truoc khi cap nhat
+    async validate() {
+        try {
+            await validateOrReject(this);
+          } catch (errors) {
+            console.log('Caught promise rejection (validation failed). Errors: ', errors);
+          }
+    }
 }
 ```
 

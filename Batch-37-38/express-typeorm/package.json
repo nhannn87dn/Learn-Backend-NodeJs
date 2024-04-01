@@ -1,0 +1,21 @@
+{
+  "name": "express-typeorm",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.3"
+  },
+  "scripts": {
+    "dev": "ts-node-dev app.ts"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "class-validator": "^0.14.1",
+    "express": "^4.19.2",
+    "mssql": "^10.0.2",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.20"
+  }
+}
