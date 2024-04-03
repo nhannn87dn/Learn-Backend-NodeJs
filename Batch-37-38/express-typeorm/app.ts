@@ -1,15 +1,10 @@
 import express from "express"
-import { Request, Response } from "express"
-import { User } from "./entities/user.entity"
-import {My} from "./entities/my.entity"
-import { Product } from "./entities/Product.entity"
-import { Category } from "./entities/Category.entity"
-import { Brand } from "./entities/Brand.entity"
+import { Request, Response, NextFunction } from "express"
 import bodyParser from "body-parser"
-import { myDataSource } from "./data-soucre"
 import routerProduct from "./routes/products.route"
 import routerCategories from "./routes/categories.route"
 import routerBrand from "./routes/brand.route"
+import createError  from 'http-errors';
 // create and setup express app
 const app = express()
 app.use(bodyParser.json())
@@ -20,53 +15,22 @@ app.use('/products', routerProduct)
 app.use('/categories', routerCategories)
 app.use('/brands', routerBrand)
 
-app.get("/demo", async function (req: Request, res: Response) {
-    //const result = await myDataSource.getRepository(My).find()
-    const result = await myDataSource.getRepository(Product).find({
-        relations: {
-            category: true,
-            brand: true
-        }
+
+// catch 404 and forward to error handler
+app.use(function (req: Request, res: Response, next: NextFunction) {
+    next(createError(404));
+  });
+  
+  // error handler
+  app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+  
+    const statusCode = err.status || 500;
+    res.status(statusCode).json({ 
+      statusCode: statusCode, 
+      message: err.message 
     });
-    res.json(result)
-})
-
-// register routes
-app.get("/users", async function (req: Request, res: Response) {
-    const users = await myDataSource.getRepository(User).find({
-        relations: {
-            profile: true
-        }
-    })
-    res.json(users)
-})
-
-app.get("/users/:id", async function (req: Request, res: Response) {
-    const results = await myDataSource.getRepository(User).findOneBy({
-        id: parseInt(req.params.id),
-    })
-    return res.send(results)
-})
-
-app.post("/users", async function (req: Request, res: Response) {
-    console.log('create',req.body);
-    const user = await myDataSource.getRepository(User).create(req.body)
-    const results = await myDataSource.getRepository(User).save(user)
-    return res.send(results)
-})
-
-app.put("/users/:id", async function (req: Request, res: Response) {
-    const user = await myDataSource.getRepository(User).findOneBy({
-        id: parseInt(req.params.id),
-    })
-    myDataSource.getRepository(User).merge(user, req.body)
-    const results = await myDataSource.getRepository(User).save(user)
-    return res.send(results)
-})
-
-app.delete("/users/:id", async function (req: Request, res: Response) {
-    const results = await myDataSource.getRepository(User).delete(req.params.id)
-    return res.send(results)
-})
-
+  });
 export default app;
