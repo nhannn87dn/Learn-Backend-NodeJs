@@ -1,13 +1,13 @@
 import express, {Request, Response} from 'express'
 import { myDataSource } from '../data-soucre';
-import { Category } from '../entities/Category.entity';
+import { Brand } from '../entities/Brand.entity';
 
 const router = express();
-const categoryRepository = myDataSource.getRepository(Category)
+const brandRepository = myDataSource.getRepository(Brand)
 
 router.get('', async (req: Request, res: Response)=>{
     //SELECT ALL
-    const result = await categoryRepository.find();
+    const result = await brandRepository.find();
 
     console.log('result',result);
 
@@ -16,12 +16,12 @@ router.get('', async (req: Request, res: Response)=>{
 
 router.post('', async (req: Request, res: Response)=>{
     //SELECT ALL
-    const category = categoryRepository.create({
-        name: "Laptop",
-        description: "Laptop gia re"
+    const brand = brandRepository.create({
+        name: "Asus",
+        description: "Asus gia re"
     })
     //lưu
-    const result = await categoryRepository.save(category)
+    const result = await brandRepository.save(brand)
 
 
     res.json(result)

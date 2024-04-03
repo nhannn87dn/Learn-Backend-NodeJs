@@ -1,0 +1,7 @@
+POST http://localhost:8000/categories
+Content-Type: application/json
+
+
+###
+POST http://localhost:8000/products
+Content-Type: application/json

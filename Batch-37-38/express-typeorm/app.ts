@@ -9,6 +9,7 @@ import bodyParser from "body-parser"
 import { myDataSource } from "./data-soucre"
 import routerProduct from "./routes/products.route"
 import routerCategories from "./routes/categories.route"
+import routerBrand from "./routes/brand.route"
 // create and setup express app
 const app = express()
 app.use(bodyParser.json())
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/products', routerProduct)
 app.use('/categories', routerCategories)
+app.use('/brands', routerBrand)
 
 app.get("/demo", async function (req: Request, res: Response) {
     //const result = await myDataSource.getRepository(My).find()

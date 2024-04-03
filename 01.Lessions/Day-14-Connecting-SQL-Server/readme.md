@@ -395,7 +395,14 @@ await  productRepository.find({
     relations: {
         category: true
     },
-    select: ["id", "name", "category.name"]
+    select: {
+        id: true,
+        name: true,
+        //Chi lay field Name cua table Categories
+        category: {
+            name: true
+        }
+    },
 })
 ```
 

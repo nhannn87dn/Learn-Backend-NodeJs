@@ -42,6 +42,7 @@ export class Product {
   // ----------------------------------------------------------------------------------------------
   @ManyToOne(() => Category, (c) => c.products)
   category: Category;
+  //tao ra field categoryId
 
   @ManyToOne(() => Brand, (s) => s.products)
   brand: Brand;
