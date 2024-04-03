@@ -11,6 +11,152 @@ Tạo dữ liệu Fake  ==> Để có dữ liệu truy vấn.
 
 Sử dụng https://fakerjs.dev
 
+## 💛 Tạo mới Document
+
+```js
+const tank = new Tank({ size: 'small' });
+await tank.save();
+// or
+
+await Tank.create({ size: 'small' });
+
+// or, for inserting large batches of documents
+await Tank.insertMany([{ size: 'small' }]);
+```
+
+### One-to-One: Một `User` có một `Profile`
+
+Cấu trúc Schema:
+
+```js
+const ProfileSchema = new Schema({
+  bio: String,
+  //...
+});
+
+const UserSchema = new Schema({
+  name: String,
+  profile: {
+    type: Schema.Types.ObjectId,
+    ref: 'Profile'
+  }
+});
+```
+
+Cách thực hiện: 
+
+```js
+//Tạo Profile trước
+const profile = await Profile.create({
+   bio: 'Bio here',
+  //...
+});
+//Sau đó lấy id để đưa vào tạo User
+const user = await User.create({
+  name: 'User Name',
+  profile: profile._id
+});
+```
+
+### One-to-Many: Một `Author` có nhiều `Book`
+
+
+Cấu trúc Schema:
+
+```js
+const AuthorSchema = new Schema({
+  name: String,
+  books: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Book'
+  }]
+});
+
+const BookSchema = new Schema({
+  title: String,
+  //...
+});
+```
+
+Cách thực hiện: 
+
+```js
+//Tạo Books trước
+const books = await Book.insertMany([
+  {title: 'Book 1'},
+  {title: 'Book 2'},
+  ]);
+//Sau đó lấy mảng book để đưa vào tạo Author
+const author = await Author.create({
+    name: 'Author Name',
+    books: books.map(book => book._id) // chỉ lấy _id của từng book
+});
+```
+
+### Many-to-Many: Một `Student` tham gia nhiều `Course`, và một `Course` có nhiều `Student`
+
+
+
+Đây là cách mô phỏng quan hệ nhiều-nhiều trong MongoDB bằng cách sử dụng các tham chiếu (references)
+
+Cấu trúc Schema:
+
+```js
+const StudentSchema = new Schema({
+  name: String,
+  enrollments: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Enrollment'
+  }]
+});
+
+const CourseSchema = new Schema({
+  name: String,
+  enrollments: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Enrollment' 
+  }]
+});
+/**
+ * Được xem như một bảng phụ
+ * Để thể hiện quan hệ nhiều - nhiều
+ */
+const EnrollmentSchema = new Schema({
+  student: {
+    type: Schema.Types.ObjectId,
+    ref: 'Student'  //Tham chiếu references
+  },
+  course: {
+    type: Schema.Types.ObjectId,
+    ref: 'Course' //Tham chiếu references
+  },
+  enrollmentDate: Date
+});
+```
+
+
+Cách thực hiện: 
+
+```js
+// Tạo Student và Course trước
+const student = await Student.create({ name: 'Student Name' });
+const course = await Course.create({ name: 'Course Name' });
+
+// Sau đó tạo Enrollment
+const enrollment = await Enrollment.create({
+  student: student._id,
+  course: course._id,
+  enrollmentDate: new Date()
+});
+
+// Cập nhật Student và Course với Enrollment
+student.enrollments.push(enrollment._id);
+course.enrollments.push(enrollment._id);
+
+await student.save();
+await course.save();
+```
+
 ## 💛 Queries
 
 Doc MongoDB CRUD: <https://www.mongodb.com/docs/manual/crud/>

@@ -18,10 +18,207 @@ Chi tiết các lệnh với `Repository`: https://typeorm.io/repository-api
 
 
 
+### 💡 Câu lệnh INSERT
+
+Dùng phương thức `insert`
+
+```ts
+//Thêm một record
+await userRepository.insert({
+    firstName: "Timber",
+    lastName: "Timber",
+})
+//Thêm nhiều records một lần
+await userRepository.insert([
+    {
+        firstName: "Foo",
+        lastName: "Bar",
+    },
+    {
+        firstName: "Rizz",
+        lastName: "Rak",
+    },
+])
+```
+
+Dùng phương thức `create`
+
+```ts
+//Tạo
+const user = userRepository.create({
+    firstName: "Timber",
+    lastName: "Saw"
+})
+//lưu
+await userRepository.save(user)
+```
+
+Hoặc khởi tạo từ đối tượng Entity
+
+```ts
+//Tạo
+const user = new User();
+user.firstName = "Timber";
+user.lastName = "Saw";
+//lưu
+await userRepository.save(user)
+```
+
+#### Tạo mới với quan hệ ONE-to-ONE
+
+```ts
+//Tạo đối tượng tham quan hệ trước
+const profile = new Profile();
+profile.gender = "Female";
+profile.photo = "photo";
+
+//Tạo đối tượng tham chiếu sau
+const user = new User();
+user.firstName = "Timber";
+user.lastName = "Saw";
+/**
+ * bên dưới Database là trường profileId, 
+ * nhưng bạn không được thao tác với tên là profileId
+ * mà dùng chính tên mà bạn thiết lập quan hệ trong Entity để thao tác
+ */
+user.profile = profile;
+//lưu
+await profileRepository.save(profile)
+await userRepository.save(user)
+```
+
+#### Tạo mới với quan hệ ONE-to-MANY / MANY-TO-ONE
+
+Ví dụ: một Sản phẩm có nhiều hình ảnh
+
+```ts
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    OneToMany,
+    JoinColumn,
+} from "typeorm"
+
+
+@Entity()
+export class Photo {
+    /* ... other columns */
+
+    @ManyToOne(() => Author, (author) => author.photos)
+    author: Author
+}
+
+@Entity()
+export class Author {
+    @PrimaryGeneratedColumn()
+    id: number
+
+    @Column()
+    name: string
+
+    @OneToMany(() => Photo, (photo) => photo.author) // note: we will create author property in the Photo class below
+    photos: Photo[]
+}
+
+// create a few photos
+const photo1 = new Photo()
+photo1.name = "Me and Bears"
+photo1.description = "I am near polar bears"
+photo1.filename = "photo-with-bears.jpg"
+photo1.isPublished = true
+
+const photo2 = new Photo()
+photo2.name = "Me and Bears 2"
+photo2.description = "I am near polar bears 2"
+photo2.filename = "photo-with-bears-2.jpg"
+photo2.isPublished = true
+
+// create a few albums
+const auth = new Author()
+auth.name = "Me and Bears"
+auth.photos = [photo1, photo2] //Là một Mảng
+await authRepository.save(auth)
+```
+
+
+#### Tạo mới với quan hệ MANY-TO-MANY
+
+Ví dụ: Giữa `Order` với `OrderItems`.
+
+
+```ts
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToMany,
+    JoinTable,
+} from "typeorm"
+
+@Entity()
+export class Album {
+    @PrimaryGeneratedColumn()
+    id: number
+
+    @Column()
+    name: string
+
+    @ManyToMany(() => Photo, (photo) => photo.albums)
+    @JoinTable()
+    photos: Photo[]
+}
+```
+
+Ở Album bạn thiết lập `@JoinTable` để xác định chủ sở hữu của quan hệ.
+Có thể hiểu: Để tạo Photo thì bạn nên tạo khi tạo Album, chứ không theo hướng ngược lại.
+
+```ts
+export class Photo {
+    // ... other columns
+
+    @ManyToMany(() => Album, (album) => album.photos)
+    albums: Album[]
+}
+```
+
+Tạo ra table phụ
+
+```html
++-------------+--------------+----------------------------+
+|                album_photos_photo_albums                |
++-------------+--------------+----------------------------+
+| album_id    | int(11)      | PRIMARY KEY FOREIGN KEY    |
+| photo_id    | int(11)      | PRIMARY KEY FOREIGN KEY    |
++-------------+--------------+----------------------------+
+```
+
+```ts
+/// create a few albums
+const album1 = new Album()
+album1.name = "Bears"
+await AppDataSource.manager.save(album1)
+
+const album2 = new Album()
+album2.name = "Me"
+await AppDataSource.manager.save(album2)
+
+// create a few photos
+const photo = new Photo()
+photo.name = "Me and Bears"
+photo.description = "I am near polar bears"
+photo.filename = "photo-with-bears.jpg"
+photo.views = 1
+photo.isPublished = true
+photo.albums = [album1, album2]
+await AppDataSource.manager.save(photo)
+```
+
+
 ### 💡 Câu lênh SELECT
 
 ```ts
-userRepository.find({
+await userRepository.find({
     select: {
         firstName: true,
         lastName: true,
@@ -34,7 +231,7 @@ userRepository.find({
 Lấy tất cả * dựa vào một hoặc nhiều điều kiện
 
 ```ts
-userRepository.findBy({
+await  userRepository.findBy({
     firstName: "Timber",
 })
 //SELECT * FROM "user" WHERE firstName = 'Timber'
@@ -55,7 +252,7 @@ const timber = await userRepository.findOne({
 Toán tử AND
 
 ```ts
-userRepository.find({
+await  userRepository.find({
     where: {
         firstName: "Timber",
         lastName: "Saw",
@@ -68,7 +265,7 @@ userRepository.find({
 Toán tử OR
 
 ```ts
-userRepository.find({
+await  userRepository.find({
     where: [
         { firstName: "Timber"},
         { firstName: "Stan"},
@@ -170,8 +367,10 @@ const [users, totalCount] = await userRepository.findAndCount({
 
 **JOIN nhiều table**
 
+Join và lấy tất cả các trường
+
 ```ts
-userRepository.find({
+await  userRepository.find({
     relations: {
         profile: true,
         photos: true,
@@ -189,10 +388,22 @@ LEFT JOIN "photos" ON "photos"."id" = "user"."photoId"
 LEFT JOIN "videos" ON "videos"."id" = "user"."videoId"
 ```
 
+Join và lấy các trường cụ thể
+
+```ts
+await  productRepository.find({
+    relations: {
+        category: true
+    },
+    select: ["id", "name", "category.name"]
+})
+```
+
+
 **Một câu lệnh  Select Đầy đủ**
 
 ```ts
-userRepository.find({
+await  userRepository.find({
     select: {
         //Danh sách các trường cần lấy
         firstName: true,
@@ -236,26 +447,6 @@ const count = await repository.count({
 const count = await repository.countBy({ firstName: "Timber" })
 ```
 
-### 💡 Câu lệnh INSERT
-
-```ts
-//Thêm một record
-await repository.insert({
-    firstName: "Timber",
-    lastName: "Timber",
-})
-//Thêm nhiều records một lần
-await repository.insert([
-    {
-        firstName: "Foo",
-        lastName: "Bar",
-    },
-    {
-        firstName: "Rizz",
-        lastName: "Rak",
-    },
-])
-```
 
 ### 💡 Câu lênh UPDATE
 
@@ -301,20 +492,13 @@ Ngoài cách sử dụng Repository trên bạn có thể sử dụng
 
 ### EntityManager
 
+Mạnh mẽ hơn cách sử dụng Respository
+
 - https://typeorm.io/working-with-entity-manager
 - https://typeorm.io/entity-manager-api
 
 ### Query Builder
 
+Sử dụng khi bạn cần truy vấn với cú pháp phức tạp
+
 - https://typeorm.io/select-query-builder 
-
----
-
-## 💛 Prisma with SQL Server
-
-Tham khảo thêm với cách sử dụng [Prisma SQL Server](prisma-SQLServer.md) một thư viện ORM mạnh mẽ khác
-
-
-
---- 
-

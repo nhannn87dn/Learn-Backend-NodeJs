@@ -19,6 +19,10 @@ Hiển thị UI để nhập thông tin người mua hàng, phương thước th
 
 UI hiển thị trạng thái đặt hàng: Thành công, thất bại ...
 
+## 💛 Gửi Email cho Khách hàng khi đặt hàng thành công
+
+Sử dụng `nodemailer`
+
 
 ## 💛 Homeworks Guide
 

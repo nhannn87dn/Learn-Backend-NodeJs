@@ -1,27 +1,31 @@
-import * as express from "express"
+import express from "express"
 import { Request, Response } from "express"
 import { User } from "./entities/user.entity"
 import {My} from "./entities/my.entity"
+import { Product } from "./entities/Product.entity"
+import { Category } from "./entities/Category.entity"
+import { Brand } from "./entities/Brand.entity"
+import bodyParser from "body-parser"
 import { myDataSource } from "./data-soucre"
-import * as bodyParser from "body-parser"
-// establish database connection
-myDataSource
-    .initialize()
-    .then(() => {
-        console.log("Data Source has been initialized!")
-    })
-    .catch((err) => {
-        console.error("Error during Data Source initialization:", err)
-    })
-
+import routerProduct from "./routes/products.route"
+import routerCategories from "./routes/categories.route"
 // create and setup express app
 const app = express()
 app.use(bodyParser.json())
 // app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
+
+app.use('/products', routerProduct)
+app.use('/categories', routerCategories)
 
 app.get("/demo", async function (req: Request, res: Response) {
-    const result = await myDataSource.getRepository(My).find()
+    //const result = await myDataSource.getRepository(My).find()
+    const result = await myDataSource.getRepository(Product).find({
+        relations: {
+            category: true,
+            brand: true
+        }
+    });
     res.json(result)
 })
 
@@ -63,7 +67,4 @@ app.delete("/users/:id", async function (req: Request, res: Response) {
     return res.send(results)
 })
 
-// start express server
-app.listen(3000, ()=> {
-  console.log('Connect server successful');
-})
+export default app;

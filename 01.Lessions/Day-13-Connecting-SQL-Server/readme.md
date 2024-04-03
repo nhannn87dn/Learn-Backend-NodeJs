@@ -201,19 +201,30 @@ import { DataSource } from 'typeorm';
 
 export const myDataSource = new DataSource({
   type: 'mssql',
-  host: 'NHAN2',
+  host: 'NHAN2', //Computer Name
   port: 1433,
   username: 'nhan',
   password: '123456789',
-  database: 'ExpressSQLServer34',
-  entities: ['entities/**/*.entity{.ts,.js}'],
-  synchronize: true,
-  logging: false,
+  database: 'ExpressSQLServer34', //Tên Database
+  entities: ['entities/**/*.entity{.ts,.js}'], //Chỉ rõ thư mục chứa các file entity
+  synchronize: true, //Đồng bộ với Database
+  logging: false, //ghi log
   options: {
-    encrypt: false,
+    encrypt: false, //True khi chạy trên production
   },
 });
 ```
+
+Trong đó có thông số `synchronize` =  true, nghĩa là mỗi khi bạn thay đổi `Entity` thì nó đồng bộ thay đổi xuống Database.
+
+Để an toàn hơn nên nghiên cứu thêm tính năng nâng cao của TypeORM đó là `Migration`
+
+Chi tiết tại: https://typeorm.io/migrations
+
+Khi sử dụng `Migration`, mọi thay đổi lưu lại thành file. Đến khi bạn tự chạy lệnh run Migration thì những thay đổi đó mới được đồng bộ xuống database.
+
+Ngoài ra nó còn cho bạn khôi phục lại các thay đổi đã chạy vì một lí do gì đó.
+
 
 **Bước 8** 
 
@@ -323,7 +334,6 @@ Nếu thành công bạn sẽ thấy log
 ```bash
 Data Source has been initialized!
 Connect server successful
-
 ```
 
 Nễu lỗi và cách Fix:
@@ -685,24 +695,23 @@ export class Product extends BaseEntity {
   @Column({ name: 'Price', type: 'decimal', precision: 18, scale: 2 })
   price: number;
 
- 
-  @Column({ type: 'int' })
-  categoryId: number;
-
-  @Column({ type: 'int' })
-  brandId: number;
-
   // ----------------------------------------------------------------------------------------------
   // RELATIONS
   // ----------------------------------------------------------------------------------------------
   @ManyToOne(() => Category, (c) => c.products)
   category: Category;
+  /**
+   * Sau khi đồng bộ TypeORM sẽ tạo ra trường khóa ngoại: categoryId
+   */
 
   @ManyToOne(() => Brand, (s) => s.products)
   brand: Brand;
+  /**
+   * Sau khi đồng bộ TypeORM sẽ tạo ra trường khóa ngoại: brandId
+   */
 
-  @OneToMany(() => OrderDetail, (od) => od.product)
-  orderDetails: OrderDetail[];
+  @OneToMany(() => OrderItems, (od) => od.product)
+  orderItems: OrderItems[];
 }
 
 ```

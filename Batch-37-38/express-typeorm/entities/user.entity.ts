@@ -37,7 +37,7 @@ export class User extends BaseField{
     firstName: string
     //firstName nvarchar
 
-    @Column()
+    @Column({length: 50, default: ''})
     lastName: string
 
     @OneToOne(() => Profile)
