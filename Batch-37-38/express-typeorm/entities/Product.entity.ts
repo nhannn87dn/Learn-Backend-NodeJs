@@ -40,7 +40,9 @@ export class Product {
   // ----------------------------------------------------------------------------------------------
   // RELATIONS
   // ----------------------------------------------------------------------------------------------
-  @ManyToOne(() => Category, (c) => c.products)
+  @ManyToOne(() => Category, (c) => c.products, {
+    onDelete: 'SET NULL'
+  })
   category: Category;
   //tao ra field categoryId
 

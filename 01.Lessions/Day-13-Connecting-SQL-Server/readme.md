@@ -670,6 +670,12 @@ export class Category extends BaseEntity {
 
 Mục đích bạn thiết lập như vậy là để ORM truy vấn thông tin dựa trên mối quan hệ từ vế đang đứng.
 
+#### Ràng Buộc Cascade Options
+
+Chi tiết: https://typeorm.io/relations#cascades
+
+Xem cách cau hinh CASCADE cho khoa ngoai
+
 ### 🔸 Many-to-many
 
 Chi tiết: https://typeorm.io/many-to-many-relations

@@ -1,31 +1,20 @@
 import express, {Request, Response} from 'express'
-import { myDataSource } from '../data-soucre';
-import { Category } from '../entities/Category.entity';
-
 const router = express();
-const categoryRepository = myDataSource.getRepository(Category)
+import categoryController from '../controllers/category.controller';
 
-router.get('', async (req: Request, res: Response)=>{
-    //SELECT ALL
-    const result = await categoryRepository.find();
+//GET - http:localhost:8000/categories
+router.get('', categoryController.getAll)
 
-    console.log('result',result);
+//GET - http:localhost:8000/categories/:id
+router.get('/:id',categoryController.getById)
 
-    res.json(result)
-})
+//POST - http:localhost:8000/categories
+router.post('', categoryController.create)
+//PUT - http:localhost:8000/categories/:id
+router.put('/:id', categoryController.updateById)
+//DELETE - http:localhost:8000/categories/:id
+router.delete('/:id', categoryController.deleteById)
 
-router.post('', async (req: Request, res: Response)=>{
-    //SELECT ALL
-    const category = categoryRepository.create({
-        name: "Laptop",
-        description: "Laptop gia re"
-    })
-    //lưu
-    const result = await categoryRepository.save(category)
-
-
-    res.json(result)
-})
 
 
 export default router

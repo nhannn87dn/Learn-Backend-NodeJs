@@ -1,7 +1,11 @@
-POST http://localhost:8000/categories
-Content-Type: application/json
+GET http://localhost:8000/categories
 
 
 ###
-POST http://localhost:8000/products
+POST http://localhost:8000/categories
 Content-Type: application/json
+
+{
+    "name": "Access",
+    "description": "Phu kien gia re"
+}
