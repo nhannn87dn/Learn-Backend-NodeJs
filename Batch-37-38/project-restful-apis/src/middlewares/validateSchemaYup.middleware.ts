@@ -4,6 +4,11 @@ import { NextFunction, query, Request, Response } from 'express';
 
 const validateSchemaYup = (schema: object) => async (req: Request, res: Response, next: NextFunction) => {
   const pickSchema = _.pick(schema, ['params', 'body', 'query']);
+  // const pickSchema = {
+  //   params: req.params,
+  //   body: req.body,
+  //   query: req.query
+  // }
   const object = _.pick(req, Object.keys(pickSchema));
  
   try {
