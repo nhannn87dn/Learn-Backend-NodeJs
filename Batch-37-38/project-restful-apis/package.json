@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "npx tsc -p",
-    "start": "node server.ts",
+    "start": "node dist/server.js",
     "seed": "ts-node-dev src/seeds/db.ts",
     "demo": "ts-node-dev src/seeds/test.ts",
     "dev": "ts-node-dev --respawn --transpile-only server.ts"
