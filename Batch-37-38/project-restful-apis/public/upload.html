@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        .class {
+
+        }
+    </style>
+    <h2>Upload single file</h2>
+    <form  action="/api/v1/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="avatar" />
+        <button type="submit">Upload</button>
+    </form>
+    <hr>
+    <h2>Upload Multi file</h2>
+    <form action="/api/v1/upload/multi" method="post" enctype="multipart/form-data">
+        <div>
+            <input type="file" name="photos" />
+        </div>
+        <div>
+            <input type="file" name="photos" />
+        </div>
+        
+        <button type="submit">Upload</button>
+    </form>
+    <hr>
+    <h2>Upload handle error</h2>
+    <form action="/api/v1/upload/handle-error" method="post" enctype="multipart/form-data">
+        <input type="file" name="profile" />
+        <button type="submit">Upload</button>
+    </form>
+   
+</body>
+</html>

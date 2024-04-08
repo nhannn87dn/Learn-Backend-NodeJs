@@ -13,8 +13,11 @@ import routerAuth from './routes/v1/auth.route';
 import routerStaff from './routes/v1/staffs.route';
 import routeCustomer from './routes/v1/customers.route';
 import routerOrder from './routes/v1/orders.route';
+import routerUpload from './routes/v1/upload.route';
+import routerEmail from './routes/v1/sendmail.route'
 import { logs } from './middlewares/logs.middleware';
 import { second } from './middlewares/second.middleware';
+import path from 'node:path'
 //Để bắt được kiểu JSON từ client gửi lên
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -23,6 +26,8 @@ app.use(cors({ origin: '*' })); //Cho phép gọi bất kỳ đâu
 // app.use(logs)
 // app.use(second)
 
+//Cau hinh thu muc tai nguyen tinh
+app.use(express.static(path.join(__dirname, "../public")));
 
 // Định nghiax các routes
 app.get('/', (req: Request, res: Response) => {
@@ -39,6 +44,8 @@ app.use('/api/v1/auth', routerAuth);
 app.use('/api/v1/staffs', routerStaff);
 app.use('/api/v1/customers', routeCustomer);
 app.use('/api/v1/orders', routerOrder);
+app.use('/api/v1/upload', routerUpload);
+app.use('/api/v1/sendmail', routerEmail);
 
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {
