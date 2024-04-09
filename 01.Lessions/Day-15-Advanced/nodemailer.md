@@ -4,12 +4,13 @@
 
 ```bash
 npm install nodemailer
+yarn add nodemailer
 ```
 
 2. Gửi mail
 
 ```js
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 // Tạo transporter
 const transporter = nodemailer.createTransport({
@@ -20,7 +21,7 @@ const transporter = nodemailer.createTransport({
         user: 'your_email@gmail.com',
         pass: 'app_password' //mật khẩu ứng dụng
     }
-});
+} as nodemailer.TransportOptions);
 
 // Tạo nội dung email
 const mailOptions = {
@@ -31,7 +32,7 @@ const mailOptions = {
 };
 
 // Gửi email
-transporter.sendMail(mailOptions, (error, info) => {
+transporter.sendMail(mailOptions, (error: Error | null, info: nodemailer.SentMessageInfo) => {
     if (error) {
         console.log(error);
     } else {

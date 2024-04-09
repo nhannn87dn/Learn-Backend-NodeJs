@@ -4,14 +4,14 @@ import nodemailer from 'nodemailer'
 import globalConfig from '../../constants/config'
 // Tạo transporter
 const transporter = nodemailer.createTransport({
-    host: globalConfig.GMAIL_HOST,
+    host: globalConfig.GMAIL_HOST || 'localhost',
     port: globalConfig.GMAIL_PORT,
     secure: false, // true for 465, false for other ports
     auth: {
         user: globalConfig.GMAIL_EMAIL,
         pass: globalConfig.GMAIL_PASS_APP, //mật khẩu ứng dụng
     }
-});
+} as nodemailer.TransportOptions);
 
 //localhost://api/v1/sendmail
 router.post('', (req, res, next)=>{
@@ -25,7 +25,7 @@ router.post('', (req, res, next)=>{
         };
 
             // Gửi email
-        transporter.sendMail(mailOptions, (error, info) => {
+        transporter.sendMail(mailOptions, (error: Error | null, info: nodemailer.SentMessageInfo) => {
             if (error) {
                 console.log(error);
                 res.status(500).json({
@@ -57,7 +57,7 @@ router.post('/html', (req, res, next)=>{
         };
 
             // Gửi email
-        transporter.sendMail(mailOptions, (error, info) => {
+        transporter.sendMail(mailOptions, (error: Error | null, info: nodemailer.SentMessageInfo) => {
             if (error) {
                 console.log(error);
                 res.status(500).json({
