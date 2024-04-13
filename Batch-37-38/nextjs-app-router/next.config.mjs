@@ -5,7 +5,7 @@ const nextConfig = {
          * Cấu hình domain cho các tài nguyên tĩnh
          * từ nguồn bên ngoài
          */
-        domains: ['ecshopvietnam.com'],
+        domains: ['ecshopvietnam.com', 'img.freepik.com'],
     },
 };
 
