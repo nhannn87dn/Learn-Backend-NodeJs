@@ -5,11 +5,11 @@
   "license": "MIT",
   
   "scripts": {
-    "build": "npx tsc -p tsconfig.json --noEmitOnError",
+    "build": "tsc",
     "start": "node dist/server.js",
     "seed": "ts-node-dev src/seeds/db.ts",
     "demo": "ts-node-dev src/seeds/test.ts",
-    "dev": "ts-node-dev --respawn --transpile-only server.ts"
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
