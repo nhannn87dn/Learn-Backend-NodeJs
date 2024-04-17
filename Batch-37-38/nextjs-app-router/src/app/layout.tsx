@@ -3,7 +3,7 @@ import { Inter,Roboto } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
-
+import { NextAuthProvider } from "@/components/providers/authProviders";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -17,6 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <NextAuthProvider>
     <html lang="en">
       <body className={inter.className}>
         <Header />
@@ -29,5 +30,6 @@ export default function RootLayout({
         <Footer />
       </body>
     </html>
+    </NextAuthProvider>
   );
 }
