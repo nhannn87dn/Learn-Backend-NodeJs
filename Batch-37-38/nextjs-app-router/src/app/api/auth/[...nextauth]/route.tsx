@@ -1,6 +1,7 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import NextAuth from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
 
 const authOptions: NextAuthOptions = {
   debug: true,
@@ -11,7 +12,10 @@ const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   providers: [
-    
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
     CredentialsProvider({
       name: "Sign in",
       credentials: {
@@ -95,6 +99,7 @@ const authOptions: NextAuthOptions = {
       console.log('callbacks session', session);
       return session;
     },
+   
   },
 };
 

@@ -86,7 +86,15 @@ const LoginForm = ({csrfToken}: {csrfToken: string}) => {
                 <button disabled={isLoading} type="submit" className="btn btn-primary">
                     {isLoading ? 'Processing...' : 'Login'}
                 </button>
+                
             </form>
+            <button onClick={()=>{
+                  console.log('gg');
+                  const res = signIn('google', {redirect: true,callbackUrl})
+                  console.log('res google', res);
+                }}  type="button" className="btn block w-full mt-4">
+                    Login with Google
+                </button>
          </div>
     </div>
   )
