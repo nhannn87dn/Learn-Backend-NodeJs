@@ -18,7 +18,7 @@ const callbackUrl = '/customers'
  * 
  * Được hiểu ngầm định là Server component
  */
-const LoginForm = ({csrfToken}: {csrfToken: string}) => {
+const LoginForm = ({csrfToken}: {csrfToken: string | undefined}) => {
     const [error, setError] = useState('');
     const router = useRouter();
     const [isLoading, setIsLoading] =  useState(false)

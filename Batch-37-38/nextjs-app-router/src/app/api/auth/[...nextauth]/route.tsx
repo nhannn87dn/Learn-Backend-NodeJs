@@ -80,8 +80,8 @@ const authOptions: NextAuthOptions = {
       if (account && user) {
         return {
           ...token,
-          accessToken: user.token,
-          refreshToken: user.refreshToken,
+          //accessToken: user?.token,
+          //refreshToken: user?.refreshToken,
           avatar: token.avatar
         };
       }
@@ -91,11 +91,11 @@ const authOptions: NextAuthOptions = {
 
     async session({ session, token }) {
       //console.log('callbacks session', token);
-      if(token){
-        session.user.accessToken = token.accessToken;
-        session.user.refreshToken = token.refreshToken;
-        session.user.picture = token.picture || token.avatar;
-      }
+      // if(token && session.user){
+      //   session.user.accessToken = token.accessToken;
+      //   session.user.refreshToken = token.refreshToken;
+      //   session.user.picture = token.picture || token.avatar;
+      // }
       console.log('callbacks session', session);
       return session;
     },

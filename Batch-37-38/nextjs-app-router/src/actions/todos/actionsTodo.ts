@@ -30,7 +30,7 @@ export async function createTodo(prevState: any, formData: FormData) {
     `
         
       revalidatePath('/todos') // làm tươi lại đường dẫn
-      return { ok: true, message: `Added todo ${data.todo}` }
+      return { ok: true, message: `Added todo ${data.title}` }
     } catch (e) {
       return { ok: false, message: 'Failed to create todo' }
     }

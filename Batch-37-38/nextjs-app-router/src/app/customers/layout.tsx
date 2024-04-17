@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 const CustomerLayout = ({children}: {children: React.ReactNode}) => {
   const router = useRouter();
   const {data:session, status } = useSession();
-  const user = session?.user;
+  const user = session?.user || null;
   //Kiểm tra xem đã đăng nhập chưa, nếu chưa thì cho login
   React.useEffect(()=>{
     if (status  !== 'authenticated') {
@@ -21,7 +21,7 @@ const CustomerLayout = ({children}: {children: React.ReactNode}) => {
           <ul className='flex flex-col gap-y-3'>
             <li className='flex mb-5'>
                 <div className="avatar">
-                  <img height={40} width={40} src={user?.image} alt="" />
+                  {user && user.image ? (<img height={40} width={40} src={user.image} alt="" />) : null}
                 </div>
                 <div className="username">
                   {user?.name}
