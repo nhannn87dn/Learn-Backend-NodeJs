@@ -38,6 +38,14 @@ const OrderDetailsSchema = new Schema<TOrderItems>(
       min: 0,
       max: 70,
     },
+    name: {
+      type: String,
+      required: false,
+    },
+    thumb: {
+      type: String,
+      required: false,
+    }
   }
 );
 
@@ -138,7 +146,7 @@ const orderSchema = new Schema<IOrder, OrderModelType>({
   customer: {
     type: Schema.Types.ObjectId,
     ref: 'Customer',
-    required: false,
+    required: true,
   },
   staff: {
     type: Schema.Types.ObjectId,

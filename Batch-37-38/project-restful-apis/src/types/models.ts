@@ -2,8 +2,8 @@ import { customers } from './../seeds/customer';
 import {ObjectId, Model, HydratedDocument, QueryWithHelpers} from 'mongoose';
 
 interface BaseProperties {
-    sort: number,
-    isActive: boolean,
+    sort?: number,
+    isActive?: boolean,
 }
 
 export enum  EnumOrderStatus {
@@ -74,8 +74,8 @@ export interface ICustomer extends BaseProperties{
     lastName: string,
     email: string,
     phone: string,
-    password: string,
-    isEmailVerified: boolean,
+    password?: string,
+    isEmailVerified?: boolean,
     address: string,
     yard: string,
     district: string,
@@ -108,6 +108,8 @@ export type TOrderItems = {
     quantity: number;
     price: number;
     discount: number;
+    thumb?: string;
+    name: string;
 }
 
 export type TActionOrder = {
@@ -124,12 +126,8 @@ export interface IOrder {
     shippedDate?: Date,
     paidDate?: Date,
     orderStatus: EnumOrderStatus,
-    customerName: string,
-    customerMobile: string,
-    customerEmail?: string,
     shippingAddress: string,
     shippingYard: string,
-    shippingCity: string,
     shippingDistrict: string,
     shippingProvince: string,
     paymentType: EnumPayments,
@@ -137,6 +135,23 @@ export interface IOrder {
     orderItems: TOrderItems[],
     actions?: TActionOrder[],
     createdAt?: Date,
+}
+
+export interface IPayloadOrder {
+    orderItems: TOrderItems[],
+    orderNote?: string,
+    paymentType: EnumPayments,
+    customer: {
+        firstName: string,
+        lastName: string,
+        email: string,
+        phone: string,
+        address: string,
+        district: string,
+        yard: string,
+        province: string,
+    }
+   
 }
 // Models and schemas
 export type OrderModelType = Model<IOrder>;

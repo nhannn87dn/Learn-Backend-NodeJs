@@ -35,10 +35,7 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
 
         const order=  await ordersService.createOrder(data)
 
-        // res.status(201).json({
-        //     message: `Created Order`,
-        //     order: order
-        // })
+       
         sendJsonSuccess(res, 'Create Order successfully', 201)(order)
     }
     catch(err){

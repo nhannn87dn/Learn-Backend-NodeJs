@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import app from './src/app';
-import globalConfig from './src/constants/config'
+import app from './app';
+import globalConfig from './constants/config'
 // import dotenv from 'dotenv';
 // dotenv.config();
 

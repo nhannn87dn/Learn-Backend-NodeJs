@@ -49,7 +49,13 @@ const getCustomerById  = async (id:string)=>{
     return result;
 }
 
+const findCustomer  = async (email:string, phone: string)=>{
+    const result = await Customer.findOne({ $or: [{ email: email }, { phone: phone }] });
+    return result;
+}
+
 const createCustomer = async (data: ICustomer)=>{
+    console.log('<<=== 🚀  createCustomer ===>>',data);
     const result = await Customer.create(data)
     return result;
 }
@@ -83,5 +89,6 @@ export default {
     getCustomerById,
     createCustomer,
     updateCustomer,
-    deleteCustomer
+    deleteCustomer,
+    findCustomer
 }

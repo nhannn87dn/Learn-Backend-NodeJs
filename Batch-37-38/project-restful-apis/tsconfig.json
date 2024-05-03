@@ -1,38 +1,14 @@
-// {
-//   "compilerOptions": {
-//     "target": "es5",                          
-//     "module": "commonjs",                    
-//     "lib": ["es6"],                     
-//     "allowJs": true,
-//     "outDir": "dist",                          
-//     "rootDir": ".",
-//     "strict": true,         
-//     "noImplicitAny": true,
-//     "esModuleInterop": true,
-//     "resolveJsonModule": true
-//   }
-// }
-
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "CommonJS",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    },
-    "moduleResolution": "Node",
+    "target": "es5",
+    "module": "commonjs",
+    "lib": ["es6"],
+    "allowJs": true,
     "outDir": "dist",
-    "importsNotUsedAsValues": "remove",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "rootDir": ".",
     "strict": true,
-    "noPropertyAccessFromIndexSignature": false,
-    "skipLibCheck": true,
-    "ignoreDeprecations": "5.0",
-    "types": ["vitest/globals"]
-  },
-  "extends": [],
-  "exclude": ["node_modules"],
-  "include": ["src/**/*.ts"]
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  }
 }
