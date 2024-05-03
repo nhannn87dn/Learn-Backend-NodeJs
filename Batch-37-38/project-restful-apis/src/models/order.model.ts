@@ -112,18 +112,7 @@ const orderSchema = new Schema<IOrder, OrderModelType>({
   orderNote: {
     type: String
   },
-  customerName: {
-    type: String,
-    require: true
-  },
-  customerMobile: {
-    type: String,
-    require: true
-  },
-  customerEmail: {
-    type: String,
-    require: false
-  },
+  
   shippingAddress: {
     type: String,
     require: true
