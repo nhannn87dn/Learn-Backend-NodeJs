@@ -28,10 +28,16 @@ const Checkout = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+  /**
+   *
+   * Khi click vào nút Place Order
+   */
   const onSubmit = async (data: any) => {
     console.log(data);
     const payload = {
+      //Thông tin khách hàng
       customer: {
+        customerId: "", //Nếu đã login thì lấy
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
@@ -41,9 +47,11 @@ const Checkout = () => {
         district: data.shippingDistrict,
         province: data.shippingProvince,
       },
+      // Sản phẩm của đơn hàng
       orderItems: items,
-      paymentType: data.paymentType,
-      orderNote: "",
+      //Các trường khác của đơn hàng
+      paymentType: data.paymentType, //phương thức thanh toán
+      orderNote: "", // ghi chú đơn hàng
     };
     const result = await placeOrder(payload);
     console.log("result", result);

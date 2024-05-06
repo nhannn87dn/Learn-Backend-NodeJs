@@ -142,6 +142,7 @@ export interface IPayloadOrder {
     orderNote?: string,
     paymentType: EnumPayments,
     customer: {
+        customerId?: string,
         firstName: string,
         lastName: string,
         email: string,

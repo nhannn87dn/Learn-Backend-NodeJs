@@ -56,45 +56,64 @@ const getOrderById  = async (id:string)=>{
 }
 
 const createOrder = async (data: IPayloadOrder)=>{
-    //B1 check tồn tại customer trước
+    //B1 check xem customer login hay là chưa
+    // dựa vào customerId truyền lên
     let  customerId = null;
-    const customer = await customersService.findCustomer(
-        data.customer.email || '',
-        data.customer.phone
-    )
-    //Nếu chưa có thì tạo mới
-    if(!customer){
-        const newCustomer = await customersService.createCustomer({
-            firstName: data.customer.firstName,
-            lastName: data.customer.lastName,
-            email: data.customer.email,
-            phone: data.customer.phone,
-            address: data.customer.address,
-            yard: data.customer.yard,
-            district: data.customer.district,
-            province: data.customer.province,
-        });
-        customerId = newCustomer._id;
+    if(data.customer.customerId){
+        customerId = data.customer.customerId
     }
+    //Nếu chưa login
     else{
-        customerId = customer?._id;
+        //Đi check xem đã tồn tại customer chưa
+        const customer = await customersService.findCustomer(
+            data.customer.email || '',
+            data.customer.phone
+        );
+        //Nếu chưa có thì tạo mới
+        if(!customer){
+            const newCustomer = await customersService.createCustomer({
+                firstName: data.customer.firstName,
+                lastName: data.customer.lastName,
+                email: data.customer.email,
+                phone: data.customer.phone,
+                address: data.customer.address,
+                yard: data.customer.yard,
+                district: data.customer.district,
+                province: data.customer.province,
+            });
+            customerId = newCustomer._id;
+        }
+        else{
+            //Còn nếu đã tồn tại rồi thì lấy id cũ
+            customerId = customer._id;
+        }
     }
-    //Sau đó lấy id khách hàng để tạo đơn
-    if(!customerId){
-        throw createError(404,'ID Customer not found');
-    }
+   
+    /**
+     * Đảm bảo những trường require phải có
+     */
     const result = await Order.create({
-        customer: customerId,
+        /**
+         * Lưu ý có trường customer là ID của khách hàng
+         * 1.KH ko login
+         * 2.KH có login
+         */
+        customer: customerId, 
         orderDate: new Date(),
         orderStatus: EnumOrderStatus.Pending,
+        /* 
+        4 trường này nên lấy theo form gửi lên 
+        dù cho cho khách hàng đó đã tồn tại
+        */
         shippingAddress: data.customer.address,
         shippingYard: data.customer.yard,
         shippingDistrict: data.customer.district,
         shippingProvince: data.customer.province,
+
         paymentType: data.paymentType,
         orderNote: data?.orderNote || '',
         orderItems: data.orderItems,
-        });
+    });
 
     return result;
 }
