@@ -1,9 +1,9 @@
 import express, { NextFunction, Express, Request, Response } from "express";
-const app: Express = express();
 import cors from 'cors'
 import { sendJsonErrors } from './helpers/responseHandler';
 import createError  from 'http-errors';
 import routeCategories from './routes/v1/categories.route'
+const app: Express = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
