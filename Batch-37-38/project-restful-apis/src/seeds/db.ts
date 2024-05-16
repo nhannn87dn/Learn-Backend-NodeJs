@@ -9,8 +9,10 @@ import Product from '../models/product.model'
 import { categories } from "./category";
 import { brands } from "./brand";
 import {EnumOrderStatus, EnumPayments} from '../types/models'
+import dotenv from 'dotenv';
+dotenv.config();
 
-const MONGO_CONNECT = `mongodb://localhost:27017/Batch3738`;
+const MONGO_CONNECT = `mongodb+srv://nhan:67X.3Z2KEf$QhpK@cluster0.updfoes.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 const mongooseDbOptions = {
     autoIndex: true, // Don't build indexes
     maxPoolSize: 10, // Maintain up to 10 socket connections

@@ -20,6 +20,7 @@ const storage = multer.diskStorage({
   })
   
 const upload = multer({ storage: storage })
+const uploadSingle = upload.single('file')
 const uploadHandle = upload.single('profile')
 //Single Upload file
 /**
@@ -39,6 +40,37 @@ router.post('/multi', upload.array('photos', 12), (req, res, next)=>{
     console.log(req.file?.filename);
     res.end('upload multi files')
 })
+
+router.post('/single',  (req, res, next)=>{
+    uploadSingle(req, res, function (err) {
+        if (err instanceof multer.MulterError) {
+          // A Multer error occurred when uploading.
+            res.status(500).json({
+                statusCode: 500,
+                message: err.message,
+                typeError: 'MulterError'
+            })
+        } else if (err) {
+          // An unknown error occurred when uploading.
+            res.status(500).json({
+                statusCode: 500,
+                message: err.message,
+                typeError: 'UnKnownError'
+            })
+        }
+        console.log(req.file?.filename);
+        // Everything went fine.
+        res.status(200).json({
+            statusCode: 200,
+            message: 'success',
+            data: {
+                link: `upload/${req.file?.filename}`
+            }
+            //uploads/cloud-1712578218089-387840211.png
+        });
+    });
+})
+
 /**
  * Upload custom Error
  */

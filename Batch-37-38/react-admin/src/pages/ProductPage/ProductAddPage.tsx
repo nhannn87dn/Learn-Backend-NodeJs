@@ -1,10 +1,11 @@
 import React from 'react';
-import {Form,Checkbox, Input,InputNumber, type FormProps, Select,Button,message} from 'antd'
+import {Form,Checkbox, Input,InputNumber, type FormProps, Select,Button,message, Row, Col, Upload} from 'antd'
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosClient } from "../../library/axiosClient";
 import { useNavigate } from "react-router-dom";
 import useAuth from '../../hooks/useAuth';
-
+import globalConfig from "../../constants/config";
+import { UploadOutlined } from "@ant-design/icons";
 interface DataType {
     _id?: string;
     productName: string;
@@ -261,6 +262,30 @@ const ProductAddPage = () => {
           >
             <Input />
           </Form.Item>
+          <Row style={{margin: "20px 0"}}>
+          <Col offset={4}>
+            
+            <Upload 
+            action= {`${globalConfig.urlAPI}/v1/upload/single`} 
+            listType="picture"
+            onChange={(file)=>{
+              console.log(file,file.file.status);
+              /** Upload thành công thì cập nhật lại giá trị input thumbnail */
+              if(file.file.status === 'done'){
+                updateFormEdit.setFieldValue('thumbnail',file.file.response.data.link)
+              }
+            }}
+            onRemove={(file)=>{
+              console.log(file);
+              /** Khi xóa hình thì clear giá trị khỏi input */
+              updateFormEdit.setFieldValue('thumbnail',null);
+              /** Đồng thời gọi API xóa link hình trên server, dựa vào đường dẫn */
+            }}
+            >
+              <Button icon={<UploadOutlined />}>Upload</Button>
+            </Upload>
+          </Col>
+        </Row>
 
           <Form.Item wrapperCol={{ offset: 4, span: 20 }}>
          

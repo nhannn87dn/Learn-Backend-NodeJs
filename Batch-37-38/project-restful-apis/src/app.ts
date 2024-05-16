@@ -58,11 +58,6 @@ app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  const statusCode = err.status || 500;
-  // res.status(statusCode).json({ 
-  //   statusCode: statusCode, 
-  //   message: err.message 
-  // });
   sendJsonErrors(req,res,err)
 });
 export default app;

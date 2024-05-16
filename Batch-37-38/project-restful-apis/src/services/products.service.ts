@@ -213,13 +213,19 @@ const getProductBySlug  = async (slug:string)=>{
 
 
 const createProduct = async (data: IProduct)=>{
-    const result = await Product.create(data)
+    /**
+     * Để tránh Rác hình ảnh
+     * Thêm mới sản phẩm trước, nếu thành công thì mới đi upload hình ảnh.
+     */
+    const result = await Product.create(data);
     return result;
 }
 
 const updateProduct = async (id: string,data: IProduct)=>{
     /* Tận dùng hàm có sẳn để tìm xem danh mục có tồn tại chưa */
     const product = await getProductById(id);
+    console.log('update product', data);
+    
 
     /**
      * Dùng assign để merge giữa cũ và mới lại với nhau

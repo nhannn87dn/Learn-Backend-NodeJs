@@ -20,7 +20,7 @@ const mongooseDbOptions = {
 mongoose
 .connect(globalConfig.MOBGODB_CONNECTION_STRING as string, mongooseDbOptions)
 .then(() => {
-    console.log('⚡️[MongoDB]: Connected to MongoDB');
+    console.log('⚡️[MongoDB]: Connected to MongoDB. Database: ',globalConfig.MOBGODB_CONNECTION_STRING as string);
     //should listen app here
     app.listen(PORT,()=>{
         console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
