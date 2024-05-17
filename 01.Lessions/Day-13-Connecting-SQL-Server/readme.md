@@ -105,14 +105,19 @@ Sau đó tạo file `tsconfig.json` và copy nội dung này vào:
 
 ```json
 {
-    "compilerOptions": {
-        "lib": ["es5", "es6", "dom"],
-        "target": "es5",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true
-    }
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "lib": ["es2015"],
+  "include": ["src/**/*","server.ts", "index.d.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }
 ```
 

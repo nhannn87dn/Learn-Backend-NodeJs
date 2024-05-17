@@ -144,8 +144,8 @@ Sau đó mở file tsconfig.json và tìm sửa lại những thông tin sau:
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*","server.ts", "index.d.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }
 
 ```
