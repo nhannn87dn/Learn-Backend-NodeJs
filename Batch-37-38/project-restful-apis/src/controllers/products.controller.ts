@@ -57,6 +57,8 @@ const createProduct = async (req: Request, res: Response, next: NextFunction) =>
     try {
         const data = req.body;
 
+        console.log('<<=== 🚀 createProduct Controller ===>>',data);
+
         const product=  await productsService.createProduct(data)
 
         // res.status(201).json({

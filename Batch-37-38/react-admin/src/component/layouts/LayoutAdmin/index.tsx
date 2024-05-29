@@ -73,6 +73,11 @@ const items = [
       { label: "Phân quyền", key: "management-roles" },
     ],
   },
+  {
+    label: "Test Upload",
+    key: "upload",
+    icon: <UserOutlined />,
+  },
 ];
 
 const LayoutAdmin = () => {

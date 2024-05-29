@@ -13,8 +13,11 @@ import useAuth from '../../hooks/useAuth';
 
 interface DataType {
   _id?: string;
+  thumbnail: string;
   productName: string;
-  category: string,
+  category: {
+    categoryName: string;
+  },
   price: number;
   sort: number;
   isActive: boolean
@@ -79,6 +82,12 @@ const ProductPage = () => {
 
   
 const columns: TableProps<DataType>['columns'] = [
+  {
+    title: 'Thumb',
+    dataIndex: 'thumbnail',
+    key: 'thumbnail',
+    render: (text) => <img height={60} src={text} />,
+  },
   {
     title: 'Name',
     dataIndex: 'productName',

@@ -213,6 +213,7 @@ const getProductBySlug  = async (slug:string)=>{
 
 
 const createProduct = async (data: IProduct)=>{
+    
     /**
      * Để tránh Rác hình ảnh
      * Thêm mới sản phẩm trước, nếu thành công thì mới đi upload hình ảnh.

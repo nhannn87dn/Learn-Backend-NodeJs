@@ -1,11 +1,15 @@
-import React from 'react';
+
 import {Form,Checkbox, Input,InputNumber, type FormProps, Select,Button,message, Row, Col, Upload} from 'antd'
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosClient } from "../../library/axiosClient";
 import { useNavigate } from "react-router-dom";
-import useAuth from '../../hooks/useAuth';
 import globalConfig from "../../constants/config";
 import { UploadOutlined } from "@ant-design/icons";
+import type { GetProp, UploadFile, UploadProps } from 'antd';
+import { useState } from 'react';
+type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
+
+
 interface DataType {
     _id?: string;
     productName: string;
@@ -20,10 +24,13 @@ interface DataType {
     modelYear: number,
     thumbnail?: string,
     slug: string,
-    isHome?: boolean
+    isHome?: boolean;
+    file?: UploadFile
   }
   
 const ProductAddPage = () => {
+  const [file, setFile] = useState<UploadFile | null>(null);
+  console.log('<<=== 🚀 file ===>>',file);
     const [messageApi, contextHolder] = message.useMessage();
     //const {user} = useAuth()
 
@@ -39,7 +46,7 @@ const ProductAddPage = () => {
     
     const navigate = useNavigate();
     
-    const [updateFormEdit] = Form.useForm();
+    const [createForm] = Form.useForm();
    
 
     const getCategories = async () => {
@@ -79,7 +86,7 @@ const ProductAddPage = () => {
             queryKey: ["products"],
           });
           //
-          updateFormEdit.resetFields();
+          createForm.resetFields();
         },
         onError: (error) => {
           //khi gọi API bị lỗi
@@ -91,14 +98,33 @@ const ProductAddPage = () => {
       });
 
     
-    const onFinish: FormProps<DataType>["onFinish"] = (values) => {
-        console.log('Success:', values);
-        mutationCreate.mutate(values)
+    const onFinishCreate = (values: DataType) => {
+       console.log('<<=== 🚀 onFinishCreate  ===>>',values);
+      const formData = new FormData();
+
+        // Thêm các giá trị từ form vào formData
+        Object.keys(values).forEach(key => {
+          formData.append(key, values[key]);
+        });
+
+        // Thêm file vào formData
+        if (file) {
+          formData.append('file', file);
+        }
+
+        // Gọi mutation để gửi dữ liệu
+        mutationCreate.mutate(formData);
       };
       
-      const onFinishFailed: FormProps<DataType>["onFinishFailed"] = (errorInfo) => {
+      const onFinishCreateFailed: FormProps<DataType>["onFinishFailed"] = (errorInfo) => {
         console.log('Failed:', errorInfo);
       };
+
+
+    
+    
+    
+  
   return (
     <div>
         {contextHolder}
@@ -107,13 +133,21 @@ const ProductAddPage = () => {
             navigate('/products')
         }}>Products List</Button>
         <Form
-          form={updateFormEdit}
+          form={createForm}
           name="edit-form"
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 20 }}
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
+          initialValues={{ 
+            price: 0,
+            discount: 0,
+            sort: 50,
+            stock: 100,
+            isHome: false,
+            thumbnail: '',
+            isActive: true 
+          }}
+          onFinish={onFinishCreate}
+          onFinishFailed={onFinishCreateFailed}
           autoComplete="off"
         >
           <Form.Item<DataType>
@@ -265,24 +299,21 @@ const ProductAddPage = () => {
           <Row style={{margin: "20px 0"}}>
           <Col offset={4}>
             
-            <Upload 
-            action= {`${globalConfig.urlAPI}/v1/upload/single`} 
-            listType="picture"
-            onChange={(file)=>{
-              console.log(file,file.file.status);
-              /** Upload thành công thì cập nhật lại giá trị input thumbnail */
-              if(file.file.status === 'done'){
-                updateFormEdit.setFieldValue('thumbnail',file.file.response.data.link)
+            <Upload
+              onRemove = {
+                () => {
+                  setFile(null);
+                }
               }
-            }}
-            onRemove={(file)=>{
-              console.log(file);
-              /** Khi xóa hình thì clear giá trị khỏi input */
-              updateFormEdit.setFieldValue('thumbnail',null);
-              /** Đồng thời gọi API xóa link hình trên server, dựa vào đường dẫn */
-            }}
+              beforeUpload= {
+                (file) => {
+                  setFile(file);
+                  return false;
+                }
+              }
+             
             >
-              <Button icon={<UploadOutlined />}>Upload</Button>
+              <Button icon={<UploadOutlined />}>Select File</Button>
             </Upload>
           </Col>
         </Row>

@@ -14,6 +14,7 @@ import StaffsPage from "./pages/StaffsPage";
 import OrdersPage from "./pages/OrdersPage";
 import ProductEditPage from "./pages/ProductPage/ProductEditPage";
 import ProductAddPage from "./pages/ProductPage/ProductAddPage";
+import UploadPage from "./pages/UploadPage";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ function App() {
               <Route path="/customers" element={<CustomerPage />} />
               <Route path="/staffs" element={<StaffsPage />} />
               <Route path="/orders" element={<OrdersPage />} />
+              <Route path="/upload" element={<UploadPage />} />
             </Route>
             <Route path="/login" element={<LoginPage />} />
             <Route path="*" element={<NoPage />} />

@@ -42,32 +42,44 @@ router.post('/multi', upload.array('photos', 12), (req, res, next)=>{
 })
 
 router.post('/single',  (req, res, next)=>{
-    uploadSingle(req, res, function (err) {
-        if (err instanceof multer.MulterError) {
-          // A Multer error occurred when uploading.
-            res.status(500).json({
-                statusCode: 500,
-                message: err.message,
-                typeError: 'MulterError'
-            })
-        } else if (err) {
-          // An unknown error occurred when uploading.
-            res.status(500).json({
-                statusCode: 500,
-                message: err.message,
-                typeError: 'UnKnownError'
-            })
-        }
-        console.log(req.file?.filename);
-        // Everything went fine.
-        res.status(200).json({
-            statusCode: 200,
-            message: 'success',
-            data: {
-                link: `upload/${req.file?.filename}`
+    //Chỉ upload khi tồn tại req.file
+    if(req.file){
+        uploadSingle(req, res, function (err) {
+            if (err instanceof multer.MulterError) {
+              // A Multer error occurred when uploading.
+                res.status(500).json({
+                    statusCode: 500,
+                    message: err.message,
+                    typeError: 'MulterError'
+                })
+            } else if (err) {
+              // An unknown error occurred when uploading.
+                res.status(500).json({
+                    statusCode: 500,
+                    message: err.message,
+                    typeError: 'UnKnownError'
+                })
             }
-            //uploads/cloud-1712578218089-387840211.png
+            console.log(req.file?.filename);
+            // Everything went fine.
+            res.status(200).json({
+                statusCode: 200,
+                message: 'success',
+                data: {
+                    link: `upload/${req.file?.filename}`,
+                    payload: req.body
+                }
+                //uploads/cloud-1712578218089-387840211.png
+            });
         });
+    }
+
+    res.status(200).json({
+        statusCode: 200,
+        message: 'success',
+        data: {
+            payload: req.body
+        }
     });
 })
 
