@@ -1,6 +1,5 @@
 import Home from '../pages/Home';
 import Product from '../pages/Product';
-import Category from '../pages/Category';
 import Customers from '../pages/Customers';
 import CustomerProfile from '../pages/Customers/CustomerProfile';
 import CustomerOrders from '../pages/Customers/CustomerOrders';

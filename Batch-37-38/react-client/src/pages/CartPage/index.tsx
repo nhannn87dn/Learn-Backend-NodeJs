@@ -35,11 +35,11 @@ const CartPage = () => {
                                     <td className="py-4">
                                         <div className="flex items-center">
                                             <button onClick={()=>{
-                                                decreaseQuantity(product.id)
+                                                decreaseQuantity(product.product)
                                             }} className="border rounded-md py-2 px-4 mr-2">-</button>
                                             <span className="text-center w-8">{product.quantity}</span>
                                             <button onClick={()=>{
-                                                increaseQuantity(product.id)
+                                                increaseQuantity(product.product)
                                             }} className="border rounded-md py-2 px-4 ml-2">+</button>
                                         </div>
                                     </td>

@@ -75,8 +75,17 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
     console.log('<<=== 🚀 product ===>>',product);
     return (
       <>
-      <h1>{product.title}</h1>
+      <div className='flex gap-x-5'>
+        <div className='bg-slate-200 w-[200px] h-[200px]'>
+          {/* <img height={400} width={400} src={product.images[0]} alt={product.title}/> */}
+        </div>
+        <div className="content">
+        <h1>{product.title}</h1>
+      
       <div><strong>{product.price} $</strong></div>
+        </div>
+      </div>
+      
       </>
     )
 }

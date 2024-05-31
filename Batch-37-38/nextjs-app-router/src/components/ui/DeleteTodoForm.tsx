@@ -5,7 +5,9 @@ import { useFormStatus } from 'react-dom'
 import { deleteTodo } from '@/actions/todos/actionsTodo'
 
 const initialState = {
-  message: null,
+  ok: false, // Assuming default as false
+  data: null,
+  message: '',
 }
 
 function DeleteButton() {

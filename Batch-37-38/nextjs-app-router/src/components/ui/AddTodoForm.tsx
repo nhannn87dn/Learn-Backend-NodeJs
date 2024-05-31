@@ -5,8 +5,10 @@ import { useFormStatus } from 'react-dom'
 import { createTodo } from '@/actions/todos/actionsTodo'
 
 const initialState = {
-    message: null,
-  }
+  ok: false, // Assuming default as false
+  data: null,
+  message: '',
+}
   
   function SubmitButton() {
     const { pending } = useFormStatus()

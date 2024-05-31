@@ -20,7 +20,6 @@ const ProductPage = () => {
   };
   const {
     data: product,
-    isSuccess,
     isError,
     isLoading,
     error,

@@ -7,9 +7,9 @@ export async function getTodos() {
         const data =  await sql`
         SELECT * FROM todos
         `
-        return { data, message: `success` }
+        return { ok: true, data: data, message: `success` }
       } catch (e) {
-        return { message: 'Failed to get all todos' }
+        return { ok: false,data: null,message: 'Failed to get all todos' }
       }
 }
 
@@ -30,9 +30,9 @@ export async function createTodo(prevState: any, formData: FormData) {
     `
         
       revalidatePath('/todos') // làm tươi lại đường dẫn
-      return { ok: true, message: `Added todo ${data.title}` }
+      return { ok: true, data: null, message: `Added todo ${data.title}` }
     } catch (e) {
-      return { ok: false, message: 'Failed to create todo' }
+      return { ok: false, data: null, message: 'Failed to create todo' }
     }
   }
 
@@ -52,8 +52,8 @@ export async function createTodo(prevState: any, formData: FormData) {
       `
   
       revalidatePath('/todos')
-      return { ok: true, message: `Deleted todo ${data.id}` }
+      return { ok: true, data: null, message: `Deleted todo ${data.id}` }
     } catch (e) {
-      return {ok: false, message: 'Failed to delete todo' }
+      return {ok: false, data: null, message: 'Failed to delete todo' }
     }
   }

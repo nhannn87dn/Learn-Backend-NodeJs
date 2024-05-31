@@ -41,7 +41,7 @@ const getProducts = async ()=>{
   console.log(getProducts,response);
   return response.data
 }
-const {data: products, isSuccess, isError, isLoading, error} = useQuery({ 
+const {data: products, isSuccess, isLoading} = useQuery({ 
   //Bổ sung các searchParams vào để tạo key không trùng lặp
   queryKey: ['categories',id,int_page,int_limit], 
   queryFn: getProducts 
@@ -80,7 +80,7 @@ type TPagination = {
       {
             isLoading ? (<span>Loading ....</span>) : (
         <ul className='flex gap-x-[20px]'>          {
-                products.data.products.length > 0 && products.data.products.map((product)=>{
+                products.data.products.length > 0 && products.data.products.map((product: any)=>{
                     return <li className='max-w-[220px]' key={product._id}>
                         <Link to={`/products/${product.slug}`}>
                         <div className="photos">

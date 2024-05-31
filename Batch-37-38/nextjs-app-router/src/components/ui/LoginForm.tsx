@@ -39,7 +39,7 @@ const LoginForm = ({csrfToken}: {csrfToken: string | undefined}) => {
   } = useForm({
     resolver: yupResolver(schema),
   })
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: {email: string, password: string}) => {
     console.log(data);
     setIsLoading(true);
     try {

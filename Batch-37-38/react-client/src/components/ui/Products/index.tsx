@@ -16,7 +16,7 @@ const Products = ({title='', id='', limit= 4}: TProps) => {
         console.log(getProducts,response);
         return response.data
     }
-    const {data: products, isError, isLoading, error} = useQuery({ 
+    const {data: products, isLoading} = useQuery({ 
         queryKey: ['homeproduct',id], 
         queryFn: getProducts 
     });
@@ -33,7 +33,7 @@ const Products = ({title='', id='', limit= 4}: TProps) => {
         {
             isLoading ? (<span>Loading ....</span>) : (
         <ul className='flex gap-x-[20px]'>          {
-                products.data.products.length > 0 && products.data.products.map((product)=>{
+                products.data.products.length > 0 && products.data.products.map((product: any)=>{
                     return <li className='max-w-[220px]' key={product._id}>
                         <Link to={`/products/${product.slug}`}>
                         
