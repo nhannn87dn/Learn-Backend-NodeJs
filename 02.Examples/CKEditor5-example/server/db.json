@@ -1,0 +1,20 @@
+{
+  "posts": [
+    {
+      "textEditor": "<h2>Congratulations on setting up CKEditor 5! 🎉</h2><p>You've successfully created a CKEditor 5 project. This powerful text editor will enhance your application, enabling rich text editing capabilities that are customizable and easy to use.</p><figure class=\"image\"><img style=\"aspect-ratio:542/274;\" src=\"http://localhost:9000/uploads/upload-1720499034732.png\" width=\"542\" height=\"274\"></figure><h3>What's next?</h3><ol><li><strong>Integrate into your app</strong>: time to bring the editing into your application. Take the code you created and add to your application.</li><li><strong>Explore features:</strong> Experiment with different plugins and toolbar options to discover what works best for your needs.</li><li><strong>Customize your editor:</strong> Tailor the editor's configuration to match your application's style and requirements. Or even write your plugin!</li></ol><p>Keep experimenting, and don't hesitate to push the boundaries of what you can achieve with CKEditor 5. Your feedback is invaluable to us as we strive to improve and evolve. Happy editing!</p><h3>Helpful resources</h3><ul><li>📝 <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://orders.ckeditor.com/trial/premium-features\">Trial sign up</a>,</li><li>📕 <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://ckeditor.com/docs/ckeditor5/latest/installation/index.html\">Documentation</a>,</li><li>⭐️ <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://github.com/ckeditor/ckeditor5\">GitHub</a> (star us if you can!),</li><li>🏠 <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://ckeditor.com\">CKEditor Homepage</a>,</li><li>🧑‍💻 <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://ckeditor.com/ckeditor-5/demo/\">CKEditor 5 Demos</a>,</li></ul><h3>Need help?</h3><p>See this text, but the editor is not starting up? Check the browser's console for clues and guidance. It may be related to an incorrect license key if you use premium features or another feature-related requirement. If you cannot make it work, file a GitHub issue, and we will help as soon as possible!</p>",
+      "id": "1"
+    },
+    {
+      "id": "ace3",
+      "textEditor": "<p>fdsfdsf</p>"
+    },
+    {
+      "id": "a86e",
+      "textEditor": "<p>fdsfdsf fdsfdsfds</p>"
+    },
+    {
+      "id": "e939",
+      "textEditor": "<figure class=\"image image_resized\" style=\"width:51.43%;\"><img style=\"aspect-ratio:542/274;\" src=\"http://localhost:9000/uploads/upload-1720499408187.png\" width=\"542\" height=\"274\"></figure>"
+    }
+  ]
+}

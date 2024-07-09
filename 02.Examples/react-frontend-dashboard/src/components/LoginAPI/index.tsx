@@ -56,11 +56,13 @@ const LoginAPI = () => {
     )}
       <Form.Item
         name="email"
+        extra="john@mail.com"
         rules={[{ required: true, message: 'Please input your email!' }]}
       >
         <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" />
       </Form.Item>
       <Form.Item
+      extra='changeme   '
         name="password"
         rules={[{ required: true, message: 'Please input your Password!' }]}
       >
