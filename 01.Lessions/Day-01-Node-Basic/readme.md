@@ -174,11 +174,13 @@ Trong môn học này cần kiến thức cả javascript lẫn TypeScript nên 
 
 Chi tiết [prerequisites.md](prerequisites.md)
 
-## 💛  Dynamic Web Applications
+## 💛  Chạy ứng dụng NodeJs
 
 Node.js cho phép bạn xây dựng các ứng dụng web phía máy chủ. Nghĩa là bạn có thể tạo ra một ứng dụng web với Node.js
 
 Trước hết ta chùng `Hello world` xem cách mà Node.js tạo một server như thế nào !
+
+Tạo một file `main.js` với nội dung sau:
 
 ```js
 const http = require('node:http');
@@ -197,6 +199,7 @@ server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
 ```
+
 Sau đó trong terminal đứng tại vị trí thư mục dự án bạn gỏ lệnh
 
 ```bash
@@ -236,39 +239,47 @@ server.listen(3000, () => {
 ```
 
 
-
 ## 💛 Node Modules
 
-### **Built-in modules (Các modules sẵn có)**
-
-- assert: Provides a set of assertion tests
-- buffer: To handle binary data
-- child_process: To run a child process
-- cluster: To split a single Node process into multiple processes
-- crypto: To handle OpenSSL cryptographic functions
-- dns: To do DNS lookups and name resolution functions
-- events: To handle events ❤️
-- fs: To handle the file system ❤️
-- http: To make Node.js act as an HTTP server ❤️
-- https: To make Node.js act as an HTTPS server ❤️
-- net: To create servers and clients
-- os: Provides information about the operation system
-- path: To handle file paths ❤️
-- querystring: To handle URL query strings ❤️
-- readline: To handle readable streams one line at the time
-- stream: To handle streaming data
-- string_decoder: To decode buffer objects into strings
-- timers: To execute a function after a given number of milliseconds
-- url: To parse URL strings ❤️
-- util: To access utility functions
-- zlib To compress or decompress files
-
-Chủ yếu đi tìm hiểu các Module có đánh dấu ❤️
+Trong phần ví dụ Helloworl trên bạn thấy NodeJs đang sử dụng cú pháp `require` để nhúng các logic xử lý từ ngoài vào. Cách thức triển khai này trong Nodejs gọi là module
 
 
-## 💛 Sharing functions between files
+Trong Node.js, các module đóng vai trò quan trọng trong việc tổ chức và tái sử dụng mã nguồn. Mỗi file trong Node.js được coi là một module và có thể nhập (import) hoặc xuất (export) các chức năng, đối tượng, hay giá trị từ module này sang module khác. Điều này giúp mã nguồn trở nên dễ quản lý, bảo trì và tái sử dụng.
 
-Ngoài những module có sẳn của Node.js bạn có thể tự tạo cho mình một module với cách làm như sau:
+### Các loại Module
+
+Node.js hỗ trợ ba loại module chính:
+
+#### **Core Modules**
+
+Các module có sẵn trong Node.js (hay còn gọi là Built-in Module), chẳng hạn như http, fs, path, và os.
+
+Danh sách đầy đủ: 
+
+- https://www.w3schools.com/nodejs/ref_modules.asp
+
+Ví dụ: Sử Dụng Module fs (File System)
+
+```js
+const fs = require('fs');
+
+// Đọc nội dung của file
+fs.readFile('example.txt', 'utf8', (err, data) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log(data);
+});
+```
+
+
+---
+
+####  **Local Modules**
+
+Các module do người dùng tự định nghĩa, được lưu trữ trong các file riêng.
+
 
 Trong thư mục dự án bạn tạo một file ví dụ: `myModule.js`
 
@@ -398,11 +409,146 @@ myFunction(); // Xuất giá trị mặc định
 console.log(myVariable); // Xuất giá trị thông thường
 ```
 
-## 💛 Tìm hiểu các Module thường sử dụng
+---
 
-### ❤️ Events
+Còn với TypeScript, Để định nghĩa và sử dụng module trong Node.js, bạn cần làm theo các bước sau:
 
-[Xem chi tiết](events.md)
+
+**Bước 1: Cài Đặt TypeScript và Các Phụ Thuộc**
+
+Trước tiên, bạn cần phải cài đặt TypeScript và các phụ thuộc cần thiết. Mở terminal và chạy lệnh sau:
+
+```bash
+yarn init -y
+yarn add -D typescript @types/node ts-node
+```
+
+**Bước 2: Cấu Hình TypeScript**
+
+Tạo file `tsconfig.json` để cấu hình TypeScript. Chạy lệnh sau trong terminal:
+
+```bash
+npx tsc --init
+```
+
+Nội dung mặc định của file `tsconfig.json` sẽ trông như sau, bạn có thể tuỳ chỉnh theo nhu cầu của mình:
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES6",                          
+    "module": "commonjs",                     
+    "rootDir": "./src",                       
+    "outDir": "./dist",                       
+    "strict": true,                           
+    "esModuleInterop": true,                  
+    "skipLibCheck": true,                     
+    "forceConsistentCasingInFileNames": true  
+  }
+}
+```
+
+**Bước 3: Viết Mã TypeScript**
+
+Tạo thư mục `src` và viết mã TypeScript của bạn trong đó. Giả sử bạn muốn tạo một module đơn giản để tính toán.
+
+**Tạo Module**
+
+Tạo file `src/mathUtils.ts` với nội dung sau:
+
+```typescript
+// src/mathUtils.ts
+
+export function add(a: number, b: number): number {
+  return a + b;
+}
+
+export function subtract(a: number, b: number): number {
+  return a - b;
+}
+```
+
+**Sử Dụng Module**
+
+Tạo file `src/index.ts` để sử dụng module `mathUtils`:
+
+```typescript
+// src/index.ts
+
+import { add, subtract } from './mathUtils';
+
+const a = 5;
+const b = 3;
+
+console.log(`Add: ${add(a, b)}`);        // Output: Add: 8
+console.log(`Subtract: ${subtract(a, b)}`);  // Output: Subtract: 2
+```
+
+**Bước 4: Biên Dịch TypeScript Thành JavaScript**
+
+Biên dịch mã TypeScript thành JavaScript bằng cách chạy lệnh sau:
+
+```bash
+npx tsc
+```
+
+Lệnh này sẽ tạo thư mục `dist` chứa các file JavaScript tương ứng với các file TypeScript trong thư mục `src`.
+
+**Bước 5: Chạy Mã JavaScript Trong Node.js**
+
+Chạy file `dist/index.js` bằng Node.js:
+
+```bash
+node dist/index.js
+```
+
+**Sử Dụng `ts-node` để Chạy Trực Tiếp Mã TypeScript**
+
+Thay vì biên dịch mã TypeScript rồi mới chạy, bạn có thể sử dụng `ts-node` để chạy trực tiếp mã TypeScript:
+
+```bash
+npx ts-node src/index.ts
+```
+
+***Kết Quả**
+
+Kết quả khi chạy `node dist/index.js` hoặc `npx ts-node src/index.ts` sẽ là:
+
+```
+Add: 8
+Subtract: 2
+```
+---
+
+####  **Third-Party Modules**
+Các module từ bên thứ ba, thường được cài đặt qua npm (Node Package Manager).
+
+Ví dụ: Sử Dụng Module lodash
+
+Cài đặt lodash:
+
+```bash
+npm install lodash
+yarn add lodash
+```
+
+Sử dụng lodash trong mã nguồn:
+
+```javascript
+const _ = require('lodash');
+
+const array = [1, 2, 3, 4, 5];
+console.log(_.reverse(array));  // Output: [5, 4, 3, 2, 1]
+```
+
+
+
+## 💛 Cách sử dụng một số Core Module
+
+### ❤️ Http Module
+
+[Xem chi tiết](http.md)
+
 ### ❤️ File Module
 
 [Xem chi tiết](fs.md)
@@ -411,9 +557,6 @@ console.log(myVariable); // Xuất giá trị thông thường
 
 [Xem chi tiết](url.md)
 
-### ❤️ Http Module
-
-[Xem chi tiết](http.md)
 
 ### ❤️ Path Module
 

@@ -24,7 +24,104 @@ ExpressJS Rất dễ học, chỉ cần bạn biết JavaScript, bạn sẽ khô
 
 ### Cài đặt
 
-Sử dụng gói cài đặt có sẵn express-generator
+#### Bước 1 - Khởi tạo dự án
+
+
+```bash
+npm init
+#hoặc
+yarn init
+```
+Để khởi tạo file package.json
+
+#### Bước 2 - Tích hợp ExpressJs
+
+```bash
+npm install express  --save
+#hoặc
+yarn add express 
+```
+
+Với TypeScript cần Cài thêm
+
+```bash
+npm i -D typescript  @types/express @types/node ts-node-dev
+#or
+yarn add -D typescript  @types/express @types/node ts-node-dev
+```
+
+#### Bước 3 - Cấu hình Typescript
+
+Tạo file tsconfig.json
+
+```bash
+npx tsc --init
+```
+Sau đó mở file tsconfig.json và tìm sửa lại những thông tin sau:
+
+```json
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "outDir": "dist/",
+    "strict": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
+
+```
+
+#### Bước 4 - Tạo ứng dụng
+
+
+
+Tạo File app.ts
+
+```ts
+import express, { Express, Request, Response } from 'express';
+const app: Express = express();
+
+const PORT = process.env.PORT || 9000;
+
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
+
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).json({message: 'Express + TypeScript Server'});
+});
+
+
+app.listen(PORT, () => {
+    console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
+});
+```
+
+
+#### Bước 5 - Cấu hình lại package.json
+
+```json
+ "scripts": {
+    "build": "npx tsc -p",
+    "start": "node app.ts",
+    "dev": "ts-node-dev --respawn --transpile-only app.ts"
+  },
+```
+
+
+#### Bước 6 - Khởi chạy dự án
+
+
+```bash
+yarn dev
+# hoặc
+npm run dev
+```
+
+Hoặc bạn Sử dụng gói cài đặt có sẵn express-generator (javascript)
 
 Tại thư mục gốc dự án bạn mở cửa sổ Terminal và nhập lệnh
 
@@ -32,30 +129,7 @@ Tại thư mục gốc dự án bạn mở cửa sổ Terminal và nhập lệnh
 npx express-generator
 ```
 
-Sau khi cài xong, sinh ra cho bạn một dự án express với cấu trúc thư mục sẵn có
-
-```text
-├── app.js
-├── bin
-│   └── www
-├── package.json
-├── public
-│   ├── images
-│   ├── javascripts
-│   └── stylesheets
-│       └── style.css
-├── routes
-│   ├── index.js
-│   └── users.js
-└── views
-    ├── error.jade
-    ├── index.jade
-    └── layout.jade
-
-7 directories, 9 files
-```
-
-Lưu ý: `express-generator` đã dùng `jade` làm engine mặc định cho view thay cho `pug` trước đó.
+Xem chi tiết: https://expressjs.com/en/starter/generator.html
 
 ## 💛 2. Route và HTTP Methods
 
@@ -398,7 +472,7 @@ Xem chi tiết [link sau](http-status-code.md)
 Khi bạn upload images, CSS files, and JavaScript files lên server thì bạn cần public đường dẫn đến các tài nguyên tĩnh này thì mình sẽ khai báo:
 
 ```js
-//Tại app.js
+//Tại app.ts
 const path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
 ```
@@ -412,7 +486,7 @@ public/
   ├─ images/
   ├─ uploads/
   ├─ js/
-  app.js/
+  app.ts/
 ```
 
 Khi đó bạn có thể truy cập đến các tài nguyên tĩnh
@@ -518,12 +592,15 @@ Bạn có thể nhúng Tailwind Css, Bootstrap, jQuery vào các templates trên
 
 ---
 
-## 💛 So sánh GET với POST
+
+### 💛 Đọc thêm
+
+###  So sánh GET với POST
 
 Xem: https://timoday.edu.vn/cac-phuong-thuc-request-trong-giao-thuc-http/#So_sanh_GET_voi_POST
 
 
-## 💛 PUT and PATH
+###  PUT and PATH
 
 Trong RESTful API, PUT và PATCH là hai phương thức HTTP khác nhau được sử dụng để cập nhật tài nguyên. 
 
