@@ -42,16 +42,13 @@ export const myLogger = function (req: Request, res: Response, next: NextFunctio
   //Logic Here
   console.log('LOGGED', req);
 
-  //Có thể gắn Thêm vào request một biến
-  req.aptech = { name: 'Softech', add: '38 yen bai' };
-
   //End with next() -> chuyển tiếp sang middleware khác nếu có
   next();
 };
 
 ```
 
-### 🌻 Gắn middleware vào Application
+### Gắn middleware vào Application
 
 Tại express app
 
@@ -62,13 +59,53 @@ import {myLogger} from './middlewares/mylogger.middleware';
 app.use(myLogger);
 ```
 
-### 🌻 Lớp middleware
+### Lớp middleware
 
 Tạo thêm 2 ví dụ về middleware nữa để thấy được sự chuyển tiếp giữa các lớp middleware
 
 
+```js
+// Middleware 1: Logging middleware
+app.use((req, res, next) => {
+  console.log('Middleware 1: Logging request');
+  next();
+});
+
+// Middleware 2: Authentication check
+app.use((req, res, next) => {
+  console.log('Middleware 2: Checking authentication');
+  // Giả sử người dùng luôn được xác thực
+  req.user = { id: 1, name: 'John Doe' };
+  next();
+});
+
+
+// Route handler
+app.get('/', (req, res) => {
+  console.log('Route handler: Sending response');
+  res.send(`Hello, ${req.user.name}!`);
+});
+
+```
+
+Trong console, bạn sẽ thấy thứ tự các middleware được xử lý khi bạn gửi yêu cầu đến máy chủ:
+
+```txt
+Server is running on http://localhost:3000
+Middleware 1: Logging request
+Middleware 2: Checking authentication
+Route handler: Sending response
+```
+
+### Kết luận
+
+Middleware xử lý tuần tự trước sau. Request được truyền qua từng lớp middleare để xử lý trước khi đến `route handle` để response cho client.
+
 
 ## 💛 Validate Requests
+
+Sau khi bạn nắm được cách xử lý của middleware, chúng ta tìm hiểu cách thức để `Validate Requests` một request. Để đảm bảo dữ liệu đầu vào hợp lệ cho ứng dụng.
+
 
 - validate Body parameter
 - validate Path parameter

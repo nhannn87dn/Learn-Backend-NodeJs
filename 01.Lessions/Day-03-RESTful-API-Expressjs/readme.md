@@ -150,6 +150,7 @@ Sau đó mở file tsconfig.json và tìm sửa lại những thông tin sau:
 
 ```
 
+
 Tạo File app.ts
 
 ```ts
@@ -189,6 +190,8 @@ NODE_ENV= development
 PORT= 8080
 ```
 
+> Tìm hiểu: Tạo sai phải tạo file .env trong ứng dụng NodeJs ?
+
 Khởi chạy dự án
 
 
@@ -197,6 +200,8 @@ yarn dev
 # hoặc
 npm run dev
 ```
+
+---
 
 Nhưng theo đề xuất thì nên tách server ra riêng và app ra riêng như sau:
 
@@ -335,7 +340,7 @@ app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
 });
 ```
 
-## 💛 Biến môi trường
+## 💛 Đọc thêm - Biến môi trường
 
 ### Giải thích khái niệm
 
