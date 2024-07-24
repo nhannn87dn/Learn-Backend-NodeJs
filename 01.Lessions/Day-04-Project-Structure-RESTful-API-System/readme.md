@@ -559,6 +559,7 @@ Ví dụ: Thành công có gửi kèm data
 ```
 
 Trong đó:
+
 - statusCode: là mã code mà bạn tự quy định cho việc xử lý tác vụ (không phải là HTTP Status Code)
 - message: là lời nhắn trả lại cho client
 - data: là thông trả lại cho client nếu có
