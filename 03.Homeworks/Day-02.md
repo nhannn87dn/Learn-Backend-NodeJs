@@ -1,5 +1,29 @@
 # Homeworks Day 02
 
+
+## Task 0
+
+1. Tạo một route khớp với request sau:
+
+- /users/1
+- /users/2
+- /users/1323
+- /users/17854
+
+2. Tạo một route khớp với request sau:
+
+- /users/tuanhung1234
+- /users/124thienthan
+- /users/thuctinh354
+- /users/saytinh
+
+
+3. Tạo một route khớp với request sau:
+
+- /article/iphone-15-pro-max-gia-re.html
+- /article/5-cong-thuc-thanh-cong-tu-chuyen-gia.html
+
+
 ## Task 1
 
 Tự Tạo một ứng dụng Express.js thủ công đơn giản với các route sau:
