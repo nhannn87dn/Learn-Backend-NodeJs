@@ -5,3 +5,32 @@ GET http://localhost:8080/api/v1/categories
 
 # Get Single
 GET http://localhost:8080/api/v1/categories/4
+
+
+###
+
+# Create a category
+POST http://localhost:8080/api/v1/categories
+Content-Type: application/json
+
+{
+  "id": 4,
+  "name": "Tablet",
+  "desc": "Tablet gia re da nang"
+}
+
+
+
+###
+
+# Update a category
+PUT http://localhost:8080/api/v1/categories/2
+Content-Type: application/json
+
+{
+  "name": "iPad"
+}
+
+### 
+# Delete Category
+DELETE  http://localhost:8080/api/v1/categories/2
