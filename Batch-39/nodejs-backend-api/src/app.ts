@@ -1,103 +1,49 @@
-
-//const express = require('express')
-import express, {Express, Request, Response} from 'express'
+import express, {Express, NextFunction, Request, Response} from 'express'
 import path from 'path';
+import createError from 'http-errors';
+/* import các routes */
+import categoriesRoute from './routes/v1/categories.route'
+import brandsRoute from  './routes/v1/brand.route'
 
 
 const app: Express = express()
-const port = 3000
+
 
 /* Bắt được dữ liệu từ body của request */
 app.use(express.json())
 //Mã hóa url
 app.use(express.urlencoded({ extended: true }));
 /* Khai báo thư mục chứa tài nguyên tĩnh */
-//app.use(express.static(path.join(__dirname, '../public')))
-//Thêm tiền tố ảo vào URL
-app.use('/static', express.static(path.join(__dirname, '../public')))
+app.use(express.static(path.join(__dirname, '../public')))
+
+// BẮT ĐẦU KHAI BÁO ROUTES TỪ ĐÂY
+app.use('/api/v1', categoriesRoute)
+app.use('/api/v1', brandsRoute)
 
 
-// cấu hình kiểu tập tin template
-app.engine('.html', require('ejs').__express);
-// Cấu hình thư mục template views
-app.set('views', path.join(__dirname, 'views'));
-// Without this you would need to
-// supply the extension to res.render()
-// ex: res.render('users.html').
-app.set('view engine', 'html');
+// HANDLER ERRORS
+//Phải nằm sau phần khai báo routes
 
 
-// Trang chủ
-app.get('/', (req: Request, res: Response) => {
-  //res.send('Hello World !')
-  //res.json({ name: 'John', age: 30 });
-  //res.status(201).send('Page not found');
-
-  //const file = `${__dirname}/demo.txt`;
-  //res.download(file); // Gửi tệp tin đến client
-  res.render('index') //Đang nhắm đến file views/index.html
+//Lỗi 404, những route ko tồn tại
+app.use((req: Request, res: Response, next: NextFunction)=>{
+  //Next chuyển tiếp
+  next(createError(404))
 })
 
-app.get('/contact', (req: Request, res: Response) => {
-  //Lấy template html view/contact.html để hiển thịm
-  res.render('contact')
-})
+// Báo lỗi ở dạng JSON
+app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-app.get('/product', (req: Request, res: Response) => {
-  res.send('Product Page !')
-})
-
-app.post('/product', (req: Request, res: Response) => {
-  console.log('body',req.body);
-  
-  res.send('Product Page - method Post !')
-})
-
-// /product/1
-/*
-:id chính là route prameter
-
-*/
-app.get('/product/:id', (req: Request, res: Response) => {
-  console.log('params',req.params);
-  //const id = req.params.id
-  const {id} = req.params
-  //Query string
-  console.log('query',req.query);
-  //res.send('Product Page Details !' + id)
-
-  const product = {
-    id: 1,
-    name: "Iphone 15 promax",
-    price: 200
-  }
-
-  const products = [
-    {
-      id: 1,
-      name: "Iphone 15 promax",
-      price: 200
-    },
-    {
-      id:2,
-      name: "Iphone 16 promax",
-      price: 400
-    }
-  ]
-
-  res.render('product_detail', {
-    id,
-    product,
-    products
-  })
-})
-
-// /users/nhannn87dn
-app.get('/users/:username([a-z-0-9]+)', (req: Request, res: Response) => {
-  res.send('User Page Profile !')
-})
+  const statusCode = err.status || 500;
+  res.status(statusCode).json({ 
+    statusCode: statusCode, 
+    message: err.message 
+  });
+});
 
 
-app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}`)
-})
+export default app
+
