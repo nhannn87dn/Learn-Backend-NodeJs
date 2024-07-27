@@ -340,6 +340,95 @@ app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
 });
 ```
 
+## 💛 Tìm hiểu `gitignore`
+
+`.gitignore` là một tệp văn bản đặc biệt được sử dụng trong hệ thống kiểm soát phiên bản Git để chỉ định các tệp hoặc thư mục mà bạn muốn Git bỏ qua. Điều này có nghĩa là các tệp hoặc thư mục được liệt kê trong tệp `.gitignore` sẽ không được Git theo dõi, thêm vào kho lưu trữ, hoặc hiển thị trong các thay đổi chưa được cam kết.
+
+### Lợi ích của `.gitignore`
+
+- **Loại bỏ các tệp không cần thiết**: Giúp giữ cho kho lưu trữ Git gọn gàng bằng cách không theo dõi các tệp không cần thiết như tệp tạm thời, tệp biên dịch hoặc tệp nhị phân.
+- **Bảo mật**: Ngăn chặn việc vô tình thêm các tệp nhạy cảm như thông tin cấu hình cá nhân, khóa API hoặc mật khẩu vào kho lưu trữ.
+- **Hiệu suất**: Cải thiện hiệu suất của Git bằng cách giảm số lượng tệp mà nó cần phải theo dõi và quản lý.
+
+### Cách tạo tệp `.gitignore`
+
+1. **Tạo tệp `.gitignore`**: Tạo một tệp mới trong thư mục gốc của dự án và đặt tên là `.gitignore`.
+
+2. **Thêm các quy tắc bỏ qua**: Thêm các mẫu (patterns) của tệp hoặc thư mục mà bạn muốn Git bỏ qua vào tệp này. Mỗi dòng trong `.gitignore` thường chứa một mẫu.
+
+Ngoài cách tạo thủ công, bạn có thể sử dụng extention trên VS Code để tạo `.gitignore` phù hợp với từng loại ngôn ngữ dự án. 
+
+
+### Ví dụ về tệp `.gitignore`
+
+Dưới đây là một ví dụ về nội dung của tệp `.gitignore`:
+
+```plaintext
+# Bỏ qua các tệp biên dịch
+*.class
+*.o
+*.so
+
+# Bỏ qua các tệp nhật ký
+*.log
+
+# Bỏ qua các tệp tạm thời
+*.tmp
+*.swp
+
+# Bỏ qua thư mục build và dist
+/build/
+/dist/
+
+# Bỏ qua thư mục node_modules (dự án Node.js)
+node_modules/
+
+# Bỏ qua tệp cấu hình cá nhân
+config.json
+.env
+
+# Bỏ qua thư mục .vscode (cấu hình Visual Studio Code)
+.vscode/
+
+# Bỏ qua các tệp hệ điều hành
+.DS_Store
+Thumbs.db
+```
+
+### Một số quy tắc và cú pháp cơ bản
+
+- **Dấu sao (*)**: Đại diện cho bất kỳ chuỗi ký tự nào.
+    ```plaintext
+    *.log  # Bỏ qua tất cả các tệp có phần mở rộng .log
+    ```
+
+- **Dấu chấm hỏi (?)**: Đại diện cho bất kỳ ký tự đơn nào.
+    ```plaintext
+    file?.txt  # Bỏ qua file1.txt, file2.txt, ... nhưng không phải file10.txt
+    ```
+
+- **Dấu gạch chéo (/)**: Chỉ định đường dẫn thư mục.
+    ```plaintext
+    /build/  # Bỏ qua toàn bộ thư mục build ở thư mục gốc
+    ```
+
+- **Dấu chấm than (!)**: Lưu ý rằng ngoại lệ cho mẫu trước đó.
+    ```plaintext
+    *.log
+    !important.log  # Bỏ qua tất cả các tệp .log, ngoại trừ important.log
+    ```
+
+### Cách áp dụng và kiểm tra `.gitignore`
+
+- **Thêm `.gitignore` vào Git**: Khi bạn đã tạo hoặc chỉnh sửa `.gitignore`, hãy thêm nó vào kho lưu trữ Git và cam kết thay đổi.
+    ```sh
+    git add .gitignore
+    git commit -m "Thêm tệp .gitignore"
+    ```
+
+- **Kiểm tra trạng thái**: Để kiểm tra xem các tệp đã bị bỏ qua hay chưa, bạn có thể sử dụng lệnh `git status`.
+
+
 ## 💛 Đọc thêm - Biến môi trường
 
 ### Giải thích khái niệm
