@@ -1,8 +1,15 @@
 # FrontEnd and APIs
 
-## 💛 react-ecommerce
+Chúng ta sẽ tạo 2 project FrontEnd độc lập
+
+- react-ecommerce: dành cho khách hàng dùng
+- react-admin: dành cho chủ cửa hàng dùng
+
+
+## 💛 react-admin
 
 ### 🔸 Cấu trúc dự án
+
 
 ```html
 react-ecommerce/
@@ -14,17 +21,14 @@ react-ecommerce/
 │  ├─ hooks/
 │  ├─ library/
 │  ├─ pages/
-│       ├─ HomePage
-│       ├─ ProductPage
-│       ├─ ProductDetailPage
-│       ├─ CartPage
-│       ├─ CheckOutPage
-│       ├─ CheckOutDonePage
 │       ├─ LoginPage
-│       ├─ RegisterPage
+│       ├─ DashboardPage
+│       ├─ CategoryPage
+│       ├─ ProductPage
+│       ├─ OrdersPage
+│       ├─ BrandPage
 │       ├─ CustomerPage
-│       ├─ CustomerOrderPage
-│       ├─ CustomerProfilePage
+│       ├─ StaffPage
 │       ├─ NoPage
 │  ├─ App.tsx
 │  ├─ App.css
@@ -42,87 +46,118 @@ react-ecommerce/
 ### 🔸 Công nghệ sử dụng
 
 - React Vite
-- Tailwind, [shadcn/ui](https://ui.shadcn.com/), [DaisyUI](https://daisyui.com/) hoặc tự code Css
-- React Query, Axios
+- Ant Design
+- React Query
 - Zustand
 
-
-Xem thêm: https://shuffle.dev/components/tailwind
-
-
-### 🔸 **Yêu cầu các trang**
-
-**📄 HomePage** 
-
-- Danh sách danh mục sản phẩm
-
-- Hiển thị danh sách sản phẩm của 2 danh mục, mỗi danh mục 10 sản phẩm. Sử dụng swiperjs để slide
-
-
-**📄 CategoryPage** 
-
-- Cột bên trái: hiển thị bộ lọc sản phẩm, lọc theo phân khúc giá, sắp xếp giá tăng dần, giảm dần...
-- Cột bên phải: Hiển thị danh sách sản phẩm của danh mục khi click vào link ở HomePage, và chỉ lấy số lượng phân trang 10sp / 1 trang
-- Hiển thị phân trang bên dưới danh sách sản phẩm
-
-
-**📄 ProductPage** 
-
-- Hiển thị chi tiết sản phẩm
-- Có nút Thêm vào giỏ hàng
-
-
-**📄 CartPage** 
-
-- Hiển thị danh sách sản phẩm đã chọn thêm vào giỏ hàng
-- Có thể thay đổi số lượng, tổng tiền được tính lại
-- Button Checkout, để chuyển trang Checkout
-
-
-**📄 CheckoutPage** 
-
-- Tùy vào luồng xử lý: yêu cầu đăng nhập, hay cho phép mua hàng không cần đăng nhập
-- Page này hiển thị thông tin sả phẩm đã mua
-- Hiển thị form điền thông tin vận chuyển đơn
-- Hiển thị thông tin phương thức thanh toán
-- Button Đặt Hàng
-
-**📄 CheckOutDonePage** 
-
-- Thông báo trạng thái khi đặt hàng thành công
+### 🔸 Yêu cầu các trang
 
 **📄 LoginPage**
 
 - Form login
-- Login thành công, chuyển sang trang khách hàng CustomerPage
+- Login thành công, chuyển sang trang khách hàng DashboardPage
+
+
+**📄 DashboardPage** 
+
+- Layout: cột trái là danh sách menu
+- Bên phải là thông tin: Hiển thị một số thống kê nhỏ 
+
+
+**📄 CategoryPage** 
+
+- Quản lý danh mục sản phẩm: thêm mới, sửa, xóa
+
+**📄 ProductPage** 
+
+- Quản lý sản phẩm: thêm mới, sửa, xóa
 
 
 **📄 CustomerPage**
 
-- Cột bên trái là Danh sách Menu
-- Cột bên phải thông tin chung
-- Yêu cầu phải đăng nhập mới vào được trang này
-
-**📄 CustomerOrderPage**
-
-- Hiển thị danh sách đơn hàng
-- Yêu cầu phải đăng nhập mới vào được trang này
-
-**📄 CustomerProfilePage**
-
-- Hiển thị thông tin khách hàng
-- Cho phép thay đổi thông tin
-- Yêu cầu phải đăng nhập mới vào được trang này
+- Quản lý khách hàng: thêm mới, sửa, xóa
 
 
-## 💛 Xây dựng HomePage
+**📄 BrandPage**
 
-Hiển thị sản phẩm theo từng danh mục ra trang chủ
+- Quản lý nhà cung cấp: thêm mới, sửa, xóa
 
-## 💛 Xây dựng CategoryPage
 
-Hiển thị sản phẩm của danh mục đang xem
+**📄 StaffPage**
 
-## 💛 Xây dựng ProductPage
+- Quản lý nhân viên: thêm mới, sửa, xóa
 
-Hiển thị thông tin chi tiết sản phẩm
+
+**📄 OrderPage**
+
+- Quản lý đơn hàng: thêm mới, sửa, xóa
+- Cho phép cập nhật thay đổi trạng thái đơn
+- Cho phép bổ sung hoặc bỏ sản phẩm trong đơn
+
+---
+
+## 💛 Logic triển khai project admin
+
+- Nếu chưa login thì không cho phép sử dụng các tính năng bên trong quản trị
+- login với email, password ==> success --> nhận lại token, freshToken ==> Lưu chúng xuống localStorage để gửi kèm trong header cho mỗi request API cần xác thực quyền bên trong trang quản trị
+- Sử dụng zustand để tạo một store useAuth để lưu lại trạng thái của user sau khi login thành công
+- Sử dụng React Query để fetch và cache data, mutation (thay đổi dữ liệu)
+- Điều kiện thực hiện: Hoàn thiện tất cả các APIs Backend
+
+---
+### 🔸 Xây dựng `LoginPage`
+
+
+**Bước 1 - Tạo Store Quản lí Login**
+
+- Dùng Zustand để tạo một hooks useAuth bao gồm các trạng thái
+
+```js
+{
+  user: null, //lưu thông tin user sau khi login thành công
+  setUser: ()=> vold, //Hàm cập nhật state user trên
+  isLoading: false, //trạng thái cho sự kiện login
+  login: (emai, password)=> object, //Hàm sự kiện login
+  logout: ()=> vold, //Hàm logout
+}
+```
+
+**Bước 2 - Tạo middleware axios**
+
+- Custom thư viện axios để tạo một middleware axios --> axiosClient. axiosClient có nhiệm vụ thêm token vào header cho mỗi lần request, đồng thời nó quản lí và làm mới token khi token hết hạn.
+
+**Bước 3 - Tạo trang Login**
+
+- Dùng Component Form của antd để tạo 
+- Dùng hook useAuth trên để login
+- Login thành công trả về trang Dashboard
+- Login thất bại, báo lỗi với component Alert
+
+
+### 🔸 Xây dựng Layout Quản trị Admin
+
+**Bước 1 - Tạo Layout**
+
+- Dùng component Layout của antd để tạo
+- Cách cấu hình Menu Sitebar: Items và Icons
+
+**Bước 2 - Bảo vệ các Routes Trong Layout**
+
+- Sử dụng hook useAuth để check xem user đã đăng nhập chưa, nếu chưa thì trả về trang login 
+
+
+### 🔸  Xây dựng một Module Category
+
+Ví dụ xây dựng hoàn chỉnh tính năng xem danh sách, thêm mới, sửa, xóa một Danh mục sản phẩm (Categories)
+
+Chúng ta có thể tiếp cận với 2 hướng đi
+
+Hướng 1: Tạo các route riêng cho từng tính năng
+
+- /categories ==> Categoryies/index.ts --> Danh sách + Xóa
+- /categories ==> Categoryies/CategoryAdd.ts --> Thêm mới
+- /categories ==> Categoryies/CategoryEdit.ts --> Chỉnh sửa
+
+Hướng 2: Tất cả tính năng trong một route
+
+- /categories ==> Categoryies/index.ts --> Danh sách + Xóa + Thêm + Sửa

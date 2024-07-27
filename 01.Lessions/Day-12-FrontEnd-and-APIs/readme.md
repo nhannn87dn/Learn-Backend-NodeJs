@@ -1,33 +1,11 @@
 # FrontEnd and APIs
 
-Giới thiệu về Follow Mua hàng, quy trình xử lý đơn hàng
+## 💛 Xây dựng Trang Product
+
+- Xây dựng tính năng: thêm mới, sửa, xóa
+- Bộ lọc sản phẩm: Lọc theo danh mục, lọc theo thương hiệu và một số tiêu chí khác
 
 
-## 💛 Xây dựng Store Giỏ hàng
+## 💛 Sử dụng thư viện Multer
 
-Tạo Hook để quản lý giỏ hàng
-
-## 💛 Xây dựng Trang CartPage
-
-Hiển thị danh sách sản phẩm đã thêm vào giỏ hàng
-
-## 💛 Xây dựng Trang CheckoutPage
-
-Hiển thị UI để nhập thông tin người mua hàng, phương thước thanh toán
-
-## 💛 Xây dựng Trang CheckOutStatus
-
-UI hiển thị trạng thái đặt hàng: Thành công, thất bại ...
-
-## 💛 Gửi Email cho Khách hàng khi đặt hàng thành công
-
-Sử dụng `nodemailer`
-
-
-## 💛 Homeworks Guide
-
-Tự hoàn thiện các Page và tính năng còn lại
-
-- Trang login khách hàng, Trang các nhân của khách hàng
-- Trang đăng ký, quên mật khẩu, khôi phục mật khẩu
-- Follow mua hàng: Yêu cầu Đăng nhập hoặc không đăng nhập
+- Upload hình ảnh đại diện sản phẩm

@@ -34,7 +34,65 @@ Trong Express, có 5 kiểu middleware có thể sử dụng :
 
 ## 🌻 Cách để tạo ra một middleware theo nhu cầu
 
-Tại thư mục middleware, tạo một file tên: mylogger.middleware.ts
+### Định nghĩa middleware
+
+Tại file `app.ts`
+
+Bạn định nghĩa một middleware như sau
+
+```js
+/* Middleware function */
+function myMiddleware(req, res, next) {
+    console.log('Middleware đang chạy...');
+    next(); // Chuyển tiếp yêu cầu tới hàm xử lý tiếp theo
+}
+```
+
+### Cách sử dụng middleware
+
+#### Cách 1: Áp dụng middleware cho route cụ thể
+
+```js
+// Áp dụng middleware cho tất cả các route bắt đầu bằng '/my-route'
+app.use('/my-route', myMiddleware);
+
+// Route sẽ sử dụng middleware
+app.get('/my-route', (req, res) => {
+    res.send('Hello từ /my-route');
+});
+
+// Route sẽ không sử dụng middleware
+app.get('/another-route', (req, res) => {
+    res.send('Hello từ /another-route');
+});
+
+// Route con cũng sẽ sử dụng middleware
+app.get('/my-route/child', (req, res) => {
+    res.send('Hello từ /my-route/child');
+});
+```
+
+Ngoài ra trong với cách 1 này bạn có thể đưa middleware
+trực tiếp trên phần định nghĩa route như sau
+
+```js
+/* Middleware function */
+function myMiddleware(req, res, next) {
+    console.log('Middleware đang chạy...');
+    next(); // Chuyển tiếp yêu cầu tới hàm xử lý tiếp theo
+}
+
+// Route sẽ sử dụng middleware
+app.get('/my-route', myMiddleware,  (req, res) => {
+    res.send('Hello từ /my-route');
+});
+```
+
+### Cách 2: Áp dụng middleware cho toàn bộ route
+
+BẠN CÓ THỂ TÁCH middleware ra một file ngoài rồi nhúng ngược lại cho `app.ts`
+
+Tạo thư mục middleware, sau đó tạo một file tên: `middleware/mylogger.middleware.ts`
 
 ```js
 //Tạo và export luôn
@@ -48,18 +106,22 @@ export const myLogger = function (req: Request, res: Response, next: NextFunctio
 
 ```
 
-### Gắn middleware vào Application
-
-Tại express app
+Tại file `app.ts`
 
 ```js
 import {myLogger} from './middlewares/mylogger.middleware';
 
-//Gắn middleware vào app
+/* 
+Đặt middleware này trước tất cả phần
+khai báo route ==> nó thực thi middleware trước
+==> Áp dụng cho tất cả route
+*/
 app.use(myLogger);
 ```
 
-### Lớp middleware
+### Khái niệm Lớp middleware
+
+Có nghĩa là middleware này xử lý xong thì chuyển sang middleware tiếp theo nếu có. Tạo thành một lớp middleware đa tầng để kiểm soát luồng xử lý.
 
 Tạo thêm 2 ví dụ về middleware nữa để thấy được sự chuyển tiếp giữa các lớp middleware
 
@@ -101,6 +163,7 @@ Route handler: Sending response
 
 Middleware xử lý tuần tự trước sau. Request được truyền qua từng lớp middleare để xử lý trước khi đến `route handle` để response cho client.
 
+---
 
 ## 💛 Validate Requests
 
@@ -184,11 +247,13 @@ Validate `id` phải được truyền vào yêu cầu là số
 
 Chúng ta lần lượt tạo thêm các Schema cho từng route của category Resources
 
-
+---
 
 ## 💛 JWT Token
 
 Tìm hiểu [JWT](../Day-15-Advanced/JWT.md)
+
+---
 
 ## 💛 Basic Authentication Systems
 

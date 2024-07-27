@@ -7,9 +7,11 @@
 
 Giả sử để truyền tin mật từ anh A sang người trong tổ chức A, vậy làm thế nào để nhận biết người B cũng thuộc tổ chức A? Khi đó, tổ chức A nảy ra một ý tưởng, cho anh A một mật mã để trước khi tiếp nhận hay truyền đi thông tin sẽ đưa ra mật mã để định danh đó là anh A. 
 
+![jwt token](img/token-based-authentication.jpg)
+
 Thông qua ví dụ trên, giống như mối quan hệ giữa server và client, anh A sẽ đại diện cho server, tổ chức A tương tự như client và mật mã để định danh anh A gọi là Jwt.
 
-![jwt token](img/jwt.webp)
+
 
 **Về cơ chế hoạt động của access token**
 
@@ -19,6 +21,9 @@ Thông qua ví dụ trên, giống như mối quan hệ giữa server và client
 3. Server verify lại access token và trả về response cho client nếu token hợp lệ
 
 ## 💛 Jwt gồm những gì?
+
+
+![jwt token](img/jwt.png)
 
 Theo định nghĩa của Jwt được tạo bởi Auth0, một Jwt token hợp lệ gồm 3 phần: `header`, `payload` và `signature` được phân cách bởi dấu chấm "."
 
