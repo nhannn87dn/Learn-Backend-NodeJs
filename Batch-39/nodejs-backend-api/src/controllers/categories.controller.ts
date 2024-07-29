@@ -1,7 +1,5 @@
-import express, {Request, Response, NextFunction} from 'express'
+import {Request, Response, NextFunction} from 'express'
 import createError from 'http-errors'
-
-const router = express.Router()
 
 const cates = [
   {id: 1, name: 'Laptop', desc: 'Laptop gia re da nang'},
@@ -9,17 +7,13 @@ const cates = [
   {id: 3, name: 'Watch', desc: 'Watch gia re da nang'}
 ]
 
-//1. Get All Categories
-//GET localhost:8080/api/v1/categories
-router.get('', (req: Request, res: Response, next: NextFunction)=>{
-   res.status(200).json({
-    data: cates
-   })
-})
+const findAll =  (req: Request, res: Response, next: NextFunction)=>{
+  res.status(200).json({
+   data: cates
+  })
+}
 
-//2. Get One Category
-//GET localhost:8080/api/v1/categories/:id
-router.get('/:id', (req: Request, res: Response, next: NextFunction)=>{
+const findOne = (req: Request, res: Response, next: NextFunction)=>{
   const {id} = req.params
   const category = cates.find(c => c.id === parseInt(id))
 
@@ -33,21 +27,16 @@ router.get('/:id', (req: Request, res: Response, next: NextFunction)=>{
   res.status(200).json({
    data: category
   })
-})
+}
 
-
-//3. Create a new category
-//POST localhost:8080/api/v1/categories
-router.post('', (req: Request, res: Response, next: NextFunction)=>{
+const createRecord = (req: Request, res: Response, next: NextFunction)=>{
   console.log('<<=== 🚀 req.body ===>>',req.body);
   res.status(201).json({
     data: req.body
   })
-})
+}
 
-//4. Update a category
-//PUT localhost:8080/api/v1/categories/:id
-router.put('/:id', (req: Request, res: Response, next: NextFunction)=>{
+const updateRecord = (req: Request, res: Response, next: NextFunction)=>{
   try {
     const {id} = req.params
     const payload = req.body
@@ -78,11 +67,9 @@ router.put('/:id', (req: Request, res: Response, next: NextFunction)=>{
     next(error)
   }
   
-})
+}
 
-//5. Delete a category
-//DELETE localhost:8080/api/v1/categories/:id
-router.delete('/:id', (req: Request, res: Response, next: NextFunction)=>{
+const deleteRecord = (req: Request, res: Response, next: NextFunction)=>{
   try {
     const {id} = req.params
     //b1 Kiểm tra xem tồn tại category có id
@@ -105,6 +92,12 @@ router.delete('/:id', (req: Request, res: Response, next: NextFunction)=>{
   } catch (error) {
     next(error)
   }
-})
+}
 
-export default router
+export default {
+  findAll,
+  findOne,
+  createRecord,
+  updateRecord,
+  deleteRecord
+}

@@ -4,7 +4,8 @@ import createError from 'http-errors';
 /* import các routes */
 import categoriesRoute from './routes/v1/categories.route'
 import brandsRoute from  './routes/v1/brand.route'
-
+//v2
+import categoriesRouteV2 from './routes/v2/categories.route'
 
 const app: Express = express()
 
@@ -17,8 +18,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')))
 
 // BẮT ĐẦU KHAI BÁO ROUTES TỪ ĐÂY
-app.use('/api/v1', categoriesRoute)
-app.use('/api/v1', brandsRoute)
+app.use('/api/v1/categories', categoriesRoute)
+app.use('/api/v2/categories', categoriesRouteV2)
+app.use('/api/v1/brands', brandsRoute)
 
 
 // HANDLER ERRORS

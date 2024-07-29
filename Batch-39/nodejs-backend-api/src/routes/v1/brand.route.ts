@@ -8,7 +8,7 @@ const brands = [
 ]
 
 //1. Get All brands
-router.get('/brands', (req: Request, res: Response, next: NextFunction)=>{
+router.get('', (req: Request, res: Response, next: NextFunction)=>{
    res.status(200).json({
     data: brands
    })
