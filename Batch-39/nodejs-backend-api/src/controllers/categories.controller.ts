@@ -1,65 +1,68 @@
+import { categories } from './../../../../Batch-37-38/project-restful-apis/src/seeds/category';
 import {Request, Response, NextFunction} from 'express'
 import createError from 'http-errors'
+import categoriesService from '../services/categories.service';
+import fs from "node:fs"
 
-const cates = [
-  {id: 1, name: 'Laptop', desc: 'Laptop gia re da nang'},
-  {id: 2, name: 'Mobile', desc: 'Mobile gia re da nang'},
-  {id: 3, name: 'Watch', desc: 'Watch gia re da nang'}
-]
+const fileName = './src/databases/categories.json'
+const cates: any[] = []
 
 const findAll =  (req: Request, res: Response, next: NextFunction)=>{
-  res.status(200).json({
-   data: cates
-  })
-}
-
-const findOne = (req: Request, res: Response, next: NextFunction)=>{
-  const {id} = req.params
-  const category = cates.find(c => c.id === parseInt(id))
-
-  console.log('<<=== 🚀 category ===>>',category);
-
-  /* Bắt lỗi khi ko tìm thấy thông tin */
-  if(!category){
-    throw createError(400, 'Category Not Found')
+  console.log('<<=== 🚀findAll  ===>>',findAll);
+  try {
+    // Lấy data từ lớp service
+    const categories = categoriesService.findAll();
+    //Trả lại cho client
+    res.status(200).json({
+    data: categories
+    })
+  } catch (error) {
+    next(error)
   }
   
-  res.status(200).json({
-   data: category
-  })
+
 }
 
-const createRecord = (req: Request, res: Response, next: NextFunction)=>{
+const findById = (req: Request, res: Response, next: NextFunction)=>{
+  try {
+    const {id} = req.params;
+  
+    const category = categoriesService.findById(parseInt(id))
+    
+    res.status(200).json({
+    data: category
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+const createRecord =  (req: Request, res: Response, next: NextFunction)=>{
+ try {
   console.log('<<=== 🚀 req.body ===>>',req.body);
+  
+  const category =  categoriesService.createRecord(req.body)
+  
+  console.log('<<=== 🚀 category controller ===>>',category);
+
   res.status(201).json({
-    data: req.body
+    data: category
   })
+ } catch (error) {
+  next(error)
+ }
+  
 }
 
-const updateRecord = (req: Request, res: Response, next: NextFunction)=>{
+const updateById = (req: Request, res: Response, next: NextFunction)=>{
   try {
     const {id} = req.params
-    const payload = req.body
-    //b1.Kiểm tra sự tồn tại của danh mục có id này
-    const category = cates.find(c => c.id === parseInt(id))
-    console.log('<<=== 🚀 category ===>>',category);
 
-    /* Bắt lỗi khi ko tìm thấy thông tin */
-    if(!category){
-      throw createError(400, 'Category Not Found')
-    }
-
-    //b2: Update
-    const updated_cates = cates.map((c)=> {
-      if (c.id === parseInt(id)){
-          c.name = payload.name
-      }
-      return c
-    })
+    const category = categoriesService.updateById(parseInt(id), req.body)
 
     //Thành công
     res.status(200).json({
-      data: updated_cates
+      data: category
     })
 
   } catch (error) {
@@ -69,20 +72,11 @@ const updateRecord = (req: Request, res: Response, next: NextFunction)=>{
   
 }
 
-const deleteRecord = (req: Request, res: Response, next: NextFunction)=>{
+const deleteById = (req: Request, res: Response, next: NextFunction)=>{
   try {
     const {id} = req.params
-    //b1 Kiểm tra xem tồn tại category có id
-    const category = cates.find(c => c.id === parseInt(id))
-
-    if(!category){
-      throw createError(400, "Category Not Found")
-    }
-
-    //b2 Nếu tồn tại thì xóa
-    const new_category = cates.filter(c=> c.id !== parseInt(id))
-
-    console.log('<<=== 🚀 new_category ===>>',new_category);
+    
+    const category = categoriesService.deleteById(parseInt(id))
 
     res.status(200).json({
         //Trả về phần tử vừa được xóa
@@ -96,8 +90,8 @@ const deleteRecord = (req: Request, res: Response, next: NextFunction)=>{
 
 export default {
   findAll,
-  findOne,
+  findById,
   createRecord,
-  updateRecord,
-  deleteRecord
+  updateById,
+  deleteById
 }

@@ -149,138 +149,112 @@ Tiếp tục refactor các routes, chuyển thành các controllers
 
 ### Refactor Code
 
-Tách dữ liệu fake categories thành file json
-
-Tạo file `src/data/categories.json`
-
-```json
-[
-  { "id": 1, "name": "Road" },
-  { "id": 2, "name": "Mountain"},
-  { "id": 3, "name": "Hybrid"}
-]
-```
 
 Tạo file `src/controllers/categories.controller.ts`
 
 ```js
-import createError from 'http-errors';
-import fs from 'node:fs'
+import {Request, Response, NextFunction} from 'express'
+import createError from 'http-errors'
 
-const fileName = './src/data/categories.json'
-interface ICategory = {
-  id?: number, 
-  name: string, 
-  description: string
+const cates = [
+  {id: 1, name: 'Laptop', desc: 'Laptop gia re da nang'},
+  {id: 2, name: 'Mobile', desc: 'Mobile gia re da nang'},
+  {id: 3, name: 'Watch', desc: 'Watch gia re da nang'}
+]
+
+const findAll =  (req: Request, res: Response, next: NextFunction)=>{
+  res.status(200).json({
+   data: cates
+  })
 }
 
-// Get all categories
-const getAll = async (req: Request, res: Response) => {
-  //Doc noi dung cua file, co chua tieng viet
-  const data = fs.readFileSync(fileName, { encoding: 'utf-8', flag: 'r' });
-  //const data = fs.readFile(fileName, 'utf-8');
-  const categories: ICategory[] = JSON.parse(data);
-  res.status(200).json(categories);
-};
+const findById = (req: Request, res: Response, next: NextFunction)=>{
+  const {id} = req.params
+  const category = cates.find(c => c.id === parseInt(id))
 
-// Get a category by ID
-const getCategoryById = async (req: Request,  res: Response, next: NextFunction) => {
-  try {
-    const { id } = req.params;
+  console.log('<<=== 🚀 category ===>>',category);
 
-    //Doc noi dung cua file, co chua tieng viet
-    const data = fs.readFileSync(fileName, { encoding: 'utf-8', flag: 'r' });
-    //const data = fs.readFile(fileName, 'utf-8');
-    const categories: ICategory[] = JSON.parse(data);
-
-    const category = await categories.find((category) => category.id === id);
-
-    if (!category) {
-      throw createError(404, 'Category not found');
-    }
-
-    res.status(200).json(category);
-  } catch (err) {
-    next(err);
+  /* Bắt lỗi khi ko tìm thấy thông tin */
+  if(!category){
+    throw createError(400, 'Category Not Found')
   }
-};
+  
+  res.status(200).json({
+   data: category
+  })
+}
 
-// Create a new category
-const createCategory = async (req: Request, res: Response) => {
-    const payload = req.body;
-    //doc file lay noi dung json
-    const data = fs.readFileSync(fileName, { encoding: 'utf-8', flag: 'r' });
-    const categories: ICategory[] = JSON.parse(data);
-    //Bo sung phan tu moi vao mang cu
-    const newCategories = [...categories,payload];
+const createRecord = (req: Request, res: Response, next: NextFunction)=>{
+  console.log('<<=== 🚀 req.body ===>>',req.body);
+  res.status(201).json({
+    data: req.body
+  })
+}
 
-    //ghi file
-    fs.writeFile(fileName, JSON.stringify(newCategories), function (err) {
-        if (err) throw err;
-        console.log('Saved!');
-    });
-    res.status(200).json(payload);
-};
+const updateById = (req: Request, res: Response, next: NextFunction)=>{
+  try {
+    const {id} = req.params
+    const payload = req.body
+    //b1.Kiểm tra sự tồn tại của danh mục có id này
+    const category = cates.find(c => c.id === parseInt(id))
+    console.log('<<=== 🚀 category ===>>',category);
 
-// Update a category by ID
-const updateCategoryById = async (req: Request, res: Response) => {
-    const payload = req.body;
-    //doc file lay noi dung json
-    const data = fs.readFileSync(fileName, { encoding: 'utf-8', flag: 'r' });
-    const categories: ICategory[] = JSON.parse(data);
-    //check xem id co ton tai khong
-    const category = categories.find(c=>c.id === id);
+    /* Bắt lỗi khi ko tìm thấy thông tin */
     if(!category){
-        throw createError(404,'Category not found');
+      throw createError(400, 'Category Not Found')
     }
 
-    //Tim item co id va thay doi cac gia tri
-    categories.map((c)=>{
-       if(c.id ===  id){
-            c.name = payload.name;
-            c.description = payload.description;
-       }
+    //b2: Update
+    const updated_cates = cates.map((c)=> {
+      if (c.id === parseInt(id)){
+          c.name = payload.name
+      }
+      return c
     })
 
-    //ghi file
+    //Thành công
+    res.status(200).json({
+      data: updated_cates
+    })
 
-    fs.writeFile(fileName, JSON.stringify(categories), function (err) {
-        if (err) throw err;
-        console.log('Saved!');
-    });
+  } catch (error) {
+    //Chuyển lỗi qua cho handler error trong app.ts xử lý
+    next(error)
+  }
+  
+}
 
-    res.status(200).json(payload);
-};
+const deleteById = (req: Request, res: Response, next: NextFunction)=>{
+  try {
+    const {id} = req.params
+    //b1 Kiểm tra xem tồn tại category có id
+    const category = cates.find(c => c.id === parseInt(id))
 
-// Delete a category by ID
-const deleteCategoryById = async (req: Request, res: Response) => {
-  //doc file lay noi dung json
-    const data = fs.readFileSync(fileName, { encoding: 'utf-8', flag: 'r' });
-    const categories: ICategory[] = JSON.parse(data);
-    //check xem id co ton tai khong
-    const category = categories.find(c=>c.id === id)
     if(!category){
-        throw createError(404,'Category not found')
+      throw createError(400, "Category Not Found")
     }
-    console.log(id,categories);
-    
-    //Loc ra nhung item khong phai la item co ID dang xoa
-    const newCategories =  categories.filter(c=>c.id !== category?.id)
-    //Ghi file
-    fs.writeFile(fileName, JSON.stringify(newCategories), function (err) {
-        if (err) throw err;
-        console.log('Saved!');
-    });
 
-    res.status(200).json(category);
-};
+    //b2 Nếu tồn tại thì xóa
+    const new_category = cates.filter(c=> c.id !== parseInt(id))
+
+    console.log('<<=== 🚀 new_category ===>>',new_category);
+
+    res.status(200).json({
+        //Trả về phần tử vừa được xóa
+        data: category
+    })
+
+  } catch (error) {
+    next(error)
+  }
+}
 
 export default {
-  getAll,
-  getCategoryById,
-  createCategory,
-  updateCategoryById,
-  deleteCategoryById
+  findAll,
+  findById,
+  createRecord,
+  updateById,
+  deleteById
 }
 ```
 
@@ -323,6 +297,19 @@ app.use('/api/v1/categories', categoriesRoute);
 - Ví dụ: Service thực hiện truy vấn thông tin người dùng từ cơ sở dữ liệu.
 
 ---
+
+Tách dữ liệu fake categories thành file json
+
+Tạo file `src/data/categories.json`
+
+```json
+[
+  { "id": 1, "name": "Road" },
+  { "id": 2, "name": "Mountain"},
+  { "id": 3, "name": "Hybrid"}
+]
+```
+
 
 Tạo file `src/services/categories.service.ts`
 

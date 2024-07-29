@@ -9,7 +9,7 @@ router.get('', categoriesController.findAll)
 
 //2. Get One Category
 //GET localhost:8080/api/v1/categories/:id
-router.get('/:id', categoriesController.findOne)
+router.get('/:id', categoriesController.findById)
 
 
 //3. Create a new category
@@ -18,10 +18,10 @@ router.post('', categoriesController.createRecord)
 
 //4. Update a category
 //PUT localhost:8080/api/v1/categories/:id
-router.put('/:id', categoriesController.updateRecord)
+router.put('/:id', categoriesController.updateById)
 
 //5. Delete a category
 //DELETE localhost:8080/api/v1/categories/:id
-router.delete('/:id', categoriesController.deleteRecord)
+router.delete('/:id', categoriesController.deleteById)
 
 export default router
