@@ -1,3 +1,4 @@
+
 import express, {Request, Response, NextFunction} from 'express'
 const router = express.Router()
 
@@ -10,7 +11,10 @@ const brands = [
 //1. Get All brands
 router.get('', (req: Request, res: Response, next: NextFunction)=>{
    res.status(200).json({
-    data: brands
+    statusCode: 200,
+    message: "success",
+    data: brands,
+
    })
 })
 

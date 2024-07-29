@@ -1,6 +1,7 @@
 import express, {Express, NextFunction, Request, Response} from 'express'
 import path from 'path';
 import createError from 'http-errors';
+import {sendJsonErrors} from './helpers/responseHandler'
 /* import các routes */
 import categoriesRoute from './routes/v1/categories.route'
 import brandsRoute from  './routes/v1/brand.route'
@@ -40,10 +41,11 @@ app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   const statusCode = err.status || 500;
-  res.status(statusCode).json({ 
-    statusCode: statusCode, 
-    message: err.message 
-  });
+  // res.status(statusCode).json({ 
+  //   statusCode: statusCode, 
+  //   message: err.message 
+  // });
+  sendJsonErrors(res, err)
 });
 
 

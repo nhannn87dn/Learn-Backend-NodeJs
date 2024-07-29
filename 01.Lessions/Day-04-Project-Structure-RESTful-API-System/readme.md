@@ -590,14 +590,15 @@ const sendJsonSuccess = (res: Response, message = 'Success', code = 200) => {
     };
   };
   
-  const sendJsonErrors = (req: Request, res: Response, error: any) => {
-    console.log(error);
-    return res.status(error.status || 500).json({
-      statusCode: error.status || 500,
-      message: error.message || 'Unhandled Error',
-      error,
-    });
-  };
+  const sendJsonErrors = (res: Response, error: any) => {
+  console.log(error);
+  return res.status(error.status || 500).json({
+    statusCode: error.status || 500,
+    message: error.message || 'Unhandled Error',
+    data: null
+  });
+};
+
   
 export {
     sendJsonSuccess,

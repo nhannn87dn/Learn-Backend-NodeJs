@@ -1,11 +1,6 @@
-import { categories } from './../../../../Batch-37-38/project-restful-apis/src/seeds/category';
 import {Request, Response, NextFunction} from 'express'
-import createError from 'http-errors'
 import categoriesService from '../services/categories.service';
-import fs from "node:fs"
-
-const fileName = './src/databases/categories.json'
-const cates: any[] = []
+import {sendJsonSuccess} from '../helpers/responseHandler'
 
 const findAll =  (req: Request, res: Response, next: NextFunction)=>{
   console.log('<<=== 🚀findAll  ===>>',findAll);
@@ -13,9 +8,11 @@ const findAll =  (req: Request, res: Response, next: NextFunction)=>{
     // Lấy data từ lớp service
     const categories = categoriesService.findAll();
     //Trả lại cho client
-    res.status(200).json({
-    data: categories
-    })
+    // res.status(200).json({
+    //   data: categories
+    // })
+    sendJsonSuccess(res, "success")(categories)
+
   } catch (error) {
     next(error)
   }
