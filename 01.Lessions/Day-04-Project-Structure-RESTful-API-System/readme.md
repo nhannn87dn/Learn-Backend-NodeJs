@@ -162,13 +162,13 @@ const categories = [
   { "id": 3, "name": "Hybrid"}
 ]
 
-const findAll =  (req: Request, res: Response, next: NextFunction)=>{
+const getAll =  (req: Request, res: Response, next: NextFunction)=>{
   res.status(200).json({
    data: categories
   })
 }
 
-const findById = (req: Request, res: Response, next: NextFunction)=>{
+const getCategoryById = (req: Request, res: Response, next: NextFunction)=>{
   const {id} = req.params
   const category = categories.find(c => c.id === parseInt(id))
 
@@ -184,14 +184,14 @@ const findById = (req: Request, res: Response, next: NextFunction)=>{
   })
 }
 
-const createRecord = (req: Request, res: Response, next: NextFunction)=>{
+const createCategory = (req: Request, res: Response, next: NextFunction)=>{
   console.log('<<=== 🚀 req.body ===>>',req.body);
   res.status(201).json({
     data: req.body
   })
 }
 
-const updateById = (req: Request, res: Response, next: NextFunction)=>{
+const updateCategoryById = (req: Request, res: Response, next: NextFunction)=>{
   try {
     const {id} = req.params
     const payload = req.body
@@ -224,7 +224,7 @@ const updateById = (req: Request, res: Response, next: NextFunction)=>{
   
 }
 
-const deleteById = (req: Request, res: Response, next: NextFunction)=>{
+const deleteCategoryById = (req: Request, res: Response, next: NextFunction)=>{
   try {
     const {id} = req.params
     //b1 Kiểm tra xem tồn tại category có id
@@ -250,11 +250,11 @@ const deleteById = (req: Request, res: Response, next: NextFunction)=>{
 }
 
 export default {
-  findAll,
-  findById,
-  createRecord,
-  updateById,
-  deleteById
+  getAll,
+  getCategoryById,
+  createCategory,
+  updateCategoryById,
+  deleteCategoryById
 }
 ```
 
@@ -363,7 +363,7 @@ const createCategory = (payload: ICategory)=>{
     return payload;
 }
 
-const updateCategory = (id: number,payload: ICategory)=>{
+const updateCategoryById = (id: number,payload: ICategory)=>{
     //doc file lay noi dung json
     const data = fs.readFileSync(fileName, { encoding: 'utf-8', flag: 'r' });
     const categories: ICategory[] = JSON.parse(data);
@@ -391,7 +391,7 @@ const updateCategory = (id: number,payload: ICategory)=>{
     return payload
 }
 
-const deleteCategory = (id:number)=>{
+const deleteCategoryById = (id:number)=>{
     //doc file lay noi dung json
     const data = fs.readFileSync(fileName, { encoding: 'utf-8', flag: 'r' });
     const categories: ICategory[] = JSON.parse(data);
@@ -418,8 +418,8 @@ export default {
     getAll,
     getCategoryById,
     createCategory,
-    updateCategory,
-    deleteCategory
+    updateCategoryById,
+    deleteCategoryById
 }
 ```
 
@@ -467,7 +467,7 @@ const updateCategory = (req: Request, res: Response)=>{
     const data = req.body;
 
     
-    const category = categoriesService.updateCategory(parseInt(id),data)
+    const category = categoriesService.updateCategoryById(parseInt(id),data)
 
     res.status(200).json({
         message: `Update Category by ID ${id}`,
@@ -475,10 +475,10 @@ const updateCategory = (req: Request, res: Response)=>{
     })
 }
 
-const deleteCategory = (req: Request, res: Response,next: NextFunction)=>{
+const deleteCategoryById = (req: Request, res: Response,next: NextFunction)=>{
     try {
         const {id} = req.params;
-        const category = categoriesService.deleteCategory(parseInt(id))
+        const category = categoriesService.deleteCategoryById(parseInt(id))
         res.status(200).json({
             message: `Delete Category by ID ${id}`,
             category: category
@@ -493,8 +493,8 @@ export default {
     getAll,
     getCategoryById,
     createCategory,
-    updateCategory,
-    deleteCategory
+    updateCategoryById,
+    deleteCategoryById
 }
 ```
 
