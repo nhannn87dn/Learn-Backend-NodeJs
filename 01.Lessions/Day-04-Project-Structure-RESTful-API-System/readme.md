@@ -156,21 +156,21 @@ Tạo file `src/controllers/categories.controller.ts`
 import {Request, Response, NextFunction} from 'express'
 import createError from 'http-errors'
 
-const cates = [
-  {id: 1, name: 'Laptop', desc: 'Laptop gia re da nang'},
-  {id: 2, name: 'Mobile', desc: 'Mobile gia re da nang'},
-  {id: 3, name: 'Watch', desc: 'Watch gia re da nang'}
+const categories = [
+  { "id": 1, "name": "Road" },
+  { "id": 2, "name": "Mountain"},
+  { "id": 3, "name": "Hybrid"}
 ]
 
 const findAll =  (req: Request, res: Response, next: NextFunction)=>{
   res.status(200).json({
-   data: cates
+   data: categories
   })
 }
 
 const findById = (req: Request, res: Response, next: NextFunction)=>{
   const {id} = req.params
-  const category = cates.find(c => c.id === parseInt(id))
+  const category = categories.find(c => c.id === parseInt(id))
 
   console.log('<<=== 🚀 category ===>>',category);
 
@@ -196,7 +196,7 @@ const updateById = (req: Request, res: Response, next: NextFunction)=>{
     const {id} = req.params
     const payload = req.body
     //b1.Kiểm tra sự tồn tại của danh mục có id này
-    const category = cates.find(c => c.id === parseInt(id))
+    const category = categories.find(c => c.id === parseInt(id))
     console.log('<<=== 🚀 category ===>>',category);
 
     /* Bắt lỗi khi ko tìm thấy thông tin */
@@ -205,7 +205,7 @@ const updateById = (req: Request, res: Response, next: NextFunction)=>{
     }
 
     //b2: Update
-    const updated_cates = cates.map((c)=> {
+    const updated_cates = categories.map((c)=> {
       if (c.id === parseInt(id)){
           c.name = payload.name
       }
@@ -214,7 +214,7 @@ const updateById = (req: Request, res: Response, next: NextFunction)=>{
 
     //Thành công
     res.status(200).json({
-      data: updated_cates
+      data: updated_categories
     })
 
   } catch (error) {
@@ -228,14 +228,14 @@ const deleteById = (req: Request, res: Response, next: NextFunction)=>{
   try {
     const {id} = req.params
     //b1 Kiểm tra xem tồn tại category có id
-    const category = cates.find(c => c.id === parseInt(id))
+    const category = categories.find(c => c.id === parseInt(id))
 
     if(!category){
       throw createError(400, "Category Not Found")
     }
 
     //b2 Nếu tồn tại thì xóa
-    const new_category = cates.filter(c=> c.id !== parseInt(id))
+    const new_category = categories.filter(c=> c.id !== parseInt(id))
 
     console.log('<<=== 🚀 new_category ===>>',new_category);
 
