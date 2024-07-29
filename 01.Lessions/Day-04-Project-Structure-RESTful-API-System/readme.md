@@ -608,4 +608,63 @@ export {
 
 ```
 
+Áp dụng cho controllers
+
+
+`categories.controller.ts` sẽ có dạng như sau
+
+```js
+import {Request,Response, NextFunction} from 'express'
+import categoriesService from '../services/categories.service';
+import {sendJsonSuccess} from '../helpers/responseHandler'
+
+const getAll = (req: Request, res: Response)=>{
+    const result = categoriesService.getAll();
+    console.log('result',result);
+    //res.status(200).json(result)
+    
+    sendJsonSuccess(res, "success")(result)
+}
+
+//Phần còn lại
+
+```
+
+Chỉnh sửa phần Error handle trong App lại như sau
+
+```js
+//Phần đầu của app.ts
+
+
+// Báo lỗi ở dạng JSON
+app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  const statusCode = err.status || 500;
+  // res.status(statusCode).json({ 
+  //   statusCode: statusCode, 
+  //   message: err.message 
+  // });
+  sendJsonErrors(res, err)
+});
+
+
+export default app
+
+```
+
+Kết luận: Dù lỗi hay thành công thì APIs vẫn luôn trả về một cấu trúc cố định
+gòm 3 phần tử:
+
+```json
+{
+  "statusCode": 200,
+  "message": "success",
+  "data": "..."
+}
+
+```
+
 ## 💛 Homeworks Guide
