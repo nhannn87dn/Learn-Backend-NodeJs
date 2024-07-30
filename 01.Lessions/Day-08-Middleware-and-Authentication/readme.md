@@ -266,6 +266,9 @@ Thì chúng ta gọi các vấn đề trên với một khái niệm là `Authen
 
 Đối với những Staff có quyền truy cập, thì lại có một vấn đề nữa là quyền hạn. Staff này có quyền truy cập đến những tài nguyên nào thì chúng ta gọi nó với một khái niệm là `Authorization`
 
+
+![jwt token](../Day-15-Advanced/img/jwt-authentication-flow.svg)
+
 **Bước 1: Mỗi Staff phải có một token (chìa khóa) để truy cập tới các private endpoint**
 
 Để có được token, Staff phải đăng nhập vào hệ thống, nếu đúng email, password thì hệ thống sẽ sinh ra cho Staff một token.

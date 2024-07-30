@@ -300,7 +300,7 @@ app.use('/api/v1/categories', categoriesRoute);
 
 Tách dữ liệu fake categories thành file json
 
-Tạo file `src/data/categories.json`
+Tạo file `src/database/categories.json`
 
 ```json
 [
@@ -318,7 +318,7 @@ Lưu ý: nó trả về Data cho Controller nên sử dụng return
 ```js
 import fs from 'node:fs'
 import createError from 'http-errors';
-const fileName = './src/data/categories.json';
+const fileName = './src/database/categories.json';
 
 
 type ICategory = {id?: number, name: string, description: string}
@@ -511,6 +511,9 @@ Luồng xử lý sát với dự án thực tế
 
 ## 💛 Chuẩn hóa định dạng JSON API trả về
 
+
+### Tổng quan
+
 Không có bất kỳ quy tắc nào để ràng buộc cách bạn trả về một chuổi JSON có cấu trúc như thế nào cả.
 
 Tuy nhiên dưới đây là một số cách định dạng mà bạn có thể tham khảo:
@@ -579,32 +582,76 @@ Thông thường người ta tạo ra một bảng danh mục mã lỗi kèm mes
 |    404     |   API Not Found    |
 |    500     |    Error Server    |
 
+
+### Cách triển khai
+
+
+#### Định nghĩa các mã trạng thái và thông điệp
+
+Tạo file `src/constants/responseConstants.ts`
+
+```js
+// responseConstants.ts
+export interface Status {
+    statusCode: number;
+    message: string;
+}
+
+export const SUCCESS = {
+    OK: { statusCode: 200, message: 'Success' } as Status,
+    CREATED: { statusCode: 201, message: 'Resource created successfully' } as Status,
+};
+
+export const ERROR = {
+    BAD_REQUEST: { statusCode: 400, message: 'Bad request' } as Status,
+    UNAUTHORIZED: { statusCode: 401, message: 'Unauthorized' } as Status,
+    FORBIDDEN: { statusCode: 403, message: 'Forbidden' } as Status,
+    NOT_FOUND: { statusCode: 404, message: 'Resource not found' } as Status,
+    SERVER_ERROR: { statusCode: 500, message: 'Internal server error' } as Status,
+};
+
+/**
+ * Bổ sung các trạng thái khác theo nhu cầu
+ * 
+ * */
+
+```
+
+
+#### Tạo một hàm tiện ích để gửi phản hồi
+
 Tạo một file `src\helpers\responseHandler.ts` để handle việc đó
 
 ```js
-import {Request, Response} from 'express';
-const sendJsonSuccess = (res: Response, message = 'Success', code = 200) => {
+import { Response } from 'express';
+import { Status, SUCCESS, ERROR } from '../constants/responseConstants';
+
+
+/**
+ * Mặc định trả về status 200
+ * 
+ */
+export const sendJsonSuccess = (res: Response, status: Status = SUCCESS.OK, data: any = null): void => {
     return (data: any = null) => {
-      const resData = data ? { statusCode: code, message, data} : { statusCode: code, message};
-      res.status(code).json(resData);
-    };
+      const resData = data ? { statusCode: status.statusCode, message: status.message, data} : { statusCode: status.statusCode, message: status.message};
+      res.status(status.statusCode).json(resData);
   };
-  
-  const sendJsonErrors = (res: Response, error: any) => {
-  console.log(error);
-  return res.status(error.status || 500).json({
-    statusCode: error.status || 500,
-    message: error.message || 'Unhandled Error',
-    data: null
-  });
 };
 
-  
-export {
-    sendJsonSuccess,
-    sendJsonErrors,
-  };
+/**
+ * Mặc định trả về status 500
+ * 
+ */
+export const sendJsonError = (res: Response, status: Status = SUCCESS.SERVER_ERROR): void => {
+    res.status(status.statusCode).json({
+        statusCode: status.statusCode,
+        message: status.message,
+        data: null
+    });
+};
 
+
+export { SUCCESS, ERROR };
 
 ```
 
@@ -616,38 +663,61 @@ export {
 ```js
 import {Request,Response, NextFunction} from 'express'
 import categoriesService from '../services/categories.service';
-import {sendJsonSuccess} from '../helpers/responseHandler'
+import {sendJsonSuccess, SUCCESS} from '../helpers/responseHandler'
 
 const getAll = (req: Request, res: Response)=>{
     const result = categoriesService.getAll();
     console.log('result',result);
     //res.status(200).json(result)
-    
-    sendJsonSuccess(res, "success")(result)
+    sendJsonSuccess(res)(data);
 }
 
 //Phần còn lại
-
 ```
+
+Áp dụng cho services
+
+```js
+import {ERROR} from '../helpers/responseHandler'
+
+const getCategoryBy = (id:number)=>{
+    const categories = getAll()
+    //Đi tìm 1 cái khớp id
+    const category = categories.find(c=> c.id === id)
+    
+     /* Bắt lỗi khi ko tìm thấy thông tin */
+    if(!category){
+      throw createError(ERROR.BAD_REQUEST.statusCode)
+    }
+
+    return category
+}
+```
+
 
 Chỉnh sửa phần Error handle trong App lại như sau
 
 ```js
+import { ERROR, Status } from './helpers/responseHandler';
+
+interface CustomError extends Error {
+    status?: Status;
+}
+
 //Phần đầu của app.ts
 
 
 // Báo lỗi ở dạng JSON
-app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function (err: CustomError, req: Request, res: Response, next: NextFunction) {
+  
+  console.error(err.stack); //Log for debuging
 
-  const statusCode = err.status || 500;
-  // res.status(statusCode).json({ 
-  //   statusCode: statusCode, 
-  //   message: err.message 
-  // });
-  sendJsonErrors(res, err)
+  const status = err.status || ERROR.SERVER_ERROR;
+    res.status(status.statusCode).json({
+        statusCode: status.statusCode,
+        message: err.message || status.message,
+        data: null
+    });
 });
 
 

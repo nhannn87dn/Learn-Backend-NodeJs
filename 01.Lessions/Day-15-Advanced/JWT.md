@@ -7,7 +7,7 @@
 
 Giả sử để truyền tin mật từ anh A sang người trong tổ chức A, vậy làm thế nào để nhận biết người B cũng thuộc tổ chức A? Khi đó, tổ chức A nảy ra một ý tưởng, cho anh A một mật mã để trước khi tiếp nhận hay truyền đi thông tin sẽ đưa ra mật mã để định danh đó là anh A. 
 
-![jwt token](img/token-based-authentication.jpg)
+![jwt token](img/jwt-authentication-flow.svg)
 
 Thông qua ví dụ trên, giống như mối quan hệ giữa server và client, anh A sẽ đại diện cho server, tổ chức A tương tự như client và mật mã để định danh anh A gọi là Jwt.
 
