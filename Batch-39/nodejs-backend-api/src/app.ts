@@ -36,10 +36,9 @@ app.use((req: Request, res: Response, next: NextFunction)=>{
 
 // Báo lỗi ở dạng JSON
 app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
+  
+  console.log(err.stack)
+  
   const statusCode = err.status || 500;
   // res.status(statusCode).json({ 
   //   statusCode: statusCode, 

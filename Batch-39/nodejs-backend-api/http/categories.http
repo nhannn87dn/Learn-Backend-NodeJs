@@ -14,9 +14,9 @@ POST http://localhost:8080/api/v1/categories
 Content-Type: application/json
 
 {
-  "id": 4,
-  "name": "Tablet",
-  "desc": "Tablet gia re da nang"
+  "category_name": "      Tablet v3    ",
+  "description": "Tablet v2 gia re da nang",
+  "slug": "tablet-v3"
 }
 
 
@@ -24,13 +24,15 @@ Content-Type: application/json
 ###
 
 # Update a category
-PUT http://localhost:8080/api/v1/categories/2
+PUT http://localhost:8080/api/v1/categories/66aa378c9f92ff21f2d09246
 Content-Type: application/json
 
 {
-  "name": "iPad"
+  "category_name": "Tablet v2",
+  "slug": "tablet-v2"
 }
+
 
 ### 
 # Delete Category
-DELETE  http://localhost:8080/api/v1/categories/2
+DELETE  http://localhost:8080/api/v1/categories/66aa2e47c5531e76fb8d3152

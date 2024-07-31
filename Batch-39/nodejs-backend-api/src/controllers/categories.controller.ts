@@ -2,11 +2,12 @@ import {Request, Response, NextFunction} from 'express'
 import categoriesService from '../services/categories.service';
 import {sendJsonSuccess} from '../helpers/responseHandler'
 
-const findAll =  (req: Request, res: Response, next: NextFunction)=>{
-  console.log('<<=== 🚀findAll  ===>>',findAll);
+const findAll = async (req: Request, res: Response, next: NextFunction)=>{
+  
   try {
     // Lấy data từ lớp service
-    const categories = categoriesService.findAll();
+    const categories = await categoriesService.findAll();
+    console.log('<<=== 🚀findAll categories  ===>>',categories);
     //Trả lại cho client
     // res.status(200).json({
     //   data: categories
@@ -20,11 +21,13 @@ const findAll =  (req: Request, res: Response, next: NextFunction)=>{
 
 }
 
-const findById = (req: Request, res: Response, next: NextFunction)=>{
+const findById = async (req: Request, res: Response, next: NextFunction)=>{
   try {
     const {id} = req.params;
-  
-    const category = categoriesService.findById(parseInt(id))
+    /**
+     * SELECT * FROM categories WHERE id = ''
+     */
+    const category = await categoriesService.findById(id)
     
     res.status(200).json({
     data: category
@@ -34,11 +37,11 @@ const findById = (req: Request, res: Response, next: NextFunction)=>{
   }
 }
 
-const createRecord =  (req: Request, res: Response, next: NextFunction)=>{
+const createRecord = async (req: Request, res: Response, next: NextFunction)=>{
  try {
   console.log('<<=== 🚀 req.body ===>>',req.body);
   
-  const category =  categoriesService.createRecord(req.body)
+  const category =  await categoriesService.createRecord(req.body)
   
   console.log('<<=== 🚀 category controller ===>>',category);
 
@@ -51,11 +54,11 @@ const createRecord =  (req: Request, res: Response, next: NextFunction)=>{
   
 }
 
-const updateById = (req: Request, res: Response, next: NextFunction)=>{
+const updateById = async (req: Request, res: Response, next: NextFunction)=>{
   try {
     const {id} = req.params
 
-    const category = categoriesService.updateById(parseInt(id), req.body)
+    const category = await categoriesService.updateById(id, req.body)
 
     //Thành công
     res.status(200).json({
@@ -69,11 +72,11 @@ const updateById = (req: Request, res: Response, next: NextFunction)=>{
   
 }
 
-const deleteById = (req: Request, res: Response, next: NextFunction)=>{
+const deleteById = async (req: Request, res: Response, next: NextFunction)=>{
   try {
     const {id} = req.params
     
-    const category = categoriesService.deleteById(parseInt(id))
+    const category = await categoriesService.deleteById(id)
 
     res.status(200).json({
         //Trả về phần tử vừa được xóa

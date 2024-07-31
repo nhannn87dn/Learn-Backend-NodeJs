@@ -1,0 +1,74 @@
+import { Schema, model } from 'mongoose';
+
+/* Khởi tạo một Schema */
+
+const productSchema = new Schema({
+  product_name: {
+    type: String,
+    require: true, //mặc định true, nếu bạn ko liệt kê vào
+    maxLength: 255, //Tối đa 255 kí tự
+    unique: true, //chống trùng lặp tên danh mục
+    trim: true, // tự động cắt kí tự trắng trước/sau vd: "   Laptop " ==> "Laptop"
+  },
+  price: {
+    type: Number,
+    min: 0,
+    default: 0
+  },
+  discount: {
+    type: Number,
+    min: 0,
+    max: 70,
+    default: 0
+  },
+  category: {
+    type: Schema.Types.ObjectId, //_id
+    ref: 'Category',
+    required: true
+  },
+  model_year: {
+    type: Number
+  },
+  description: {
+    type: String,
+    require: false, //mặc định true, nếu bạn ko liệt kê vào
+    maxLength: 500, //Tối đa 500 kí tự
+    trim: true, // tự động cắt kí tự trắng trước/sau vd: "   Laptop " ==> "Laptop"
+  },
+  thumbnail: {
+    type: String,
+    require: false,
+  },
+  stock: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  /**
+   * Vì sao cần slug ---> để SEO
+   * category_name: Điện thoại
+   * slug: dien-thoai
+   */
+  slug: {
+    type: String,
+    require: true, //mặc định true, nếu bạn ko liệt kê vào
+    maxLength: 255, //Tối đa 50 kí tự
+    unique: true, //chống trùng lặp tên danh mục
+    trim: true, // tự động cắt kí tự trắng trước/sau vd: "   Laptop " ==> "Laptop"
+  },
+  order: {
+    type: Number,
+    default: 50, //giá trị mặc định khi ko điền,
+    min: 1, //giá trị tối thiểu chấp nhận là 1
+  }
+},
+{
+  timestamps: true, //Tạo tự động thêm 2 trường createAt, updateAt
+  //collection: 'categories'
+}
+)
+
+//Export một Model
+
+const Category = model('Category', categorySchema);
+export default Category;
