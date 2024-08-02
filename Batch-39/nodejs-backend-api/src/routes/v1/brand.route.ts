@@ -1,26 +1,26 @@
-
-import express, {Request, Response, NextFunction} from 'express'
+import express from 'express'
+import brandsController from '../../controllers/brands.controller'
 const router = express.Router()
 
-const brands = [
-  {id: 1, name: 'Asus', desc: 'Laptop Asus gia re da nang'},
-  {id: 2, name: 'Dell', desc: 'Laptop Dell gia re da nang'},
-  {id: 3, name: 'Apple', desc: 'Laptop Apple gia re da nang'}
-]
+//1. Get All Brands
+//GET localhost:8080/api/v1/brands
+router.get('', brandsController.findAll)
 
-//1. Get All brands
-router.get('', (req: Request, res: Response, next: NextFunction)=>{
-   res.status(200).json({
-    statusCode: 200,
-    message: "success",
-    data: brands,
+//2. Get One Category
+//GET localhost:8080/api/v1/brands/:id
+router.get('/:id', brandsController.findById)
 
-   })
-})
 
-//2. Get One brands
-//3. Create a new brands
-//4. Update a brands
-//5. Delete a brands
+//3. Create a new category
+//POST localhost:8080/api/v1/brands
+router.post('', brandsController.createRecord)
+
+//4. Update a category
+//PUT localhost:8080/api/v1/brands/:id
+router.put('/:id', brandsController.updateById)
+
+//5. Delete a category
+//DELETE localhost:8080/api/v1/brands/:id
+router.delete('/:id', brandsController.deleteById)
 
 export default router

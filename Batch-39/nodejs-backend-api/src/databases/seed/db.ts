@@ -1,4 +1,3 @@
-import { categories } from './../../../../../Batch-37-38/project-restful-apis/src/seeds/category';
 //File này dùng để tạo dữ liệu cho database
 
 import mongoose from 'mongoose'

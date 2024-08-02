@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-
+import mongooseLeanVirtuals  from 'mongoose-lean-virtuals'
 /* Khởi tạo một Schema */
 
 const productSchema = new Schema({
@@ -92,6 +92,21 @@ const productSchema = new Schema({
   //collection: 'category', //Tên collection Cố định theo tên bạn đặt
 }
 )
+
+
+/* Khai báo khóa ngoại với Brand Model */
+productSchema.virtual('brand', {
+  ref: 'Brand',
+  localField: 'brandId',
+  foreignField: '_id',
+  justOne: true,
+});
+
+productSchema.set('toJSON', { virtuals: true });
+// Virtuals in console.log()
+productSchema.set('toObject', { virtuals: true });
+
+productSchema.plugin(mongooseLeanVirtuals);
 
 //Export một Model
 
