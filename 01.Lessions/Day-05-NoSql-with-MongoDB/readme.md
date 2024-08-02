@@ -347,6 +347,12 @@ CREATE TABLE Users (
 );
 ```
 
+| id  | username |
+|-----|----------|
+| 1   | user1    |
+| 2   | user2    |
+| 3   | user3    |
+
 - Bảng `Contacts`
 
 ```sql
@@ -359,6 +365,14 @@ CREATE TABLE Contacts (
 );
 ```
 
+| id  | user_id | phone       | email              |
+|-----|---------|-------------|--------------------|
+| 1   | 1       | 1234567890  | user1@example.com  |
+| 2   | 1       | 0987654321  | user1_2@example.com|
+| 3   | 2       | 1122334455  | user2@example.com  |
+| 4   | 3       | 2233445566  | user3@example.com  |
+
+
 - Bảng `Access`
 
 ```sql
@@ -370,6 +384,16 @@ CREATE TABLE Access (
     FOREIGN KEY (user_id) REFERENCES Users(id)
 );
 ```
+
+| id  | user_id | level | group      |
+|-----|---------|-------|------------|
+| 1   | 1       | 1     | admin      |
+| 2   | 1       | 2     | editor     |
+| 3   | 2       | 1     | viewer     |
+| 4   | 3       | 3     | superadmin |
+
+
+
 
 ![embed](img/references-model.PNG)
 
