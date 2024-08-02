@@ -5,12 +5,6 @@
 Hướng dẫn code các Models
 
 
-## 💛 Fake Database to MongoDB
-
-Tạo dữ liệu Fake  ==> Để có dữ liệu truy vấn.
-
-Sử dụng https://fakerjs.dev
-
 ## 💛 Tạo mới Document
 
 ```js
@@ -156,6 +150,14 @@ course.enrollments.push(enrollment._id);
 await student.save();
 await course.save();
 ```
+
+
+## 💛 Fake Database to MongoDB
+
+Tạo dữ liệu Fake  ==> Để có dữ liệu truy vấn.
+
+Sử dụng https://fakerjs.dev
+
 
 ## 💛 Queries
 

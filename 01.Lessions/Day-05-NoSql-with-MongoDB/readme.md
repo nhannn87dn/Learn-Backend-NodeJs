@@ -24,6 +24,7 @@
 - Mọi thay đổi về dữ liệu mặc định đều chưa được ghi xuống ổ cứng ngay lập tức vì vậy khả năng bị mất dữ liệu từ nguyên nhân mất điện đột xuất là rất cao.
 
 ---
+
 ## 💛 Khi nào sử dụng MongoDB?
 
 - Quản lý và truyền tải content – Quản lý đa dạng nhiều product của content chỉ trong một kho lưu trữ data cho phép thay đổi và phản hồi nhanh chóng mà không chịu thêm phức tạp thêm từ hệ thống content.
@@ -44,7 +45,7 @@ You can download a free MongoDB database at:
 - Chọn Phiên bản, Chọn Plaform theo hiệu điều hành
 - Chọn **Download** để tải về
 
-Để cài cho MacOS trên Terminal: https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/
+Để cài cho MacOS trên Terminal: <https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/>
 
 ---
 
@@ -56,7 +57,7 @@ Extension for VS Code:
 
 > <https://www.mongodb.com/products/vs-code>
 
-PaaS: Get started right away with a MongoDB cloud service at https://www.mongodb.com/cloud/atlas.
+PaaS: Get started right away with a MongoDB cloud service at <https://www.mongodb.com/cloud/atlas>.
 
 ---
 
@@ -88,10 +89,12 @@ Sử dụng MongoDB qua thư viện Mongoose (Database ORM) giúp thao tác dễ
 npm install mongoose --save
 yarn add mongoose --save
 ```
+
 ---
+
 ## 💛 Kết nối với Database
 
-Chi tiết xem: https://mongoosejs.com/docs/connections.html
+Chi tiết xem: <https://mongoosejs.com/docs/connections.html>
 
 Đưa đoạn code này vào server.ts
 
@@ -117,12 +120,11 @@ mongoose
   });
 ```
 
-
 Tips: Bạn có thể đưa đoạn code khởi tạo server của Express vào chổ `//should listen app here` để đảm bảo rằng. Phải kết nối server Mongoo thành công thì mới khởi tạo server NodeJs.
 
 ---
-## 💛 Mongoose SchemaTypes
 
+## 💛 Mongoose SchemaTypes
 
 - String
 - Number
@@ -136,16 +138,15 @@ Tips: Bạn có thể đưa đoạn code khởi tạo server của Express vào 
 - Map
 - Schema
 
-
 Chi tiết cách sử dụng các kiểu dữ liệu: <https://mongoosejs.com/docs/schematypes.html>
 
-
 ---
+
 ## 💛Tạo một Model Schema với Mongoose
 
 Doc: <https://mongoosejs.com/docs/models.html>
 
-Tạo thư mục `models`, trong thư mục này tạo file `staff.model.ts`
+Tạo thư mục `models`, trong thư mục này tạo file `Test.model.ts`
 
 Cú pháp
 
@@ -163,12 +164,12 @@ export default ModelName;
 
 Xem các options ở link sau: <https://mongoosejs.com/docs/api/schema.html#options>
 
-Ví dụ: Tạo `Model Staff`
+Ví dụ: Tạo `Model Test`
 
 ```ts
 import { Schema, model } from 'mongoose';
 
-const staffSchema new Schema({
+const testSchema new Schema({
   firstName: {
     type: String
   },
@@ -181,8 +182,8 @@ const staffSchema new Schema({
   timestamps: true, //Tạo tự động thêm 2 trường createAt, updateAt
 });
 
-const Staff = model('Staff', staffSchema);
-export default Staff;
+const Test = model('Test', testSchema);
+export default Test;
 ```
 
 Sử dụng với TypeScript
@@ -190,12 +191,12 @@ Sử dụng với TypeScript
 ```ts
 import { Schema, model } from 'mongoose';
 
-interface IStaff{
+interface ITest{
   firstName: string
   lastName?: string
 }
 
-const staffSchema new Schema({
+const testSchema new Schema({
   firstName: {
     type: String
   },
@@ -208,10 +209,9 @@ const staffSchema new Schema({
   timestamps: true,
 });
 
-const Staff = model<IStaff>('Staff', staffSchema);
-export default Staff;
+const Test = model<ITest>('Test', testSchema);
+export default Test;
 ```
-
 
 ## 💛 Data Model Design
 
@@ -221,27 +221,286 @@ Trong NoSQL, document là một đối tượng cơ bản trong cơ sở dữ li
 
 Dựa trên mối quan hệ giữa CSDL, Cấu trúc của một Document sẽ được quyết định bởi 2 kiểu:
 
-- embed
+### 🔶 Embed Model
+
+#### Từ SQL đến MongoDB Embed Model
+
+Ví dụ trong SQL:
+
+- Bảng `Users`
+
+```sql
+CREATE TABLE Users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255) NOT NULL
+);
+```
+
+| id  | username |
+| --- | -------- |
+| 1   | 123xyz   |
+
+- Bảng `Contacts`
+
+```sql
+CREATE TABLE Contacts (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT UNIQUE, -- Đảm bảo quan hệ một-một
+    phone VARCHAR(20),
+    email VARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+```
+
+| id  | user_id | phone        | email            |
+| --- | ------- | ------------ | ---------------- |
+| 1   | 1       | 123-456-7890 | <xyz@example.com>  |
+
+- Bảng `Access`
+
+```sql
+CREATE TABLE Access (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT UNIQUE, -- Đảm bảo quan hệ một-một
+    level INT,
+    `group` VARCHAR(50),
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+```
+
+| id  | user_id | level | group |
+| --- | ------- | ----- | ----- |
+| 1   | 1       | 5     | dev   |
+
+1 Record trong `Users` có quan hệ One-One với một `Contacts`, một `Access`
+
+Để đạt hiệu suất truy vấn thì trong MongoDB chuyển thành dữ liệu phẳng như hình dưới đây.
 
 ![embed](img/embed-model.PNG)
 
+Với kiểu cấu trúc dữ liệu trên thì Schema trong MongoDB sẽ thiết kế như sau:
+
+```js
+import {Schema} from 'mongoose'
+
+// Schema cho contact
+const ContactSchema = new Schema({
+    phone: { type: String, required: true },
+    email: { type: String, required: true }
+});
+
+// Schema cho access
+const AccessSchema = new Schema({
+    level: { type: Number, required: true },
+    group: { type: String, required: true }
+});
+
+// Schema cho user
+const UserSchema = new Schema({
+    username: { type: String, required: true },
+    contact: { type: ContactSchema, required: true },
+    access: { type: AccessSchema, required: true }
+});
+
+// Tạo model từ schema
+const User = mongoose.model('User', UserSchema);
+export default User;
+/**
+ * Chỉ export Schema CHA làm model
+ */
+```
+
+LƯU Ý: Với mô hình `embed` khi export. Bạn chỉ export duy nhất Schema CHA.
+
 Mô hình này có tốc độ truy vấn nhanh hơn. Nhưng nhược điểm là Data đúng chất NoSQL nó không có mối tương quan dữ liệu gì với các collection
 
-Dùng khi: Quan hệ MỘT - NHIỀU . 
+Dùng khi: Có quan hệ `MỘT - MỘT` trong CSDL SQL
 
-Nếu bạn có một quan hệ một-nhiều giữa các đối tượng và quan hệ này không thay đổi thường xuyên, embedding có thể là lựa chọn tốt
+Ngoài ra, Nếu bạn có một quan hệ `MỘT - NHIỀU` giữa các đối tượng và quan hệ này **không thay đổi thường xuyên**, embedding có thể là lựa chọn tốt
 
+#### Ưu nhược điểm của mô hình Embbed
 
-- use references
+**Lợi ích:**
+
+Hiệu suất truy vấn nhanh hơn cho các truy vấn liên quan đến tất cả thông tin của một đối tượng.
+Dễ dàng quản lý và cập nhật dữ liệu liên quan trong một tài liệu duy nhất.
+
+**Hạn chế:**
+
+Kích thước tài liệu có thể lớn, dẫn đến khó khăn trong việc quản lý và truy vấn.
+Không phù hợp cho dữ liệu có mối quan hệ phức tạp hoặc dữ liệu có thể thay đổi độc lập.
+
+---
+
+### 🔶 Referenced Model
+
+#### Từ SQL đến MongoDB Referenced Model
+
+Ví dụ trong SQL có quan hệ `MỘT - NHIỀU`, và dữ liệu phụ THƯỜNG XUYÊN THAY ĐỔI.
+
+- Bảng `Users`
+
+```sql
+CREATE TABLE Users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255) NOT NULL
+);
+```
+
+- Bảng `Contacts`
+
+```sql
+CREATE TABLE Contacts (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT, --Có thể trùng user_id
+    phone VARCHAR(20),
+    email VARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+```
+
+- Bảng `Access`
+
+```sql
+CREATE TABLE Access (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT, --Có thể trùng user_id
+    level INT,
+    `group` VARCHAR(50),
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+```
 
 ![embed](img/references-model.PNG)
 
-Mặc dù mongoo được biết đến là NoSQL nhưng với mô hình này thì nó có quan hệ.
-Tốc độ truy vấn trong mô hình này chậm hơn kiểu `embed` vì phải tham chiếu nhiều collection để lấy dữ liệu.
+Dưới đây là ví dụ về cách biểu diễn mô hình này bằng Mongoose Schema trong MongoDB và cách thực hiện tương tự trong SQL.
 
-Dùng khi: Quan hệ NHIỀU - NHIỀU
+- User Schema
 
-Nếu bạn có một quan hệ nhiều-nhiều giữa các đối tượng, Dữ liệu có tính nhất quán và thay đổi thường xuyên, sử dụng tham chiếu có thể là lựa chọn tốt
+```javascript
+import {Schema} = from 'mongoose';
+
+const UserSchema = new Schema({
+    username: { type: String, required: true }
+});
+
+const User = mongoose.model('User', UserSchema);
+export default User
+```
+
+- Contact Schema
+
+```javascript
+import {Schema} = from 'mongoose';
+
+const ContactSchema = new Schema({
+    user_id: { 
+      type: Schema.Types.ObjectId, 
+      ref: 'User',  //Tham chiếu tới Model User
+      required: true 
+    },
+    phone: { type: String, required: true },
+    email: { type: String, required: true }
+});
+
+const Contact = mongoose.model('Contact', ContactSchema);
+export default Contact
+```
+
+- Access Schema
+
+```javascript
+import {Schema} = from 'mongoose';
+const AccessSchema = new Schema({
+    user_id: { 
+      type: Schema.Types.ObjectId, 
+      ref: 'User', //Tham chiếu tới Model User
+      required: true 
+    },
+    level: { type: Number, required: true },
+    group: { type: String, required: true }
+});
+
+const Access = mongoose.model('Access', AccessSchema);
+export default Access
+```
+
+LƯU Ý: Với mô hình này, mỗi Schema sẽ export thành một model riêng.
+
+Dùng khi: Quan hệ `MỘT - NHIỀU` giữa các đối tượng, Dữ liệu có tính nhất quán và thay đổi thường xuyên, sử dụng tham chiếu có thể là lựa chọn tốt.
+
+---
+
+NÓI THÊM: Với kiểu quan hệ `MỘT - NHIỀU` trên, Dữ liệu không thay đổi, ít cần sự nhất quán. Bạn có thể chuyển thành `embed model`
+
+```js
+import mongoose from 'mongoose'
+
+const ContactSchema = new Schema({
+    phone: { type: String, required: true },
+    email: { type: String, required: true }
+});
+
+const AccessSchema = new Schema({
+    level: { type: Number, required: true },
+    group: { type: String, required: true }
+});
+
+const UserSchema = new Schema({
+    username: { type: String, required: true },
+    contacts: [ContactSchema], //Dữ liệu lưu thành Array
+    accesses: [AccessSchema], //Dữ liệu lưu thành Array
+});
+
+const User = mongoose.model('User', UserSchema);
+export default User;
+```
+
+
+#### Ưu nhược điểm của mô hình Referenced Model
+
+Mô hình tham chiếu (referenced model) trong MongoDB có nhiều ưu và nhược điểm, tùy thuộc vào cách bạn sử dụng và yêu cầu cụ thể của ứng dụng. Dưới đây là một số ưu và nhược điểm của mô hình này:
+
+**Ưu Điểm**
+
+1. **Chuẩn Hóa Dữ Liệu (Normalization)**:
+    - **Giảm Trùng Lặp Dữ Liệu**: Dữ liệu không bị trùng lặp trong nhiều tài liệu, giúp tiết kiệm không gian lưu trữ.
+    - **Dễ Duy Trì Dữ Liệu**: Thay đổi dữ liệu ở một nơi sẽ tự động cập nhật cho tất cả các mối quan hệ, giúp dễ duy trì tính nhất quán.
+
+2. **Quản Lý Dữ Liệu Phức Tạp**:
+    - **Quan Hệ Nhiều-Nhiều**: Dễ dàng quản lý các quan hệ phức tạp như nhiều-nhiều mà không cần phải nhúng dữ liệu lặp lại.
+    - **Tái Sử Dụng Dữ Liệu**: Một tài liệu có thể được tham chiếu bởi nhiều tài liệu khác mà không cần phải sao chép dữ liệu.
+
+3. **Hiệu Quả Cập Nhật Dữ Liệu**:
+    - **Cập Nhật Một Lần**: Khi cần cập nhật thông tin, chỉ cần cập nhật tài liệu gốc mà không cần phải cập nhật tất cả các bản sao trong các tài liệu nhúng.
+
+4. **Kiểm Soát Truy Cập**:
+    - **Tách Biệt Dữ Liệu**: Dữ liệu có thể được tách biệt rõ ràng và kiểm soát truy cập tốt hơn giữa các phần khác nhau của ứng dụng.
+
+**Nhược Điểm**
+
+1. **Hiệu Suất Truy Vấn**:
+    - **Truy Vấn Nhiều Lần**: Các truy vấn thường yêu cầu nhiều lần truy vấn để lấy dữ liệu từ các tài liệu tham chiếu, điều này có thể làm giảm hiệu suất.
+    - **Tốn Kém Truy Vấn**: Truy vấn có thể trở nên phức tạp và tốn kém hơn khi cần join dữ liệu từ nhiều tài liệu.
+
+2. **Tính Phức Tạp**:
+    - **Phức Tạp Hóa Cấu Trúc Dữ Liệu**: Mô hình tham chiếu có thể làm tăng độ phức tạp của cơ sở dữ liệu, đặc biệt là khi có nhiều quan hệ phức tạp.
+    - **Khó Thiết Kế**: Thiết kế và duy trì các mối quan hệ tham chiếu có thể đòi hỏi nhiều công sức hơn so với mô hình nhúng.
+
+3. **Giao Dịch và Tính Nhất Quán**:
+    - **Khó Đảm Bảo Tính Nhất Quán**: Đảm bảo tính nhất quán giữa các tài liệu tham chiếu có thể khó khăn, đặc biệt là trong các hệ thống phân tán.
+    - **Giao Dịch Phức Tạp**: Giao dịch giữa các tài liệu tham chiếu có thể phức tạp hơn và yêu cầu cơ chế quản lý giao dịch tốt.
+
+**Khi Nào Nên Sử Dụng Mô Hình Tham Chiếu**
+
+- **Dữ Liệu Lớn và Phức Tạp**: Khi bạn có dữ liệu lớn và phức tạp, việc sử dụng mô hình tham chiếu sẽ giúp giảm trùng lặp và dễ dàng quản lý dữ liệu.
+- **Quan Hệ Nhiều-Nhiều**: Khi có nhiều quan hệ nhiều-nhiều, mô hình tham chiếu sẽ giúp quản lý các quan hệ này một cách hiệu quả hơn.
+- **Cập Nhật Thường Xuyên**: Khi dữ liệu cần được cập nhật thường xuyên, mô hình tham chiếu sẽ giúp cập nhật một lần và duy trì tính nhất quán dễ dàng hơn.
+
+
+
+
+---
 
 Data Model Design: <https://www.mongodb.com/docs/manual/core/data-model-design/#data-model-design>
 
@@ -250,140 +509,6 @@ Data Model: <https://www.mongodb.com/docs/manual/applications/data-models/>
 Khi nào thì dùng loại nào ? [Tham khảo bài viết](DesignModel.md)
 
 ---
-## 💛 Database Relationships
-
-Trước khi đi tìm hiểu **Data Model Design** chúng ta cần biết mối quan hệ trong CSDL
-
-### 🔶 One to One - Một một
-
-Kiểu quan hệ một một (one-to-one relationship) là một kiểu quan hệ giữa hai thực thể (entities) trong cơ sở dữ liệu, trong đó `mỗi` thực thể của một bảng dữ liệu chỉ liên kết với `MỘT` thực thể duy nhất của bảng dữ liệu khác. Nói cách khác, mỗi thực thể của bảng A chỉ được liên kết với `MỘT` thực thể duy nhất của bảng B, và ngược lại.
-
-Ví dụ, trong một cơ sở dữ liệu quản lý nhân viên, mỗi nhân viên chỉ có một tài khoản lương duy nhất và mỗi tài khoản lương chỉ thuộc về một nhân viên duy nhất. Đây là một mối quan hệ một-một giữa bảng "Employees" và bảng "SalaryAccounts".
-
-```js
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
-
-const SalaryAccountSchema = new Schema({
-  salary: Number,
-  // các trường khác
-});
-
-const EmployeeSchema = new Schema({
-  firstName: String,
-  lastName: String,
-  salaryAccount: SalaryAccountSchema,
-  // các trường khác
-});
-
-const Employee = mongoose.model('Employee', EmployeeSchema);
-```
-
-Ví dụ QL Sinh viên: Mỗi sinh viên chỉ có một hồ sơ sinh viên duy nhất và mỗi hồ sơ sinh viên chỉ thuộc về một sinh viên duy nhất. Đây là một mối quan hệ một-một giữa bảng "Students" và bảng "StudentProfiles".
-
-```js
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
-
-const StudentProfileSchema = new Schema({
-  dateOfBirth: Date,
-  hometown: String,
-  // các trường khác
-});
-
-const StudentSchema = new Schema({
-  firstName: String,
-  lastName: String,
-  studentProfile: StudentProfileSchema,
-  // các trường khác
-});
-
-const Student = mongoose.model('Student', StudentSchema);
-```
-
-### 🔶 One to Many - Một nhiều
-
-Kiểu quan hệ một nhiều (one-to-many relationship) là một kiểu quan hệ giữa hai thực thể trong cơ sở dữ liệu, trong đó `MỘT` thực thể của bảng dữ liệu có thể được liên kết với `NHIỀU` thực thể của bảng dữ liệu khác, nhưng mỗi thực thể của bảng dữ liệu khác lại chỉ liên kết với một thực thể duy nhất của bảng dữ liệu đầu tiên.
-
-Ví dụ, trong một cơ sở dữ liệu quản lý khách sạn, một khách sạn có thể có nhiều phòng, nhưng mỗi phòng chỉ thuộc về một khách sạn duy nhất. Đây là một mối quan hệ một nhiều giữa bảng "Hotels" và bảng "Rooms".
-
-```js
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
-
-const RoomSchema = new Schema({
-  roomNumber: Number,
-  type: String,
-  // các trường khác
-});
-
-const HotelSchema = new Schema({
-  name: String,
-  address: String,
-  rooms: [RoomSchema], // Một khách sạn có thể có nhiều phòng
-  // các trường khác
-});
-
-const Hotel = mongoose.model('Hotel', HotelSchema);
-```
-
-### 🔶 Many to Many - Nhiều nhiều
-
-Kiểu quan hệ nhiều nhiều (many-to-many relationship) là một kiểu quan hệ giữa hai bảng dữ liệu trong cơ sở dữ liệu, trong đó mỗi thực thể của bảng dữ liệu A có thể liên kết với nhiều thực thể của bảng dữ liệu B, và mỗi thực thể của bảng dữ liệu B cũng có thể liên kết với nhiều thực thể của bảng dữ liệu A.
-
-Ví dụ: Một ngôi nhà có nhiều chủ, và nhiều chủ cùng sở hữu một ngôi nhà. Đấy là quan hệ nhiều nhiều.
-
-
-```js
-import mongoose from 'mongoose';
-//Model chủ nhà
-const ownerSchema = new mongoose.Schema({
-    name: String
-})
-
-const Owner = mongoose.model("Owner", ownerSchema)
-
-//Model nhà
-const houseSchema = new mongoose.Schema({
-    street: String,
-    city: String,
-    state: String,
-    zip: String
-})
-
-const House = mongoose.model("House", houseSchema)
-
-//Model phụ để thể hiện quan hệ nhiều nhiều
-const houseOwnerSchema = {
-    owner: {type: mongoose.Types.ObjectId, ref: "Owner"},
-    house: {type: mongoose.Types.ObjectId, ref: "House"}
-}
-
-const HouseOwner = mongoose.model("HouseOwner", houseOwnerSchema)
-
-// Create a Owner
-const alex = await Owner.create({name: "Alex Merced"})
-
-// Create a new house
-const mapleStreet = await House.create({
-    street: "100 Maple Street",
-    city: "Fort Townville",
-    state: "New West Virgota",
-    zip: "77777"
-    owner: alex
-})
-
-// Create record that the owner owns the house
-HouseOwner.create({owner: alex, house: mapleStreet})
-
-// QUery for all houses owned by alex
-HouseOwner.find({owner: alex}).populate("house")
-
-//Query for all owners of the Maple Street House
-HoseOwner.find({house: mapleStreet}).populate("owner")
-```
-
-\> Tham khảo bài viết: https://dev.to/alexmercedcoder/mongodb-relationships-using-mongoose-in-nodejs-54cc
 
 ## 💛 SubDocument
 
@@ -391,40 +516,67 @@ Khi mà một Schema lồng trong một Schema khác thì gọi nó là kiểu `
 
 Thường được dùng trong 3 loại quan hệ trên.
 
-Xem chi tiết: https://mongoosejs.com/docs/subdocs.html
+Xem chi tiết: <https://mongoosejs.com/docs/subdocs.html>
+
 
 ## 💛 Mongoose Basic Queries
 
 Danh sách các phương thức truy vấn xem ở link sau
 Doc: <https://mongoosejs.com/docs/queries.html>
 
-### 🔶 Insert - Thêm mới
+Ví dụ có một model test đầy đủ các kiểu dữ liệu
 
-Bạn sửa funtion createStaff trong services\staffs.service.ts
-lại như sau:
 
 ```js
-import Staff  from '../models/staff.model';
+const testSchema = new Schema({
+  stringField: String,
+  numberField: Number,
+  booleanField: Boolean,
+  dateField: { 
+    type: Date, 
+    default: Date.now 
+  },
+  arrayField: [String],  // Mảng các chuỗi
+  mixedField: { type: Schema.Types.Mixed },  // Kiểu hỗn hợp
+  decimalField: { type: Schema.Types.Decimal128 },
+  nestedObject: {
+    subField1: String,
+    subField2: Number
+  }
+});
+```
 
-export createStaff = async (req) => {
-  console.log('createStaff');
+### 🔶 Insert - Thêm mới
+
+Bạn sửa funtion createTest trong services\Tests.service.ts
+lại như sau:
+
+
+```js
+import Test  from '../models/Test.model';
+
+export createTest = async (req) => {
+  console.log('createTest');
 
   try {
-    /* Lấy data từ request gửi lên */
-    const payload = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      role: req.body.role,
-      password: req.body.password,
-      isEmailVerifie: req.body.isEmailVerifie,
-    };
-    // Lưu xuống database
-    const staff = await Staff.create(payload);
-    // Or Staff.save(payload);
+    // Tạo một tài liệu mới
+      const newTest = new TestModel({
+        stringField: 'Example String',
+        numberField: 42,
+        booleanField: true,
+        dateField: new Date(),
+        arrayField: ['item1', 'item2', 'item3'],
+        mixedField: { key: 'value', anotherKey: 123 },
+        decimalField: mongoose.Types.Decimal128.fromString('123.45'),
+        nestedObject: {
+          subField1: 'Nested String',
+          subField2: 12345
+        }
+    });
 
-    /* Trả lại thông tin cho response */
-    return staff;
+    // Lưu tài liệu vào cơ sở dữ liệu
+    return newTest.save();
+
   } catch (err) {
     throw createError(500, err.message);
   }
@@ -435,88 +587,19 @@ export createStaff = async (req) => {
 
 #### Select All
 
-Lấy tất cả Staffs
+Lấy tất cả Tests
 
 ```js
-export getAllStaffs = async () => {
-  const staffs = Staff.find();
-  return staffs;
+export getAllTests = async () => {
+  const documents = TestModel.find();
+  return documents;
 };
 ```
 
-#### Select by ID
+Cách truy vấn đầy đủ hơn sẽ tìm hiểu trong bài tiếp theo.
 
-Lấy thông tin một Staff theo ID
+---
 
-```js
-export getStaffById = async (req) => {
-  try {
-    const { id } = req.params;
-
-    const staff = Staff.findById(id);
-
-    if (!staff) {
-      throw createError(404, 'Staff not found');
-    }
-
-    return staff;
-  } catch (err) {
-    throw createError(500, err.message);
-  }
-};
-```
-
-#### Select with Condition
-
-Lấy thông tin có điều kiện
-
-```js
-export getAllStaffs = async () => {
-  const staffs = Staff.find({
-    role: 'staff',
-  });
-  return staffs;
-};
-```
-
-
-
-### 🔶 Update
-
-```js
-// Update a staff by ID
-export updateStaffById = async (req) => {
-  try {
-    const { id } = req.params;
-
-    const staff = Staff.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
-
-    return staff;
-  } catch (err) {
-    throw createError(500, err.message);
-  }
-};
-```
-
-### 🔶 Delete
-
-```js
-export deleteStaffById = async (req) => {
-  console.log('deleteStaffById');
-
-  try {
-    const { id } = req.params;
-
-    const staff = Staff.findByIdAndDelete(id);
-
-    return staff;
-  } catch (err) {
-    throw createError(500, err.message);
-  }
-};
-```
 
 ## 💛 Mongoose Built-in Validators
 
@@ -524,10 +607,10 @@ Doc: <https://mongoosejs.com/docs/validation.html>
 
 Trước khi dữ liệu được ghi vào Database, Mongosee cho phép chúng ta validate một lần nữa.
 
-Thực hiện ngay khi tạo Schema. Chúng ta sửa staffShema lại có validation như sau:
+Thực hiện ngay khi tạo Schema. Chúng ta sửa TestShema lại có validation như sau:
 
 ```js
-const staffSchema = new Schema(
+const TestSchema = new Schema(
   {
     firstName: {
       type: String,
@@ -558,8 +641,8 @@ const staffSchema = new Schema(
     role: {
       type: String,
       required: true,
-      enum: ['admin', 'customer', 'staff'],
-      default: 'staff',
+      enum: ['admin', 'customer', 'Test'],
+      default: 'Test',
     },
     isEmailVerified: {
       type: Boolean,
@@ -581,7 +664,7 @@ Ví dụ: Check số điện thoại đúng định dạng yêu cầu không
 
 ```js
 
-const staffSchema = new Schema({
+const TestSchema = new Schema({
   phone: {
     type: String,
     validate: {
@@ -590,7 +673,7 @@ const staffSchema = new Schema({
       },
       message: (props) => `${props.value} is not a valid phone number!`,
     },
-    required: [true, 'Staff phone number required'],
+    required: [true, 'Test phone number required'],
   },
 });
 ```
@@ -599,8 +682,7 @@ const staffSchema = new Schema({
 
 Tạo dữ liệu ảo nhập liệu cho MongoDB
 
-Sử dụng https://next.fakerjs.dev/
-
+Sử dụng <https://next.fakerjs.dev/>
 
 ## 💛 Homeworks Guide
 
