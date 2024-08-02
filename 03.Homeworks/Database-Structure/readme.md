@@ -190,21 +190,20 @@ Cách so khớp password: <https://www.npmjs.com/package/bcrypt#user-content-to-
 
 
 ## 💥 Table  orders
-
-| No. | FieldName        | DataType       | DataSize | Allow null | Key         | Foreign Key | DefaultValue | Constraint                        | Notes                                                                  |
-| --- | ---------------- | -------------- | -------- | ---------- | ----------- | ----------- | ------------ | --------------------------------- | ---------------------------------------------------------------------- |
-| 1   | order_id         | INT            |          |            | Primary Key |             |              | IDENTITY(1, 1)                    |                                                                        |
-| 2   | customer_id      | INIT           |          |            |             | Foreign Key |              | Reference customers (customer_id) |                                                                        |
-| 3   | order_status     | TINYINT        |          |            |             |             |              | 1/2/3/4                           | Order status: 1 = Pending; 2 = Processing; 3 = Rejected; 4 = Completed |
-| 4   | order_date       | VARCHAR        | 50       |            |             |             | NOW          |                                   |                                                                        |
-| 5   | require_date     | DATETIME       |          | YES        |             |             |              |                                   |                                                                        |
-| 6   | shipping_date    | DATETIME       |          |            |             |             |              |                                   |                                                                        |
-| 8   | staff_id         | INIT           | 20       |            |             | Foreign Key |              | Reference staffs (staff_id)       |                                                                        |
-| 9   | order_note       | NVARCHAR       |          | YES        |             |             |              |                                   |                                                                        |
-| 10  | shipping_address | NVARCHAR       |          | YES        |             |             |              |                                   |                                                                        |
-| 11  | shipping_city    | NVARCHAR       |          | YES        |             |             |              |                                   |                                                                        |
-| 12  | payment_type     | TINYINT        |          |            |             |             | 4            | 1/2/3/4                           | payment type: 1 = COD; 2 = Credit; 3 = ATM; 4 = Cash                   |
-| 13  | order_amount     | DECIMAL(18, 2) |          |            |             |             | 0            |                                   |                                                                        |
+| No. | FieldName        | DataType | DataSize | Allow null | Key         | Foreign Key         | DefaultValue | Constraint         | Notes                                              |
+|-----|------------------|----------|----------|------------|-------------|---------------------|--------------|--------------------|----------------------------------------------------|
+| 1   | order_id         | INT      |          |            | Primary Key |                     | IDENTITY(1,1)|                    |                                                    |
+| 2   | customer_id      | INT      |          |            |             | Foreign Key         |              | Reference customers (customer_id)                  |
+| 3   | order_status     | TINYINT  |          |            |             |                     |              | 1/2/3/4            | Order status: 1 = Pending; 2 = Processing; 3 = Rejected; 4 = Completed |
+| 4   | order_date       | VARCHAR  | 50       |            |             |                     | NOW          |                    |                                                    |
+| 5   | require_date     | DATETIME |          | YES        |             |                     |              |                    |                                                    |
+| 6   | shipping_date    | DATETIME |          |            |             |                     |              |                    |                                                    |
+| 7   | staff_id         | INT      | 20       |            |             | Foreign Key         |              | Reference staffs (staff_id)                       |
+| 8   | order_note       | NVARCHAR |          | YES        |             |                     |              |                    |                                                    |
+| 9   | street           | NVARCHAR | 255      |            |             |                     |              |                    |                                                    |
+| 10  | city             | NVARCHAR | 50       |            |             |                     |              |                    |                                                    |
+| 11  | state            | NVARCHAR | 50       |            |             |                     |              |                    |                                                    |
+| 12  | payment_type     | TINYINT  |          |            |             |                     |              | 1/2/3/4            | payment type: 1 = COD; 2 = Credit; 3 = ATM; 4 = Cash |
 
 
 
