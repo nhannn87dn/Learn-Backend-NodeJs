@@ -60,20 +60,20 @@ const runDB = async ()=>{
   console.log('runDB running....');
   //tạo mới 5 danh mục ngẫu nhiên
 
-  // for (let index = 1; index < 6; index++) {
+  for (let index = 1; index < 6; index++) {
     
-  //   const category = new Category({
-  //     category_name: faker.commerce.department()+index,
-  //     description: faker.lorem.text(),
-  //     slug: faker.lorem.slug()+index,
-  //   });
-  //   //Đến bước nó mới chính thức ghi xuống DB
-  //   await category.save();
-  //   console.log('Tạo danh mục thành công....');
-  // }
+    const category = new Category({
+      category_name: faker.commerce.department()+index,
+      description: faker.lorem.text(),
+      slug: faker.lorem.slug()+index,
+    });
+    //Đến bước nó mới chính thức ghi xuống DB
+    await category.save();
+    console.log('Tạo danh mục thành công....', index);
+  }
 
   //Tạo brands từ mảng có sẵn
- // await Brand.insertMany(brands)
+ await Brand.insertMany(brands)
   
  const currentBrands = await Brand.find();
  const currentCategories = await Category.find();
@@ -87,7 +87,7 @@ const runDB = async ()=>{
     const category = currentCategories[Math.floor(Math.random() * currentCategories.length)];
 
     const fakeProduct = {
-      productName: productName,
+      product_name: productName,
       price: faker.commerce.price({ min: 100, max: 1200 }),
       discount: faker.number.int({ min: 1, max: 50 }),
       category: category._id,

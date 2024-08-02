@@ -47,7 +47,8 @@ const productSchema = new Schema({
   stock: {
     type: Number,
     default: 0,
-    min: 0
+    min: 0,
+    require: false,
   },
   /**
    * Vì sao cần slug ---> để SEO
@@ -65,6 +66,7 @@ const productSchema = new Schema({
     type: Number,
     default: 50, //giá trị mặc định khi ko điền,
     min: 1, //giá trị tối thiểu chấp nhận là 1
+    require: false,
   },
   /* SP bán nổi bật */
   isBest: {
