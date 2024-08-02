@@ -40,17 +40,6 @@ async function clearCollections() {
   );
 }
 
-function generatePhoneNumber() {
-  const regex = /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
-  let phoneNumber = '';
-
-  while (!regex.test(phoneNumber)) {
-    phoneNumber = faker.helpers.fromRegExp(regex);
-  }
-
-  return phoneNumber;
-}
-
 async function run(){
    await clearCollections();
    console.log('<<<< dropDatabase  >>>>');

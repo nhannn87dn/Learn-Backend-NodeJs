@@ -17,8 +17,41 @@ await Tank.create({ size: 'small' });
 // or, for inserting large batches of documents
 await Tank.insertMany([{ size: 'small' }]);
 ```
+### Nếu theo Embed
 
-### One-to-One: Một `User` có một `Profile`
+Một `User` có một `Profile`
+
+Cấu trúc Schema:
+
+```js
+const ProfileSchema = new Schema({
+  bio: String,
+  //...
+});
+
+const UserSchema = new Schema({
+  name: String,
+  profile: ProfileSchema
+});
+```
+
+Cách triển khai
+
+```js
+const user = await User.create({
+  name: 'User Name',
+  profile: {
+    bio: 'ABC',
+    blood: 'o+',
+    color: 'yellow'
+  }
+});
+```
+
+
+### Nếu Referenced - One-to-One
+
+Một `User` có một `Profile`
 
 Cấu trúc Schema:
 
@@ -39,20 +72,24 @@ const UserSchema = new Schema({
 
 Cách thực hiện: 
 
+Tạo document độc lập trước, rồi tạo document phụ thuộc sau
+
 ```js
 //Tạo Profile trước
 const profile = await Profile.create({
    bio: 'Bio here',
   //...
 });
-//Sau đó lấy id để đưa vào tạo User
+//Sau đó lấy id của Profile để đưa vào tạo User
 const user = await User.create({
   name: 'User Name',
   profile: profile._id
 });
 ```
 
-### One-to-Many: Một `Author` có nhiều `Book`
+### Nếu Referenced - One-to-Many
+
+Một `Author` có nhiều `Book`
 
 
 Cấu trúc Schema:
@@ -80,16 +117,16 @@ const books = await Book.insertMany([
   {title: 'Book 1'},
   {title: 'Book 2'},
   ]);
-//Sau đó lấy mảng book để đưa vào tạo Author
+//Sau đó lấy mảng id của book để đưa vào tạo Author
 const author = await Author.create({
     name: 'Author Name',
     books: books.map(book => book._id) // chỉ lấy _id của từng book
 });
 ```
 
-### Many-to-Many: Một `Student` tham gia nhiều `Course`, và một `Course` có nhiều `Student`
+### Nếu Referenced - Many-to-Many
 
-
+Một `Student` tham gia nhiều `Course`, và một `Course` có nhiều `Student`
 
 Đây là cách mô phỏng quan hệ nhiều-nhiều trong MongoDB bằng cách sử dụng các tham chiếu (references)
 

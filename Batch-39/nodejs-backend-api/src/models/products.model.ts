@@ -60,15 +60,33 @@ const productSchema = new Schema({
     type: Number,
     default: 50, //giá trị mặc định khi ko điền,
     min: 1, //giá trị tối thiểu chấp nhận là 1
-  }
+  },
+  /* SP bán nổi bật */
+  isBest: {
+    type: Boolean,
+    require: false,
+    default: false
+  },
+  /* SP mới về */
+  isNew: {
+    type: Boolean,
+    require: false,
+    default: false
+  },
+  /* Show sp ra trang chủ */
+  isShowHome: {
+    type: Boolean,
+    require: false,
+    default: false
+  },
 },
 {
   timestamps: true, //Tạo tự động thêm 2 trường createAt, updateAt
-  //collection: 'categories'
+  //collection: 'category', //Tên collection Cố định theo tên bạn đặt
 }
 )
 
 //Export một Model
 
-const Category = model('Category', categorySchema);
-export default Category;
+const Product = model('Product', productSchema);
+export default Product;
