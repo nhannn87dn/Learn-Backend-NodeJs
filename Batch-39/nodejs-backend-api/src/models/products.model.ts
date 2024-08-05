@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 import mongooseLeanVirtuals  from 'mongoose-lean-virtuals'
+import { buildSlug } from '../helpers/buildSlug';
+
 /* Khởi tạo một Schema */
 
 const productSchema = new Schema({
@@ -57,7 +59,7 @@ const productSchema = new Schema({
    */
   slug: {
     type: String,
-    require: true, //mặc định true, nếu bạn ko liệt kê vào
+    require: false, //mặc định true, nếu bạn ko liệt kê vào
     maxLength: 255, //Tối đa 50 kí tự
     unique: true, //chống trùng lặp tên danh mục
     trim: true, // tự động cắt kí tự trắng trước/sau vd: "   Laptop " ==> "Laptop"
@@ -86,7 +88,10 @@ const productSchema = new Schema({
     require: false,
     default: false
   },
-   /* Soft delete */
+   /* 
+   Soft delete 
+   Khi xóa sp thì đi update isDelete = true
+   */
    isDelete: {
     type: Boolean,
     require: false,
@@ -114,7 +119,19 @@ productSchema.set('toObject', { virtuals: true });
 
 productSchema.plugin(mongooseLeanVirtuals);
 
+//middleware
+// Can thiệp vào dữ liệu trước khi ghi vào database
+productSchema.pre('save', async function (next) {
+  
+  /* tự động tạo slug từ product_name */
+  this.slug = buildSlug(this.product_name)
+
+  next();
+});
+
+
 //Export một Model
+
 
 const Product = model('Product', productSchema);
 export default Product;

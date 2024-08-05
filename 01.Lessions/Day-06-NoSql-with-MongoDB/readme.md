@@ -8,11 +8,10 @@ Hướng dẫn code các Models
 ## 💛 Tạo mới Document
 
 ```js
+await Tank.create({ size: 'small' });
+// or 
 const tank = new Tank({ size: 'small' });
 await tank.save();
-// or
-
-await Tank.create({ size: 'small' });
 
 // or, for inserting large batches of documents
 await Tank.insertMany([{ size: 'small' }]);

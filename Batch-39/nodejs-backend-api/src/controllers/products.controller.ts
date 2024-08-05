@@ -13,7 +13,59 @@ const findAll = async (req: Request, res: Response, next: NextFunction)=>{
   
 }
 
+const findOne = async (req: Request, res: Response, next: NextFunction)=>{
+  try {
+    const {id} = req.params;
+
+    const product = await productsService.findOne(id);
+    sendJsonSuccess(res)(product)
+  } catch (error) {
+    next(error)
+  }
+  
+}
+
+
+const createDocument = async (req: Request, res: Response, next: NextFunction)=>{
+  try {
+   
+    const product = await productsService.createDocument(req.body)
+    sendJsonSuccess(res)(product)
+  } catch (error) {
+    next(error)
+  }
+  
+}
+
+const updateById = async (req: Request, res: Response, next: NextFunction)=>{
+  try {
+    const {id} = req.params;
+
+    const product = await productsService.updateById(id, req.body);
+    sendJsonSuccess(res)(product)
+  } catch (error) {
+    next(error)
+  }
+  
+}
+
+const deleteById = async (req: Request, res: Response, next: NextFunction)=>{
+  try {
+    const {id} = req.params;
+
+    const product = await productsService.deleteById(id);
+    sendJsonSuccess(res)(product)
+  } catch (error) {
+    next(error)
+  }
+  
+}
+
 export default {
-  findAll
+  findAll,
+  findOne,
+  createDocument,
+  updateById,
+  deleteById
 }
 

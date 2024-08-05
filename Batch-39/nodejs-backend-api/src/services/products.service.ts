@@ -1,3 +1,4 @@
+import createError from 'http-errors';
 import Product from "../models/products.model";
 import {TfindAllProduct} from '../types/models'
 /* get All Products */
@@ -16,6 +17,11 @@ const findAll = async (query: any)=>{
   if(query.category && query.category != ''){
     objectFilters = {...objectFilters, category: query.category}
   }
+  // Lọc theo danh tên sản phẩm
+  if(query.keyword && query.keyword != ''){
+    objectFilters = {...objectFilters, product_name: new RegExp(query.keyword, 'i')}
+  }
+
 
 
   /* Sắp xếp */
@@ -33,10 +39,18 @@ const findAll = async (query: any)=>{
 
   /* Select * FROM product */
   const products = await Product
-  .find(objectFilters)
+  .find({
+    ...objectFilters,
+    //isDelete: false // Chỉ lấy những sp chưa xóa
+  })
+  .select('-__v -id')
+  .populate('category', 'category_name')
+  .populate('brand', 'brand_name')
   .sort(objSort)
   .skip(offset)
-  .limit(limit);
+  .limit(limit)
+  .lean({virtuals: true})
+  ;
 
   return {
     products_list: products,
@@ -52,6 +66,76 @@ const findAll = async (query: any)=>{
   }
 }
 
+/***
+ * get Single Product
+ */
+
+const findOne =  async(id: string)=>{
+  const product = await Product
+  .findById(id, '-__v -id') // có thể liệt kê select vào tham số thứ 2 của hàm
+  .populate('category', 'category_name')
+  .populate('brand', 'brand_name')
+
+  //Check sự tồn tại
+  if(!product){
+    throw createError(400, 'Product not found')
+  }
+
+  return product
+}
+
+/***
+ * create new Product
+ */
+
+const createDocument = async (body: any)=>{
+    const payloads = {
+      product_name: body.product_name,
+      price:body.price,
+      discount: body.discount,
+      category: body.category, 
+      brandId: body.brandId, 
+      model_year:body.model_year, 
+      description:body.description, 
+      thumbnail:body.thumbnail, 
+      stock:body.stock, 
+      slug:body.slug
+    }
+      const product = await Product.create(payloads)
+      return product
+}
+
+
+/***
+ * update a Product
+ */
+
+const updateById = async (id: string, payload: any)=>{
+  //b1. Kiểm tính tồn tại
+   const product = await findOne(id);
+  //2. Update = cách ghi đè thuộc tính
+  Object.assign(product, payload);
+  await product.save();
+  
+  //3. Trả về kết quả
+  return product
+}
+
+const deleteById = async (id: string)=>{
+  //b1. Kiểm tính tồn tại
+   const product = await findOne(id);
+  //2. xóa
+  await Product.deleteOne({ _id: product._id });
+
+  //3. Trả về kết quả
+  return product
+}
+
+
 export default {
-  findAll
+  findAll,
+  findOne,
+  createDocument,
+  updateById,
+  deleteById
 }
