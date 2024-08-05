@@ -174,6 +174,16 @@ const deleteProduct = async (id:string)=>{
 }
 ```
 
+## 💛 More Mongoose
+
+Demo thêm về các tính năng
+
+- Instance methods
+- Static
+- Virtuals
+- Query Helpers
+- Middleware
+
 
 ## 💛 Homeworks Guide
 

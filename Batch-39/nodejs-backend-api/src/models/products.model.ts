@@ -86,6 +86,12 @@ const productSchema = new Schema({
     require: false,
     default: false
   },
+   /* Soft delete */
+   isDelete: {
+    type: Boolean,
+    require: false,
+    default: false
+  },
 },
 {
   timestamps: true, //Tạo tự động thêm 2 trường createAt, updateAt
