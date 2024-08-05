@@ -5,6 +5,7 @@ import {sendJsonErrors} from './helpers/responseHandler'
 /* import các routes */
 import categoriesRoute from './routes/v1/categories.route'
 import brandsRoute from  './routes/v1/brand.route'
+import productRoute from './routes/v1/product.route'
 //v2
 import categoriesRouteV2 from './routes/v2/categories.route'
 
@@ -22,7 +23,7 @@ app.use(express.static(path.join(__dirname, '../public')))
 app.use('/api/v1/categories', categoriesRoute)
 app.use('/api/v2/categories', categoriesRouteV2)
 app.use('/api/v1/brands', brandsRoute)
-
+app.use('/api/v1/products', productRoute)
 
 // HANDLER ERRORS
 //Phải nằm sau phần khai báo routes
