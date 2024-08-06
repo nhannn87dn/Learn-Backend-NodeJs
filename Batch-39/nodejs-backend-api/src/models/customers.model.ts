@@ -48,7 +48,16 @@ const customerSchema = new Schema({
     maxLength: 255,
     require: false,
     default: null
-  }
+  },
+  /* 
+   Soft delete 
+   Khi xóa sp thì đi update isDelete = true
+   */
+   isDelete: {
+    type: Boolean,
+    require: false,
+    default: false
+  },
 },
 {
   timestamps: true, //Tạo tự động thêm 2 trường createAt, updateAt

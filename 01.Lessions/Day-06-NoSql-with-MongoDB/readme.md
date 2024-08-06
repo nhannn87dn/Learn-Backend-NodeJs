@@ -219,7 +219,8 @@ Mongoose Queries: <https://mongoosejs.com/docs/queries.html>
 
 DÙNG FILE `products-example.json` ĐỂ TEST
 
-## 💛 Query Selectors
+---
+
 
 > <https://www.mongodb.com/docs/manual/reference/operator/query/>
 
@@ -265,54 +266,194 @@ Doc: https://www.mongodb.com/docs/manual/reference/operator/query-array/
 
 ---
 
+### 🔶 Truy vấn cơ bản
 
-## 💛 Find
+#### 🚩 Tìm kiếm tất cả
 
 ```js
-// find all documents
-await MyModel.find({});
-
-// find all documents named john and at least 18
-await MyModel.find({ name: 'john', age: { $gte: 18 } }).exec();
-
-// find all documents named john and at least 18 and not including _v
-await MyModel.find({ name: 'john', age: { $gte: 18 } })
-  .select('-_v') //Lấy tất cả ngoại trừ -v
-  .exec();
-
-// find all documents named john and at least 18
-await MyModel.find({ name: 'john', age: { $gte: 18 } })
-  .select('name friends') //Chỉ lấy 2 trường
-  .exec();
-
-// executes, name LIKE john and only selecting the "name" and "friends" fields
-await MyModel.find({ name: /john/i }, 'name friends').exec();
-
-// passing options
-await MyModel.find({ name: /john/i }, null, { skip: 10 }).exec();
+// SELECT * FROM Tank
+const tanks = await Tank.find();
+console.log("All tanks:", tanks);
 ```
+
+#### 🚩 Chọn các trường cần thiết
+
+```js
+// SELECT color, size FROM Tank
+const tanks = await Tank.find().select('color size -__v');
+// Hoặc lấy tất cả loại trừ mỗi __v
+const tanks = await Tank.find().select('-__v');
+```
+
+- Liệt kê các trường cần lấy trong `select()` cách nhau bởi dấu cách.
+- Trường không cần lấy thì loại trừ với cú pháp `-` ví dụ: `-__v`
+
+#### 🚩 Tìm kiếm và sắp xếp
+
+```js
+const tanks = await Tank
+.find()
+.select('-__v')
+.sort({
+  size: 1, //sắp xếp tăng dần
+  color: -1, //sắp xếp giảm dần
+});
+```
+
+
+#### 🚩 Tìm kiếm với điều kiện
+
+```js
+// SELECT * FROM Tank WHERE size = 'small'
+const smallTanks = await Tank.find({ size: 'small' });
+  console.log("Small tanks:", smallTanks);
+```
+
+#### 🚩 Tìm một tài liệu
+
+Trả về 1 record duy nhất
+
+```js
+// SELECT TOP 1 * FROM Tank WHERE size = 'small'
+const tank = await Tank.findOne({ size: 'small' });
+console.log("One small tank:", tank);
+```
+
+#### 🚩 Tìm theo ID
+
+```js
+// SELECT * FROM Tank WHERE id = 123
+const tank = await Tank.findById(id);
+console.log("Tank by ID:", tank);
+```
+
+### 🔶 Tìm kiếm với các Toán tử
+
+- $eq (So sánh bằng)
+
+```js
+const tanks = await Tank.find({ size: { $eq: 'small' } });
+```
+
+- $ne (không bằng)
+
+```js
+const tanks = await Tank.find({ size: { $ne: 'small' } });
+```
+
+- $gt (lớn hơn) và $lt (nhỏ hơn)
+
+```js
+const tanks = await Tank.find({ createdDate: { $gt: new Date('2023-01-01') } });
+```
+
+- $gte (lớn hơn hoặc bằng) và $lte (nhỏ hơn hoặc bằng)
+
+```js
+const tanks = await Tank.find({
+    createdDate: {
+      $gte: new Date('2023-01-01'),
+      $lte: new Date('2024-01-01')
+    }
+  });
+```
+
+- Toán tử $and
+
+```js
+const tanks = await Tank.find({ 
+  $and: [
+      { size: 'small' }, 
+      { color: 'blue' }
+    ] 
+  });
+```
+
+- Toán tử $or
+
+```js
+ const tanks = await Tank.find({
+   $or: [
+      { size: 'small' },
+      { color: 'blue' }
+    ] 
+  });
+```
+
+- Toán tử $or
+
+```js
+const tanks = await Tank.find({
+   size: { 
+      $not: { $eq: 'small' } } 
+  });
+```
+
+- Toán tử: $in và $nin
+
+```js
+const tanks = await Tank.find({ size: { $in: ['small', 'medium'] } });
+
+ const tanks = await Tank.find({ size: { $nin: ['small', 'medium'] } });
+```
+
+### 🔶 Cập nhật
+
+- Cập nhật một tài liệu
+
+```js
+const updatedTank = await Tank.findByIdAndUpdate(id, 
+  { 
+    color: 'red' 
+  },
+  { new: true }, //Trả lại record sau khi update rồi
+);
+
+//UPDATE Tanks SET color = 'green' WHERE size = 'small' LIMIT 1;
+const result = await Tank.updateOne({ size: 'small' }, { color: 'green' });
+
+//UPDATE Tanks SET color = 'green' WHERE size = 'small' LIMIT 1;
+const updatedTank = await Tank.findOneAndUpdate(
+  { size: 'small' },
+  { color: 'green' },
+  { new: true } // Trả về tài liệu đã được cập nhật
+);
+```
+
+- Cập nhật nhiều tài liệu
+
+```js
+// UPDATE Tanks SET color = 'green' WHERE size = 'small';
+const wheres = { size: 'small' }
+const payloads = { color: 'green' }
+const result = await Tank.updateMany(wheres, payloads);
+```
+
+### 🔶 Xóa
+
+- Xóa một document
+
+```js
+//DELETE FROM Tank WHERE id = 123
+const deletedTank = await Tank.findByIdAndDelete(id);
+
+//DELETE FROM Tanks WHERE size = 'small' LIMIT 1;
+const result = await Tank.deleteOne({ size: 'small' });
+
+//DELETE FROM Tanks WHERE size = 'small' LIMIT 1;
+const deletedTank = await Tank.findOneAndDelete({ size: 'small' });
+```
+
+- Xóa nhiều documents
+
+```js
+//DELETE FROM Tank WHERE size = 'small'
+const result = await Tank.deleteMany({ size: 'small' });
+```
+
+### 🔶 Nguồn tham chiếu
 
 Xem thêm về select: <https://mongoosejs.com/docs/api/query.html#Query.prototype.select()>
-
----
-
-## 💛 Sorting - Sắp xếp
-
-Sắp xếp kết quả trả về theo một thuộc tính nào đó với trật từ tăng dần hoặc giảm dần
-
-```js
-const personSchema = new mongoose.Schema({
-  age: Number,
-});
-
-const Person = mongoose.model('Person', personSchema);
-for (let i = 0; i < 10; i++) {
-  await Person.create({ age: i });
-}
-
-await Person.find().sort({ age: -1 }); // returns age starting from 10 as the first entry
-await Person.find().sort({ age: 1 }); // returns age starting from 0 as the first entry
-```
 
 ---
 
@@ -423,10 +564,16 @@ const product = await Product.find().populate('category', '-_v');
 
 //Chỉ lấy tên
 const product = await Product.find().populate('category', 'name');
-```
 
-Trường hợp category bạn đặt là `categoryID` thì để lấy được thông tin của danh mục
-bạn cần sử dụng một tính năng đó là `virtuals Populate`
+// Hoặc trong Product Model bạn sử dụng local Field categoryId
+const products = await Product.find().populate({
+    path: 'categoryId', // Tên trường trong Product Model
+    model: 'Category' // Tên Model tham chiếu
+});
+```
+---
+
+Ngoài ra, Trường hợp category bạn đặt là `categoryID` thì để lấy được thông tin của danh mục bạn có thể sử dụng một tính năng đó là `virtuals Populate`
 
 ```js
 //Cài thêm mongoose-lean-virtuals
