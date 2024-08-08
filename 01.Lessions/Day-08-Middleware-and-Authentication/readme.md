@@ -165,6 +165,27 @@ Middleware xử lý tuần tự trước sau. Request được truyền qua từ
 
 ---
 
+## 💛 Một số Middleware cần thiết
+
+### Compression - Nén request
+
+Đọc thêm: https://expressjs.com/id/resources/middleware/compression.html
+
+### Morgan - Ghi Logs request
+
+Đọc thêm: https://expressjs.com/id/resources/middleware/morgan.html
+
+### Cors - Chống spam API
+
+Đọc thêm: https://expressjs.com/id/resources/middleware/cors.html
+
+### Helmet - Bảo mật Header
+
+Đọc thêm: 
+
+- https://github.com/helmetjs/helmet
+- https://expressjs.com/en/advanced/best-practice-security.html
+
 ## 💛 Validate Requests
 
 Sau khi bạn nắm được cách xử lý của middleware, chúng ta tìm hiểu cách thức để `Validate Requests` một request. Để đảm bảo dữ liệu đầu vào hợp lệ cho ứng dụng.
@@ -498,3 +519,121 @@ router.put('/staffs/:id', authenticateToken,, async (req, res, next) => {
 ```
 
 
+## 💛 Đọc thêm - Hạn chế Spam API
+
+
+Hạn chế spam API bằng cách sử dụng `X-API-KEY` là một phương pháp phổ biến để đảm bảo rằng chỉ những người dùng hoặc ứng dụng được ủy quyền mới có thể truy cập vào API của bạn. Dưới đây là một hướng dẫn chi tiết về cách triển khai việc này.
+
+### Bước 1: Tạo và Lưu Trữ API Keys
+
+Đầu tiên, bạn cần tạo và lưu trữ các API keys. Điều này thường được thực hiện trong cơ sở dữ liệu của bạn.
+
+#### Ví dụ với MongoDB
+
+```javascript
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+
+const apiKeySchema = new Schema({
+  key: { type: String, required: true, unique: true },
+  usageCount: { type: Number, default: 0 },
+  createdAt: { type: Date, default: Date.now },
+  lastUsedAt: { type: Date },
+  isActive: { type: Boolean, default: true }
+});
+
+const ApiKey = mongoose.model('ApiKey', apiKeySchema);
+
+// Tạo một API key mới
+async function createApiKey() {
+  const apiKey = new ApiKey({ key: 'your-unique-api-key-here' });
+  await apiKey.save();
+  console.log('API Key created:', apiKey);
+}
+
+createApiKey();
+```
+
+### Bước 2: Xác Thực API Key
+
+Khi một request đến API của bạn, bạn cần xác thực `X-API-KEY` trong header của request.
+
+#### Middleware để Xác Thực API Key
+
+```javascript
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+
+const ApiKey = require('./models/ApiKey'); // Đảm bảo rằng bạn đã đúng đường dẫn tới model của bạn
+
+async function apiKeyAuth(req, res, next) {
+  const apiKey = req.header('X-API-KEY');
+  if (!apiKey) {
+    return res.status(401).json({ message: 'API key is missing' });
+  }
+
+  try {
+    const key = await ApiKey.findOne({ key: apiKey, isActive: true });
+
+    if (!key) {
+      return res.status(403).json({ message: 'Invalid or inactive API key' });
+    }
+
+    // Cập nhật thông tin sử dụng API key
+    key.usageCount += 1;
+    key.lastUsedAt = new Date();
+    await key.save();
+
+    next();
+  } catch (error) {
+    console.error('Error in API key authentication:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
+app.use(apiKeyAuth);
+```
+
+### Bước 3: Hạn Chế Tốc Độ (Rate Limiting)
+
+Bạn có thể sử dụng các middleware như `express-rate-limit` để hạn chế tốc độ request, giúp giảm thiểu việc spam.
+
+#### Cài đặt `express-rate-limit`
+
+```sh
+npm install express-rate-limit
+```
+
+#### Sử dụng `express-rate-limit`
+
+```javascript
+const rateLimit = require('express-rate-limit');
+
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 phút
+  max: 100, // Giới hạn mỗi IP chỉ được thực hiện 100 requests trong mỗi 15 phút
+  handler: function (req, res) {
+    res.status(429).json({
+      message: 'Too many requests, please try again later.'
+    });
+  }
+});
+
+// Áp dụng rate limiter cho tất cả các routes
+app.use(apiLimiter);
+```
+
+### Bước 4: Sử Dụng Middleware và Khởi Chạy Server
+
+```javascript
+app.get('/api/example', (req, res) => {
+  res.json({ message: 'This is an example endpoint' });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+```

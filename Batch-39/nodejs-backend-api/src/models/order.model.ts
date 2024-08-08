@@ -92,6 +92,20 @@ const ordersSchema = new Schema({
     maxLength: 50
   },
   order_items: [orderItemsSchema], //mảng sản phẩm
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    required: false
+  },
+  /* 
+   Soft delete 
+   Khi xóa sp thì đi update isDelete = true
+   */
+   isDelete: {
+    type: Boolean,
+    require: false,
+    default: false
+  },
 },
 {
   timestamps: true, //Tạo tự động thêm 2 trường createAt, updateAt

@@ -36,7 +36,9 @@ const staffSchema = new Schema<TStaff>({
   },
   password: {
     type: String,
-    require: true
+    maxLength: 255,
+    require: false,
+    default: null
   }
 },
 {
