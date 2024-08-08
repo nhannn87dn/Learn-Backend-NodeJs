@@ -235,8 +235,46 @@ const validateSchema = (schema: object) => (req: Request, res: Response, next: N
 export default validateSchema
 ```
 
-Xem ví dụ về sử dụng với Yup [tại đây](yupValidateSchema.middleware.ts)
+Sử dụng thư viện `yup` để validate
 
+```ts
+import * as yup from 'yup';
+import { NextFunction, Request, Response } from 'express';
+
+const validateSchemaYup = (schema: any) => async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await schema.validate({
+      body: req.body,
+      query: req.query,
+      params: req.params,
+    }, 
+    { 
+      abortEarly: false, // abortEarly: false để lấy tất cả lỗi thay vì chỉ lấy lỗi đầu tiên
+    }  
+  );
+
+    return next();
+  } catch (err) {
+    //console.log(err);
+    if (err instanceof yup.ValidationError) {
+      //console.error(err);
+      return res.status(400).json({
+        statusCode: 400,
+        message: err.errors, // err.errors chứa tất cả các thông điệp lỗi
+        typeError: 'validateSchema'
+      });
+    }
+    return res.status(400).json({
+      statusCode: 400,
+      message: 'validate Yup Error',
+      typeError: 'validateSchemaUnknown'
+    });
+  }
+};
+
+export default validateSchemaYup;
+
+```
 
 **Bước 2:** Tạo các Schema Validation
 
@@ -267,6 +305,44 @@ localhost:8686/api/v1/categories/:id
 Validate `id` phải được truyền vào yêu cầu là số
 
 Chúng ta lần lượt tạo thêm các Schema cho từng route của category Resources
+
+Với Yup Schema
+
+Trong folder này tạo file `categoryYup.validation.ts`
+
+```js
+const getCategoryById = yup
+  .object({
+    query: yup.object({
+      id: yup.number().required().positive().integer().required(),
+    }),
+  })
+  .required();
+
+export default {
+  getCategoryById
+};
+```
+
+**Bước 3:** Sử dụng trong Các Routes
+
+
+```js
+import express from "express";
+import categoriesController from "../../controllers/categories.controller";
+import validateSchemaYup from "../../middlewares/yupValidateSchema.middleware";
+import categoriesValidation from "../../validations/categoryYup.validation";
+
+const router   = express.Router();
+
+
+//Get By ID
+//http://localhost:8080/api/v1/categories/:id
+router.get('/:id', validateSchemaYup(categoriesValidation.getCategoryById), categoriesController.getCategoryById)
+
+
+```
+
 
 ---
 
