@@ -14,7 +14,7 @@ const sendJsonSuccess = (res: Response, message = 'Success', code = 200) => {
 
 // Hàm gởi khi có lỗi
 const sendJsonErrors = (res: Response, error: any) => {
-  console.log(error);
+  //console.log(error);
   return res.status(error.status || 500).json({
     statusCode: error.status || 500,
     message: error.message || 'Unhandled Error',

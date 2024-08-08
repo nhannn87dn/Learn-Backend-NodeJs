@@ -121,10 +121,12 @@ productSchema.plugin(mongooseLeanVirtuals);
 
 //middleware
 // Can thiệp vào dữ liệu trước khi ghi vào database
-productSchema.pre('save', async function (next) {
-  
+productSchema.pre('save',  function (next) {
+  const product = this
   /* tự động tạo slug từ product_name */
-  this.slug = buildSlug(this.product_name)
+  if(product.product_name){
+    product.slug = buildSlug(product.product_name)
+  }
 
   next();
 });

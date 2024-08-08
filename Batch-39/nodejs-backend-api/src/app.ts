@@ -66,11 +66,12 @@ app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
   console.log(err.stack)
   
   const statusCode = err.status || 500;
-  // res.status(statusCode).json({ 
-  //   statusCode: statusCode, 
-  //   message: err.message 
-  // });
-  sendJsonErrors(res, err)
+  res.status(statusCode).json({ 
+    statusCode: statusCode, 
+    message: err.message,
+    data: null 
+  });
+  //sendJsonErrors(res, err)
 });
 
 

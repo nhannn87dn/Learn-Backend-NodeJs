@@ -63,7 +63,7 @@ const runDB = async ()=>{
     
     const category = new Category({
       category_name: faker.commerce.department()+index,
-      description: faker.lorem.text(),
+      description: faker.lorem.words(50),
       slug: faker.lorem.slug()+index,
     });
     //Đến bước nó mới chính thức ghi xuống DB

@@ -14,5 +14,6 @@ export type TStaff = {
   phone: string;
   email: string;
   password: string;
-  active: boolean
+  active?: boolean,
+  role?: string;
 }

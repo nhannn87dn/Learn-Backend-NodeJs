@@ -41,7 +41,7 @@ const login = async(email: string, password: string)=>{
     {
       _id: staff?._id,
       email: staff.email,
-      //role: [] //phân quyền
+      //role: staff.role,  //phân quyền
     },
     globalConfig.JWT_SECRET_KEY as string,
     {
