@@ -1,18 +1,18 @@
 import {Request, Response, NextFunction} from 'express'
-import categoriesService from '../services/categories.service';
+import staffsService from '../services/staffs.service';
 import {sendJsonSuccess} from '../helpers/responseHandler'
 
 const findAll = async (req: Request, res: Response, next: NextFunction)=>{
   
   try {
     // Lấy data từ lớp service
-    const categories = await categoriesService.findAll();
-    //console.log('<<=== 🚀findAll categories  ===>>',categories);
+    const staffs = await staffsService.findAll();
+    //console.log('<<=== 🚀findAll staffs  ===>>',staffs);
     //Trả lại cho client
     // res.status(200).json({
-    //   data: categories
+    //   data: staffs
     // })
-    sendJsonSuccess(res, "success")(categories)
+    sendJsonSuccess(res, "success")(staffs)
 
   } catch (error) {
     next(error)
@@ -26,12 +26,12 @@ const findById = async (req: Request, res: Response, next: NextFunction)=>{
     console.log('findById', req.params);
     const {id} = req.params;
     /**
-     * SELECT * FROM categories WHERE id = ''
+     * SELECT * FROM staffs WHERE id = ''
      */
-    const category = await categoriesService.findById(id)
+    const staff = await staffsService.findById(id)
     
     res.status(200).json({
-    data: category
+    data: staff
     })
   } catch (error) {
     next(error)
@@ -42,12 +42,12 @@ const createRecord = async (req: Request, res: Response, next: NextFunction)=>{
  try {
   console.log('<<=== 🚀 req.body ===>>',req.body);
   
-  const category =  await categoriesService.createRecord(req.body)
+  const staff =  await staffsService.createRecord(req.body)
   
-  console.log('<<=== 🚀 category controller ===>>',category);
+  console.log('<<=== 🚀 staff controller ===>>',staff);
 
   res.status(201).json({
-    data: category
+    data: staff
   })
  } catch (error) {
   next(error)
@@ -59,11 +59,11 @@ const updateById = async (req: Request, res: Response, next: NextFunction)=>{
   try {
     const {id} = req.params
 
-    const category = await categoriesService.updateById(id, req.body)
+    const staff = await staffsService.updateById(id, req.body)
 
     //Thành công
     res.status(200).json({
-      data: category
+      data: staff
     })
 
   } catch (error) {
@@ -77,11 +77,11 @@ const deleteById = async (req: Request, res: Response, next: NextFunction)=>{
   try {
     const {id} = req.params
     
-    const category = await categoriesService.deleteById(id)
+    const staff = await staffsService.deleteById(id)
 
     res.status(200).json({
         //Trả về phần tử vừa được xóa
-        data: category
+        data: staff
     })
 
   } catch (error) {

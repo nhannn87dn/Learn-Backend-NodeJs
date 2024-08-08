@@ -1,0 +1,21 @@
+POST http://localhost:8080/api/v1/staffs
+Content-Type: application/json
+
+{
+  "first_name": "Tuan 9",
+  "last_name": "Tran",
+  "phone": "0988777339",
+  "email": "tuantran9@gmail.com",
+  "active": true,
+  "password": "123456"
+}
+
+###
+
+PUT http://localhost:8080/api/v1/staffs/66b3763974153aa851b14634
+Content-Type: application/json
+
+{
+  "first_name": "Tuan 66",
+  "password": "1234567"
+}

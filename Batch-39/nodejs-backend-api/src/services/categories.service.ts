@@ -14,10 +14,10 @@ type TCategory = {
 // Lấy tất cả record
 const findAll = async ()=>{
    /**
-     * SELECT * FROM categories
+     * SELECT findAll* FROM categories
      */
   const categories = await Category.find();
-  console.log('<<=== 🚀 categories ===>>',categories);
+  //console.log('<<=== 🚀 categories findAll ===>>');
   return categories
 }
 

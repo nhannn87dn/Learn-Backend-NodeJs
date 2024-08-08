@@ -1,11 +1,24 @@
-import express from 'express'
+import express, {NextFunction, Request, Response} from 'express'
 import categoriesController from '../../controllers/categories.controller'
 const router = express.Router()
 
+// Middleware cấp độ route
+function middlewareCategories(req: Request, res: Response, next: NextFunction){
+  console.log('Middleware 2');
+  next();
+}
+
+function privateRoutegetAll(req: Request, res: Response, next: NextFunction){
+  console.log('Middleware 3');
+  next();
+}
+
+//Dùng cho tất cả các routes bên dưới
+router.use(middlewareCategories)
 
 //1. Get All Categories
 //GET localhost:8080/api/v1/categories
-router.get('', categoriesController.findAll)
+router.get('', privateRoutegetAll, categoriesController.findAll)
 
 //2. Get One Category
 //GET localhost:8080/api/v1/categories/:id

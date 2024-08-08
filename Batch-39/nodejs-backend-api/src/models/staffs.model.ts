@@ -1,6 +1,11 @@
 import { Schema, model } from 'mongoose';
+import bcrypt from 'bcrypt'
+import {TStaff} from '../types/models'
 
-const staffSchema = new Schema({
+//Cách dùng: https://www.npmjs.com/package/bcrypt#esm-import
+const saltRounds = 10;
+
+const staffSchema = new Schema<TStaff>({
   first_name: {
     type: String,
     required: true,
@@ -27,20 +32,36 @@ const staffSchema = new Schema({
   active: {
     type: Boolean,
     default: true,
-    require: false
+    require: true
   },
   password: {
     type: String,
-    maxLength: 255,
-    require: false,
-    default: null
+    require: true
   }
 },
 {
   timestamps: true, //Tạo tự động thêm 2 trường createAt, updateAt
   //collection: 'category', //Tên collection Cố định theo tên bạn đặt
+  toJSON: { virtuals: true }, // <-- include virtuals in `JSON.stringify()`
+  toObject: { virtuals: true },
 });
 
-const Staff = model('Staff', staffSchema);
+
+// Virtual for this genre instance fullName.
+staffSchema.virtual('fullName').get(function () {
+  return this.first_name + ' ' + this.last_name;
+});
+
+staffSchema.pre('save', async function (next) {
+  const staff = this;
+
+  const hash = bcrypt.hashSync(staff.password, saltRounds);
+
+  staff.password = hash;
+
+  next();
+});
+
+const Staff = model<TStaff>('Staff', staffSchema);
 
 export default Staff

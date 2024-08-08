@@ -35,11 +35,11 @@ router.put('/:id',productsController.updateById)
 
 
 /**
- * delete Product
+ * Xóa sản phẩm
  * DELETE /api/v1/products/:id
  */
 
-router.delete('/:id',productsController.deleteById)
+router.delete('/:id', productsController.deleteById)
 
 
 
