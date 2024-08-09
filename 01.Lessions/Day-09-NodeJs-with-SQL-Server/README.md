@@ -121,6 +121,19 @@ Sau đó tạo file `tsconfig.json` và copy nội dung này vào:
 }
 ```
 
+
+Lưu ý:
+
+Thêm 1 dòng này vào phần `compilerOptions` trong  file `tsconfig.json`
+
+```json
+"emitDecoratorMetadata": true,
+"experimentalDecorators": true,
+```
+
+Trước khi tạo `entity` để nó không báo lỗi typescript
+
+
 **Bước 3**
 
 Tạo file `app.ts`
@@ -229,6 +242,9 @@ Chi tiết tại: https://typeorm.io/migrations
 Khi sử dụng `Migration`, mọi thay đổi lưu lại thành file. Đến khi bạn tự chạy lệnh run Migration thì những thay đổi đó mới được đồng bộ xuống database.
 
 Ngoài ra nó còn cho bạn khôi phục lại các thay đổi đã chạy vì một lí do gì đó.
+
+---
+
 
 
 **Bước 8** 
