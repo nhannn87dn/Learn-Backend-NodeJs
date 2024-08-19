@@ -1,0 +1,16 @@
+POST http://localhost:3000/product
+Content-Type: application/json
+
+{
+  "name": "Iphone 15",
+  "price": 8000
+}
+
+###
+
+GET http://localhost:3000/product/1?page=1&limit=2
+
+###
+
+
+GET http://localhost:3000/

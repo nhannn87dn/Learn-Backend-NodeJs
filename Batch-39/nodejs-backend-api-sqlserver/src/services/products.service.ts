@@ -1,7 +1,12 @@
 import createError from 'http-errors';
-import Product from "../models/products.model";
+//import Product from "../models/products.model";
 import {TfindAllProduct} from '../types/models'
+import { Product } from '../databases/entities/product.entity';
+import { myDataSource } from '../databases/data-soucre';
 /* get All Products */
+
+const productRepository = myDataSource.getRepository(Product)
+
 
 const findAll = async (query: any)=>{
   /* Phân trang */
@@ -101,7 +106,7 @@ const createDocument = async (body: any)=>{
       stock:body.stock, 
       slug:body.slug
     }
-      const product = await Product.create(payloads)
+      const product = await productRepository.create(payloads)
       return product
 }
 
