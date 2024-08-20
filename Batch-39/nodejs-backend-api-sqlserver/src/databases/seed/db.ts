@@ -1,30 +1,26 @@
 //File này dùng để tạo dữ liệu cho database
-
-import mongoose from 'mongoose'
-import {globalConfig} from '../../constants/configs'
-import Category from '../../models/categories.model';
+import { myDataSource } from '../data-soucre';
+//import {globalConfig} from '../../constants/configs'
 import { faker } from '@faker-js/faker';
-import Brand from '../../models/brands.model';
-import Product from '../../models/products.model';
+import { Brand } from '../entities/brand.entity';
+import { Category } from '../entities/category.entity';
+import { Product } from '../entities/product.entity';
 
-const mongooseDbOptions = {
-  autoIndex: true, // Don't build indexes
-  maxPoolSize: 10, // Maintain up to 10 socket connections
-  serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
-  socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-  family: 4, // Use IPv4, skip trying IPv6
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
-mongoose
-  .connect(globalConfig.MONGODB_URL as string, mongooseDbOptions)
-  .then(() => {
-    console.log('Connected to MongoDB');
-    //should listen app here
-  })
-  .catch((err) => {
-    console.error('Failed to Connect to MongoDB', err);
-  });
+// Kết nối với SQL server 
+
+myDataSource
+    .initialize()
+    .then(() => {
+        console.log("Kết nối với SQL Server thành công !")
+    })
+    .catch((err) => {
+        console.error("Error during Data Source initialization:", err)
+    })
+
+
+const categoryRepository = myDataSource.getRepository(Category)
+const brandRepository = myDataSource.getRepository(Brand)
+const productRepository = myDataSource.getRepository(Product)
 
   const brands = [
     {
@@ -61,21 +57,21 @@ const runDB = async ()=>{
 
   for (let index = 1; index < 6; index++) {
     
-    const category = new Category({
+    const category = categoryRepository.create({
       category_name: faker.commerce.department()+index,
       description: faker.lorem.words(50),
       slug: faker.lorem.slug()+index,
     });
     //Đến bước nó mới chính thức ghi xuống DB
-    await category.save();
+    await categoryRepository.save(category);
     console.log('Tạo danh mục thành công....', index);
   }
 
   //Tạo brands từ mảng có sẵn
- await Brand.insertMany(brands)
+  await brandRepository.insert(brands)
   
- const currentBrands = await Brand.find();
- const currentCategories = await Category.find();
+ const currentBrands = await brandRepository.find();
+ const currentCategories = await categoryRepository.find();
 
  
    for (let i = 1; i <= 15; i++) {
@@ -98,8 +94,8 @@ const runDB = async ()=>{
       slug: faker.helpers.slugify(productName), // Tạo slug từ productName
     }
    
-    const product = new Product(fakeProduct);
-    await product.save();
+    const product = productRepository.create(fakeProduct);
+    await productRepository.save(product);
     console.log(`Create Product ${i} successfully !`);
     
   }

@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, BeforeInsert, BeforeUpdate } from "typeorm";
 import { Category } from "./category.entity";
+import { Brand } from "./brand.entity";
 import {Min, Max, validateOrReject} from 'class-validator'
 
 @Entity({name: 'products'})
@@ -47,6 +48,10 @@ export class Product {
     //Cấu hình khóa ngoại giữa product với category
     @ManyToOne(() => Category, (category) => category.products)
     category: Category
+
+
+    @ManyToOne(() => Brand, (brand) => brand.products)
+    brand: Brand
 
     //validator
     @BeforeInsert() //Truoc khi them moi
