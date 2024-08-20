@@ -1,4 +1,4 @@
-# Express with SQL Server
+# SQL Server with TypeORM
 
 ## 💛 Cấu hình SQL Server
 

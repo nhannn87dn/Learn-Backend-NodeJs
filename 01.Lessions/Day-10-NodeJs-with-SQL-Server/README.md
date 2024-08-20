@@ -1,15 +1,19 @@
-# Express with SQL Server
+# SQL Server with TypeORM
 
 Truy vấn dữ liệu trong TypeORM
 
 ## 💛 Sử dụng Repository
 
 ```ts
+// Import DataSource
 import { AppDataSource } from "../../data-soucre.ts"
+//Import Entity
 import { User } from "./entities/User";
 
-
+//Khởi tạo Repository
 const userRepository = AppDataSource.getRepository(User)
+
+//Truy vấn với Repository
 const user = await userRepository.findOneBy({
     id: 1,
 });
@@ -509,3 +513,232 @@ Mạnh mẽ hơn cách sử dụng Respository
 Sử dụng khi bạn cần truy vấn với cú pháp phức tạp
 
 - https://typeorm.io/select-query-builder 
+
+
+## 💛 Kết nối các Entity với Service
+
+Ví dụ cho `category.service.ts`
+
+Tương tự như đã làm trong service sử dụng `mongoose`
+
+```ts
+import createError from 'http-errors';
+// Import DataSource
+import { AppDataSource } from "./data-soucre"
+//Import Entity
+import { Category } from "./entities/category.entity";
+
+//Khởi tạo Repository
+const categoryRepository = AppDataSource.getRepository(Category)
+
+//get All Records
+const findAll = async (query: any)=>{
+
+        /* Phân trang */
+    const page_str = query.page;
+    const limit_str = query.limit;
+
+    const page = page_str ? parseInt(page_str as string): 1;
+    const limit = limit_str ? parseInt(limit_str as string): 10;
+
+    //Truy vấn có phân trang
+    const [categories, totalCount] = await categoryRepository.findAndCount({
+        //where: {
+        //},
+        order: {
+            category_id: "DESC",
+        },
+        skip: (page - 1) * limit,
+        take: limit,
+    });
+
+    return {
+        categories,
+        pagination: {
+            limit: limit,// số lượng item trên 1 trang
+            page: page, //trang hiện tại
+            totalPages: Math.ceil(totalCount / limit), //tổng số trang
+            totalIRecords: totalCount, //tổng số records
+        }
+    }
+}
+
+//get Single Record
+const findOne = async (id: number)=>{
+    const category = await categoryRepository.findOne({
+        where: {
+            category_id: id,
+        },
+    })
+    if(!category){
+        throw createError(400, 'Category not found')
+    }
+    return category
+}
+
+//Insert new a record
+const create = async(payload)=>{
+    // const category = await categoryRepository.insert(payload)
+    //hoặc
+    const result = categoryRepository.create(payload);
+    const category = await categoryRepository.save(result);
+
+    return category
+}
+
+//update a record
+
+const updateById = async(id: number, payload)=>{
+    //Lấy lại hàm findOne trên dùng
+    const category = await findOne(id);
+    //Thay đổi
+    //Merge category và payload lại với nhau
+    Object.assign(category, payload);
+
+    const updated = await categoryRepository.save(category)
+    return updated;
+}
+
+//delete a record
+
+const deleteById = async (id: number) => {
+    //Check xem ID do con ton tai ko da
+    const category = await findOne(id);
+    const result = await categoryRepository.delete({
+        id: category.category_id
+    })
+  return category;
+};
+
+export default {
+  findAll,
+  findOne,
+  create,
+  updateById,
+  deleteById,
+};
+
+```
+
+Ví dụ cho `product.service.ts` có quan hệ
+
+
+```ts
+import createError from 'http-errors';
+// Import DataSource
+import { AppDataSource } from "./data-soucre"
+//Import Entity
+import { Product } from "./entities/product.entity";
+
+//Khởi tạo Repository
+const productRepository = AppDataSource.getRepository(Product)
+
+//get All Records
+const findAll = async (query: any)=>{
+
+    /* Phân trang */
+    const page_str = query.page;
+    const limit_str = query.limit;
+
+    const page = page_str ? parseInt(page_str as string): 1;
+    const limit = limit_str ? parseInt(limit_str as string): 10;
+
+    /* Lọc theo từng điều kiện */
+    let whereConditions: any = {};
+    // Chỉ thêm điều kiện tìm kiếm theo category nếu query.category tồn tại
+    if(query.category && query.category != ''){
+        whereConditions = {...whereConditions, category: {
+                category_id: query.category
+        }}
+    }
+
+    //Các điều kiện khác tại đây
+    
+    //Sắp xếp
+    let objSort: any = {};
+    const sortBy = query.sort || 'product_id'; // Mặc định sắp xếp theo ngày tạo giảm dần
+    const orderBy = query.order && query.order == 'ASC' ? 'ASC': 'DESC'
+    objSort = {...objSort, [sortBy]: orderBy} // Thêm phần tử sắp xếp động vào object {}
+
+    //Truy vấn có phân trang
+    const [products, totalCount] = await productRepository.findAndCount({
+        where: whereConditions,
+        relations: {
+            //quan hệ với các table khác
+            category: true,
+           // brand: true, 
+        },
+        order: objSort,
+        skip: (page - 1) * limit,
+        take: limit,
+    });
+
+    return {
+        products,
+        sort: objSort,
+        filters: whereConditions,
+        pagination: {
+            limit: limit,// số lượng item trên 1 trang
+            page: page, //trang hiện tại
+            totalPages: Math.ceil(totalCount / limit), //tổng số trang
+            totalIRecords: totalCount, //tổng số records
+        }
+    }
+}
+
+//get Single Record
+const findOne = async (id: number)=>{
+    const product = await productRepository.findOne({
+        where: {
+            product_id: id,
+        },
+    })
+    if(!product){
+        throw createError(400, 'Product not found')
+    }
+    return product
+}
+
+//Insert new a record
+const create = async(payload)=>{
+    // const product = await productRepository.insert(payload)
+    //hoặc
+    const result = productRepository.create(payload);
+    const product = await productRepository.save(result);
+
+    return product
+}
+
+//update a record
+
+const updateById = async(id: number, payload)=>{
+    //Lấy lại hàm findOne trên dùng
+    const product = await findOne(id);
+    //Thay đổi
+    //Merge category và payload lại với nhau
+    Object.assign(product, payload);
+
+    const updated = await productRepository.save(product)
+    return updated;
+}
+
+//delete a record
+
+const deleteById = async (id: number) => {
+    //Check xem ID do con ton tai ko da
+    const product = await findOne(id);
+    const result = await productRepository.delete({
+        id: product.product_id
+    })
+  return product;
+};
+
+export default {
+  findAll,
+  findOne,
+  create,
+  updateById,
+  deleteById,
+};
+
+```
