@@ -6,7 +6,7 @@ const findAll = async (req: Request, res: Response, next: NextFunction)=>{
   
   try {
     // Lấy data từ lớp service
-    const categories = await categoriesService.getAllTest();
+    const categories = await categoriesService.findAll();
     //console.log('<<=== 🚀findAll categories  ===>>',categories);
     //Trả lại cho client
     // res.status(200).json({
@@ -28,7 +28,7 @@ const findById = async (req: Request, res: Response, next: NextFunction)=>{
     /**
      * SELECT * FROM categories WHERE id = ''
      */
-    const category = await categoriesService.findById(id)
+    const category = await categoriesService.findById(parseInt(id))
     
     res.status(200).json({
     data: category
@@ -42,7 +42,7 @@ const createRecord = async (req: Request, res: Response, next: NextFunction)=>{
  try {
   console.log('<<=== 🚀 req.body ===>>',req.body);
   
-  const category =  await categoriesService.createRecord(req.body)
+  const category =  await categoriesService.create(req.body)
   
   console.log('<<=== 🚀 category controller ===>>',category);
 
@@ -59,7 +59,7 @@ const updateById = async (req: Request, res: Response, next: NextFunction)=>{
   try {
     const {id} = req.params
 
-    const category = await categoriesService.updateById(id, req.body)
+    const category = await categoriesService.updateById(parseInt(id), req.body)
 
     //Thành công
     res.status(200).json({
@@ -77,7 +77,7 @@ const deleteById = async (req: Request, res: Response, next: NextFunction)=>{
   try {
     const {id} = req.params
     
-    const category = await categoriesService.deleteById(id)
+    const category = await categoriesService.deleteById(parseInt(id))
 
     res.status(200).json({
         //Trả về phần tử vừa được xóa

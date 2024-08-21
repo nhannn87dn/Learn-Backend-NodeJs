@@ -1,146 +1,65 @@
 import createError from 'http-errors';
-//import Product from "../models/products.model";
-import {TfindAllProduct} from '../types/models'
-import { Product } from '../databases/entities/product.entity';
+// Kết nối trực tiếp với Database
 import { myDataSource } from '../databases/data-soucre';
-/* get All Products */
+import { Product } from '../databases/entities/product.entity';
 
 const productRepository = myDataSource.getRepository(Product)
 
 
+// Lấy tất cả record
 const findAll = async (query: any)=>{
-  /* Phân trang */
-  const page_str = query.page;
-  const limit_str = query.limit;
-
-  const page = page_str ? parseInt(page_str as string): 1;
-  const limit = limit_str ? parseInt(limit_str as string): 10;
-
-  /* Lọc theo từng điều kiện */
-  let objectFilters : any = {};
-  // Lọc theo danh mục sản phẩm
-  if(query.category && query.category != ''){
-    objectFilters = {...objectFilters, category: query.category}
-  }
-  // Lọc theo danh tên sản phẩm
-  if(query.keyword && query.keyword != ''){
-    objectFilters = {...objectFilters, product_name: new RegExp(query.keyword, 'i')}
-  }
-
-
-
-  /* Sắp xếp */
-  let objSort: any = {};
-  const sortBy = query.sort || 'updateAt'; // Mặc định sắp xếp theo ngày tạo giảm dần
-  const orderBy = query.order && query.order == 'ASC' ? 1: -1
-  objSort = {...objSort, [sortBy]: orderBy} // Thêm phần tử sắp xếp động vào object {}
-
-  const offset = (page - 1) * limit;
-
-  console.log('Product S',offset, limit);
-
-  //Đếm tổng số record hiện có của collection Product
-  const totalRecords = await Product.countDocuments();
-
-  /* Select * FROM product */
-  const products = await Product
-  .find({
-    ...objectFilters,
-    //isDelete: false // Chỉ lấy những sp chưa xóa
-  })
-  .select('-__v -id')
-  .populate('category', 'category_name')
-  .populate('brand', 'brand_name')
-  .sort(objSort)
-  .skip(offset)
-  .limit(limit)
-  .lean({virtuals: true})
-  ;
-
-  return {
-    products_list: products,
-    sorts: objSort,
-    filters: objectFilters,
-    // Phân trang
-    pagination: {
-      page,
-      limit,
-      totalPages: Math.ceil(totalRecords / limit), //tổng số trang
-      totalRecords
-    }
-  }
+    const products = await productRepository.find()
+  return products
 }
 
-/***
- * get Single Product
- */
-
-const findOne =  async(id: string)=>{
-  const product = await Product
-  .findById(id, '-__v -id') // có thể liệt kê select vào tham số thứ 2 của hàm
-  .populate('category', 'category_name')
-  .populate('brand', 'brand_name')
-
-  //Check sự tồn tại
+const findById = async (id: number)=>{
+  const product = await productRepository.findOne({
+   where: {
+    product_id: id
+   }
+  });
+  //Check ton tai theo Id
   if(!product){
-    throw createError(400, 'Product not found')
+    throw createError(400, 'Product Not Found')
   }
-
   return product
 }
 
-/***
- * create new Product
- */
-
-const createDocument = async (body: any)=>{
-    const payloads = {
-      product_name: body.product_name,
-      price:body.price,
-      discount: body.discount,
-      category: body.category, 
-      brandId: body.brandId, 
-      model_year:body.model_year, 
-      description:body.description, 
-      thumbnail:body.thumbnail, 
-      stock:body.stock, 
-      slug:body.slug
-    }
-      const product = await productRepository.create(payloads)
-      return product
-}
-
-
-/***
- * update a Product
- */
-
-const updateById = async (id: string, payload: any)=>{
-  //b1. Kiểm tính tồn tại
-   const product = await findOne(id);
-  //2. Update = cách ghi đè thuộc tính
+const updateById = async (id: number, payload: any)=>{
+  //Kiem tinh ton tai truoc
+  const product = await findById(id);
+  //Cap nhat
   Object.assign(product, payload);
-  await product.save();
-  
-  //3. Trả về kết quả
+  //save lai
+  const updated = await productRepository.save(product)
+  return updated
+
+}
+
+//Create new record
+const create = async (payload: any)=>{
+  const product =  productRepository.create(payload)
+  //lu lai
+  await productRepository.save(product)
   return product
 }
 
-const deleteById = async (id: string)=>{
-  //b1. Kiểm tính tồn tại
-   const product = await findOne(id);
-  //2. xóa
-  await Product.deleteOne({ _id: product._id });
+//Delete a record
 
-  //3. Trả về kết quả
+const deleteById = async (id: number) => {
+  //Kiem tra tinh ton tai cua Id
+  const product = await findById(id);
+  //xoa
+  await productRepository.delete({ 
+    product_id: product.product_id 
+  })
   return product
 }
-
 
 export default {
   findAll,
-  findOne,
-  createDocument,
+  findById,
+  create,
   updateById,
   deleteById
 }

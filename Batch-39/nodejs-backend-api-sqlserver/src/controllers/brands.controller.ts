@@ -28,7 +28,7 @@ const findById = async (req: Request, res: Response, next: NextFunction)=>{
     /**
      * SELECT * FROM brands WHERE id = ''
      */
-    const category = await brandsService.findById(id)
+    const category = await brandsService.findById(parseInt(id))
     
     res.status(200).json({
     data: category
@@ -42,7 +42,7 @@ const createRecord = async (req: Request, res: Response, next: NextFunction)=>{
  try {
   console.log('<<=== 🚀 req.body ===>>',req.body);
   
-  const category =  await brandsService.createRecord(req.body)
+  const category =  await brandsService.create(req.body)
   
   console.log('<<=== 🚀 category controller ===>>',category);
 
@@ -59,7 +59,7 @@ const updateById = async (req: Request, res: Response, next: NextFunction)=>{
   try {
     const {id} = req.params
 
-    const category = await brandsService.updateById(id, req.body)
+    const category = await brandsService.updateById(parseInt(id), req.body)
 
     //Thành công
     res.status(200).json({
@@ -77,7 +77,7 @@ const deleteById = async (req: Request, res: Response, next: NextFunction)=>{
   try {
     const {id} = req.params
     
-    const category = await brandsService.deleteById(id)
+    const category = await brandsService.deleteById(parseInt(id))
 
     res.status(200).json({
         //Trả về phần tử vừa được xóa
