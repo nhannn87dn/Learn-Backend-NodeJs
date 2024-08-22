@@ -20,7 +20,7 @@ export class Brand {
     order: number
     //order SMALLINT DEFAULT 50 NOT NULL
 
-    @OneToMany(() => Product, (product: Product) => product.brand)
+    @OneToMany(() => Product, (p) => p.brand)
     products: Product[]
 
 }

@@ -3,10 +3,11 @@ Content-Type: application/json
 
 {
     "product_name": "tên sản phẩm test 2",
+    "slug": "ten-san-pham-test-2",
     "price": 200.0,
     "discount": 3,
-    "category": "66acd7a76977747d54d1843d",
-    "brandId": "66acd7a76977747d54d1844c",
+    "category": 1,
+    "brand": 1,
     "model_year": 2024,
     "description": "mô tả sản phẩm",
     "thumbnail": "https://picsum.photos/400/400",

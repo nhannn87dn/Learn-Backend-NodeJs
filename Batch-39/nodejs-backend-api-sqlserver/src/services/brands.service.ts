@@ -38,7 +38,9 @@ const updateById = async (id: number, payload: any)=>{
 
 //Create new record
 const create = async (payload: any)=>{
-  const brand =  brandRepository.create(payload)
+  const brand =  brandRepository.create({
+    brand_name: 'abc'
+  })
   //lu lai
   await brandRepository.save(brand)
   return brand

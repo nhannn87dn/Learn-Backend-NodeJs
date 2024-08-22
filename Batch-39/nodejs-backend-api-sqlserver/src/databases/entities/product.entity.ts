@@ -8,7 +8,7 @@ export class Product {
     @PrimaryGeneratedColumn({ type: "int" })
     product_id: number
 
-    @Column({ type: "nvarchar", length: 255, unique: true })
+    @Column({ type: "nvarchar", length: 250, unique: true })
     product_name: string
     //product_name NVARCHAR(255) UNIQUE NOT NULL
 
@@ -46,11 +46,11 @@ export class Product {
     //thumbnail nvarchar(255) null default NULL
 
     //Cấu hình khóa ngoại giữa product với category
-    @ManyToOne(() => Category, (category) => category.products)
+    @ManyToOne(() => Category, (c) => c.products)
     category: Category
 
 
-    @ManyToOne(() => Brand, (brand) => brand.products)
+    @ManyToOne(() => Brand, (b) => b.products)
     brand: Brand
 
     //validator

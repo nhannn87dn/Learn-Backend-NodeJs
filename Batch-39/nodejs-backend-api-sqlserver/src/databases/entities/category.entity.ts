@@ -20,7 +20,7 @@ export class Category {
     order: number
     //order SMALLINT DEFAULT 50 NOT NULL
 
-    @OneToMany(() => Product, (product) => product.category)
+    @OneToMany(() => Product, (p) => p.category)
     products: Product[]
 
 }
