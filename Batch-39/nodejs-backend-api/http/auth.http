@@ -2,6 +2,12 @@ POST http://localhost:8080/api/v1/auth/login
 Content-Type: application/json
 
 {
-  "email": "tuantran9@gmail.com",
+  "email": "tuantran10@gmail.com",
   "password": "123456"
 }
+
+###
+
+GET http://localhost:8080/api/v1/auth/profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmIzNzhhMTY2ZWY0ZmQ1Mzg2YzMwNTUiLCJlbWFpbCI6InR1YW50cmFuMTBAZ21haWwuY29tIiwiaWF0IjoxNzI0NDE1NDExLCJleHAiOjE3MjUwMjAyMTF9.kOES99oKKVUefrRStqS35ZipVo3gj5xDxyvpNoklJxQ

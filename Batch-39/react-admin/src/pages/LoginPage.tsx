@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button, Checkbox, Form, type FormProps, Input } from "antd";
-
+import useAuth from "../hooks/useAuth";
+import { useEffect } from "react";
 
 type FieldType = {
   email: string;
@@ -9,11 +10,25 @@ type FieldType = {
 };
 
 const LoginPage = () => {
+  const { login, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
+  //Neu da login roi, thi tra lại dashboard
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [navigate, isAuthenticated]);
 
   const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
     console.log("Success:", values);
-   
+    //login api
+    const result = await login(values.email, values.password);
+    console.log("<<=== 🚀result  ===>>", result);
+    //Chuyen trang neu login thanh cong
+    if (result && result.isAuthenticated) {
+      navigate("/");
+    }
   };
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
@@ -61,11 +76,7 @@ const LoginPage = () => {
       </Form.Item>
 
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button
-          
-          type="primary"
-          htmlType="submit"
-        >
+        <Button type="primary" htmlType="submit">
           Login
         </Button>
       </Form.Item>

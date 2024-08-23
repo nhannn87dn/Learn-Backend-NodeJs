@@ -13,8 +13,10 @@ import categoriesRouteV2 from './routes/v2/categories.route'
 
 import {logsMiddleware} from './middlewares/logs.middleware'
 import compression  from 'compression'
-
+import cors from 'cors'
 const app: Express = express()
+
+app.use(cors())
 
 //# định nghĩa 1 middleware
 function myMiddleware(req: Request, res:Response, next: NextFunction){

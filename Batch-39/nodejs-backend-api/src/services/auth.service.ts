@@ -5,6 +5,19 @@ import { TStaff } from '../types/models';
 import jwt from 'jsonwebtoken'
 import { globalConfig } from '../constants/configs';
 
+const getProfile = async(id: string)=>{
+  const staff = await Staff.
+  findOne({
+    _id: id
+  }).
+  select('-password -__v');
+  
+  if(!staff){
+    throw createError(400, 'Staff Not Found')
+  }
+  return staff
+}
+
 const login = async(email: string, password: string)=>{
   //b1. Check xem tồn tại staff có email này không
   const staff = await Staff.findOne({
@@ -54,10 +67,12 @@ const login = async(email: string, password: string)=>{
 
   return {
     access_token,
-    fresh_token
+    fresh_token,
+    
   }
 }
 
 export default {
-  login
+  login,
+  getProfile
 }

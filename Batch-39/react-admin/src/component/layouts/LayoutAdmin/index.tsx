@@ -12,24 +12,35 @@ import {
 import { Layout, Menu, Button, theme } from "antd";
 import { Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
-
+import useAuth from "../../../hooks/useAuth";
+import UserInfo from "../../ui/UserInfo";
 
 const { Header, Sider, Content, Footer } = Layout;
 
 const items = [
-  { 
-    label: "Dashboard", 
-    key: "", 
-    icon: <HomeOutlined /> 
-  }, 
-  
+  {
+    label: "Dashboard",
+    key: "",
+    icon: <HomeOutlined />,
+  },
+  {
+    label: "Products",
+    key: "products", //route bên App.tsx
+    icon: <HomeOutlined />,
+  },
 ];
 
 const LayoutAdmin = () => {
   const navigate = useNavigate();
 
+  const { isAuthenticated } = useAuth();
 
+  //check login
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    }
+  }, [navigate, isAuthenticated]);
 
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -86,6 +97,7 @@ const LayoutAdmin = () => {
               }}
             />
             {/* User Info */}
+            <UserInfo />
           </Header>
           <Content
             style={{
