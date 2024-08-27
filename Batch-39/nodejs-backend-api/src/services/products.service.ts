@@ -35,7 +35,7 @@ const findAll = async (query: any)=>{
   console.log('Product S',offset, limit);
 
   //Đếm tổng số record hiện có của collection Product
-  const totalRecords = await Product.countDocuments();
+  const totalRecords = await Product.countDocuments(objectFilters);
 
   /* Select * FROM product */
   const products = await Product

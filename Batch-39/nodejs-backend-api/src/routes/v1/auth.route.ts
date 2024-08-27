@@ -11,4 +11,6 @@ router.post('/login', validateSchemaYup(authValidations.loginSchema), authContro
 
 router.get('/profile', authenticateToken, authController.profile)
 
+router.post('/refresh-token', authenticateToken, authController.refreshToken)
+
 export default router

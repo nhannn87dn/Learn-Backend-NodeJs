@@ -1,14 +1,21 @@
 import express from 'express'
 import productsController from '../../controllers/products.controller';
+import { authenticateToken } from '../../middlewares/auth.middleware';
+
+
 const router = express.Router();
 
+
+//========= CHECK TOKEN BEGIN HERE =================================
+router.use(authenticateToken)
+// ==> Tất cả những routes sau câu lệnh này sẽ bị check token
 
 /**
  * Get ALl Products
  * GET /api/v1/products
  */
 
-router.get('',productsController.findAll)
+router.get('', productsController.findAll)
 
 /**
  * Get Single Product

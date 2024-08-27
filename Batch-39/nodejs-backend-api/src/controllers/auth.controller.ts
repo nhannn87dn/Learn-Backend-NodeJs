@@ -33,7 +33,25 @@ const profile = async (req: AuthRequest, res: Response, next: NextFunction)=>{
   }
 }
 
+
+
+const refreshToken = async (req: AuthRequest, res: Response, next: NextFunction)=>{
+  try {
+    const staff = res.locals.staff;
+    console.log(`res.locals`,res.locals);
+
+    const tokens = await authService.getTokens(staff)
+
+    //tạo cặp token mới
+    sendJsonSuccess(res)(tokens);
+
+  } catch (error) {
+    next(error)
+  }
+}
+
 export default {
   login,
-  profile
+  profile,
+  refreshToken
 }

@@ -1,8 +1,23 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Table, Pagination, Button, Space, message, Popconfirm } from "antd";
+import {
+  Table,
+  Pagination,
+  Button,
+  Space,
+  message,
+  Popconfirm,
+  Flex,
+  Modal,
+  Form,
+  Input,
+  Select,
+  Checkbox,
+} from "antd";
 import { axiosClient } from "../lib/axiosClient";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import type { PopconfirmProps } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { useState } from "react";
 
 const ProductPage = () => {
   const navigate = useNavigate();
@@ -13,15 +28,25 @@ const ProductPage = () => {
   const page_str = params.get("page");
   const page = page_str ? page_str : 1;
 
+  const category_str = params.get("category");
+  const category_id = category_str ? category_str : null;
+
   const fetchProduct = async () => {
     const limit = 10;
-    let url = `http://localhost:8080/api/v1/products?page=${page}&limit=${limit}`;
+    let url = `http://localhost:8080/api/v1/products?`;
+
+    if (category_id) {
+      url += `category=${category_id}&`;
+    }
+
+    url += `page=${page}&limit=${limit}`;
+
     const res = await axiosClient.get(url);
     return res.data.data;
   };
 
   const getProduct = useQuery({
-    queryKey: ["products", page],
+    queryKey: ["products", page, category_id],
     queryFn: fetchProduct,
   });
 
@@ -59,11 +84,170 @@ const ProductPage = () => {
     },
   });
 
+  /* ============= GET CATEGORIES, BRANDS ================ */
+  const fetchCategories = async () => {
+    const url = `http://localhost:8080/api/v1/categories`;
+    const res = await axiosClient.get(url);
+    return res.data.data;
+  };
+
+  const queryCategories = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+  });
+
+  const fetchBrands = async () => {
+    const url = `http://localhost:8080/api/v1/brands`;
+    const res = await axiosClient.get(url);
+    return res.data.data;
+  };
+
+  const queryBrands = useQuery({
+    queryKey: ["brands"],
+    queryFn: fetchBrands,
+  });
+
+  /* ============= THEM MOI ================ */
+  const [isModalAddOpen, setIsModalAddOpen] = useState(false);
+  const [formCreate] = Form.useForm();
+
+  const fetchCreateProduct = async (payload: any) => {
+    const url = `http://localhost:8080/api/v1/products`;
+    const res = await axiosClient.post(url, payload);
+    return res.data;
+  };
+
+  const createMutationProduct = useMutation({
+    mutationFn: fetchCreateProduct,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: ["products", page],
+      });
+      //Hiển thị một message thông báo là xóa thành công
+      messageApi.open({
+        type: "success",
+        content: "Thêm mưới sản phẩm thành công",
+      });
+      //Đóng modal
+      setIsModalAddOpen(false);
+      //clear data từ form
+      formCreate.resetFields();
+    },
+    onError: (error) => {
+      console.log(error);
+      messageApi.open({
+        type: "error",
+        content: "Thêm mới lỗi",
+      });
+    },
+  });
+
+  const showModalAdd = () => {
+    setIsModalAddOpen(true);
+  };
+
+  const handleOkAdd = () => {
+    //Submit oK Model
+    console.log("oK Model");
+    formCreate.submit();
+  };
+
+  const handleCancelAdd = () => {
+    setIsModalAddOpen(false);
+  };
+  // Submit Form Create
+  const onFinishAdd = async (values) => {
+    console.log("Success:", values);
+    //gọi API để tạo mới sản phẩm
+    createMutationProduct.mutate(values);
+  };
+  const onFinishFailedAdd = async (errorInfo) => {
+    console.log("errorInfo:", errorInfo);
+  };
+
+  //=========== UPDATE ===============//
+  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
+  const [formUpdate] = Form.useForm();
+
+  const fetchUpdateProduct = async (payload: any) => {
+    const { id, ...params } = payload;
+    const url = `http://localhost:8080/api/v1/products/${id}`;
+    const res = await axiosClient.put(url, params);
+    return res.data;
+  };
+
+  const updateMutationProduct = useMutation({
+    mutationFn: fetchUpdateProduct,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: ["products", page],
+      });
+      //Hiển thị một message thông báo là xóa thành công
+      messageApi.open({
+        type: "success",
+        content: "Cập nhật sản phẩm thành công",
+      });
+      //Đóng modal
+      setIsModalEditOpen(false);
+      //clear data từ form
+      formUpdate.resetFields();
+    },
+    onError: (error) => {
+      console.log(error);
+      messageApi.open({
+        type: "error",
+        content: "Cập nhật lỗi",
+      });
+    },
+  });
+
+  const handleOkEdit = () => {
+    //Submit oK Model
+    console.log("oK Model");
+    formUpdate.submit();
+  };
+
+  // Submit Form updatye
+  const onFinishEdit = async (values) => {
+    console.log("Success:", values);
+    //gọi API để cập nhật sản phẩm
+    updateMutationProduct.mutate(values);
+  };
+  const onFinishFailedEdit = async (errorInfo) => {
+    console.log("errorInfo:", errorInfo);
+  };
+
+  //=== SEARCH FORM ========== //
+  const [formSearch] = Form.useForm();
+  // Submit Form updatye
+  const onFinishSearch = async (values) => {
+    console.log("Success:", values);
+    //cập nhật lại url
+    if (values.category != "") {
+      navigate(`/products?category=${values.category}`);
+    } else {
+      navigate(`/products`);
+    }
+  };
+  const onFinishFailedSearch = async (errorInfo) => {
+    console.log("errorInfo:", errorInfo);
+  };
+
   const columns = [
     {
       title: "Name",
       dataIndex: "product_name",
       key: "product_name",
+    },
+    {
+      title: "Category",
+      dataIndex: "category",
+      key: "category",
+      render: (_, record) => {
+        return <span>{record.category.category_name}</span>;
+      },
     },
     {
       title: "Price",
@@ -77,7 +261,19 @@ const ProductPage = () => {
       render: (_, record) => {
         return (
           <Space>
-            <Button type="dashed">Edit</Button>
+            <Button
+              onClick={() => {
+                setIsModalEditOpen(true);
+                //Lấy thông tin của record (sản phẩm) đổ vào form
+                console.log("<<=== 🚀 record edit ===>>", record);
+                //Biến đổi lại thuộc tính category thành: key: value
+                const category = { ...record, category: record.category._id };
+                formUpdate.setFieldsValue(category);
+              }}
+              type="dashed"
+            >
+              Edit
+            </Button>
             <Popconfirm
               title="Delete the product"
               description="Are you sure to delete this product?"
@@ -101,11 +297,56 @@ const ProductPage = () => {
   return (
     <div>
       {contextHolder}
-      <h1>product List</h1>
+      <Flex justify="space-between" align="center">
+        <h1>product List</h1>
+        <Button onClick={showModalAdd} type="primary">
+          <PlusOutlined /> Thêm mới
+        </Button>
+      </Flex>
+
+      <div>
+        <Form
+          form={formSearch}
+          name="form-search"
+          onFinish={onFinishSearch}
+          onFinishFailed={onFinishFailedSearch}
+          autoComplete="on"
+          layout="vertical"
+        >
+          <Form.Item label="Category" name="category">
+            <Select
+              options={[
+                { value: "", label: "All Categories" },
+                ...(queryCategories.data
+                  ? queryCategories.data.map((c) => ({
+                      value: c._id,
+                      label: c.category_name,
+                    }))
+                  : []),
+              ]}
+            />
+          </Form.Item>
+
+          <Form.Item label="Brand" name="brandId">
+            <Select options={[{ value: "", label: "All Brand" }]} />
+          </Form.Item>
+
+          <Form.Item label="Keyword" name="keyword">
+            <Input />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Search
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
+
       <Table
         pagination={false}
         dataSource={getProduct?.data?.products_list || []}
         columns={columns}
+        loading={getProduct.isLoading}
       />
       <Pagination
         defaultCurrent={1}
@@ -116,6 +357,209 @@ const ProductPage = () => {
         }}
         total={getProduct?.data?.pagination.totalRecords || 0}
       />
+      {/* =================== MODEL THEM MOI ====================== */}
+      <Modal
+        title="Thêm mới sản phẩm"
+        open={isModalAddOpen}
+        onOk={handleOkAdd}
+        okText={"Thêm mới"}
+        onCancel={handleCancelAdd}
+        width={960}
+      >
+        <Form
+          form={formCreate}
+          name="form-create"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          style={{ maxWidth: 960 }}
+          initialValues={{ remember: true }}
+          onFinish={onFinishAdd}
+          onFinishFailed={onFinishFailedAdd}
+          autoComplete="off"
+        >
+          <Form.Item
+            label="Product Name"
+            name="product_name"
+            rules={[{ required: true, message: "Please input Product Name!" }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Category ID"
+            name="category"
+            rules={[{ required: true, message: "Please input Category Id" }]}
+          >
+            <Select
+              options={
+                queryCategories.data &&
+                queryCategories.data.map((c) => {
+                  return {
+                    value: c._id,
+                    label: c.category_name,
+                  };
+                })
+              }
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="brand ID"
+            name="brandId"
+            rules={[{ required: true, message: "Please input brand ID" }]}
+          >
+            <Select
+              options={
+                queryBrands.data &&
+                queryBrands.data.map((c) => {
+                  return {
+                    value: c._id,
+                    label: c.brand_name,
+                  };
+                })
+              }
+            />
+          </Form.Item>
+
+          <Form.Item label="Price" name="price">
+            <Input />
+          </Form.Item>
+
+          <Form.Item label="Discount" name="discount">
+            <Input />
+          </Form.Item>
+
+          <Form.Item label="Model year" name="model_year">
+            <Input />
+          </Form.Item>
+
+          <Form.Item label="Stock" name="stock">
+            <Input />
+          </Form.Item>
+
+          <Form.Item label="Description" name="description">
+            <Input.TextArea />
+          </Form.Item>
+
+          <Form.Item label="Thumbnail" name="thumbnail">
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            name="isBest"
+            valuePropName="checked"
+            wrapperCol={{ offset: 8, span: 16 }}
+          >
+            <Checkbox>Is Best</Checkbox>
+          </Form.Item>
+        </Form>
+      </Modal>
+      {/* =================== MODEL UPDATE ====================== */}
+      <Modal
+        title="Cập nhật sản phẩm"
+        open={isModalEditOpen}
+        onOk={handleOkEdit}
+        onCancel={() => {
+          setIsModalEditOpen(false);
+        }}
+        width={960}
+      >
+        <Form
+          form={formUpdate}
+          name="form-update"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          style={{ maxWidth: 960 }}
+          initialValues={{ remember: true }}
+          onFinish={onFinishEdit}
+          onFinishFailed={onFinishFailedEdit}
+          autoComplete="off"
+        >
+          <Form.Item
+            label="Product Id"
+            name="id"
+            hidden={true}
+            rules={[{ required: true, message: "Please input Product Id!" }]}
+          >
+            <Input type="hidden" />
+          </Form.Item>
+          <Form.Item
+            label="Product Name"
+            name="product_name"
+            rules={[{ required: true, message: "Please input Product Name!" }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Category ID"
+            name="category"
+            rules={[{ required: true, message: "Please input Category Id" }]}
+          >
+            <Select
+              options={
+                queryCategories.data &&
+                queryCategories.data.map((c) => {
+                  return {
+                    value: c._id,
+                    label: c.category_name,
+                  };
+                })
+              }
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="brand ID"
+            name="brandId"
+            rules={[{ required: true, message: "Please input brand ID" }]}
+          >
+            <Select
+              options={
+                queryBrands.data &&
+                queryBrands.data.map((c) => {
+                  return {
+                    value: c._id,
+                    label: c.brand_name,
+                  };
+                })
+              }
+            />
+          </Form.Item>
+
+          <Form.Item label="Price" name="price">
+            <Input />
+          </Form.Item>
+
+          <Form.Item label="Discount" name="discount">
+            <Input />
+          </Form.Item>
+
+          <Form.Item label="Model year" name="model_year">
+            <Input />
+          </Form.Item>
+
+          <Form.Item label="Stock" name="stock">
+            <Input />
+          </Form.Item>
+
+          <Form.Item label="Description" name="description">
+            <Input.TextArea />
+          </Form.Item>
+
+          <Form.Item label="Thumbnail" name="thumbnail">
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            name="isBest"
+            valuePropName="checked"
+            wrapperCol={{ offset: 8, span: 16 }}
+          >
+            <Checkbox>Is Best</Checkbox>
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };
