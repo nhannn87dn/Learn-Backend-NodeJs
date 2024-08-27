@@ -3,10 +3,13 @@ import Staff from '../models/staffs.model';
 import { Request, Response, NextFunction } from "express";
 import createError from 'http-errors';
 import { globalConfig } from '../constants/configs';
+import { ObjectId } from 'mongoose';
 
 interface decodedJWT extends JwtPayload {
-   _id?: string
+   _id: ObjectId;
+   email: string;
  }
+
 
  /**
   * Check token
@@ -40,7 +43,10 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
         return next(createError(401, 'Unauthorized'));
       }
       //Đăng ký biến staff global trong app
-      res.locals.staff = staff;
+      res.locals.staff = {
+        _id: staff._id,
+        email: staff.email
+      }
 
       next();
     } catch (err) {

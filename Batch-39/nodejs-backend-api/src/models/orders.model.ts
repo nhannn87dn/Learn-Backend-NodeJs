@@ -1,4 +1,6 @@
 import { Schema, model } from 'mongoose';
+import { orderStatus, paymentType } from '../constants/order.constant';
+import mongooseLeanVirtuals  from 'mongoose-lean-virtuals'
 
 const orderItemsSchema = new Schema({
   product: {
@@ -26,10 +28,12 @@ const ordersSchema = new Schema({
     ref: 'Customer',
     required: true,
   },
+  //Staff là người duyệt đơn, mặc định đơn mới chưa có người duyệt
   staff: {
     type: Schema.Types.ObjectId, //_id
     ref: 'Staff',
-    required: true,
+    required: false,
+    default: null, // mặc định null chưa có người duyệt
   },
   order_status: {
     type: Number,
@@ -112,6 +116,23 @@ const ordersSchema = new Schema({
   //collection: 'category', //Tên collection Cố định theo tên bạn đặt
 }
 );
+
+
+
+// Virtual for this genre instance fullName.
+ordersSchema.virtual('orderStatusTitle').get(function () {
+  return orderStatus[this.order_status]
+});
+
+ordersSchema.virtual('paymentTypeTitle').get(function () {
+  return paymentType[this.payment_type]
+});
+
+ordersSchema.plugin(mongooseLeanVirtuals);
+
+ordersSchema.set('toJSON', { virtuals: true });
+// Virtuals in console.log()
+ordersSchema.set('toObject', { virtuals: true });
 
 const Order = model('Order', ordersSchema);
 

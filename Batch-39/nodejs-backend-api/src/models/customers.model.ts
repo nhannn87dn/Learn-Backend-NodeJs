@@ -49,6 +49,12 @@ const customerSchema = new Schema({
     require: false,
     default: null
   },
+  /* Khóa tài khoản */
+  active: {
+    type: Boolean,
+    default: true,
+    require: false
+  },
   /* 
    Soft delete 
    Khi xóa sp thì đi update isDelete = true
@@ -61,7 +67,6 @@ const customerSchema = new Schema({
 },
 {
   timestamps: true, //Tạo tự động thêm 2 trường createAt, updateAt
-  //collection: 'category', //Tên collection Cố định theo tên bạn đặt
 });
 
 const Customer = model('Customer', customerSchema);

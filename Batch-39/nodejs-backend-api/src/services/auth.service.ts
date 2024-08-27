@@ -4,8 +4,9 @@ import bcrypt from "bcrypt";
 import { TStaff } from '../types/models';
 import jwt from 'jsonwebtoken'
 import { globalConfig } from '../constants/configs';
+import { ObjectId } from 'mongoose';
 
-const getProfile = async(id: string)=>{
+const getProfile = async(id: ObjectId)=>{
   const staff = await Staff.
   findOne({
     _id: id
@@ -79,7 +80,7 @@ const login = async(email: string, password: string)=>{
  * @param staff 
  * @returns 
  */
-const getTokens = async (staff: {_id: string, email: string})=>{
+const getTokens = async (staff: {_id: ObjectId, email: string})=>{
   const access_token = jwt.sign(
     {
       _id: staff._id,

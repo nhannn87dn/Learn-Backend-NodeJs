@@ -1,13 +1,14 @@
 import express, {Express, NextFunction, Request, Response} from 'express'
 import path from 'path';
 import createError from 'http-errors';
-import {sendJsonErrors} from './helpers/responseHandler'
 /* import các routes */
 import categoriesRoute from './routes/v1/categories.route'
 import brandsRoute from  './routes/v1/brand.route'
 import productRoute from './routes/v1/product.route'
 import staffRoute from './routes/v1/staff.route'
 import authRoute from './routes/v1/auth.route'
+import customerRouter from './routes/v1/customer.route'
+import orderRouter from './routes/v1/orders.route'
 //v2
 import categoriesRouteV2 from './routes/v2/categories.route'
 
@@ -52,6 +53,10 @@ app.use('/api/v1/brands', brandsRoute)
 app.use('/api/v1/products', productRoute)
 app.use('/api/v1/staffs', staffRoute)
 app.use('/api/v1/auth', authRoute)
+app.use('/api/v1/customers', customerRouter)
+app.use('/api/v1/orders', orderRouter)
+
+
 // HANDLER ERRORS
 //Phải nằm sau phần khai báo routes
 

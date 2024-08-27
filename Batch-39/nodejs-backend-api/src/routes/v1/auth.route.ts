@@ -9,7 +9,7 @@ const router = express.Router()
 //POST v1/auth/login
 router.post('/login', validateSchemaYup(authValidations.loginSchema), authController.login)
 
-router.get('/profile', authenticateToken, authController.profile)
+router.get('/profile', authenticateToken, authController.profile )
 
 router.post('/refresh-token', authenticateToken, authController.refreshToken)
 

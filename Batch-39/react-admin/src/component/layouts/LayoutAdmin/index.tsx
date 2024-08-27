@@ -28,6 +28,11 @@ const items = [
     key: "products", //route bên App.tsx
     icon: <HomeOutlined />,
   },
+  {
+    label: "Order",
+    key: "orders", //route bên App.tsx
+    icon: <HomeOutlined />,
+  },
 ];
 
 const LayoutAdmin = () => {
