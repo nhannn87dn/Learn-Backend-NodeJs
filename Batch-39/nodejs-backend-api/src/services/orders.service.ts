@@ -130,12 +130,12 @@ Logic tạo đơn hàng
 const createRecord = async (payload: IOrder)=>{
   console.log('<<=== 🚀 payload ===>>',payload);
 
-  const order = await Order.create(payload)
+  //const order = await Order.create(payload)
 
-  console.log('<<=== 🚀 create order ===>>',order);
+  //console.log('<<=== 🚀 create order ===>>',order);
 
   //Trả lại record vừa thêm mới
-  return order
+  return []
 }
 
 const updateById = async (id: string, payload: IOrder)=>{

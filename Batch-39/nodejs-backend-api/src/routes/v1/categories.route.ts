@@ -20,6 +20,7 @@ router.use(middlewareCategories)
 //GET localhost:8080/api/v1/categories
 router.get('', privateRoutegetAll, categoriesController.findAll)
 
+
 //2. Get One Category
 //GET localhost:8080/api/v1/categories/:id
 router.get('/:id', categoriesController.findById)

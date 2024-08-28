@@ -13,11 +13,35 @@ const findAll = async (req: Request, res: Response, next: NextFunction)=>{
   
 }
 
+const findAllByCategorySlug = async (req: Request, res: Response, next: NextFunction)=>{
+  try {
+    const {slug} = req.params;
+    const products = await productsService.findAllByCategorySlug(slug);
+    sendJsonSuccess(res)(products)
+  } catch (error) {
+    next(error)
+  }
+  
+}
+
 const findOne = async (req: Request, res: Response, next: NextFunction)=>{
   try {
     const {id} = req.params;
 
     const product = await productsService.findOne(id);
+    sendJsonSuccess(res)(product)
+  } catch (error) {
+    next(error)
+  }
+  
+}
+
+
+const findOneBySlug = async (req: Request, res: Response, next: NextFunction)=>{
+  try {
+    const {slug} = req.params;
+
+    const product = await productsService.findOneBySlug(slug);
     sendJsonSuccess(res)(product)
   } catch (error) {
     next(error)
@@ -66,6 +90,8 @@ export default {
   findOne,
   createDocument,
   updateById,
-  deleteById
+  deleteById,
+  findAllByCategorySlug,
+  findOneBySlug
 }
 

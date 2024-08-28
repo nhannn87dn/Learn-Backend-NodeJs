@@ -66,13 +66,54 @@ const findAll = async (query: any)=>{
   }
 }
 
+
+// Lấy tất cả record
+const findAllByCategorySlug = async (slug: string)=>{
+ 
+ const productsAll = await Product
+ .find()
+ .populate({
+    path: 'category',
+    match: {
+      slug: slug
+    }
+ })
+
+ console.log('<<=== 🚀 productsAll ===>>',productsAll);
+   // Lọc ra các products mà có category không null (có kết quả phù hợp)
+  const products = productsAll.filter(p => p.category);
+
+ return products
+}
+
 /***
- * get Single Product
+ * get Single Product by ID
  */
 
 const findOne =  async(id: string)=>{
   const product = await Product
   .findById(id, '-__v -id') // có thể liệt kê select vào tham số thứ 2 của hàm
+  .populate('category', 'category_name')
+  .populate('brand', 'brand_name')
+
+  //Check sự tồn tại
+  if(!product){
+    throw createError(400, 'Product not found')
+  }
+
+  return product
+}
+
+
+/***
+ * get Single Product by Slug
+ */
+
+const findOneBySlug =  async(slug: string)=>{
+  const product = await Product
+  .findOne({
+    slug: slug
+  }) 
   .populate('category', 'category_name')
   .populate('brand', 'brand_name')
 
@@ -137,5 +178,7 @@ export default {
   findOne,
   createDocument,
   updateById,
-  deleteById
+  deleteById,
+  findAllByCategorySlug,
+  findOneBySlug
 }

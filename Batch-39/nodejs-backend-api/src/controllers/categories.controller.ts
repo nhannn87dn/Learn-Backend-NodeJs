@@ -21,6 +21,7 @@ const findAll = async (req: Request, res: Response, next: NextFunction)=>{
 
 }
 
+
 const findById = async (req: Request, res: Response, next: NextFunction)=>{
   try {
     console.log('findById', req.params);

@@ -5,6 +5,14 @@ import { authenticateToken } from '../../middlewares/auth.middleware';
 
 const router = express.Router();
 
+//========== API PUBLIC ======//
+
+router.get('/slug/:slug',productsController.findAllByCategorySlug)
+//get Product Info by Slug
+router.get('/details/:slug',productsController.findOneBySlug)
+
+
+
 
 //========= CHECK TOKEN BEGIN HERE =================================
 router.use(authenticateToken)
