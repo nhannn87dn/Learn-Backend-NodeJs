@@ -108,70 +108,70 @@ const runDB = async ()=>{
     
 //   }
   
-const customers = await Customer.find();
-const staffs = await Staff.find();
-const products = await Product.find();
+
   // Tạo 10 khách hàng ngẫu nhiên
-  // for (let i = 1; i <= 10; i++) {
+  for (let i = 1; i <= 10; i++) {
 
-  //   const rPhone = faker.helpers.fromRegExp(/0[3|5|7|8|9][0-9]{8}/i);
-  //   const fakeCustomer = {
-  //     first_name: faker.person.firstName(),
-  //     last_name: faker.person.lastName(),
-  //     email: faker.internet.email(),
-  //     phone: rPhone,
-  //     street: faker.location.streetAddress(false),
-  //     state: faker.location.state(),
-  //     city: faker.location.city(),
+    const rPhone = faker.helpers.fromRegExp(/0[3|5|7|8|9][0-9]{8}/i);
+    const fakeCustomer = {
+      first_name: faker.person.firstName(),
+      last_name: faker.person.lastName(),
+      email: faker.internet.email(),
+      phone: rPhone,
+      street: faker.location.streetAddress(false),
+      state: faker.location.state(),
+      city: faker.location.city(),
+    }
+    const customer = new Customer(fakeCustomer);
+    await customer.save();
+    console.log(`Create Customer ${i} successfully !`);
+  } 
+  // const customers = await Customer.find();
+  // const staffs = await Staff.find();
+  // const products = await Product.find();
+
+  // //Tạo 50 đơn hàng ngẩu nhiên
+  // for (let i = 1; i <= 50; i++) {
+
+  //   const customer = customers[Math.floor(Math.random() * customers.length)];
+  //   const staff = staffs[Math.floor(Math.random() * staffs.length)];
+
+  //   const randomDate = faker.date.between({ from: '2023-01-01T00:00:00.000Z', to: '2024-02-01T00:00:00.000Z' });
+
+  //   //Tạo danh sách sản phẩm cho đơn hàng
+  //   const orderItems = [];
+  //   for (let j = 1; j <= 3; j++) {
+
+  //     const product_random = products[Math.floor(Math.random() * products.length)];
+
+  //     const product = {
+  //       product: product_random._id,
+  //       quantity: faker.number.int({ min: 1, max: 5 }),
+  //       price: product_random.price,
+  //       discount: product_random.discount,
+  //     };
+
+  //     orderItems.push(product);
   //   }
-  //   const customer = new Customer(fakeCustomer);
-  //   await customer.save();
-  //   console.log(`Create Customer ${i} successfully !`);
-  // } 
-
-
-  //Tạo 50 đơn hàng ngẩu nhiên
-  for (let i = 1; i <= 50; i++) {
-
-    const customer = customers[Math.floor(Math.random() * customers.length)];
-    const staff = staffs[Math.floor(Math.random() * staffs.length)];
-
-    const randomDate = faker.date.between({ from: '2023-01-01T00:00:00.000Z', to: '2024-02-01T00:00:00.000Z' });
-
-    //Tạo danh sách sản phẩm cho đơn hàng
-    const orderItems = [];
-    for (let j = 1; j <= 3; j++) {
-
-      const product_random = products[Math.floor(Math.random() * products.length)];
-
-      const product = {
-        product: product_random._id,
-        quantity: faker.number.int({ min: 1, max: 5 }),
-        price: product_random.price,
-        discount: product_random.discount,
-      };
-
-      orderItems.push(product);
-    }
     
     
-    const fakeOrder = {
-      order_date: randomDate,
-      order_status: faker.number.int({ min: 1, max: 4 }),
-      street: customer.street,
-      city: customer.city,
-      state: customer.state,
-      payment_type: faker.number.int({ min: 1, max: 4 }),
-      customer: customer._id,
-      staff: staff._id,
-      order_items: orderItems,
-    }
-    const order = new Order(fakeOrder);
-    order.createdAt = randomDate;
-    await order.save();
-    console.log(`Create Order ${i} successfully !`);
+  //   const fakeOrder = {
+  //     order_date: randomDate,
+  //     order_status: faker.number.int({ min: 1, max: 4 }),
+  //     street: customer.street,
+  //     city: customer.city,
+  //     state: customer.state,
+  //     payment_type: faker.number.int({ min: 1, max: 4 }),
+  //     customer: customer._id,
+  //     staff: staff._id,
+  //     order_items: orderItems,
+  //   }
+  //   const order = new Order(fakeOrder);
+  //   order.createdAt = randomDate;
+  //   await order.save();
+  //   console.log(`Create Order ${i} successfully !`);
     
-  }
+  // }
 
 }//end RunDB
 
