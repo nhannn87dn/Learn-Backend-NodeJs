@@ -1,7 +1,16 @@
 import express from 'express'
 import customersController from '../../controllers/customers.controller';
-
+import { checkCustomerToken } from '../../middlewares/customer.middleware';
 const router = express.Router();
+
+
+
+//POST v1/auth/login
+router.post('/login',  customersController.login)
+
+router.get('/profile', checkCustomerToken,  customersController.profile )
+
+router.post('/refresh-token',  customersController.refreshToken)
 
 
 /**
@@ -44,7 +53,6 @@ router.put('/:id',customersController.updateById)
  */
 
 router.delete('/:id', customersController.deleteById)
-
 
 
 export default router

@@ -1,10 +1,28 @@
 
 # Create a category
-POST http://localhost:8080/api/v1/order
+POST http://localhost:8080/api/v1/orders
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4NDdiMTE4OTk3NTE4MzA5NjE5MTMiLCJlbWFpbCI6ImpvaG5AZXhhbXBsZS5jb20iLCJpYXQiOjE3MjU0NTE3MzMsImV4cCI6MTcyNjA1NjUzM30.Qklf-Y_u0RP3DZ-TpAdBhG5KY9TXs-l9NzRDhgUWbLY
 
 {
-  "cusomer": {
-    ""
-  }
+    "customer": {
+      "first_name": "John",
+      "last_name": "Henry",
+      "phone": "1234567898",
+      "email": "john@example.com",
+      "street": "1600 yen bai",
+      "city": "hai chau",
+      "state": "da nang"
+    },
+    "payment_type": 1,
+    "order_note": "goi truoc khi giao",
+    "order_items": [
+        {
+            "_id": "66acd7a86977747d54d18456",
+            "product_name": "Elegant Frozen Shirt1",
+            "price": 883,
+            "discount": 0
+        }
+    ]
 }
+

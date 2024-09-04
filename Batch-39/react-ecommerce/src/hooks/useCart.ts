@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
+const localName = 'cart-store'
+
 type TProduct = {
     _id: string,
     product_name: string;
@@ -19,6 +21,7 @@ interface TCart {
     getTotalNumber: () => number;
     totalAmount: number;
     calculateTotalAmount: () => void;
+    clearCart: () => void;
 }
 
 export const useCart = create(
@@ -56,6 +59,15 @@ export const useCart = create(
         get().calculateTotalAmount(); // Cập nhật totalAmount sau khi thêm vào giỏ hàng
       },
 
+      //Xóa toàn bộ giỏ hàng
+      clearCart: ()=>{
+        set({
+          products: [],
+        });
+        //clear local Storage
+        localStorage.removeItem(localName)
+      },
+
       removeFromCart: (id: string) => {
         set({
           products: get().products.filter((product) => product._id !== id),
@@ -89,7 +101,7 @@ export const useCart = create(
       },
     }),
     {
-      name: 'cart-store',
+      name: localName,
       storage: createJSONStorage(() => localStorage),
     }
   )

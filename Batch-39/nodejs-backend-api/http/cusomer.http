@@ -1,0 +1,13 @@
+POST http://localhost:8080/api/v1/customers/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "123456"
+}
+
+### get Profile customer
+
+GET http://localhost:8080/api/v1/customers/profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4NDdiMTE4OTk3NTE4MzA5NjE5MTMiLCJlbWFpbCI6ImpvaG5AZXhhbXBsZS5jb20iLCJpYXQiOjE3MjU0NTE3MzMsImV4cCI6MTcyNjA1NjUzM30.Qklf-Y_u0RP3DZ-TpAdBhG5KY9TXs-l9NzRDhgUWbLY

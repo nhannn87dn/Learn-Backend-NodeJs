@@ -2,6 +2,7 @@ import createError from 'http-errors';
 // Kết nối trực tiếp với Database
 import Order from '../models/orders.model';
 import { IOrder } from '../types/models';
+import Customer from '../models/customers.model';
 
 // Lấy tất cả record
 const findAll = async (query: any)=>{
@@ -127,15 +128,49 @@ Logic tạo đơn hàng
 4. Mặc định để thông tin staff là null, vì chưa có ai duyệt đơn
 */
 
-const createRecord = async (payload: IOrder)=>{
-  console.log('<<=== 🚀 payload ===>>',payload);
+const createRecord = async (payload: any, customerLogined: any)=>{
+  console.log('<<=== 🚀 payload order ===>>',payload);
+  //TH 2. Khách đã login
+  if(customerLogined && customerLogined._id){
+    const payload_order = {
+      customer: customerLogined._id,
+      payment_type: payload.payment_type,
+      street: payload.customer.street,
+      city: payload.customer.city,
+      state: payload.customer.state,
+      order_note: payload.order_note,
+      order_items: payload.order_items
+     
+    }
+    const order = await Order.create(payload_order)
+    return order;
+  }
 
-  //const order = await Order.create(payload)
 
-  //console.log('<<=== 🚀 create order ===>>',order);
 
-  //Trả lại record vừa thêm mới
-  return []
+  //TH 1. Khách hàng chưa tồn tại tại trong hệ thống
+ 
+  if(!payload.customer){
+      throw createError(400, 'Thông tin khách hàng không hợp lệ')
+    }
+  //Đi tạo tạo khách hàng mới
+  const customer = await Customer.create(payload.customer)
+  //Sau đó tạo đơn
+  const payload_order = {
+    customer: customer._id,
+    payment_type: payload.payment_type,
+    street: customer.street,
+    city: customer.city,
+    state: customer.state,
+    order_note: payload.order_note,
+    order_items: payload.order_items
+  }
+  const order = await Order.create(payload_order)
+
+  
+  return order
+ 
+ 
 }
 
 const updateById = async (id: string, payload: IOrder)=>{

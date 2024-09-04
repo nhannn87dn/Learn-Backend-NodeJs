@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { SETTINGS } from "../constants/settings";
 import axios from "axios";
+import { useState } from "react";
 
 const schema = yup
   .object({
@@ -15,6 +16,7 @@ const schema = yup
     city: yup.string().required(),
     state: yup.string().required(),
     zip_code: yup.string().optional(),
+    note: yup.string().optional(),
     payment_type: yup.number().required().positive().min(1).max(4),
   })
   .required();
@@ -23,12 +25,22 @@ const schema = yup
 type FormData = yup.InferType<typeof schema>;
 
 const CartPage = () => {
-  const { products, increase, decrement, removeFromCart, totalAmount } =
-    useCart();
+  const {
+    products,
+    increase,
+    decrement,
+    removeFromCart,
+    totalAmount,
+    clearCart,
+  } = useCart();
+
+  const [isDone, setIsDone] = useState(false);
+  const [order, setOrder] = useState(null);
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -47,9 +59,10 @@ const CartPage = () => {
         state: data.state,
         zip_code: data.zip_code,
       },
+      note: data.note,
       payment_type: data.payment_type,
       //Danh sách sản phẩm
-      products,
+      order_items: products,
     };
     //Gửi payload lên để tạo đơn
     try {
@@ -57,14 +70,34 @@ const CartPage = () => {
         `${SETTINGS.URL_API}/v1/orders`,
         payload
       );
-      console.log("<<=== 🚀 response ===>>", response);
+      console.log("<<=== 🚀 response ===>>", response.data);
+      if (response?.data && response.data.statusCode === 201) {
+        //1. Clear form
+        reset();
+        //2. clear state cart
+        clearCart();
+        //3. Show Popup đặt hàng thành công
+        setIsDone(true);
+        setOrder(response.data.data);
+      } else {
+        //xu ly viecj khac
+      }
     } catch (error) {
       console.log("<<=== 🚀 error ===>>", error);
     }
   };
 
   //Nếu mà product là []
-  if (products.length === 0) return <div>Giỏ hàng trống</div>;
+  if (products.length === 0 && order === null) return <div>Giỏ hàng trống</div>;
+
+  if (products.length === 0 && isDone && order !== null)
+    return (
+      <div>
+        <h1>Đặt hàng thành công !</h1>
+        <p>Ma Don hang:{order.id}</p>
+      </div>
+    );
+
   //Nếu khác []
   return (
     <div>
@@ -179,6 +212,10 @@ const CartPage = () => {
               Cash
             </label>
             <p>{errors.payment_type?.message}</p>
+          </div>
+          <div className="input_item">
+            <input placeholder="Order Note" {...register("note")} />
+            <p>{errors.note?.message}</p>
           </div>
         </div>
         <div className="actions">

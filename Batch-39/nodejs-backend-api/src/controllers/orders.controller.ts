@@ -39,14 +39,11 @@ const findById = async (req: Request, res: Response, next: NextFunction)=>{
 const createRecord = async (req: Request, res: Response, next: NextFunction)=>{
  try {
   console.log('<<=== 🚀 req.body ===>>',req.body);
+  console.log('<<=== 🚀 res.locals.customer ===>>',res.locals.customer);
   
-  const order =  await ordersService.createRecord(req.body)
+  const order =  await ordersService.createRecord(req.body, res.locals.customer)
   
-  console.log('<<=== 🚀 order controller ===>>',order);
-
-  res.status(201).json({
-    data: order
-  })
+  sendJsonSuccess(res, "success", 201)(order)
  } catch (error) {
   next(error)
  }

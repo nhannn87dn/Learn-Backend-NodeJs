@@ -1,5 +1,6 @@
 import express from 'express'
 import ordersController from '../../controllers/orders.controller'
+import { checkOrderToken } from '../../middlewares/order.middleware'
 const router = express.Router()
 
 //1. Get All Brands
@@ -12,8 +13,9 @@ router.get('/:id', ordersController.findById)
 
 
 //3. Create a new category
+// Có thể truyền hoặc ko truyền token
 //POST localhost:8080/api/v1/orders
-router.post('', ordersController.createRecord)
+router.post('',  checkOrderToken, ordersController.createRecord)
 
 //4. Update a category
 //PUT localhost:8080/api/v1/orders/:id
