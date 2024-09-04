@@ -18,11 +18,42 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4NDdiM
     "order_note": "goi truoc khi giao",
     "order_items": [
         {
-            "_id": "66acd7a86977747d54d18456",
-            "product_name": "Elegant Frozen Shirt1",
+            "product": "66acd7a86977747d54d18456",
             "price": 883,
-            "discount": 0
+            "discount": 0,
+            "quantity": 1
         }
     ]
 }
+
+
+###
+
+
+# Create a category
+POST http://localhost:8080/api/v1/orders
+Content-Type: application/json
+
+{
+    "customer": {
+      "first_name": "John",
+      "last_name": "Henry",
+      "phone": "1234567896",
+      "email": "john2@example.com",
+      "street": "1600 yen bai",
+      "city": "hai chau",
+      "state": "da nang"
+    },
+    "payment_type": 1,
+    "order_note": "goi truoc khi giao",
+    "order_items": [
+        {
+            "product": "66acd7a86977747d54d18456",
+            "price": 883,
+            "discount": 0,
+            "quantity": 1
+        }
+    ]
+}
+
 

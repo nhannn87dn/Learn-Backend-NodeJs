@@ -45,7 +45,7 @@ const ProductsPage = () => {
                     onClick={() => {
                       console.log("Thêm vào giỏ hàng");
                       addToCart({
-                        _id: data._id,
+                        product: data._id,
                         product_name: data.product_name,
                         price: data.price,
                         discount: data.discount,

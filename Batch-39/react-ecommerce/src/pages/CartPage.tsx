@@ -64,6 +64,10 @@ const CartPage = () => {
       //Danh sách sản phẩm
       order_items: products,
     };
+
+    console.log(payload);
+
+    //return false;
     //Gửi payload lên để tạo đơn
     try {
       const response = await axios.post(
@@ -105,7 +109,7 @@ const CartPage = () => {
       <ul className="flex flex-col gap-y-4">
         {products.map((p) => {
           return (
-            <li className="item flex gap-x-4" key={p._id}>
+            <li className="item flex gap-x-4" key={p.product}>
               <div className="thumb w-[60px]">
                 <img
                   className="w-full h-auto"
@@ -119,8 +123,8 @@ const CartPage = () => {
               <span>
                 <button
                   onClick={() => {
-                    console.log(p._id);
-                    decrement(p._id);
+                    console.log(p.product);
+                    decrement(p.product);
                   }}
                 >
                   -
@@ -128,8 +132,8 @@ const CartPage = () => {
                 <input className="w-[40px]" type="text" value={p.quantity} />
                 <button
                   onClick={() => {
-                    console.log(p._id);
-                    increase(p._id);
+                    console.log(p.product);
+                    increase(p.product);
                   }}
                 >
                   +
@@ -138,7 +142,7 @@ const CartPage = () => {
               <span>
                 <button
                   onClick={() => {
-                    removeFromCart(p._id);
+                    removeFromCart(p.product);
                   }}
                   className="btn_delete"
                 >

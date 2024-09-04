@@ -4,7 +4,7 @@ import { persist, createJSONStorage } from "zustand/middleware";
 const localName = 'cart-store'
 
 type TProduct = {
-    _id: string,
+    product: string,
     product_name: string;
     price: number;
     thumbnail: string;
@@ -42,12 +42,12 @@ export const useCart = create(
 
       addToCart: (item: TProduct) => {
         const products = get().products;
-        const existingProduct = products.find((product) => product._id === item._id);
+        const existingProduct = products.find((product) => product.product === item.product);
 
         if (existingProduct) {
           set({
             products: products.map((product) =>
-              product._id === item._id
+              product.product === item.product
                 ? { ...product, quantity: product.quantity + 1 }
                 : product
             ),
@@ -70,7 +70,7 @@ export const useCart = create(
 
       removeFromCart: (id: string) => {
         set({
-          products: get().products.filter((product) => product._id !== id),
+          products: get().products.filter((product) => product.product !== id),
         });
 
         get().calculateTotalAmount(); // Cập nhật totalAmount sau khi xóa khỏi giỏ hàng
@@ -79,7 +79,7 @@ export const useCart = create(
       increase: (id: string) => {
         set({
           products: get().products.map((product) =>
-            product._id === id
+            product.product === id
               ? { ...product, quantity: product.quantity + 1 }
               : product
           ),
@@ -91,7 +91,7 @@ export const useCart = create(
       decrement: (id: string) => {
         set({
           products: get().products.map((product) =>
-            product._id === id && product.quantity > 1
+            product.product === id && product.quantity > 1
               ? { ...product, quantity: product.quantity - 1 }
               : product
           ),
