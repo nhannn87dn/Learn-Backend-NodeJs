@@ -12,14 +12,21 @@ import {
   Input,
   Select,
   Checkbox,
+  Upload,
 } from "antd";
 import { axiosClient } from "../lib/axiosClient";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import type { PopconfirmProps } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import type { PopconfirmProps, UploadProps  } from "antd";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
+import type { GetProp, UploadFile, UploadProps } from 'antd';
+import { useState } from 'react';
+type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
 const ProductPage = () => {
+
+  const [file, setFile] = useState<UploadFile | null>(null);
+  console.log('<<=== 🚀 file ===>>',file);
+
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -159,8 +166,20 @@ const ProductPage = () => {
   // Submit Form Create
   const onFinishAdd = async (values) => {
     console.log("Success:", values);
+    const formData = new FormData();
+
+    // Thêm các giá trị từ form vào formData
+    Object.keys(values).forEach(key => {
+      formData.append(key, values[key]);
+    });
+
+    // Thêm file vào formData
+    if (file) {
+      formData.append('file', file);
+    }
+
     //gọi API để tạo mới sản phẩm
-    createMutationProduct.mutate(values);
+    createMutationProduct.mutate(formData);
   };
   const onFinishFailedAdd = async (errorInfo) => {
     console.log("errorInfo:", errorInfo);
@@ -293,6 +312,17 @@ const ProductPage = () => {
       },
     },
   ];
+
+  //----------UPLOAD--------------//
+  const props: UploadProps = {
+    action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
+    onChange({ file, fileList }) {
+      if (file.status !== 'uploading') {
+        console.log(file, fileList);
+      }
+    },
+    
+  };
 
   return (
     <div>
@@ -445,6 +475,27 @@ const ProductPage = () => {
             <Input />
           </Form.Item>
 
+          <Form.Item label="Upload" name="upload">
+          <Upload
+              onRemove = {
+                () => {
+                  setFile(null);
+                }
+              }
+              beforeUpload= {
+                (file) => {
+                  setFile(file);
+                  return false;
+                }
+              }
+             
+            >
+              <Button icon={<UploadOutlined />}>Select File</Button>
+            </Upload>
+          </Form.Item>
+
+          
+
           <Form.Item
             name="isBest"
             valuePropName="checked"
@@ -551,6 +602,28 @@ const ProductPage = () => {
             <Input />
           </Form.Item>
 
+          
+        <Form.Item label="Upload" name="upload">
+        <Upload 
+            action= {`http://localhost:8080/api/v1/upload/single-handle`} 
+            listType="picture"
+            onChange={(file)=>{
+              console.log(file,file.file.status);
+              /** Upload thành công thì cập nhật lại giá trị input thumbnail */
+              if(file.file.status === 'done'){
+                formUpdate.setFieldValue('thumbnail',file.file.response.data.link)
+              }
+            }}
+            onRemove={(file)=>{
+              console.log(file);
+              /** Khi xóa hình thì clear giá trị khỏi input */
+              formUpdate.setFieldValue('thumbnail',null);
+              /** Đồng thời gọi API xóa link hình trên server, dựa vào đường dẫn */
+            }}
+            >
+              <Button icon={<UploadOutlined />}>Upload</Button>
+            </Upload>
+          </Form.Item>
           <Form.Item
             name="isBest"
             valuePropName="checked"

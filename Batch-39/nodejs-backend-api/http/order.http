@@ -8,8 +8,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQ4NDdiM
     "customer": {
       "first_name": "John",
       "last_name": "Henry",
-      "phone": "1234567898",
-      "email": "john@example.com",
+      "phone": "1234567895",
+      "email": "nhannn87dn@gmail.com",
       "street": "1600 yen bai",
       "city": "hai chau",
       "state": "da nang"
@@ -39,7 +39,7 @@ Content-Type: application/json
       "first_name": "John",
       "last_name": "Henry",
       "phone": "1234567896",
-      "email": "john2@example.com",
+      "email": "nhannn87dn@gmail.com",
       "street": "1600 yen bai",
       "city": "hai chau",
       "state": "da nang"

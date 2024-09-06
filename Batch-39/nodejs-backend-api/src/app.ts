@@ -9,6 +9,8 @@ import staffRoute from './routes/v1/staff.route'
 import authRoute from './routes/v1/auth.route'
 import customerRouter from './routes/v1/customer.route'
 import orderRouter from './routes/v1/orders.route'
+import uploadRouter from './routes/v1/upload.route'
+import emailRouter from './routes/v1/email.route'
 //v2
 import categoriesRouteV2 from './routes/v2/categories.route'
 
@@ -55,8 +57,8 @@ app.use('/api/v1/staffs', staffRoute)
 app.use('/api/v1/auth', authRoute)
 app.use('/api/v1/customers', customerRouter)
 app.use('/api/v1/orders', orderRouter)
-
-
+app.use('/api/v1/upload', uploadRouter)
+app.use('/api/v1/email', emailRouter)
 // HANDLER ERRORS
 //Phải nằm sau phần khai báo routes
 

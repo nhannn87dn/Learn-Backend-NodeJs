@@ -3,6 +3,19 @@ import createError from 'http-errors';
 import Order from '../models/orders.model';
 import { IOrder } from '../types/models';
 import Customer from '../models/customers.model';
+import nodemailer from 'nodemailer';
+
+// Tạo transporter
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false, // true for 465, false for other ports
+  auth: {
+      user: 'ecshopvietnamese@gmail.com',
+      pass: 'bhvksgtrvzrsukqk' //mật khẩu ứng dụng
+  }
+} as nodemailer.TransportOptions);
+
 
 // Lấy tất cả record
 const findAll = async (query: any)=>{
@@ -143,6 +156,27 @@ const createRecord = async (payload: any, customerLogined: any)=>{
      
     }
     const order = await Order.create(payload_order)
+
+    if(order){
+      console.log('Tao don thanh cong', payload.customer.email);
+      // Tạo nội dung email
+      const mailOptions = {
+        from: 'ecshopvietnamese@gmail.com',
+        to: payload.customer.email, //email khach hang
+        subject: 'Xac nhan dat hang 2',
+        text: 'Hello world! 2'
+      };
+
+      // Gửi email
+      transporter.sendMail(mailOptions, (error: Error | null, info: nodemailer.SentMessageInfo) => {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+      });
+    }
+
     return order;
   }
 
@@ -167,6 +201,25 @@ const createRecord = async (payload: any, customerLogined: any)=>{
   }
   const order = await Order.create(payload_order)
 
+  if(order){
+    console.log('Tao don thanh cong', payload.customer.email);
+    // Tạo nội dung email
+    const mailOptions = {
+      from: 'ecshopvietnamese@gmail.com',
+      to: payload.customer.email, //email khach hang
+      subject: 'Xac nhan dat hang 2',
+      text: 'Hello world! 2'
+    };
+
+    // Gửi email
+    transporter.sendMail(mailOptions, (error: Error | null, info: nodemailer.SentMessageInfo) => {
+      if (error) {
+          console.log(error);
+      } else {
+          console.log('Email sent: ' + info.response);
+      }
+    });
+  }
   
   return order
  
