@@ -17,7 +17,7 @@ const findAll = async ()=>{
      * SELECT * FROM brands
      */
   const brands = await Brand.find();
-  console.log('<<=== 🚀 brands ===>>',brands);
+  //console.log('<<=== 🚀 brands ===>>',brands);
   return brands
 }
 

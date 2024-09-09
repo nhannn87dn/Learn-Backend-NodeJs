@@ -14,7 +14,7 @@ const CategoryPage = () => {
     return res.data.data;
   };
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["products", slug],
     queryFn: fetchProductsBySlug,
   });
@@ -29,7 +29,7 @@ const CategoryPage = () => {
         <div className="product_wrapper flex gap-3 flex-wrap">
           {data &&
             data.length > 0 &&
-            data.map((p) => {
+            data.map((p:any) => {
               return (
                 <div className="border border-slate-300 w-[285px]" key={p._id}>
                   <Link to={`/products/${p.slug}`}>

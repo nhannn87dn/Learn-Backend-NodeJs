@@ -87,19 +87,17 @@ export type TActionOrder = {
 export interface IOrder {
   customer?: ObjectId;
   staff?: ObjectId;
-  orderDate: Date,
-  requiredDate?: Date,
-  shippedDate?: Date,
-  paidDate?: Date,
-  orderStatus: EnumOrderStatus,
-  shippingAddress: string,
-  shippingYard: string,
-  shippingDistrict: string,
-  shippingProvince: string,
-  paymentType: EnumPayments,
-  orderNote?: string,
-  orderItems: TOrderItems[],
-  actions?: TActionOrder[],
+  order_date: Date,
+  require_date?: Date,
+  shipping_date?: Date,
+  order_status: number,
+  street: string,
+  city: string,
+  state: string,
+  zip_code?: string,
+  payment_type: number,
+  order_note?: string,
+  order_itemts: TOrderItems[],
   createdAt?: Date,
 }
 

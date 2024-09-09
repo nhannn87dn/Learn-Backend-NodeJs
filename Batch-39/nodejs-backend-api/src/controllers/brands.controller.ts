@@ -8,7 +8,7 @@ const findAll = async (req: Request, res: Response, next: NextFunction)=>{
   try {
     // Lấy data từ lớp service
     const brands = await brandsService.findAll();
-    console.log('<<=== 🚀findAll brands  ===>>',brands);
+    //console.log('<<=== 🚀findAll brands  ===>>',brands);
     //Trả lại cho client
     // res.status(200).json({
     //   data: brands

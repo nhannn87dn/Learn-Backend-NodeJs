@@ -25,8 +25,6 @@ app.use(cors())
 function myMiddleware(req: Request, res:Response, next: NextFunction){
   // bắt đầu từ đây là logic xử lý request (đầu vào)
   console.log('Middleware 1');
-
-  console.log('req.user.name',req.user.name);
   //Kết thúc
   next(); //Chuyển tiếp sang middleware khác nếu có
 }

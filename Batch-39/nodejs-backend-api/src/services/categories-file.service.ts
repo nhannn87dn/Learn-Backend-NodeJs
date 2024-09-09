@@ -53,7 +53,7 @@ const updateById = (id: number, payload: TCategory)=>{
    //Đọc data cũ
    const categories = findAll();
     //b1.Kiểm tra sự tồn tại của danh mục có id này
-    const category = categories.find(c => c.id === parseInt(id))
+    const category = categories.find(c => c.id === id)
     console.log('<<=== 🚀 category ===>>',category);
 
     /* Bắt lỗi khi ko tìm thấy thông tin */

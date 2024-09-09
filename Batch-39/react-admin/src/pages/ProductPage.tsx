@@ -16,16 +16,16 @@ import {
 } from "antd";
 import { axiosClient } from "../lib/axiosClient";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import type { PopconfirmProps, UploadProps  } from "antd";
 import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
-import type { GetProp, UploadFile, UploadProps } from 'antd';
 import { useState } from 'react';
+import type {PopconfirmProps, GetProp, UploadFile, UploadProps } from 'antd';
+
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
 const ProductPage = () => {
 
-  const [file, setFile] = useState<UploadFile | null>(null);
-  console.log('<<=== 🚀 file ===>>',file);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [uploading, setUploading] = useState(false);
 
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
@@ -124,6 +124,7 @@ const ProductPage = () => {
     return res.data;
   };
 
+
   const createMutationProduct = useMutation({
     mutationFn: fetchCreateProduct,
     onSuccess: () => {
@@ -165,24 +166,61 @@ const ProductPage = () => {
   };
   // Submit Form Create
   const onFinishAdd = async (values) => {
-    console.log("Success:", values);
-    const formData = new FormData();
 
-    // Thêm các giá trị từ form vào formData
-    Object.keys(values).forEach(key => {
-      formData.append(key, values[key]);
-    });
-
-    // Thêm file vào formData
-    if (file) {
-      formData.append('file', file);
+    if (fileList.length === 0) {
+      message.error('Vui lòng chọn file trước khi tải lên.');
+      return;
     }
 
+    const formData = new FormData();
+    // Lặp qua tất cả các trường trong values và thêm chúng vào formData
+    Object.entries(values).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    fileList.forEach((file) => {
+      formData.append('file', file as FileType);
+    });
+
+    console.log(formData)
     //gọi API để tạo mới sản phẩm
     createMutationProduct.mutate(formData);
+
+  //   try {
+  //     const response = await fetch('http://localhost:8080/api/v1/products', {
+  //         method: 'POST',
+  //         body: formData,
+  //     });
+      
+  //     if (response.ok) {
+  //         message.success('Tạo sản phẩm thành công.');
+  //     } else {
+  //     message.error('Đã có lỗi xảy ra.');
+  //   }
+  // } catch (error) {
+  //   message.error('Tạo sản phẩm thất bại.');
+  // } finally {
+  //   setUploading(false);
+  // }
+    
+    
   };
   const onFinishFailedAdd = async (errorInfo) => {
     console.log("errorInfo:", errorInfo);
+  };
+
+  const uploadProps: UploadProps = {
+    onRemove: (file) => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList(newFileList);
+    },
+    beforeUpload: (file) => {
+      setFileList([file]);  // Chỉ chọn một file, nếu cần nhiều file thì sử dụng `setFileList([...fileList, file])`
+      return false;  // Tắt upload tự động
+    },
+    fileList,
   };
 
   //=========== UPDATE ===============//
@@ -313,17 +351,7 @@ const ProductPage = () => {
     },
   ];
 
-  //----------UPLOAD--------------//
-  const props: UploadProps = {
-    action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
-    onChange({ file, fileList }) {
-      if (file.status !== 'uploading') {
-        console.log(file, fileList);
-      }
-    },
-    
-  };
-
+ 
   return (
     <div>
       {contextHolder}
@@ -471,25 +499,10 @@ const ProductPage = () => {
             <Input.TextArea />
           </Form.Item>
 
-          <Form.Item label="Thumbnail" name="thumbnail">
-            <Input />
-          </Form.Item>
+          
 
-          <Form.Item label="Upload" name="upload">
-          <Upload
-              onRemove = {
-                () => {
-                  setFile(null);
-                }
-              }
-              beforeUpload= {
-                (file) => {
-                  setFile(file);
-                  return false;
-                }
-              }
-             
-            >
+          <Form.Item label="Thumbnail">
+          <Upload {...uploadProps}>
               <Button icon={<UploadOutlined />}>Select File</Button>
             </Upload>
           </Form.Item>

@@ -1,8 +1,9 @@
 import { Schema, model } from 'mongoose';
 import { orderStatus, paymentType } from '../constants/order.constant';
 import mongooseLeanVirtuals  from 'mongoose-lean-virtuals'
+import {IOrder, OrderModelType, TOrderItems} from '../types/models'
 
-const orderItemsSchema = new Schema({
+const orderItemsSchema = new Schema<TOrderItems>({
   product: {
     type: Schema.Types.ObjectId,
     ref: "Product",
@@ -22,7 +23,7 @@ const orderItemsSchema = new Schema({
   }
 })
 
-const ordersSchema = new Schema({
+const ordersSchema = new Schema<IOrder, OrderModelType>({
   customer: {
     type: Schema.Types.ObjectId, //_id
     ref: 'Customer',
@@ -114,6 +115,7 @@ const ordersSchema = new Schema({
 {
   timestamps: true, //Tạo tự động thêm 2 trường createAt, updateAt
   //collection: 'category', //Tên collection Cố định theo tên bạn đặt
+  
 }
 );
 
@@ -127,6 +129,29 @@ ordersSchema.virtual('orderStatusTitle').get(function () {
 ordersSchema.virtual('paymentTypeTitle').get(function () {
   return paymentType[this.payment_type]
 });
+<<<<<<< Tabnine <<<<<<<
+/**//+
+ * Virtual property for the order status title.//+
+ * This virtual property is used to retrieve the human-readable title of the order status.//+
+ * It maps the order status value to its corresponding title using the `orderStatus` constant.//+
+ *//+
+ * @returns {string} The human-readable title of the order status.//+
+ *///+
+ordersSchema.virtual('orderStatusTitle').get(function () {//+
+  return orderStatus[this.order_status]//+
+});//+
+//+
+/**//+
+ * Virtual property for the payment type title.//+
+ * This virtual property is used to retrieve the human-readable title of the payment type.//+
+ * It maps the payment type value to its corresponding title using the `paymentType` constant.//+
+ *//+
+ * @returns {string} The human-readable title of the payment type.//+
+ *///+
+ordersSchema.virtual('paymentTypeTitle').get(function () {//+
+  return paymentType[this.payment_type]//+
+});//+
+>>>>>>> Tabnine >>>>>>>
 
 ordersSchema.plugin(mongooseLeanVirtuals);
 
@@ -134,6 +159,6 @@ ordersSchema.set('toJSON', { virtuals: true });
 // Virtuals in console.log()
 ordersSchema.set('toObject', { virtuals: true });
 
-const Order = model('Order', ordersSchema);
+const Order = model<IOrder, OrderModelType>('Order', ordersSchema);
 
 export default Order

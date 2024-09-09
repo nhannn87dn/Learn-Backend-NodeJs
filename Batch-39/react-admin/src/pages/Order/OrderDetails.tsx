@@ -114,10 +114,10 @@ const OrderDetails = () => {
 
               return (
                 <Table.Summary.Row>
-                  <Table.Summary.Cell colSpan={4} align="right">
+                  <Table.Summary.Cell index={0} colSpan={4} align="right">
                     <strong>Total:</strong>
                   </Table.Summary.Cell>
-                  <Table.Summary.Cell align="right">
+                  <Table.Summary.Cell index={1} align="right">
                     <strong>{totalAmount}</strong>
                   </Table.Summary.Cell>
                 </Table.Summary.Row>

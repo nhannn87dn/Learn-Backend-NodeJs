@@ -24,6 +24,10 @@ const schema = yup
 //Typescript for Form Data
 type FormData = yup.InferType<typeof schema>;
 
+type TOrderResponse = {
+  id: string
+}
+
 const CartPage = () => {
   const {
     products,
@@ -34,8 +38,8 @@ const CartPage = () => {
     clearCart,
   } = useCart();
 
-  const [isDone, setIsDone] = useState(false);
-  const [order, setOrder] = useState(null);
+  const [isDone, setIsDone] = useState<boolean>(false);
+  const [order, setOrder] = useState< TOrderResponse | null >(null);
 
   const {
     register,
@@ -98,7 +102,7 @@ const CartPage = () => {
     return (
       <div>
         <h1>Đặt hàng thành công !</h1>
-        <p>Ma Don hang:{order.id}</p>
+        <p>Ma Don hang:{order?.id}</p>
       </div>
     );
 

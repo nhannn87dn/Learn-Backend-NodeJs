@@ -9,6 +9,7 @@ import ProductPage from "./pages/ProductPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Order from "./pages/Order";
 import OrderDetails from "./pages/Order/OrderDetails";
+import TestUpload from "./pages/TestUpload";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ function App() {
               <Route path="products" element={<ProductPage />} />
               <Route path="orders" element={<Order />} />
               <Route path="orders/:id" element={<OrderDetails />} />
+              <Route path="upload" element={<TestUpload />} />
             </Route>
             <Route path="/login" element={<LoginPage />} />
             <Route path="*" element={<NoPage />} />

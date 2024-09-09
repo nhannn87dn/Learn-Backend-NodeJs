@@ -4,6 +4,7 @@ import productsService from '../services/products.service';
 import multer from 'multer'
 import { buildSlug } from '../helpers/buildSlug';
 import path from 'path';
+import { ObjectId } from 'mongoose';
 
 
 
@@ -28,12 +29,12 @@ const storage = multer.diskStorage({
 })
 
 /** Bộ lọc hình ảnh */
-  const imageFilter  = function(req, file, cb) {
+  const imageFilter  = function(req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) {
       // Mot mang cac dinh dang tap tin cho phep duoc tai len
       const mimetypeAllow = ["image/png", "image/jpg", "image/gif", "image/jpeg", "image/webp"];
       if (!mimetypeAllow.includes(file.mimetype)) {
-          req.fileValidationError = 'Only .png, .gif, .jpg, webp, and .jpeg format allowed!';
-          return cb(new Error('Only .png, .gif, .jpg, webp, and .jpeg format allowed!'), false);
+          //req.fileValidationError = 'Only .png, .gif, .jpg, webp, and .jpeg format allowed!';
+          return cb(new Error('Only .png, .gif, .jpg, webp, and .jpeg format allowed!'));
       }
       cb(null, true);
   };
@@ -96,35 +97,35 @@ const findOneBySlug = async (req: Request, res: Response, next: NextFunction)=>{
 
 
 const createDocument = async (req: Request, res: Response, next: NextFunction)=>{
+  
   try {
    
-    const product = await productsService.createDocument(req.body)
 
-    //Neu tao sp thanh cong thi moi upload hinh
-    if(product){
-      uploadHandle(req, res, async function (err) {
-        if (err instanceof multer.MulterError) {
-          // A Multer error occurred when uploading.
-          console.log(err);
-         
-        } else if (err) {
-          // An unknown error occurred when uploading.
-          console.log(err);
-          
-        }
+    uploadHandle(req, res, async function (err) {
+      if (err instanceof multer.MulterError) {
+        // A Multer error occurred when uploading.
+        console.log(err);
+       
+      } else if (err) {
+        // An unknown error occurred when uploading.
+        console.log(err);
         
-       console.log('Upload thanh cong');
-        //Cập nhật lại đường dẫn link vào cho sản phẩm
-        product.thumbnail = `uploads/${req.file?.filename}`;
-        console.log('<<=== 🚀 uploads file ===>>',`uploads/${req.file?.filename}`);
-        //luu lai thong tin san pham
-        await productsService.updateById(product._id, product);
+      }
+      else{
+        //Nếu upload hình thành công thì mới tạo sản phẩm
+        const product = await productsService.createDocument({
+          ...req.body,
+          thumbnail: `uploads/${req.file?.filename}`, //cập nhật lại link sản phẩm
+        })
+        console.log('Upload thanh cong', req.file);
+      console.log('<<=== 🚀 product Create ===>>',product);
+      sendJsonSuccess(res)(product)
+      }
       
-      })
-    }
-
-    console.log('<<=== 🚀 product Create ===>>',product);
-    sendJsonSuccess(res)(product)
+     
+    })
+    
+   
   } catch (error) {
     next(error)
   }

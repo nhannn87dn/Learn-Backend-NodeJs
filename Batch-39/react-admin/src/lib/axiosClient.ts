@@ -3,9 +3,9 @@ const API_URL = "http://localhost:8080/api/v1/auth";
 
 const axiosClient = axios.create({
   baseURL: API_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  // headers: {
+  //   "Content-Type": "application/json",
+  // },
 });
 
 // REQUEST

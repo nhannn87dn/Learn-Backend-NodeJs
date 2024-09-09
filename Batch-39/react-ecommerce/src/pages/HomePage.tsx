@@ -9,7 +9,7 @@ const HomePage = () => {
     return res.data.data;
   };
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading} = useQuery({
     queryKey: ["categories"],
     queryFn: fetchCategories,
   });
@@ -23,7 +23,7 @@ const HomePage = () => {
         <ul>
           {data &&
             data.length > 0 &&
-            data.map((c) => {
+            data.map((c:any) => {
               return (
                 <li key={c._id}>
                   <Link to={`/category/${c.slug}`}>{c.category_name}</Link>

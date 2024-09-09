@@ -1,4 +1,4 @@
-import express from 'express'
+import express, {Express, Request} from 'express'
 import multer from 'multer'
 import { buildSlug } from '../../helpers/buildSlug';
 import path from 'path';
@@ -26,15 +26,17 @@ const storage = multer.diskStorage({
   })
 
   /** Bộ lọc hình ảnh */
-    const imageFilter  = function(req, file, cb) {
-        // Mot mang cac dinh dang tap tin cho phep duoc tai len
-        const mimetypeAllow = ["image/png", "image/jpg", "image/gif", "image/jpeg", "image/webp"];
-        if (!mimetypeAllow.includes(file.mimetype)) {
-            req.fileValidationError = 'Only .png, .gif, .jpg, webp, and .jpeg format allowed!';
-            return cb(new Error('Only .png, .gif, .jpg, webp, and .jpeg format allowed!'), false);
-        }
-        cb(null, true);
-    };
+    
+/** Bộ lọc hình ảnh */
+const imageFilter = function(req: Express.Request, file: Express.Multer.File, cb: multer.FileFilterCallback) {
+    // Mot mang cac dinh dang tap tin cho phep duoc tai len
+    const mimetypeAllow = ["image/png", "image/jpg", "image/gif", "image/jpeg", "image/webp"];
+    if (!mimetypeAllow.includes(file.mimetype)) {
+        //req.fileValidationError = 'Only .png, .gif, .jpg, webp, and .jpeg format allowed!';
+        return cb(new Error('Only .png, .gif, .jpg, webp, and .jpeg format allowed!'));
+    }
+    cb(null, true);
+};
   
   const upload = multer({ storage: storage })
   const uploadHandle = multer({ 
@@ -44,7 +46,7 @@ const storage = multer.diskStorage({
 
 }).single('file')
 
-  const uploadArrayHandle = multer({ storage: storage }).array('photos',5)
+  const uploadArrayHandle = multer({ storage: storage }).array('files',5)
 
 router.post('/single', upload.single('file'), (req, res, next)=>{
 
@@ -55,7 +57,7 @@ router.post('/single', upload.single('file'), (req, res, next)=>{
 
 // Cos handle loi response
 router.post('/single-handle', (req, res, next)=>{
-
+  console.log('createDocument',req.file, req.body)
     uploadHandle(req, res, function (err) {
         if (err instanceof multer.MulterError) {
           // A Multer error occurred when uploading.
@@ -91,7 +93,7 @@ router.post('/single-handle', (req, res, next)=>{
 
 // Cos handle loi response
 router.post('/array-handle', (req, res, next)=>{
-
+console.log('   req files',req.body)
     uploadArrayHandle(req, res, function (err) {
         if (err instanceof multer.MulterError) {
           // A Multer error occurred when uploading.

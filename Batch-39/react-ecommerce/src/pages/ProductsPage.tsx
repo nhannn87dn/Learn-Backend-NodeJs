@@ -19,7 +19,7 @@ const ProductsPage = () => {
     return res.data.data;
   };
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["product-details", slug],
     queryFn: fetchProductBySlug,
   });

@@ -15,7 +15,7 @@ router.get('/details/:slug',productsController.findOneBySlug)
 
 
 //========= CHECK TOKEN BEGIN HERE =================================
-router.use(authenticateToken)
+//router.use(authenticateToken)
 // ==> Tất cả những routes sau câu lệnh này sẽ bị check token
 
 /**
