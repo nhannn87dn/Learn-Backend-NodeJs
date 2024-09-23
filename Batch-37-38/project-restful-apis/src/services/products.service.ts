@@ -205,6 +205,8 @@ const getProductBySlug  = async (slug:string)=>{
     // .populate('category', '-__v')
     // .populate('brand', '-__v')
 
+    console.log('<<=== 🚀 slug ===>>',slug, result);
+
     if(!result){
         throw createError(404,'Product not found');
     }

@@ -129,29 +129,7 @@ ordersSchema.virtual('orderStatusTitle').get(function () {
 ordersSchema.virtual('paymentTypeTitle').get(function () {
   return paymentType[this.payment_type]
 });
-<<<<<<< Tabnine <<<<<<<
-/**//+
- * Virtual property for the order status title.//+
- * This virtual property is used to retrieve the human-readable title of the order status.//+
- * It maps the order status value to its corresponding title using the `orderStatus` constant.//+
- *//+
- * @returns {string} The human-readable title of the order status.//+
- *///+
-ordersSchema.virtual('orderStatusTitle').get(function () {//+
-  return orderStatus[this.order_status]//+
-});//+
-//+
-/**//+
- * Virtual property for the payment type title.//+
- * This virtual property is used to retrieve the human-readable title of the payment type.//+
- * It maps the payment type value to its corresponding title using the `paymentType` constant.//+
- *//+
- * @returns {string} The human-readable title of the payment type.//+
- *///+
-ordersSchema.virtual('paymentTypeTitle').get(function () {//+
-  return paymentType[this.payment_type]//+
-});//+
->>>>>>> Tabnine >>>>>>>
+
 
 ordersSchema.plugin(mongooseLeanVirtuals);
 
