@@ -22,7 +22,7 @@ Nói đến framework là nói đến nó có thể vừa đảm nhận vai trò
 
 ExpressJS Rất dễ học, chỉ cần bạn biết JavaScript, bạn sẽ không cần phải học một ngôn ngữ mới, giúp cho việc phát triển back-end dễ dàng hơn nhiều.
 
-### Cài đặt
+### 🔶 Cài đặt
 
 #### Bước 1 - Khởi tạo dự án
 
@@ -82,19 +82,20 @@ Sau đó mở file tsconfig.json và tìm sửa lại những thông tin sau:
 Tạo File app.ts
 
 ```ts
+//Import thư viện Express
 import express, { Express, Request, Response } from 'express';
+//Khởi tạo một ứng dụng Express
 const app: Express = express();
 
+//Cấu hình cổng server
 const PORT = process.env.PORT || 9000;
 
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
-
+// Tạo route đầu tiên cho trang chủ (Home page)
 app.get('/', (req: Request, res: Response) => {
   res.status(200).json({message: 'Express + TypeScript Server'});
 });
 
-
+// Lắng nghe trên cổng PORT
 app.listen(PORT, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
 });
@@ -133,7 +134,7 @@ Xem chi tiết: https://expressjs.com/en/starter/generator.html
 
 ## 💛 2. Route và HTTP Methods
 
-Route là một thành phần cực kỳ quan trọng của một website, nó giúp website biết được người dùng truy cập đến nơi nào của trang web, từ đó phản hồi lại một cách thích hợp.
+Trong Express.js, route xác định cách ứng dụng phản hồi các yêu cầu của người dùng từ trình duyệt tới một đường dẫn cụ thể và phương thức HTTP (GET, POST, PUT, DELETE).
 
 Cú pháp định nghĩa một Route
 
@@ -255,7 +256,7 @@ app.get('^/users/:username([0-9a-zA-Z]{6,12})', function (req, res) {
 
 ## 💛 Requests and Handling Parameters
 
-### 🚩 HTTP Request là gì ?
+### 🔶 HTTP Request là gì ?
 
 📌 **HTTP** (Hypertext Transfer Protocol) Là một giao thức cơ bản mà World Wide Web sử dụng. HTTP xác định cách mà các thông điệp (như các file văn bản, hình ảnh đồ hoạ, âm thanh, video, và các file multimedia ...) được định dạng và truyền tải ra sao, và những hành động nào mà các Webserver và các trình duyệt web (browser) phải làm để đáp ứng lại
 
@@ -265,7 +266,7 @@ app.get('^/users/:username([0-9a-zA-Z]{6,12})', function (req, res) {
 
 Có nhiều phương thức khác nhau để gửi một request đến server trong đó các phương thức phổ biến: GET,POST,PUT,DELETE,PATCH
 
-### 🚩Cấu trúc của một Request
+### 🔶Cấu trúc của một Request
 
 HTTP Request có cấu tạo gồm ba phần chính. Đó là request line, header và massage body
 
@@ -276,7 +277,7 @@ HTTP Request có cấu tạo gồm ba phần chính. Đó là request line, head
 3. Request Body: nội dung mà request mang theo để gửi lên server
 
 
-### 🚩Mapping requests
+### 🔶 Mapping requests
 
 Mapping requests (định tuyến yêu cầu) là quá trình xác định cách xử lý các yêu cầu HTTP đến các địa chỉ URL cụ thể trong một ứng dụng web. Trong ngữ cảnh của một ứng dụng web, "mapping" ám chỉ việc liên kết (mapping) các yêu cầu từ người dùng đến các tác vụ xử lý tương ứng.
 
@@ -309,7 +310,7 @@ Cuối cùng 2 đường dẫn này khớp nhau: `/users` <==> `/users` thì g�
 Ngoài khớp URL ra thì còn cần khớp thêm METHOD: GET, POST, PUT, DELETE...
 
 
-### 🚩 Handling Parameters
+### 🔶 Handling Parameters
 
 Trong Express, "handling parameters" (xử lý tham số) đề cập đến cách lấy và sử dụng các tham số được truyền trong các yêu cầu HTTP. 
 
@@ -595,12 +596,12 @@ Bạn có thể nhúng Tailwind Css, Bootstrap, jQuery vào các templates trên
 
 ### 💛 Đọc thêm
 
-###  So sánh GET với POST
+### 🔶  So sánh GET với POST
 
 Xem: https://timoday.edu.vn/cac-phuong-thuc-request-trong-giao-thuc-http/#So_sanh_GET_voi_POST
 
 
-###  PUT and PATH
+###  🔶 PUT and PATH
 
 Trong RESTful API, PUT và PATCH là hai phương thức HTTP khác nhau được sử dụng để cập nhật tài nguyên. 
 

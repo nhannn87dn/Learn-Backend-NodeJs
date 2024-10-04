@@ -8,7 +8,7 @@
 
 ## 💛 Giới thiệu Nodejs
 
-## NodeJS là gì
+## 🔥 NodeJS là gì
 
 Node.js là một môi trường thực thi mã JavaScript phía máy chủ (server-side) được xây dựng dựa trên JavaScript Engine V8 của Google. Nó cho phép bạn chạy mã JavaScript bên ngoài trình duyệt, trên máy chủ, và xử lý các yêu cầu từ các máy khách (client) và phản hồi lại chúng.
 
@@ -18,7 +18,7 @@ Node.js đã trở thành một trong những công nghệ nổi bật nhất tr
 
 Sau khi được phát hành lần đầu tiên vào năm 2009, Node.js nhanh chóng thu hút sự quan tâm và phát triển đáng kể. Các cập nhật liên tục đã được phát hành, bao gồm việc thêm các tính năng mới và cải tiến hiệu suất. Hiện nay, Node.js được sử dụng rộng rãi trên toàn cầu và là một trong những công nghệ phổ biến nhất trong lĩnh vực phát triển web.
 
-### Node.js hoạt động như thế nào?
+### 🔶 Node.js hoạt động như thế nào?
 
 Ý tưởng chính của Node js là sử dụng non-blocking, hướng sự vào ra dữ liệu thông qua các tác vụ thời gian thực một cách nhanh chóng. Bởi vì, Node js có khả năng mở rộng nhanh chóng, khả năng xử lý một số lượng lớn các kết nối đồng thời bằng thông lượng cao. 
 
@@ -27,9 +27,9 @@ Nếu như các ứng dụng web truyền thống, các request tạo ra một l
 ![nodejs](img/node-proceess.bmp)
 
 
-### Giới thiệu về Event Loop
+### 🔶 Giới thiệu về Event Loop
 
-Event loop trong Node.js là một thành phần quan trọng trong kiến trúc single-threaded (đơn luồng) của nó. Nó cho phép Node.js xử lý nhiều yêu cầu đồng thời mà không cần tạo ra các luồng bổ sung.
+**Event Loop** là một trong những khái niệm quan trọng nhất trong Node.js, vì nó giải thích cách Node.js xử lý các tác vụ đồng thời mặc dù nó chỉ chạy trên một luồng duy nhất (single-threaded). Node.js sử dụng event loop để quản lý các tác vụ bất đồng bộ như đọc/ghi file, yêu cầu HTTP, hoặc truy vấn cơ sở dữ liệu mà không chặn (blocking) luồng chính.
 
 Trong Node.js, mã JavaScript chạy trong một luồng duy nhất, còn được gọi là luồng chính (main thread). Tuy nhiên, để xử lý các yêu cầu I/O không đồng bộ, như đọc và ghi vào tệp, gọi API mạng hoặc truy vấn cơ sở dữ liệu, Node.js sử dụng mô hình sự kiện và non-blocking I/O.
 
@@ -66,8 +66,191 @@ Cơ chế hoạt động của **Event Loop**:
 
 Cơ chế này giúp Node.js xử lý nhiều yêu cầu một cách hiệu quả, đồng thời duy trì tính không chặn của ứng dụng. 
 
+### 🔶 Cách hoạt động của Event Loop
 
-### Những ứng dụng nên viết bằng Node.JS ?
+Node.js hoạt động dựa trên một vòng lặp sự kiện (event loop) để xử lý tất cả các tác vụ bất đồng bộ. Khi một tác vụ (như đọc file) được yêu cầu, nó được đưa vào hàng đợi của event loop. Node.js tiếp tục xử lý các yêu cầu khác trong khi chờ tác vụ đó hoàn thành. Khi tác vụ hoàn thành, callback tương ứng sẽ được đưa vào hàng đợi và thực thi trong lần lặp tiếp theo của event loop.
+
+Event loop có 6 giai đoạn chính:
+
+- **Timers**: Xử lý các callback từ `setTimeout()` và `setInterval()`.
+- **I/O Callbacks**: Xử lý các callback từ các hoạt động I/O như đọc file hoặc gửi HTTP request.
+- **Idle, prepare**: Sử dụng nội bộ, ít khi được quan tâm.
+- **Poll**: Chờ và xử lý các sự kiện I/O mới.
+- **Check**: Xử lý các callback từ `setImmediate()`.
+- **Close Callbacks**: Xử lý các callback từ sự kiện `close()` của các kết nối I/O.
+
+
+Dưới đây là ví dụ đơn giản về cách event loop hoạt động trong Node.js:
+
+```javascript
+console.log('Start'); // Bước 1
+
+setTimeout(() => {
+  console.log('Timeout callback'); // Bước 5 (thực thi sau 2 giây)
+}, 2000);
+
+setImmediate(() => {
+  console.log('Immediate callback'); // Bước 4 (chạy ngay sau poll phase)
+});
+
+console.log('End'); // Bước 2
+```
+
+**Kết quả khi chạy chương trình:**
+
+```
+Start
+End
+Immediate callback
+Timeout callback
+```
+
+**Giải thích chi tiết:**
+
+- Bước 1 và 2: `console.log('Start')` và `console.log('End')` được thực thi ngay lập tức vì đây là mã đồng bộ.
+- Bước 3: Lệnh `setTimeout` được đưa vào hàng đợi Timer và callback của nó sẽ được thực hiện sau ít nhất 2 giây.
+- Bước 4: `setImmediate` được thêm vào giai đoạn Check của event loop, vì vậy callback này được thực hiện ngay sau khi các tác vụ đồng bộ kết thúc.
+- Bước 5: Khi 2 giây trôi qua, callback của `setTimeout` được thực hiện.
+
+**Ví dụ phức tạp hơn với I/O bất đồng bộ**
+
+```javascript
+const fs = require('fs');
+
+console.log('Start'); // Bước 1
+
+fs.readFile('file.txt', 'utf8', (err, data) => {
+  if (err) throw err;
+  console.log('File read callback'); // Bước 5 (sau khi file được đọc)
+});
+
+setTimeout(() => {
+  console.log('Timeout callback'); // Bước 6 (chạy sau 1 giây)
+}, 1000);
+
+setImmediate(() => {
+  console.log('Immediate callback'); // Bước 4 (ngay sau poll phase)
+});
+
+console.log('End'); // Bước 2
+```
+
+**Kết quả khi chạy chương trình:**
+```
+Start
+End
+Immediate callback
+File read callback
+Timeout callback
+```
+
+**Giải thích chi tiết:**
+- Bước 1 và 2: `console.log('Start')` và `console.log('End')` là mã đồng bộ nên chúng được thực hiện ngay lập tức.
+- Bước 3: `fs.readFile` là một hoạt động bất đồng bộ, vì vậy Node.js sẽ không đợi nó hoàn thành. Nó được đưa vào hàng đợi trong giai đoạn Poll.
+- Bước 4: `setImmediate` chạy ngay sau khi event loop hoàn thành các tác vụ đồng bộ.
+- Bước 5: Sau khi file được đọc xong, callback của `fs.readFile` được thực hiện.
+- Bước 6: Sau 1 giây, callback của `setTimeout` được thực hiện.
+
+ **So sánh `setTimeout()` và `setImmediate()`**
+
+Mặc dù cả hai đều được sử dụng để thực thi mã bất đồng bộ, nhưng có sự khác biệt nhỏ:
+- `setTimeout()` với thời gian là 0 vẫn sẽ phải chờ ít nhất một chu kỳ event loop trước khi thực thi.
+- `setImmediate()` được thực hiện ngay sau khi poll phase của event loop hoàn thành, ưu tiên nó hơn khi không có tác vụ nào khác.
+
+Ví dụ:
+
+```javascript
+setTimeout(() => {
+  console.log('Timeout');
+}, 0);
+
+setImmediate(() => {
+  console.log('Immediate');
+});
+```
+
+**Kết quả có thể là:**
+```
+Immediate
+Timeout
+```
+---
+
+### 🔶 Blocking (Chặn)
+
+Một tác vụ **blocking** là tác vụ đồng bộ, nghĩa là Node.js phải **đợi** tác vụ đó hoàn thành trước khi tiếp tục xử lý các tác vụ khác. Trong khoảng thời gian này, **luồng chính bị chặn**, và không thể xử lý các yêu cầu khác.
+
+Ví dụ, một tác vụ blocking trong Node.js có thể là **đọc file đồng bộ**. Khi bạn yêu cầu Node.js đọc một file theo cách blocking, nó phải hoàn thành tác vụ đó trước khi có thể thực hiện các công việc khác.
+
+**Ví dụ về Blocking:**
+
+```javascript
+const fs = require('fs');
+
+console.log('Start');
+
+const data = fs.readFileSync('file.txt', 'utf8'); // Blocking - Node.js phải chờ file đọc xong.
+console.log(data); // Chỉ thực hiện sau khi đọc file xong.
+
+console.log('End');
+```
+
+**Kết quả:**
+
+```
+Start
+<nội dung file.txt>
+End
+```
+
+**Giải thích**: Trong ví dụ này, `fs.readFileSync` là một tác vụ **blocking**. Node.js sẽ phải đợi file được đọc xong trước khi tiếp tục chạy các dòng mã sau đó. Do đó, `console.log('End')` chỉ được in ra sau khi file đã được đọc.
+
+### 🔶 Non-blocking (Không chặn)
+
+**Non-blocking** là cách Node.js xử lý các tác vụ bất đồng bộ. Khi một tác vụ non-blocking được gọi, Node.js không đợi tác vụ đó hoàn thành mà ngay lập tức tiếp tục xử lý các công việc khác. Khi tác vụ hoàn thành, nó sẽ sử dụng một callback để xử lý kết quả.
+
+Ví dụ, khi bạn đọc file theo cách non-blocking, Node.js sẽ bắt đầu đọc file, nhưng sẽ tiếp tục thực hiện các công việc khác trong khi chờ file được đọc xong. Khi hoàn thành, một callback sẽ được gọi để xử lý dữ liệu của file.
+
+**Ví dụ về Non-blocking:**
+
+```javascript
+const fs = require('fs');
+
+console.log('Start');
+
+fs.readFile('file.txt', 'utf8', (err, data) => {
+  if (err) throw err;
+  console.log(data); // Chỉ in ra sau khi file đọc xong (callback).
+});
+
+console.log('End');
+```
+
+**Kết quả:**
+```
+Start
+End
+<nội dung file.txt>
+```
+
+**Giải thích**: Ở đây, `fs.readFile` là một tác vụ **non-blocking**. Node.js không đợi file được đọc xong để chạy `console.log('End')`. Thay vào đó, nó tiếp tục thực thi mã, và sau khi file được đọc xong, callback sẽ được gọi để in nội dung file ra. Do đó, bạn thấy `End` được in trước khi nội dung file xuất hiện.
+
+### 🔶 Sự khác biệt chính giữa Blocking và Non-blocking
+
+- **Blocking**: Node.js **đợi** tác vụ hoàn thành trước khi xử lý tiếp. Điều này làm gián đoạn event loop và chặn các tác vụ khác.
+  - Ví dụ: `fs.readFileSync`, `http.requestSync`.
+  
+- **Non-blocking**: Node.js **không đợi** mà tiếp tục xử lý các tác vụ khác. Sau khi tác vụ hoàn thành, nó sẽ thực thi một callback.
+  - Ví dụ: `fs.readFile`, `http.request`.
+
+### 🔶 Khi nào nên dùng Blocking và Non-blocking
+
+- **Blocking**: Thường không được khuyến khích sử dụng khi cần xử lý nhiều yêu cầu cùng lúc. Tuy nhiên, có thể dùng trong các kịch bản chỉ xử lý một tác vụ đơn giản mà không yêu cầu hiệu năng cao hoặc khi bạn cần mã dễ hiểu và dễ kiểm soát trình tự xử lý.
+  
+- **Non-blocking**: Thích hợp trong các trường hợp cần hiệu năng cao, như xây dựng ứng dụng server để xử lý nhiều yêu cầu từ người dùng. Điều này giúp Node.js tiếp tục hoạt động mượt mà mà không bị chặn bởi các tác vụ I/O (đọc ghi file, truy vấn cơ sở dữ liệu, gọi API…).
+
+
+### 🔶 Những ứng dụng nên viết bằng Node.JS ?
 
 NodeJS được sử dụng để xây dựng rất nhiều loại ứng dụng khác nhau, trong đó phổ biến nhất gồm có:
 
@@ -81,7 +264,7 @@ NodeJS được sử dụng để xây dựng rất nhiều loại ứng dụng 
 
 - Các ứng dụng REST dựa trên API: JavaScript được sử dụng trong cả frontend lẫn backend của trang. Do đó một server có thể dễ dàng giao tiếp với frontend qua REST API bằng Node.js. Bên cạnh đó, Node.JS còn cung cấp nhiều package như Express.js hay Koa để việc xây dựng ứng dụng web trở nên dễ dàng hơn bao giờ hết.
 
-### Ưu điểm NodeJS
+### 🔶 Ưu điểm NodeJS
 
 - IO hướng sự kiện không đồng bộ, cho phép xử lý nhiều yêu cầu đồng thời.
 - Sử dụng JavaScript – một ngôn ngữ lập trình dễ học.
@@ -90,7 +273,7 @@ NodeJS được sử dụng để xây dựng rất nhiều loại ứng dụng 
 - Cộng đồng hỗ trợ tích cực.
 - Cho phép stream các file có kích thước lớn.
 
-### Nhược điểm NodeJS
+### 🔶 Nhược điểm NodeJS
 
 - Không có khả năng mở rộng, vì vậy không thể tận dụng lợi thế mô hình đa lõi trong các phần cứng cấp server hiện nay.
 - Khó thao tác với cơ sử dữ liệu quan hệ.
@@ -98,7 +281,7 @@ NodeJS được sử dụng để xây dựng rất nhiều loại ứng dụng 
 - Cần có kiến thức tốt về JavaScript.
 - Không phù hợp với các tác vụ đòi hỏi nhiều CPU.
 
-### Một số lý do nên sử dụng NodeJS là gì?
+### 🔶 Một số lý do nên sử dụng NodeJS là gì?
 
 Node.JS là một trong những nền tảng phổ biến nhất hiện nay cho mục đích phát triển ứng dụng mạng phía server. Vậy lý do nên sử dụng NodeJS là gì? Hãy cùng tìm hiểu những đặc điểm khiến Node.JS là lựa chọn hàng đầu cho các developer hiện nay:
 
@@ -108,7 +291,7 @@ Node.JS là một trong những nền tảng phổ biến nhất hiện nay cho 
 - Không có buffering: Node.JS giúp tiết kiệm thời gian xử lý file khi cần upload âm thanh hoặc video vì các ứng dụng này không bao giờ buffer dữ liệu mà chỉ xuất dữ liệu theo từng phần (chunk).
 - Đơn luồng: Node.JS sử dụng mô hình đơn luồng với vòng lặp sự kiện. Do đó các ứng dụng có thể xử lý số lượng request lớn hơn rất nhiều so với các server truyền thống như Apache HTTP Server.
 
-### Những công ty lớn nào đang sử dụng NodeJS
+### 🔶 Những công ty lớn nào đang sử dụng NodeJS
 
 NodeJS hiện đang được sử dụng bởi rất nhiều gã khổng lồ trên khắp thế giới, nhanh chóng vượt ngưỡng 1 tỉ lượt download từ năm 2018 và hỗ trợ đến khoảng 1.2% tổng số website trên Internet, tương đương với 20 triệu trang.
 
@@ -132,7 +315,7 @@ Installing Node on Linux / MacOS: <https://nodejs.org/en/download/>
 
 Installing Node on Windows: <https://nodejs.org/en/download/>
 
-### Tìm hiểu công cụ NPM (Node Package Manager)
+### 🔶 Tìm hiểu công cụ NPM (Node Package Manager)
 
 NMP là viết tắt của Node package manager là một công cụ tạo và quản lý các thư viện lập trình Javascript cho Node.js
 
@@ -246,7 +429,7 @@ Trong phần ví dụ Helloworl trên bạn thấy NodeJs đang sử dụng cú 
 
 Trong Node.js, các module đóng vai trò quan trọng trong việc tổ chức và tái sử dụng mã nguồn. Mỗi file trong Node.js được coi là một module và có thể nhập (import) hoặc xuất (export) các chức năng, đối tượng, hay giá trị từ module này sang module khác. Điều này giúp mã nguồn trở nên dễ quản lý, bảo trì và tái sử dụng.
 
-### Các loại Module
+### 🔶 Các loại Module
 
 Node.js hỗ trợ ba loại module chính:
 
