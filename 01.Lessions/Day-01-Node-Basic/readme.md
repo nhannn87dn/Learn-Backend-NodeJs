@@ -20,19 +20,17 @@ Sau khi được phát hành lần đầu tiên vào năm 2009, Node.js nhanh ch
 
 ### 🔶 Node.js hoạt động như thế nào?
 
-Ý tưởng chính của Node js là sử dụng non-blocking, hướng sự vào ra dữ liệu thông qua các tác vụ thời gian thực một cách nhanh chóng. Bởi vì, Node js có khả năng mở rộng nhanh chóng, khả năng xử lý một số lượng lớn các kết nối đồng thời bằng thông lượng cao. 
+Ý tưởng chính của Node js là sử dụng non-blocking, hướng sự vào ra dữ liệu thông qua các tác vụ thời gian thực một cách nhanh chóng. Bởi vì, Node js có khả năng mở rộng nhanh chóng, khả năng xử lý một số lượng lớn các kết nối đồng thời bằng thông lượng cao.
 
 Nếu như các ứng dụng web truyền thống, các request tạo ra một luồng xử lý yêu cầu mới và chiếm RAM của hệ thống thì việc tài nguyên của hệ thống sẽ được sử dụng không hiệu quả. Chính vì lẽ đó giải pháp mà Node js đưa ra là sử dụng luồng đơn (Single-Threaded), kết hợp với non-blocking I/O để thực thi các request, cho phép hỗ trợ hàng chục ngàn kết nối đồng thời.
 
 ![nodejs](img/node-proceess.bmp)
-
 
 ### 🔶 Giới thiệu về Event Loop
 
 **Event Loop** là một trong những khái niệm quan trọng nhất trong Node.js, vì nó giải thích cách Node.js xử lý các tác vụ đồng thời mặc dù nó chỉ chạy trên một luồng duy nhất (single-threaded). Node.js sử dụng event loop để quản lý các tác vụ bất đồng bộ như đọc/ghi file, yêu cầu HTTP, hoặc truy vấn cơ sở dữ liệu mà không chặn (blocking) luồng chính.
 
 Trong Node.js, mã JavaScript chạy trong một luồng duy nhất, còn được gọi là luồng chính (main thread). Tuy nhiên, để xử lý các yêu cầu I/O không đồng bộ, như đọc và ghi vào tệp, gọi API mạng hoặc truy vấn cơ sở dữ liệu, Node.js sử dụng mô hình sự kiện và non-blocking I/O.
-
 
 Client gửi các REQUEST đến SERVER để tương tác với ứng dụng web. Các REQUESTs này có thể là Blocking hoặc Non-Blocking
 
@@ -44,11 +42,7 @@ Node.JS tiếp nhận các Request gửi đến và thêm chúng vào hàng đ�
 
 Sau đó các yêu cầu `Request` này được xử lý lần lượt thông qua `Event Loop`.
 
-
-
 ![node-flow](img/node-flow.png)
-
-
 
 Cơ chế hoạt động của **Event Loop**:
 
@@ -62,9 +56,7 @@ Cơ chế hoạt động của **Event Loop**:
 
 5. **External Resources (Nguồn tài nguyên bên ngoài)**: Khi công việc đã được hoàn thành, kết quả sau cùng sẽ được trả lại thông qua Event Loop và gửi lại cho người dùng.
 
-
-
-Cơ chế này giúp Node.js xử lý nhiều yêu cầu một cách hiệu quả, đồng thời duy trì tính không chặn của ứng dụng. 
+Cơ chế này giúp Node.js xử lý nhiều yêu cầu một cách hiệu quả, đồng thời duy trì tính không chặn của ứng dụng.
 
 ### 🔶 Cách hoạt động của Event Loop
 
@@ -79,21 +71,20 @@ Event loop có 6 giai đoạn chính:
 - **Check**: Xử lý các callback từ `setImmediate()`.
 - **Close Callbacks**: Xử lý các callback từ sự kiện `close()` của các kết nối I/O.
 
-
 Dưới đây là ví dụ đơn giản về cách event loop hoạt động trong Node.js:
 
 ```javascript
-console.log('Start'); // Bước 1
+console.log("Start"); // Bước 1
 
 setTimeout(() => {
-  console.log('Timeout callback'); // Bước 5 (thực thi sau 2 giây)
+  console.log("Timeout callback"); // Bước 5 (thực thi sau 2 giây)
 }, 2000);
 
 setImmediate(() => {
-  console.log('Immediate callback'); // Bước 4 (chạy ngay sau poll phase)
+  console.log("Immediate callback"); // Bước 4 (chạy ngay sau poll phase)
 });
 
-console.log('End'); // Bước 2
+console.log("End"); // Bước 2
 ```
 
 **Kết quả khi chạy chương trình:**
@@ -115,27 +106,28 @@ Timeout callback
 **Ví dụ phức tạp hơn với I/O bất đồng bộ**
 
 ```javascript
-const fs = require('fs');
+const fs = require("fs");
 
-console.log('Start'); // Bước 1
+console.log("Start"); // Bước 1
 
-fs.readFile('file.txt', 'utf8', (err, data) => {
+fs.readFile("file.txt", "utf8", (err, data) => {
   if (err) throw err;
-  console.log('File read callback'); // Bước 5 (sau khi file được đọc)
+  console.log("File read callback"); // Bước 5 (sau khi file được đọc)
 });
 
 setTimeout(() => {
-  console.log('Timeout callback'); // Bước 6 (chạy sau 1 giây)
+  console.log("Timeout callback"); // Bước 6 (chạy sau 1 giây)
 }, 1000);
 
 setImmediate(() => {
-  console.log('Immediate callback'); // Bước 4 (ngay sau poll phase)
+  console.log("Immediate callback"); // Bước 4 (ngay sau poll phase)
 });
 
-console.log('End'); // Bước 2
+console.log("End"); // Bước 2
 ```
 
 **Kết quả khi chạy chương trình:**
+
 ```
 Start
 End
@@ -145,15 +137,17 @@ Timeout callback
 ```
 
 **Giải thích chi tiết:**
+
 - Bước 1 và 2: `console.log('Start')` và `console.log('End')` là mã đồng bộ nên chúng được thực hiện ngay lập tức.
 - Bước 3: `fs.readFile` là một hoạt động bất đồng bộ, vì vậy Node.js sẽ không đợi nó hoàn thành. Nó được đưa vào hàng đợi trong giai đoạn Poll.
 - Bước 4: `setImmediate` chạy ngay sau khi event loop hoàn thành các tác vụ đồng bộ.
 - Bước 5: Sau khi file được đọc xong, callback của `fs.readFile` được thực hiện.
 - Bước 6: Sau 1 giây, callback của `setTimeout` được thực hiện.
 
- **So sánh `setTimeout()` và `setImmediate()`**
+  **So sánh `setTimeout()` và `setImmediate()`**
 
 Mặc dù cả hai đều được sử dụng để thực thi mã bất đồng bộ, nhưng có sự khác biệt nhỏ:
+
 - `setTimeout()` với thời gian là 0 vẫn sẽ phải chờ ít nhất một chu kỳ event loop trước khi thực thi.
 - `setImmediate()` được thực hiện ngay sau khi poll phase của event loop hoàn thành, ưu tiên nó hơn khi không có tác vụ nào khác.
 
@@ -161,19 +155,21 @@ Ví dụ:
 
 ```javascript
 setTimeout(() => {
-  console.log('Timeout');
+  console.log("Timeout");
 }, 0);
 
 setImmediate(() => {
-  console.log('Immediate');
+  console.log("Immediate");
 });
 ```
 
 **Kết quả có thể là:**
+
 ```
 Immediate
 Timeout
 ```
+
 ---
 
 ### 🔶 Blocking (Chặn)
@@ -185,14 +181,14 @@ Ví dụ, một tác vụ blocking trong Node.js có thể là **đọc file đ�
 **Ví dụ về Blocking:**
 
 ```javascript
-const fs = require('fs');
+const fs = require("fs");
 
-console.log('Start');
+console.log("Start");
 
-const data = fs.readFileSync('file.txt', 'utf8'); // Blocking - Node.js phải chờ file đọc xong.
+const data = fs.readFileSync("file.txt", "utf8"); // Blocking - Node.js phải chờ file đọc xong.
 console.log(data); // Chỉ thực hiện sau khi đọc file xong.
 
-console.log('End');
+console.log("End");
 ```
 
 **Kết quả:**
@@ -214,19 +210,20 @@ Ví dụ, khi bạn đọc file theo cách non-blocking, Node.js sẽ bắt đ�
 **Ví dụ về Non-blocking:**
 
 ```javascript
-const fs = require('fs');
+const fs = require("fs");
 
-console.log('Start');
+console.log("Start");
 
-fs.readFile('file.txt', 'utf8', (err, data) => {
+fs.readFile("file.txt", "utf8", (err, data) => {
   if (err) throw err;
   console.log(data); // Chỉ in ra sau khi file đọc xong (callback).
 });
 
-console.log('End');
+console.log("End");
 ```
 
 **Kết quả:**
+
 ```
 Start
 End
@@ -239,16 +236,13 @@ End
 
 - **Blocking**: Node.js **đợi** tác vụ hoàn thành trước khi xử lý tiếp. Điều này làm gián đoạn event loop và chặn các tác vụ khác.
   - Ví dụ: `fs.readFileSync`, `http.requestSync`.
-  
 - **Non-blocking**: Node.js **không đợi** mà tiếp tục xử lý các tác vụ khác. Sau khi tác vụ hoàn thành, nó sẽ thực thi một callback.
   - Ví dụ: `fs.readFile`, `http.request`.
 
 ### 🔶 Khi nào nên dùng Blocking và Non-blocking
 
 - **Blocking**: Thường không được khuyến khích sử dụng khi cần xử lý nhiều yêu cầu cùng lúc. Tuy nhiên, có thể dùng trong các kịch bản chỉ xử lý một tác vụ đơn giản mà không yêu cầu hiệu năng cao hoặc khi bạn cần mã dễ hiểu và dễ kiểm soát trình tự xử lý.
-  
 - **Non-blocking**: Thích hợp trong các trường hợp cần hiệu năng cao, như xây dựng ứng dụng server để xử lý nhiều yêu cầu từ người dùng. Điều này giúp Node.js tiếp tục hoạt động mượt mà mà không bị chặn bởi các tác vụ I/O (đọc ghi file, truy vấn cơ sở dữ liệu, gọi API…).
-
 
 ### 🔶 Những ứng dụng nên viết bằng Node.JS ?
 
@@ -330,6 +324,7 @@ npm install -D package_name #Cài đặt package vào Devdependency
 npm install --global package #Cài đặt package ở chế độ Global
 npm uninstall package_name #Gở cài đặt
 ```
+
 Ngoài ra chúng ta còn có một công cụ khác tương tự, nhưng cho tốc độ xử lý nhanh hơn là `yarn`
 
 Sau khi bạn cài xong NodeJs, mở cửa sổ lệnh Terminal (hoặc Command Line ở chế độ Administration)
@@ -350,14 +345,13 @@ yarn add -g package #Cài đặt package ở chế độ Global
 yarn remove package_name #Gở cài đặt
 ```
 
-
 ## 💛 Review Javascript ESNext, TypeScript
 
 Trong môn học này cần kiến thức cả javascript lẫn TypeScript nên hãy cùng ôn lại một số kiến thức cơ bản
 
 Chi tiết [prerequisites.md](prerequisites.md)
 
-## 💛  Chạy ứng dụng NodeJs
+## 💛 Chạy ứng dụng NodeJs
 
 Node.js cho phép bạn xây dựng các ứng dụng web phía máy chủ. Nghĩa là bạn có thể tạo ra một ứng dụng web với Node.js
 
@@ -366,16 +360,16 @@ Trước hết ta chùng `Hello world` xem cách mà Node.js tạo một server 
 Tạo một file `main.js` với nội dung sau:
 
 ```js
-const http = require('node:http');
+const http = require("node:http");
 
-const hostname = '127.0.0.1';
+const hostname = "127.0.0.1";
 const port = 3000;
 //Hàm tạo server: createServer
 const server = http.createServer((req, res) => {
   //Phản hồi lại client Hello world
   res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello, World!\n');
+  res.setHeader("Content-Type", "text/plain");
+  res.end("Hello, World!\n");
 });
 //Lắng nghe request ở cổng 3000
 server.listen(port, hostname, () => {
@@ -396,36 +390,33 @@ Và với Nodejs bạn hoàn toàn có thể tạo một ứng dụng web với 
 Trong thư mục dự án, bạn tạo file `main.js` với nội dung sau:
 
 ```js
-const http = require('node:http');
+const http = require("node:http");
 
 const server = http.createServer((req, res) => {
   // Xử lý yêu cầu
-  if (req.url === '/') {
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.write('<h1>Hello, World!</h1>');
+  if (req.url === "/") {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.write("<h1>Hello, World!</h1>");
     res.end();
-  } else if (req.url === '/about') {
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.write('<h1>About Page</h1>');
+  } else if (req.url === "/about") {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.write("<h1>About Page</h1>");
     res.end();
   } else {
-    res.writeHead(404, { 'Content-Type': 'text/html' });
-    res.write('<h1>404 Not Found</h1>');
+    res.writeHead(404, { "Content-Type": "text/html" });
+    res.write("<h1>404 Not Found</h1>");
     res.end();
   }
 });
 
 server.listen(3000, () => {
-  console.log('Server is running on port 3000');
+  console.log("Server is running on port 3000");
 });
-
 ```
-
 
 ## 💛 Node Modules
 
 Trong phần ví dụ Helloworl trên bạn thấy NodeJs đang sử dụng cú pháp `require` để nhúng các logic xử lý từ ngoài vào. Cách thức triển khai này trong Nodejs gọi là module
-
 
 Trong Node.js, các module đóng vai trò quan trọng trong việc tổ chức và tái sử dụng mã nguồn. Mỗi file trong Node.js được coi là một module và có thể nhập (import) hoặc xuất (export) các chức năng, đối tượng, hay giá trị từ module này sang module khác. Điều này giúp mã nguồn trở nên dễ quản lý, bảo trì và tái sử dụng.
 
@@ -437,38 +428,37 @@ Node.js hỗ trợ ba loại module chính:
 
 Các module có sẵn trong Node.js (hay còn gọi là Built-in Module), chẳng hạn như http, fs, path, và os.
 
-Danh sách đầy đủ: 
+Danh sách đầy đủ:
 
 - https://www.w3schools.com/nodejs/ref_modules.asp
 
-Ví dụ: Sử Dụng Module fs (File System)
+**❤️ Http Module**
 
-```js
-const fs = require('fs');
+[Xem chi tiết](http.md)
 
-// Đọc nội dung của file
-fs.readFile('example.txt', 'utf8', (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  console.log(data);
-});
-```
+**❤️ File Module**
 
+[Xem chi tiết](fs.md)
+
+**❤️ URL Module**
+
+[Xem chi tiết](url.md)
+
+**❤️ Path Module**
+
+[Xem chi tiết](path.md)
 
 ---
 
-####  **Local Modules**
+#### **Local Modules**
 
 Các module do người dùng tự định nghĩa, được lưu trữ trong các file riêng.
-
 
 Trong thư mục dự án bạn tạo một file ví dụ: `myModule.js`
 
 ```js
 function hello() {
-  console.log('Hello Nodejs');
+  console.log("Hello Nodejs");
 }
 //Xuất hàm hello ra, để chia sẽ cho các file khác
 module.exports = hello;
@@ -476,10 +466,9 @@ module.exports = hello;
 
 Khi đó trong file khác ví dụ `index.js` bạn có thể sử dụng `require` để nạp module đó vào sử dụng:
 
-
 ```js
 //index.js
-const hello = require('./myModule');
+const hello = require("./myModule");
 hello();
 ```
 
@@ -511,13 +500,13 @@ module.exports.subtract = (a, b) => {
 };
 
 // Method 1
-const math = require('./math');
+const math = require("./math");
 
 // Method 2
-const { add, subtract } = require('./math');
+const { add, subtract } = require("./math");
 ```
 
-Ngoài ra, bạn cũng có thể sử dụng cú pháp `import/export` trong Node.js bằng cách sử dụng các phiên bản JavaScript gần mới hơn (như ECMAScript modules - ES modules) và cấu hình tùy chọn. 
+Ngoài ra, bạn cũng có thể sử dụng cú pháp `import/export` trong Node.js bằng cách sử dụng các phiên bản JavaScript gần mới hơn (như ECMAScript modules - ES modules) và cấu hình tùy chọn.
 
 Để sử dụng cú pháp `import/export` trong Node.js, bạn cần tạo một tệp tin cấu hình (ví dụ: package.json) và thiết lập thuộc tính "type": "module" trong tệp tin cấu hình đó.
 
@@ -541,29 +530,27 @@ Ví dụ: Bạn tại 2 file với nội dung như sau
 ```javascript
 // File: myModuleEsNext.js
 export function myFunction() {
-  console.log('Hello from myModule!');
+  console.log("Hello from myModule!");
 }
 
 // File: app.js
-import { myFunction } from './myModuleEsNext.js';
+import { myFunction } from "./myModuleEsNext.js";
 
 myFunction();
 ```
-
 
 Dưới đây là một ví dụ về cách sử dụng export default:
 
 ```javascript
 // File: myModuleEsNextDefault.js
 const myFunctionV2 = () => {
-  console.log('This is a default function.');
+  console.log("This is a default function.");
 };
 
 export default myFunctionV2;
 
-
 // File: app.js
-import myFunctionV2 from './myModuleEsNextDefault.js';
+import myFunctionV2 from "./myModuleEsNextDefault.js";
 
 myFunctionV2();
 ```
@@ -575,7 +562,7 @@ Ví dụ:
 ```javascript
 // File: myModuleEsNext.js
 const myFunction = () => {
-  console.log('This is a default function.');
+  console.log("This is a default function.");
 };
 
 const myVariable = 42;
@@ -583,10 +570,9 @@ const myVariable = 42;
 export { myVariable };
 export default myFunction;
 
-
 //Sử dụng
 // File: app.js
-import myFunction, { myVariable } from './myModuleEsNext.js';
+import myFunction, { myVariable } from "./myModuleEsNext.js";
 
 myFunction(); // Xuất giá trị mặc định
 console.log(myVariable); // Xuất giá trị thông thường
@@ -595,7 +581,6 @@ console.log(myVariable); // Xuất giá trị thông thường
 ---
 
 Còn với TypeScript, Để định nghĩa và sử dụng module trong Node.js, bạn cần làm theo các bước sau:
-
 
 **Bước 1: Cài Đặt TypeScript và Các Phụ Thuộc**
 
@@ -619,14 +604,14 @@ Nội dung mặc định của file `tsconfig.json` sẽ trông như sau, bạn 
 ```json
 {
   "compilerOptions": {
-    "target": "ES6",                          
-    "module": "commonjs",                     
-    "rootDir": "./src",                       
-    "outDir": "./dist",                       
-    "strict": true,                           
-    "esModuleInterop": true,                  
-    "skipLibCheck": true,                     
-    "forceConsistentCasingInFileNames": true  
+    "target": "ES6",
+    "module": "commonjs",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   }
 }
 ```
@@ -658,13 +643,13 @@ Tạo file `src/index.ts` để sử dụng module `mathUtils`:
 ```typescript
 // src/index.ts
 
-import { add, subtract } from './mathUtils';
+import { add, subtract } from "./mathUtils";
 
 const a = 5;
 const b = 3;
 
-console.log(`Add: ${add(a, b)}`);        // Output: Add: 8
-console.log(`Subtract: ${subtract(a, b)}`);  // Output: Subtract: 2
+console.log(`Add: ${add(a, b)}`); // Output: Add: 8
+console.log(`Subtract: ${subtract(a, b)}`); // Output: Subtract: 2
 ```
 
 **Bước 4: Biên Dịch TypeScript Thành JavaScript**
@@ -693,7 +678,7 @@ Thay vì biên dịch mã TypeScript rồi mới chạy, bạn có thể sử d�
 npx ts-node src/index.ts
 ```
 
-***Kết Quả**
+**\*Kết Quả**
 
 Kết quả khi chạy `node dist/index.js` hoặc `npx ts-node src/index.ts` sẽ là:
 
@@ -701,9 +686,11 @@ Kết quả khi chạy `node dist/index.js` hoặc `npx ts-node src/index.ts` s�
 Add: 8
 Subtract: 2
 ```
+
 ---
 
-####  **Third-Party Modules**
+#### **Third-Party Modules**
+
 Các module từ bên thứ ba, thường được cài đặt qua npm (Node Package Manager).
 
 Ví dụ: Sử Dụng Module lodash
@@ -718,30 +705,8 @@ yarn add lodash
 Sử dụng lodash trong mã nguồn:
 
 ```javascript
-const _ = require('lodash');
+const _ = require("lodash");
 
 const array = [1, 2, 3, 4, 5];
-console.log(_.reverse(array));  // Output: [5, 4, 3, 2, 1]
+console.log(_.reverse(array)); // Output: [5, 4, 3, 2, 1]
 ```
-
-
-
-## 💛 Cách sử dụng một số Core Module
-
-### ❤️ Http Module
-
-[Xem chi tiết](http.md)
-
-### ❤️ File Module
-
-[Xem chi tiết](fs.md)
-
-### ❤️ URL Module
-
-[Xem chi tiết](url.md)
-
-
-### ❤️ Path Module
-
-[Xem chi tiết](path.md)
-
