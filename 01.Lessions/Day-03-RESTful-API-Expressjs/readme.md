@@ -55,11 +55,28 @@ Từng bước xây dựng dự án theo mô hình
 
 Phát triển dự án theo cấu trúc saum sử dụng TypeScript:
 
-```html
-project-restful-apis/ ├─ node_modules/ ├─ public/ ├─ src/ │ ├─ controllers/ │ ├─
-middleware/ │ ├─ models/ │ ├─ services/ │ ├─ helpers/ │ ├─ validations/ │ ├─
-configs/ │ ├─ routes/ │ │ ├─ v1/ │ │ ├─ v2/ │ ├─ app.ts ├─ .env ├─ server.ts ├─
-.gitignore ├─ package.json ├─ README.md
+```plaintext
+project-restful-apis/
+├── node_modules/
+├── public/             # Tệp tĩnh như hình ảnh, CSS, JavaScript, v.v.
+├── src/
+│   ├── controllers/    # Xử lý các request và gọi các service tương ứng
+│   ├── middleware/     # Các middleware như xác thực, logging, v.v.
+│   ├── models/         # Các model đại diện cho dữ liệu (ORM/ODM models)
+│   ├── services/       # Business logic chính của ứng dụng
+│   ├── helpers/        # Các hàm tiện ích được dùng trong nhiều nơi
+│   ├── validations/    # Xác thực dữ liệu request
+│   ├── configs/        # Các file cấu hình (config.js, database.js, v.v.)
+│   ├── routes/         # Định nghĩa các route của API
+│   │   ├── v1/         # API v1 routes
+│   │   ├── v2/         # API v2 routes (nếu có)
+│   ├── app.ts          # Cấu hình Express và middleware chính
+│   ├── server.ts       # Tệp khởi động server (kết nối DB và chạy server)
+├── .env                # Biến môi trường cho project
+├── .gitignore          # Các tệp và thư mục không cần đưa vào git
+├── package.json        # Thông tin dự án và các dependencies
+├── README.md           # Tài liệu hướng dẫn về dự án
+
 ```
 
 Cài đặt xem lại ở bài học trước với TypeScript
