@@ -17,20 +17,18 @@ Nội dung chính trong bài:
 
 Xem ở đây [Callbacks](2.Async-Await/callback-deep.md)
 
-## 💛 Promises and Async/Await
-
-Xem ở đây [Promises](2.Async-Await/Promises.md)
-
-Xem ở đây [Async/Await](2.Async-Await/async-await.md)
-
 ## 💛 Xây dựng cấu trúc RESTFul-APIs
 
+### 🔶 RESTful API là gì ?
+
 RESTful API là một loại giao diện lập trình ứng dụng (API) được thiết kế theo các nguyên tắc của kiến trúc REST (Representational State Transfer). REST là một kiểu kiến trúc phần mềm dựa trên giao thức HTTP và các tiêu chuẩn web liên quan khác.
+
+![api](img/api.png)
 
 RESTful API cho phép các ứng dụng giao tiếp và trao đổi dữ liệu với nhau qua mạng. Nó sử dụng các phương thức HTTP như GET, POST, PUT và DELETE để thực hiện các hoạt động CRUD (Create, Read, Update, Delete) trên dữ liệu.
 
 | Method    | Semantics     |
-|-----------|---------------|
+| --------- | ------------- |
 | POST      | Create        |
 | GET       | Read/Retrieve |
 | PUT/PATCH | Update        |
@@ -43,40 +41,28 @@ Một RESTful API thường sử dụng các đường dẫn URL để xác đ�
 
 RESTful API đã trở thành một phương pháp phổ biến để xây dựng các dịch vụ web và ứng dụng di động, vì nó đơn giản, linh hoạt và dễ dùng.
 
-Từng bước xây dựng dự án theo mô hình
+### 🔶 API hoạt động như thế nào ?
 
+![how-work](img/how-work-api.png)
+
+### 🔶 Lợi ích của API là gì ?
+
+![api-perfect](img/api-share-data.png)
+
+Từng bước xây dựng dự án theo mô hình
 
 ### 🔶 1: Cấu trúc dự án
 
 Phát triển dự án theo cấu trúc saum sử dụng TypeScript:
 
 ```html
-project-restful-apis/
-├─ node_modules/
-├─ public/
-├─ src/
-│  ├─ controllers/
-│  ├─ middleware/
-│  ├─ models/
-│  ├─ services/
-│  ├─ helpers/
-│  ├─ validations/
-│  ├─ configs/
-│  ├─ routes/
-│  │  ├─ v1/
-│  │  ├─ v2/
-│  ├─ app.ts
-├─ .env
-├─ server.ts
-├─ .gitignore
-├─ package.json
-├─ README.md
-
+project-restful-apis/ ├─ node_modules/ ├─ public/ ├─ src/ │ ├─ controllers/ │ ├─
+middleware/ │ ├─ models/ │ ├─ services/ │ ├─ helpers/ │ ├─ validations/ │ ├─
+configs/ │ ├─ routes/ │ │ ├─ v1/ │ │ ├─ v2/ │ ├─ app.ts ├─ .env ├─ server.ts ├─
+.gitignore ├─ package.json ├─ README.md
 ```
 
 Cài đặt xem lại ở bài học trước với TypeScript
-
-
 
 **/Controllers** - Thư mục này sẽ chứa tất cả các chức năng dể viết các API của bạn. Cách đặt tên: xxxxx.controller.ts trong đó xxx là nhiệm vụ thôi, ví dụ: login.controller.ts
 
@@ -100,21 +86,20 @@ Cài đặt xem lại ở bài học trước với TypeScript
 
 **.gitignore** - Những file mà bạn không muốn đẩy sang git
 
-
 ### 🔶Cài đặt dự án với TypeScript
-
 
 ```bash
 npm init
 #hoặc
 yarn init
 ```
+
 Để khởi tạo file package.json
 
 ```bash
 npm install express dotenv --save
 #hoặc
-yarn add express dotenv 
+yarn add express dotenv
 ```
 
 Cài thêm
@@ -130,6 +115,7 @@ Tạo file tsconfig.json
 ```bash
 npx tsc --init
 ```
+
 Sau đó mở file tsconfig.json và tìm sửa lại những thông tin sau:
 
 ```json
@@ -144,18 +130,16 @@ Sau đó mở file tsconfig.json và tìm sửa lại những thông tin sau:
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*","server.ts", "index.d.ts"],
+  "include": ["src/**/*", "server.ts", "index.d.ts"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }
-
 ```
-
 
 Tạo File app.ts
 
 ```ts
-import dotenv from 'dotenv';
-import express, { Express, Request, Response } from 'express';
+import dotenv from "dotenv";
+import express, { Express, Request, Response } from "express";
 const app: Express = express();
 dotenv.config();
 
@@ -164,13 +148,12 @@ const PORT = process.env.PORT || 9000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get('/', (req: Request, res: Response) => {
-  res.status(200).json({message: 'Express + TypeScript Server'});
+app.get("/", (req: Request, res: Response) => {
+  res.status(200).json({ message: "Express + TypeScript Server" });
 });
 
-
 app.listen(PORT, () => {
-    console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
+  console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
 });
 ```
 
@@ -183,6 +166,7 @@ Cấu hình lại package.json
     "dev": "ts-node-dev --respawn --transpile-only app.ts"
   },
 ```
+
 Tạo file .env ở thư mục gốc dự án, dùng để chứa các thông số bảo mật, biến môi trường
 
 ```env
@@ -194,7 +178,6 @@ PORT= 8080
 
 Khởi chạy dự án
 
-
 ```bash
 yarn dev
 # hoặc
@@ -205,35 +188,34 @@ npm run dev
 
 Nhưng theo đề xuất thì nên tách server ra riêng và app ra riêng như sau:
 
-
 Sửa File src/App.ts
 
 ```ts
-import express, { Express, Request, Response } from 'express';
+import express, { Express, Request, Response } from "express";
 const app: Express = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get('/', (req: Request, res: Response) => {
-  res.status(200).json({message: 'Express + TypeScript Server'});
+app.get("/", (req: Request, res: Response) => {
+  res.status(200).json({ message: "Express + TypeScript Server" });
 });
 
 export default app;
-
 ```
+
 Tạo file server.ts ở thư mục gốc dự án
 
 ```ts
-import dotenv from 'dotenv';
-import app from './src/app';
+import dotenv from "dotenv";
+import app from "./src/app";
 
 dotenv.config();
 
 const PORT = process.env.PORT || 9000;
 
 app.listen(PORT, () => {
-    console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
+  console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
 });
 ```
 
@@ -258,17 +240,16 @@ Thông tường trong thực tế một API sẽ có địa chỉ
 ```html
 https://domain.com/api/v1/end-points
 ```
+
 Dựa vào đó người ta nhận ra ngay được đó là hệ thống RestFul API có phiên bản.
 
 Bây giờ chúng ta tạo một end-point có cấu trúc đường dẫn tương tự trên.
-
 
 ```html
 https://localhost:9000/api/v1/categories
 ```
 
 Trả về danh sách Danh mục
-
 
 Tại src/routes/v1 tạo file categories.route.ts
 
@@ -287,38 +268,36 @@ export default = router;
 Gắn router vào app.ts
 
 ```js
-import categoriesRouter from './routes/categories.route'
+import categoriesRouter from "./routes/categories.route";
 //API sẽ bắt đầu bằng api/v1/categories
-app.use('/api/v1/categories', categoriesRouter);
+app.use("/api/v1/categories", categoriesRouter);
 ```
 
 Tạo tiếp các enpoints khác
 
 Resources Category
 
-| HTTP Method | Endpoint              | Description                     |
-|-------------|-----------------------|---------------------------------|
-| GET         | api/v1/categories          | Retrieve all categories               |
-| GET         | api/v1/categories/:id      | Retrieve a specific category         |
-| POST        | api/v1/categories/:id      | Create a new category                |
-| PUT         | api/v1/categories/:id      | Update a specific category           |
-| DELETE      | api/v1/categories/:id      | Delete a specific category           |
-
-
+| HTTP Method | Endpoint              | Description                  |
+| ----------- | --------------------- | ---------------------------- |
+| GET         | api/v1/categories     | Retrieve all categories      |
+| GET         | api/v1/categories/:id | Retrieve a specific category |
+| POST        | api/v1/categories/:id | Create a new category        |
+| PUT         | api/v1/categories/:id | Update a specific category   |
+| DELETE      | api/v1/categories/:id | Delete a specific category   |
 
 ## 💛 Errors Handling App
-
 
 Sử dụng thư viện `http-errors` để bắt các lỗi từ request, hệ thống
 
 ```bash
-yarn add http-errors 
+yarn add http-errors
 ```
+
 Tại App.ts import vào
 
 ```js
-import express, { Express, NextFunction, Request, Response } from 'express';
-import createError from 'http-errors';
+import express, { Express, NextFunction, Request, Response } from "express";
+import createError from "http-errors";
 ```
 
 Add đoạn này nằm NGAY TRƯỚC phần export app
@@ -333,7 +312,7 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
 app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
   const statusCode = err.status || 500;
   res.status(statusCode).json({ statusCode: statusCode, message: err.message });
@@ -356,8 +335,7 @@ app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
 
 2. **Thêm các quy tắc bỏ qua**: Thêm các mẫu (patterns) của tệp hoặc thư mục mà bạn muốn Git bỏ qua vào tệp này. Mỗi dòng trong `.gitignore` thường chứa một mẫu.
 
-Ngoài cách tạo thủ công, bạn có thể sử dụng extention trên VS Code để tạo `.gitignore` phù hợp với từng loại ngôn ngữ dự án. 
-
+Ngoài cách tạo thủ công, bạn có thể sử dụng extention trên VS Code để tạo `.gitignore` phù hợp với từng loại ngôn ngữ dự án.
 
 ### Ví dụ về tệp `.gitignore`
 
@@ -397,37 +375,40 @@ Thumbs.db
 
 ### Một số quy tắc và cú pháp cơ bản
 
-- **Dấu sao (*)**: Đại diện cho bất kỳ chuỗi ký tự nào.
-    ```plaintext
-    *.log  # Bỏ qua tất cả các tệp có phần mở rộng .log
-    ```
+- **Dấu sao (\*)**: Đại diện cho bất kỳ chuỗi ký tự nào.
+
+  ```plaintext
+  *.log  # Bỏ qua tất cả các tệp có phần mở rộng .log
+  ```
 
 - **Dấu chấm hỏi (?)**: Đại diện cho bất kỳ ký tự đơn nào.
-    ```plaintext
-    file?.txt  # Bỏ qua file1.txt, file2.txt, ... nhưng không phải file10.txt
-    ```
+
+  ```plaintext
+  file?.txt  # Bỏ qua file1.txt, file2.txt, ... nhưng không phải file10.txt
+  ```
 
 - **Dấu gạch chéo (/)**: Chỉ định đường dẫn thư mục.
-    ```plaintext
-    /build/  # Bỏ qua toàn bộ thư mục build ở thư mục gốc
-    ```
+
+  ```plaintext
+  /build/  # Bỏ qua toàn bộ thư mục build ở thư mục gốc
+  ```
 
 - **Dấu chấm than (!)**: Lưu ý rằng ngoại lệ cho mẫu trước đó.
-    ```plaintext
-    *.log
-    !important.log  # Bỏ qua tất cả các tệp .log, ngoại trừ important.log
-    ```
+  ```plaintext
+  *.log
+  !important.log  # Bỏ qua tất cả các tệp .log, ngoại trừ important.log
+  ```
 
 ### Cách áp dụng và kiểm tra `.gitignore`
 
 - **Thêm `.gitignore` vào Git**: Khi bạn đã tạo hoặc chỉnh sửa `.gitignore`, hãy thêm nó vào kho lưu trữ Git và cam kết thay đổi.
-    ```sh
-    git add .gitignore
-    git commit -m "Thêm tệp .gitignore"
-    ```
+
+  ```sh
+  git add .gitignore
+  git commit -m "Thêm tệp .gitignore"
+  ```
 
 - **Kiểm tra trạng thái**: Để kiểm tra xem các tệp đã bị bỏ qua hay chưa, bạn có thể sử dụng lệnh `git status`.
-
 
 ## 💛 Đọc thêm - Biến môi trường
 
@@ -439,31 +420,31 @@ Dưới đây là một số bước để làm việc với biến môi trườ
 
 1. **Tạo file .env**: Đầu tiên, bạn cần tạo một tệp `.env` trong thư mục dự án của bạn. Trong tệp này, bạn sẽ định nghĩa các biến môi trường mà ứng dụng cần sử dụng. Ví dụ:
 
-    ```
-    NODE_ENV=development
-    MONGODB_URI=mongodb://localhost/demodatabase
-    SECRETKEY=SecretGarden
-    PORT=3000
-    ```
+   ```
+   NODE_ENV=development
+   MONGODB_URI=mongodb://localhost/demodatabase
+   SECRETKEY=SecretGarden
+   PORT=3000
+   ```
 
 2. **Đọc tệp .env**: Để đọc các biến môi trường từ tệp `.env`, bạn cần thực hiện các bước sau:
 
-    - Tạo một tệp `package.json` (nếu chưa có) bằng cách chạy lệnh `yarn init -y`.
-    - Cài đặt gói `dotenv` bằng lệnh `yarn add  dotenv`.
-    - Trong mã nguồn của ứng dụng, import `dotenv`:
+   - Tạo một tệp `package.json` (nếu chưa có) bằng cách chạy lệnh `yarn init -y`.
+   - Cài đặt gói `dotenv` bằng lệnh `yarn add  dotenv`.
+   - Trong mã nguồn của ứng dụng, import `dotenv`:
 
-        ```javascript
-        require('dotenv').config();
-        import 'dotenv/config' //ES6
-        ```
+     ```javascript
+     require("dotenv").config();
+     import "dotenv/config"; //ES6
+     ```
 
-    - Bây giờ bạn có thể sử dụng các biến từ tệp `.env` trong mã nguồn của mình:
+   - Bây giờ bạn có thể sử dụng các biến từ tệp `.env` trong mã nguồn của mình:
 
-        ```javascript
-        let server = app.listen(process.env.PORT || 3000, function () {
-            console.log(`Server listening on port ${server.address().port}`);
-        });
-        ```
+     ```javascript
+     let server = app.listen(process.env.PORT || 3000, function () {
+       console.log(`Server listening on port ${server.address().port}`);
+     });
+     ```
 
 3. **Lưu ý**: Để tránh việc nội dung của tệp `.env` bị thay đổi giữa các môi trường khi cập nhật, bạn nên thêm tệp `.env` vào danh sách ignore trong tệp `.gitignore`.
 
@@ -484,4 +465,3 @@ Dưới đây là một số bước để làm việc với biến môi trườ
 Tóm lại, sử dụng biến môi trường giúp bạn quản lý cấu hình ứng dụng một cách an toàn, linh hoạt và dễ dàng. 🌟
 
 ## 💛 Homework Guides
-

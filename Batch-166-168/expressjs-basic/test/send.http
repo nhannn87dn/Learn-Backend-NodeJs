@@ -1,0 +1,29 @@
+# get ALl categories
+GET http://localhost:8080/api/v1/categories
+
+
+### get Single category
+http://localhost:8080/api/v1/categories/1
+
+# Update cattegory
+PUT http://localhost:8080/api/v1/categories/1
+Content-Type: application/json
+
+{
+    "name": "Iphone"
+}
+
+### 3 dấu 3 để ngăn cách các requests
+
+# Xoa category
+DELETE http://localhost:8080/api/v1/categories/1
+
+### POST Them moi
+POST http://localhost:8080/api/v1/categories
+Content-Type: application/json
+
+{
+    "id": 4,
+    "name": "Iphone 16 pro max",
+    "price": 8000
+}

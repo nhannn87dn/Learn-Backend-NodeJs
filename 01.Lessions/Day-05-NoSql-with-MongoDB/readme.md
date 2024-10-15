@@ -1,6 +1,18 @@
 # MongoDB and Mongoose
 
-![mongodb](https://images.viblo.asia/29322fc4-a1b0-4416-9dce-0d4b34843cf6.png)
+## 💛 Xử lý bất đồng bộ với Promises and Async/Await
+
+[Xem ở đây](2.Async-Await/readme.md)
+
+### Promises là gì ?
+
+Xem ở đây [Promises](2.Async-Await/Promises.md)
+
+### and Async/Await là gì ?
+
+Xem ở đây [Async/Await](2.Async-Await/async-await.md)
+
+---
 
 ## 💛 MongoDB là gì ?
 
@@ -110,13 +122,13 @@ const mongooseDbOptions = {
   useUnifiedTopology: true,
 };
 mongoose
-  .connect('mongodb://127.0.0.1:27017/yourDatabaseName', mongooseDbOptions)
+  .connect("mongodb://127.0.0.1:27017/yourDatabaseName", mongooseDbOptions)
   .then(() => {
-    console.log('Connected to MongoDB');
+    console.log("Connected to MongoDB");
     //should listen app here
   })
   .catch((err) => {
-    console.error('Failed to Connect to MongoDB', err);
+    console.error("Failed to Connect to MongoDB", err);
   });
 ```
 
@@ -177,7 +189,7 @@ const testSchema new Schema({
     type: String
   },
   //Các trường khác
-}, 
+},
 {
   timestamps: true, //Tạo tự động thêm 2 trường createAt, updateAt
 });
@@ -204,7 +216,7 @@ const testSchema new Schema({
     type: String
   },
   //Các trường khác
-}, 
+},
 {
   timestamps: true,
 });
@@ -252,9 +264,9 @@ CREATE TABLE Contacts (
 );
 ```
 
-| id  | user_id | phone        | email            |
-| --- | ------- | ------------ | ---------------- |
-| 1   | 1       | 123-456-7890 | <xyz@example.com>  |
+| id  | user_id | phone        | email             |
+| --- | ------- | ------------ | ----------------- |
+| 1   | 1       | 123-456-7890 | <xyz@example.com> |
 
 - Bảng `Access`
 
@@ -281,29 +293,29 @@ CREATE TABLE Access (
 Với kiểu cấu trúc dữ liệu trên thì Schema trong MongoDB sẽ thiết kế như sau:
 
 ```js
-import {Schema} from 'mongoose'
+import { Schema } from "mongoose";
 
 // Schema cho contact
 const ContactSchema = new Schema({
-    phone: { type: String, required: true },
-    email: { type: String, required: true }
+  phone: { type: String, required: true },
+  email: { type: String, required: true },
 });
 
 // Schema cho access
 const AccessSchema = new Schema({
-    level: { type: Number, required: true },
-    group: { type: String, required: true }
+  level: { type: Number, required: true },
+  group: { type: String, required: true },
 });
 
 // Schema cho user
 const UserSchema = new Schema({
-    username: { type: String, required: true },
-    contact: { type: ContactSchema, required: true },
-    access: { type: AccessSchema, required: true }
+  username: { type: String, required: true },
+  contact: { type: ContactSchema, required: true },
+  access: { type: AccessSchema, required: true },
 });
 
 // Tạo model từ schema
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model("User", UserSchema);
 export default User;
 /**
  * Chỉ export Schema CHA làm model
@@ -348,7 +360,7 @@ CREATE TABLE Users (
 ```
 
 | id  | username |
-|-----|----------|
+| --- | -------- |
 | 1   | user1    |
 | 2   | user2    |
 | 3   | user3    |
@@ -365,13 +377,12 @@ CREATE TABLE Contacts (
 );
 ```
 
-| id  | user_id | phone       | email              |
-|-----|---------|-------------|--------------------|
-| 1   | 1       | 1234567890  | user1@example.com  |
-| 2   | 1       | 0987654321  | user1_2@example.com|
-| 3   | 2       | 1122334455  | user2@example.com  |
-| 4   | 3       | 2233445566  | user3@example.com  |
-
+| id  | user_id | phone      | email               |
+| --- | ------- | ---------- | ------------------- |
+| 1   | 1       | 1234567890 | user1@example.com   |
+| 2   | 1       | 0987654321 | user1_2@example.com |
+| 3   | 2       | 1122334455 | user2@example.com   |
+| 4   | 3       | 2233445566 | user3@example.com   |
 
 - Bảng `Access`
 
@@ -386,14 +397,11 @@ CREATE TABLE Access (
 ```
 
 | id  | user_id | level | group      |
-|-----|---------|-------|------------|
+| --- | ------- | ----- | ---------- |
 | 1   | 1       | 1     | admin      |
 | 2   | 1       | 2     | editor     |
 | 3   | 2       | 1     | viewer     |
 | 4   | 3       | 3     | superadmin |
-
-
-
 
 ![embed](img/references-model.PNG)
 
@@ -418,10 +426,10 @@ export default User
 import {Schema} = from 'mongoose';
 
 const ContactSchema = new Schema({
-    user_id: { 
-      type: Schema.Types.ObjectId, 
+    user_id: {
+      type: Schema.Types.ObjectId,
       ref: 'User',  //Tham chiếu tới Model User
-      required: true 
+      required: true
     },
     phone: { type: String, required: true },
     email: { type: String, required: true }
@@ -436,10 +444,10 @@ export default Contact
 ```javascript
 import {Schema} = from 'mongoose';
 const AccessSchema = new Schema({
-    user_id: { 
-      type: Schema.Types.ObjectId, 
+    user_id: {
+      type: Schema.Types.ObjectId,
       ref: 'User', //Tham chiếu tới Model User
-      required: true 
+      required: true
     },
     level: { type: Number, required: true },
     group: { type: String, required: true }
@@ -458,28 +466,27 @@ Dùng khi: Quan hệ `MỘT - NHIỀU` giữa các đối tượng, Dữ liệu 
 NÓI THÊM: Với kiểu quan hệ `MỘT - NHIỀU` trên, Dữ liệu không thay đổi, ít cần sự nhất quán. Bạn có thể chuyển thành `embed model`
 
 ```js
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 const ContactSchema = new Schema({
-    phone: { type: String, required: true },
-    email: { type: String, required: true }
+  phone: { type: String, required: true },
+  email: { type: String, required: true },
 });
 
 const AccessSchema = new Schema({
-    level: { type: Number, required: true },
-    group: { type: String, required: true }
+  level: { type: Number, required: true },
+  group: { type: String, required: true },
 });
 
 const UserSchema = new Schema({
-    username: { type: String, required: true },
-    contacts: [ContactSchema], //Dữ liệu lưu thành Array
-    accesses: [AccessSchema], //Dữ liệu lưu thành Array
+  username: { type: String, required: true },
+  contacts: [ContactSchema], //Dữ liệu lưu thành Array
+  accesses: [AccessSchema], //Dữ liệu lưu thành Array
 });
 
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model("User", UserSchema);
 export default User;
 ```
-
 
 #### Ưu nhược điểm của mô hình Referenced Model
 
@@ -488,41 +495,43 @@ Mô hình tham chiếu (referenced model) trong MongoDB có nhiều ưu và như
 **Ưu Điểm**
 
 1. **Chuẩn Hóa Dữ Liệu (Normalization)**:
-    - **Giảm Trùng Lặp Dữ Liệu**: Dữ liệu không bị trùng lặp trong nhiều tài liệu, giúp tiết kiệm không gian lưu trữ.
-    - **Dễ Duy Trì Dữ Liệu**: Thay đổi dữ liệu ở một nơi sẽ tự động cập nhật cho tất cả các mối quan hệ, giúp dễ duy trì tính nhất quán.
+
+   - **Giảm Trùng Lặp Dữ Liệu**: Dữ liệu không bị trùng lặp trong nhiều tài liệu, giúp tiết kiệm không gian lưu trữ.
+   - **Dễ Duy Trì Dữ Liệu**: Thay đổi dữ liệu ở một nơi sẽ tự động cập nhật cho tất cả các mối quan hệ, giúp dễ duy trì tính nhất quán.
 
 2. **Quản Lý Dữ Liệu Phức Tạp**:
-    - **Quan Hệ Nhiều-Nhiều**: Dễ dàng quản lý các quan hệ phức tạp như nhiều-nhiều mà không cần phải nhúng dữ liệu lặp lại.
-    - **Tái Sử Dụng Dữ Liệu**: Một tài liệu có thể được tham chiếu bởi nhiều tài liệu khác mà không cần phải sao chép dữ liệu.
+
+   - **Quan Hệ Nhiều-Nhiều**: Dễ dàng quản lý các quan hệ phức tạp như nhiều-nhiều mà không cần phải nhúng dữ liệu lặp lại.
+   - **Tái Sử Dụng Dữ Liệu**: Một tài liệu có thể được tham chiếu bởi nhiều tài liệu khác mà không cần phải sao chép dữ liệu.
 
 3. **Hiệu Quả Cập Nhật Dữ Liệu**:
-    - **Cập Nhật Một Lần**: Khi cần cập nhật thông tin, chỉ cần cập nhật tài liệu gốc mà không cần phải cập nhật tất cả các bản sao trong các tài liệu nhúng.
+
+   - **Cập Nhật Một Lần**: Khi cần cập nhật thông tin, chỉ cần cập nhật tài liệu gốc mà không cần phải cập nhật tất cả các bản sao trong các tài liệu nhúng.
 
 4. **Kiểm Soát Truy Cập**:
-    - **Tách Biệt Dữ Liệu**: Dữ liệu có thể được tách biệt rõ ràng và kiểm soát truy cập tốt hơn giữa các phần khác nhau của ứng dụng.
+   - **Tách Biệt Dữ Liệu**: Dữ liệu có thể được tách biệt rõ ràng và kiểm soát truy cập tốt hơn giữa các phần khác nhau của ứng dụng.
 
 **Nhược Điểm**
 
 1. **Hiệu Suất Truy Vấn**:
-    - **Truy Vấn Nhiều Lần**: Các truy vấn thường yêu cầu nhiều lần truy vấn để lấy dữ liệu từ các tài liệu tham chiếu, điều này có thể làm giảm hiệu suất.
-    - **Tốn Kém Truy Vấn**: Truy vấn có thể trở nên phức tạp và tốn kém hơn khi cần join dữ liệu từ nhiều tài liệu.
+
+   - **Truy Vấn Nhiều Lần**: Các truy vấn thường yêu cầu nhiều lần truy vấn để lấy dữ liệu từ các tài liệu tham chiếu, điều này có thể làm giảm hiệu suất.
+   - **Tốn Kém Truy Vấn**: Truy vấn có thể trở nên phức tạp và tốn kém hơn khi cần join dữ liệu từ nhiều tài liệu.
 
 2. **Tính Phức Tạp**:
-    - **Phức Tạp Hóa Cấu Trúc Dữ Liệu**: Mô hình tham chiếu có thể làm tăng độ phức tạp của cơ sở dữ liệu, đặc biệt là khi có nhiều quan hệ phức tạp.
-    - **Khó Thiết Kế**: Thiết kế và duy trì các mối quan hệ tham chiếu có thể đòi hỏi nhiều công sức hơn so với mô hình nhúng.
+
+   - **Phức Tạp Hóa Cấu Trúc Dữ Liệu**: Mô hình tham chiếu có thể làm tăng độ phức tạp của cơ sở dữ liệu, đặc biệt là khi có nhiều quan hệ phức tạp.
+   - **Khó Thiết Kế**: Thiết kế và duy trì các mối quan hệ tham chiếu có thể đòi hỏi nhiều công sức hơn so với mô hình nhúng.
 
 3. **Giao Dịch và Tính Nhất Quán**:
-    - **Khó Đảm Bảo Tính Nhất Quán**: Đảm bảo tính nhất quán giữa các tài liệu tham chiếu có thể khó khăn, đặc biệt là trong các hệ thống phân tán.
-    - **Giao Dịch Phức Tạp**: Giao dịch giữa các tài liệu tham chiếu có thể phức tạp hơn và yêu cầu cơ chế quản lý giao dịch tốt.
+   - **Khó Đảm Bảo Tính Nhất Quán**: Đảm bảo tính nhất quán giữa các tài liệu tham chiếu có thể khó khăn, đặc biệt là trong các hệ thống phân tán.
+   - **Giao Dịch Phức Tạp**: Giao dịch giữa các tài liệu tham chiếu có thể phức tạp hơn và yêu cầu cơ chế quản lý giao dịch tốt.
 
 **Khi Nào Nên Sử Dụng Mô Hình Tham Chiếu**
 
 - **Dữ Liệu Lớn và Phức Tạp**: Khi bạn có dữ liệu lớn và phức tạp, việc sử dụng mô hình tham chiếu sẽ giúp giảm trùng lặp và dễ dàng quản lý dữ liệu.
 - **Quan Hệ Nhiều-Nhiều**: Khi có nhiều quan hệ nhiều-nhiều, mô hình tham chiếu sẽ giúp quản lý các quan hệ này một cách hiệu quả hơn.
 - **Cập Nhật Thường Xuyên**: Khi dữ liệu cần được cập nhật thường xuyên, mô hình tham chiếu sẽ giúp cập nhật một lần và duy trì tính nhất quán dễ dàng hơn.
-
-
-
 
 ---
 
@@ -542,7 +551,6 @@ Thường được dùng trong 3 loại quan hệ trên.
 
 Xem chi tiết: <https://mongoosejs.com/docs/subdocs.html>
 
-
 ## 💛 Mongoose Basic Queries
 
 Danh sách các phương thức truy vấn xem ở link sau
@@ -550,23 +558,22 @@ Doc: <https://mongoosejs.com/docs/queries.html>
 
 Ví dụ có một model test đầy đủ các kiểu dữ liệu
 
-
 ```js
 const testSchema = new Schema({
   stringField: String,
   numberField: Number,
   booleanField: Boolean,
-  dateField: { 
-    type: Date, 
-    default: Date.now 
+  dateField: {
+    type: Date,
+    default: Date.now,
   },
-  arrayField: [String],  // Mảng các chuỗi
-  mixedField: { type: Schema.Types.Mixed },  // Kiểu hỗn hợp
+  arrayField: [String], // Mảng các chuỗi
+  mixedField: { type: Schema.Types.Mixed }, // Kiểu hỗn hợp
   decimalField: { type: Schema.Types.Decimal128 },
   nestedObject: {
     subField1: String,
-    subField2: Number
-  }
+    subField2: Number,
+  },
 });
 ```
 
@@ -574,7 +581,6 @@ const testSchema = new Schema({
 
 Bạn sửa funtion createTest trong services\Tests.service.ts
 lại như sau:
-
 
 ```js
 import Test  from '../models/Test.model';
@@ -624,7 +630,6 @@ Cách truy vấn đầy đủ hơn sẽ tìm hiểu trong bài tiếp theo.
 
 ---
 
-
 ## 💛 Mongoose Built-in Validators
 
 Doc: <https://mongoosejs.com/docs/validation.html>
@@ -640,15 +645,15 @@ const TestSchema = new Schema(
       type: String,
       required: true,
       trim: true,
-      min: [6, 'Too few eggs'],
-      max: [12, 'Only allow Max 12 characters'],
+      min: [6, "Too few eggs"],
+      max: [12, "Only allow Max 12 characters"],
     },
     lastName: {
       type: String,
       required: true,
       trim: true,
-      min: [6, 'Too few eggs'],
-      max: [12, 'Only allow Max 12 characters'],
+      min: [6, "Too few eggs"],
+      max: [12, "Only allow Max 12 characters"],
     },
     email: {
       type: String,
@@ -665,8 +670,8 @@ const TestSchema = new Schema(
     role: {
       type: String,
       required: true,
-      enum: ['admin', 'customer', 'Test'],
-      default: 'Test',
+      enum: ["admin", "customer", "Test"],
+      default: "Test",
     },
     isEmailVerified: {
       type: Boolean,
@@ -674,8 +679,8 @@ const TestSchema = new Schema(
       default: true,
     },
   },
-  { 
-    timestamps: true 
+  {
+    timestamps: true,
   }
 );
 ```
@@ -687,7 +692,6 @@ Nếu bạn thấy các tính năng validate có sẵn không đáp ứng đư�
 Ví dụ: Check số điện thoại đúng định dạng yêu cầu không
 
 ```js
-
 const TestSchema = new Schema({
   phone: {
     type: String,
@@ -697,7 +701,7 @@ const TestSchema = new Schema({
       },
       message: (props) => `${props.value} is not a valid phone number!`,
     },
-    required: [true, 'Test phone number required'],
+    required: [true, "Test phone number required"],
   },
 });
 ```
