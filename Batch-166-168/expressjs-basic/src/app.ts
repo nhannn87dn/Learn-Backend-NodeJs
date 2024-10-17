@@ -1,7 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 import createError from 'http-errors'
-import categoryRoute from './routes/category.route'
+import categoryRoute from './routes/v1/category.route';
+import categoryRouteV2 from './routes/v2/category.route'
 const app = express();
 
 /* bắt được body string từ request */
@@ -19,7 +20,7 @@ app.get("/", (req, res) => {
 
 //==== DINH NGHIA ROUTES ==== //
 app.use('/api/v1/categories', categoryRoute);
-
+app.use('/api/v2/categories', categoryRouteV2);
 
 
 //=== HANDLE ERRORS BEGIN HERE ====//
