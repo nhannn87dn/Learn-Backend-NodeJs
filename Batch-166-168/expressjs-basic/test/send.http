@@ -3,11 +3,11 @@ GET http://localhost:8080/api/v1/categories
 
 
 ### get Single category
-http://localhost:8080/api/v1/categories/4
+http://localhost:8080/api/v1/categories/1
 
 ### Update cattegory
 
-PUT http://localhost:8080/api/v1/categories/1
+PUT http://localhost:8080/api/v1/categories/4
 Content-Type: application/json
 
 {
@@ -17,7 +17,7 @@ Content-Type: application/json
 ### 3 dấu 3 để ngăn cách các requests
 
 # Xoa category
-DELETE http://localhost:8080/api/v1/categories/1
+DELETE http://localhost:8080/api/v1/categories/4
 
 ### POST Them moi
 POST http://localhost:8080/api/v1/categories
