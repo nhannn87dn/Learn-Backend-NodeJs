@@ -1,13 +1,9 @@
 import {Request, Response} from "express";
-
-const categories = [
-    {id: 1, name: 'laptop'},
-    {id: 2, name: 'Mobile'},
-    {id: 3, name: 'Accessories'}
-]
+import categoryService from "../services/category.service";
 
 /* get ALl categories */
 const findAll =  (req : Request, res: Response)=>{
+    const categories = categoryService.findAll();
     res.status(200).json(categories)
 }
 
@@ -16,8 +12,8 @@ const findOne = (req : Request, res: Response)=>{
     const {id} = req.params; // type string
     console.log('<<=== 🚀 id ===>>',id);
 
-    const category = categories.find(c => c.id === parseInt(id));
-
+    const category = categoryService.findOne(parseInt(id));
+    // response cho client
     res.status(200).json(category)
 };
 
@@ -25,8 +21,9 @@ const findOne = (req : Request, res: Response)=>{
 const create = (req : Request, res: Response)=>{
     const body = req.body;
     //Theem vao database
+    const category = categoryService.create(body);
 
-    res.status(201).json(body);
+    res.status(201).json(category);
 }
 
 /* update a category */
@@ -35,12 +32,7 @@ const updateById = (req : Request, res: Response)=>{
     console.log('<<=== 🚀 id ===>>',id);
     const body = req.body;
 
-    const category = categories.map((c)=> {
-        if(c.id === parseInt(id)){
-            c.name = body.name// gan lai ten moi
-        }
-        return c
-    })
+    const category = categoryService.updateById(parseInt(id), body)
 
     res.status(200).json(category)
 }
@@ -50,10 +42,12 @@ const deleteById = (req : Request, res: Response)=>{
     const {id} = req.params; // type string
     console.log('<<=== 🚀 id ===>>',id);
 
-    const result = categories.filter(c => c.id !== parseInt(id))
+    const result = categoryService.deleteById(parseInt(id));
 
     res.status(200).json(result)
 }
+
+
 
 export default {
     findAll,
