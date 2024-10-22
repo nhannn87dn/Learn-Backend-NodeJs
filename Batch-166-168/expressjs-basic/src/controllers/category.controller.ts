@@ -2,9 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import categoryService from "../services/category.service";
 import { sendJsonSuccess, SUCCESS } from "../helpers/responseHandler";
 /* get ALl categories */
-const findAll = (req: Request, res: Response, next: NextFunction) => {
+const findAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const categories = categoryService.findAll();
+    const categories = await categoryService.findAll();
     sendJsonSuccess(res)(categories);
     // res.status(200).json({
     //   success: true,
@@ -33,11 +33,11 @@ const findOne = (req: Request, res: Response, next: NextFunction) => {
 };
 
 /* create a new category */
-const create = (req: Request, res: Response, next: NextFunction) => {
+const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const body = req.body;
     //Theem vao database
-    const category = categoryService.create(body);
+    const category = await categoryService.create(body);
 
     //res.status(201).json(category);
     sendJsonSuccess(res, SUCCESS.CREATED)(category);

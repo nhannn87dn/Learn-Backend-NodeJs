@@ -15,10 +15,12 @@
     "body-parser": "^1.20.3",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
-    "http-errors": "^2.0.0"
+    "http-errors": "^2.0.0",
+    "mongoose": "^8.7.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
+    "@types/mongoose": "^5.11.97",
     "@types/node": "^22.7.5",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.6.3"

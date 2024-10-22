@@ -24,13 +24,15 @@ export const sendJsonSuccess = (
  */
 export const sendJsonError = (
   res: Response,
-  status: Status = ERROR.SERVER_ERROR
-): void => {
-  res.status(status.statusCode).json({
-    statusCode: status.statusCode,
-    message: status.message,
-    data: null,
-  });
+  status: Status = ERROR.SERVER_ERROR,
+  data: any = null
+) => {
+  return (data: any = null) => {
+    const resData = data
+      ? { statusCode: status.statusCode, message: status.message, data }
+      : { statusCode: status.statusCode, message: status.message };
+    res.status(status.statusCode).json(resData);
+  };
 };
 
 export { SUCCESS, ERROR };

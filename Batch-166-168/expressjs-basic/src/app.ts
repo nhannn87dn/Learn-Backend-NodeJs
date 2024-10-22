@@ -37,9 +37,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   res.status(statusCode).json({
     statusCode: statusCode,
     message: err.message,
-    data: null,
+    data: err.data || null,
   });
-  //sendJsonError(res, ERROR.SERVER_ERROR);
 });
 
 export default app;

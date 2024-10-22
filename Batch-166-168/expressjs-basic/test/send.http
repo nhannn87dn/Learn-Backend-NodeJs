@@ -3,7 +3,7 @@ GET http://localhost:8080/api/v1/categories
 
 
 ### get Single category
-http://localhost:8080/api/v1/categories/1
+http://localhost:8080/api/v1/categories/4
 
 ### Update cattegory
 
@@ -24,7 +24,7 @@ POST http://localhost:8080/api/v1/categories
 Content-Type: application/json
 
 {
-    "id": 4,
-    "name": "Iphone 16 pro max",
-    "price": 8000
+    "category_name": "Dien thoai v1",
+    "description": "Laptop gia re nhat thanh pho da nang",
+    "slug": "dien-thoai"
 }

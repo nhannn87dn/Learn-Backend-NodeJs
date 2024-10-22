@@ -1,4 +1,5 @@
 import createError from "http-errors";
+import Category from "../models/category.model";
 
 const categories = [
   { id: 1, name: "laptop" },
@@ -7,10 +8,11 @@ const categories = [
 ];
 
 /* get ALl categories */
-const findAll = () => {
+const findAll = async () => {
   //Lay du lieu trong DB
   // return lai cho controller
-  return categories;
+  const result = await Category.find();
+  return result;
 };
 
 /* get Single Category */
@@ -18,14 +20,16 @@ const findOne = (id: number) => {
   const category = categories.find((c) => c.id === id);
   /* check su ton tai cua category */
   if (!category) {
-    throw createError(400, "Category not found");
+    throw createError(400, "Category not found", { data: category });
   }
   return category;
 };
 
 /* create a new category */
-const create = (payload: any) => {
-  return payload;
+const create = async (payload: any) => {
+  console.log("<<=== 🚀 payload ===>>", payload);
+  const category = await Category.create(payload);
+  return category;
 };
 
 /* update a category */
