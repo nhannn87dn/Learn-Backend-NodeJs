@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
-const categorySchema = new Schema({
-  category_name: {
+const brandSchema = new Schema({
+  brand_name: {
     type: String,
     maxLength: [255, "Tối đa 5 kí tự"], //danh
     required: [true, "Yêu cầu điền"],
@@ -23,5 +23,5 @@ const categorySchema = new Schema({
   timestamps: true, //Tu tao them createdAt và updatedAt
 });
 
-const Category = model("Category", categorySchema);
-export default Category;
+const Brand = model("Brand", brandSchema);
+export default Brand;
