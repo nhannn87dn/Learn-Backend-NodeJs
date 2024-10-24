@@ -7,7 +7,8 @@
     "build": "npx tsc -p",
     "start": "node dist/server.js",
     "dev": "ts-node-dev --respawn --transpile-only server.ts",
-    "seed": "ts-node-dev --respawn --transpile-only src/databases/seed.ts"
+    "seed": "ts-node-dev --respawn --transpile-only src/databases/seed.ts",
+    "db": "ts-node-dev --respawn --transpile-only src/databases/query.ts"
   },
   "author": "",
   "license": "ISC",

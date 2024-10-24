@@ -54,6 +54,7 @@ const productSchema = new Schema({
     type: Number,
     default: 0,
     min: 0,
+    //select: false, //default: true, true = co liet ke o ket qua truy van
   },
 }, {
   timestamps: true, //Tu tao them createdAt và updatedAt
