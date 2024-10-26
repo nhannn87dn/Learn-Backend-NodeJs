@@ -1,11 +1,6 @@
 import createError from "http-errors";
 import Category from "../models/category.model";
-
-const categories = [
-  { id: 1, name: "laptop" },
-  { id: 2, name: "Mobile" },
-  { id: 3, name: "Accessories" },
-];
+;
 
 /* get ALl categories */
 const findAll = async () => {
@@ -16,11 +11,10 @@ const findAll = async () => {
 };
 
 /* get Single Category */
-const findOne = (id: number) => {
-  const category = categories.find((c) => c.id === id);
-  /* check su ton tai cua category */
-  if (!category) {
-    throw createError(400, "Category not found", { data: category });
+const findOne = async (id: string) => {
+  const category = await Category.findById(id);
+  if(!category){
+    throw createError(400, "Category not found")
   }
   return category;
 };
@@ -33,26 +27,22 @@ const create = async (payload: any) => {
 };
 
 /* update a category */
-const updateById = (id: number, payload: any) => {
+const updateById =async (id: string, payload: any) => {
   //kiem tra su ton tai
-  const category = findOne(id);
-
-  const result = categories.map((c) => {
-    if (c.id === category.id) {
-      c.name = payload.name; // gan lai ten moi
-    }
-    return c;
-  });
-  return result;
+  const category = await findOne(id);
+    Object.assign(category, payload);
+    await category.save();
+  
+  return category;
 };
 
 /* delete a category */
-const deleteById = (id: number) => {
+const deleteById = async(id: string) => {
   //kiem tra su ton tai
-  const category = findOne(id);
+  const category = await findOne(id);
 
-  const result = categories.filter((c) => c.id !== category.id);
-  return result;
+  await Category.findByIdAndDelete(id);
+  return category;
 };
 
 export default {
