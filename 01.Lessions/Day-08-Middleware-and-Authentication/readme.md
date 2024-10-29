@@ -238,10 +238,10 @@ export default validateSchema
 Sử dụng thư viện `yup` để validate
 
 ```ts
-import * as yup from 'yup';
+import {AnySchema, ValidationError} from 'yup';
 import { NextFunction, Request, Response } from 'express';
 
-const validateSchemaYup = (schema: any) => async (req: Request, res: Response, next: NextFunction) => {
+const validateSchemaYup = (schema: AnySchema) => async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     await schema.validate({
       body: req.body,
@@ -253,19 +253,21 @@ const validateSchemaYup = (schema: any) => async (req: Request, res: Response, n
     }  
   );
 
-    return next();
+  next();
+
   } catch (err) {
     //console.log(err);
-    if (err instanceof yup.ValidationError) {
+    if (err instanceof ValidationError) {
       //console.error(err);
-      return res.status(400).json({
+      res.status(400).json({
         statusCode: 400,
         message: err.errors, // err.errors chứa tất cả các thông điệp lỗi
         typeError: 'validateSchema'
       });
     }
-    return res.status(400).json({
-      statusCode: 400,
+
+    res.status(500).json({
+      statusCode: 500,
       message: 'validate Yup Error',
       typeError: 'validateSchemaUnknown'
     });

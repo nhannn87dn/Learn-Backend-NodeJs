@@ -5,6 +5,7 @@ import categoryRoute from "./routes/v1/category.route";
 import categoryRouteV2 from "./routes/v2/category.route";
 import productRoute from './routes/v1/product.route';
 import brandRoute from './routes/v1/brand.route';
+import { TCustomRequest } from "./types/express";
 
 const app = express();
 
@@ -16,12 +17,16 @@ app.use(bodyParser.urlencoded());
 
 
 /* Middleware function */
-function myMiddleware(req: Request, res: Response, next: NextFunction) {
+
+function myMiddleware(req: TCustomRequest, res: Response, next: NextFunction) {
   console.log('Middleware đang chạy...');
+  req.user = { id: 1, name: 'John Doe' };
+  //response về local, nó chỉ tồn trên server backend, chứ nó ko gửi về client
+  res.locals.user = { id: 1, name: 'John Doe' };
   next(); // Chuyển tiếp yêu cầu tới hàm xử lý tiếp theo
 }
 //Su dung middleware
-app.use(myMiddleware);
+//app.use(myMiddleware);
 
 // Trang chu
 app.get("/", (req, res) => {

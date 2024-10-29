@@ -30,6 +30,7 @@ const findOne = async (req: Request, res: Response, next: NextFunction) => {
 
 /* create a new category */
 const create = async (req: Request, res: Response, next: NextFunction) => {
+  console.log('<<=== 🚀 create category ===>>');
   try {
     const body = req.body;
     //Theem vao database
