@@ -19,27 +19,27 @@ mongoose
   .catch((error) => console.error("MongoDB connection error:", error));
 
 const runDB = async()=>{
-    // for (let i = 0; i < 10; i++) {
-    //     const categoryName = faker.commerce.product() + i;
-    //   const newCategory = new Category({
-    //     category_name: categoryName,
-    //     description: faker.lorem.paragraph(),
-    //     slug: faker.helpers.slugify(categoryName)
-    //   });
-    //   await newCategory.save();
-    // }
-    // console.log("Created 10 categories");
+    for (let i = 0; i < 10; i++) {
+        const categoryName = faker.commerce.product() + i;
+      const newCategory = new Category({
+        category_name: categoryName,
+        description: faker.lorem.paragraph(),
+        slug: faker.helpers.slugify(categoryName)
+      });
+      await newCategory.save();
+    }
+    console.log("Created 10 categories");
 
-  //   for (let i = 0; i < 10; i++) {
-  //     const brandName = faker.company.name() + i;
-  //   const newBrand = new Brand({
-  //     brand_name: brandName,
-  //     description: faker.lorem.paragraph(),
-  //     slug: faker.helpers.slugify(brandName)
-  //   });
-  //   await newBrand.save();
-  // }
-  // console.log("Created 10 brands");
+    for (let i = 0; i < 10; i++) {
+      const brandName = faker.company.name() + i;
+    const newBrand = new Brand({
+      brand_name: brandName,
+      description: faker.lorem.paragraph(),
+      slug: faker.helpers.slugify(brandName)
+    });
+    await newBrand.save();
+  }
+  console.log("Created 10 brands");
 
   //Tao 50 product co thuong hieu, va thuoc cac danh muc da co
      const currentBrands = await Brand.find();

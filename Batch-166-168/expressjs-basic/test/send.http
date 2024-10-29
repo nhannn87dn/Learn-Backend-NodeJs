@@ -28,3 +28,31 @@ Content-Type: application/json
     "description": "Laptop gia re nhat thanh pho da nang",
     "slug": "dien-thoai"
 }
+
+
+### POST Them moi san pham
+POST http://localhost:8080/api/v1/products
+Content-Type: application/json
+
+{
+    "product_name": "Dien thoai v1",
+    "description": "Laptop gia re nhat thanh pho da nang",
+    "slug": "dien-thoai-v1",
+    "price": 800,
+    "category": "671ccfa837064315034828d9",
+    "brand": "671ccfa937064315034828bd",
+    "model_year": 2026
+}
+
+###  updte  san pham
+PUT http://localhost:8080/api/v1/products/671cdf5c8dd8d97400017988
+Content-Type: application/json
+
+{
+    "product_name": "Dien thoai v2",
+    "slug": "dien-thoai-v2"
+}
+
+###  delte  san pham
+DELETE  http://localhost:8080/api/v1/products/671cdf5c8dd8d97400017988
+Content-Type: application/json

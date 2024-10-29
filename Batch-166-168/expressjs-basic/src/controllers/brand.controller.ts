@@ -1,70 +1,70 @@
 import { NextFunction, Request, Response } from "express";
-import categoryService from "../services/category.service";
+import brandService from "../services/brand.service";
 import { sendJsonSuccess, SUCCESS } from "../helpers/responseHandler";
-/* get ALl categories */
+/* get ALl brands */
 const findAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const categories = await categoryService.findAll();
-    sendJsonSuccess(res)(categories);
-    
+    const brands = await brandService.findAll();
+    sendJsonSuccess(res)(brands);
+   
   } catch (error) {
     next(error);
   }
 };
 
-/* get Single Category */
+/* get Single Brand */
 const findOne = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params; // type string
     console.log("<<=== 🚀 id ===>>", id);
 
-    const category = await categoryService.findOne(id);
+    const brand = await brandService.findOne(id);
     // response cho client
-    //res.status(200).json(category);
-    sendJsonSuccess(res)(category);
+    //res.status(200).json(brand);
+    sendJsonSuccess(res)(brand);
   } catch (error) {
     //chuyen tiep loi ra cho app.ts xu ly
     next(error);
   }
 };
 
-/* create a new category */
+/* create a new brand */
 const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const body = req.body;
     //Theem vao database
-    const category = await categoryService.create(body);
+    const brand = await brandService.create(body);
 
-    //res.status(201).json(category);
-    sendJsonSuccess(res, SUCCESS.CREATED)(category);
+    //res.status(201).json(brand);
+    sendJsonSuccess(res, SUCCESS.CREATED)(brand);
   } catch (error) {
     next(error);
   }
 };
 
-/* update a category */
+/* update a brand */
 const updateById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params; // type string
     console.log("<<=== 🚀 id ===>>", id);
     const body = req.body;
 
-    const category = await categoryService.updateById(id, body);
+    const brand = await brandService.updateById(id, body);
 
-    //res.status(200).json(category);
-    sendJsonSuccess(res)(category);
+    //res.status(200).json(brand);
+    sendJsonSuccess(res)(brand);
   } catch (error) {
     next(error);
   }
 };
 
-/* delete a category */
+/* delete a brand */
 const deleteById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params; // type string
     console.log("<<=== 🚀 id ===>>", id);
 
-    const result = await categoryService.deleteById(id);
+    const result = await brandService.deleteById(id);
 
     //res.status(200).json(result);
     sendJsonSuccess(res)(result);

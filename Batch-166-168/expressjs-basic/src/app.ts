@@ -3,6 +3,8 @@ import bodyParser from "body-parser";
 import createError from "http-errors";
 import categoryRoute from "./routes/v1/category.route";
 import categoryRouteV2 from "./routes/v2/category.route";
+import productRoute from './routes/v1/product.route';
+import brandRoute from './routes/v1/brand.route';
 
 const app = express();
 
@@ -30,7 +32,8 @@ app.get("/", (req, res) => {
 //==== DINH NGHIA ROUTES ==== //
 app.use("/api/v1/categories", categoryRoute);
 app.use("/api/v2/categories", categoryRouteV2);
-
+app.use("/api/v1/products", productRoute);
+app.use("/api/v1/brands", brandRoute);
 //=== HANDLE ERRORS BEGIN HERE ====//
 // Lưu ý: Đặt trước phần export, và sau các route khác
 
