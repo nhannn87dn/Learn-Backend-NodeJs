@@ -1,4 +1,3 @@
-import { sendJsonError, ERROR } from "./helpers/responseHandler";
 import express, { Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
 import createError from "http-errors";
@@ -13,8 +12,18 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
+
+/* Middleware function */
+function myMiddleware(req: Request, res: Response, next: NextFunction) {
+  console.log('Middleware đang chạy...');
+  next(); // Chuyển tiếp yêu cầu tới hàm xử lý tiếp theo
+}
+//Su dung middleware
+app.use(myMiddleware);
+
 // Trang chu
 app.get("/", (req, res) => {
+  console.log('home page');
   res.send("Hello World!");
 });
 
