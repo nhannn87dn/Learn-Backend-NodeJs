@@ -5,6 +5,8 @@ import categoryRoute from "./routes/v1/category.route";
 import categoryRouteV2 from "./routes/v2/category.route";
 import productRoute from './routes/v1/product.route';
 import brandRoute from './routes/v1/brand.route';
+import staffRoute from './routes/v1/staff.route'
+import authRoute from './routes/v1/auth.route';
 import { TCustomRequest } from "./types/express";
 
 const app = express();
@@ -39,6 +41,8 @@ app.use("/api/v1/categories", categoryRoute);
 app.use("/api/v2/categories", categoryRouteV2);
 app.use("/api/v1/products", productRoute);
 app.use("/api/v1/brands", brandRoute);
+app.use("/api/v1/staffs", staffRoute);
+app.use("/api/v1/auth", authRoute);
 //=== HANDLE ERRORS BEGIN HERE ====//
 // Lưu ý: Đặt trước phần export, và sau các route khác
 

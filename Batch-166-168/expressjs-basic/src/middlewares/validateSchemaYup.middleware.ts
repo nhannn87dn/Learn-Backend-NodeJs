@@ -19,14 +19,14 @@ const validateSchemaYup = (schema: AnySchema) => async (req: Request, res: Respo
     //console.log(err);
     if (err instanceof ValidationError) {
       //console.error(err);
-      res.status(400).json({
+      return res.status(400).json({
         statusCode: 400,
         message: err.errors, // err.errors chứa tất cả các thông điệp lỗi
         typeError: 'validateSchema'
       });
     }
 
-    res.status(500).json({
+    return res.status(500).json({
       statusCode: 500,
       message: 'validate Yup Error',
       typeError: 'validateSchemaUnknown'
