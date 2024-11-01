@@ -1,7 +1,7 @@
 import {AnySchema, ValidationError} from 'yup';
 import { NextFunction, Request, Response } from 'express';
 
-const validateSchemaYup = (schema: AnySchema) => async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const validateSchemaYup = (schema: AnySchema) => async (req: Request, res: Response, next: NextFunction): Promise<void | Response> => {
   try {
     await schema.validate({
       body: req.body,
@@ -13,7 +13,7 @@ const validateSchemaYup = (schema: AnySchema) => async (req: Request, res: Respo
     }  
   );
 
-  next();
+  return next();
 
   } catch (err) {
     //console.log(err);
