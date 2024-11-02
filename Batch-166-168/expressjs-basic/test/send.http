@@ -2,8 +2,11 @@
 GET http://localhost:8080/api/v1/categories
 
 
-### get Single category
+### ID ko hop le
 http://localhost:8080/api/v1/categories/4
+
+### ID  hop le
+http://localhost:8080/api/v1/categories/671a39b38a325f29f7418e1a
 
 ### Update cattegory
 
@@ -24,9 +27,9 @@ POST http://localhost:8080/api/v1/categories
 Content-Type: application/json
 
 {
-    "category_name": "Dien thoai v1",
+    "category_name": "Die",
     "description": "Laptop gia re nhat thanh pho da nang",
-    "slug": "dien-thoai"
+    "slug": "die"
 }
 
 
@@ -56,3 +59,50 @@ Content-Type: application/json
 ###  delte  san pham
 DELETE  http://localhost:8080/api/v1/products/671cdf5c8dd8d97400017988
 Content-Type: application/json
+
+### get info Staff by ID ==> 401
+
+GET http://localhost:8080/api/v1/staffs/6720e06c5dcf8d1c56274d77
+
+
+
+### get info Staff by ID ==> 200
+
+GET http://localhost:8080/api/v1/staffs/6720e06c5dcf8d1c56274d77
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzIwZTA2YzVkY2Y4ZDFjNTYyNzRkNzciLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTczMDIxMDIxNCwiZXhwIjoxNzMwODE1MDE0fQ.pP8GJawo5RwXDzSSVkb2HNDqOJEnOMK-nSBTz6UNMCA
+
+### Create staff
+
+POST http://localhost:8080/api/v1/staffs
+Content-Type: application/json
+
+{
+    "first_name": "Dine",
+    "last_name": "Nhan",
+    "email": "admin@gmail.com",
+    "phone": "0988111000",
+    "password": "Admin@123456"
+}
+### xoa staff
+DELETE http://localhost:8080/api/v1/staffs/6720df5a6d9edda551257375
+
+
+### LOGIN
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@gmail.com",
+    "password": "Admin@123456"
+}
+
+
+### re-fresh toekn
+
+POST http://localhost:8080/api/v1/auth/refresh-token
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzIwZTA2YzVkY2Y4ZDFjNTYyNzRkNzciLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTczMDIxMDIxNCwiZXhwIjoxNzMwODE1MDE0fQ.pP8GJawo5RwXDzSSVkb2HNDqOJEnOMK-nSBTz6UNMCA
+
+### get profile
+
+POST http://localhost:8080/api/v1/auth/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzIwZTA2YzVkY2Y4ZDFjNTYyNzRkNzciLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTczMDIxMDIxNCwiZXhwIjoxNzMwODE1MDE0fQ.pP8GJawo5RwXDzSSVkb2HNDqOJEnOMK-nSBTz6UNMCA

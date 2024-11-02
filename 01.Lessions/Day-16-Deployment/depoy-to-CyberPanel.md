@@ -14,9 +14,25 @@
 - Upload Source lên, hoặc liên kết với Git đổ code vào public_html
 - Build app
 
+
+Cài packages
+
 ```bash
 npm install 
+```
+
+Cấu hình biến môi trường .env nếu có
+
+Sau đó build app
+
+```bash
 npm run build
+```
+
+Khởi động App với pm2
+
+
+```bash
 pm2 start ecosystem.config.js
 ```
 
