@@ -8,15 +8,17 @@ import brandRoute from './routes/v1/brand.route';
 import staffRoute from './routes/v1/staff.route'
 import authRoute from './routes/v1/auth.route';
 import { TCustomRequest } from "./types/express";
+import path from "path";
 
 const app = express();
 
 /* bắt được body string từ request */
-// app.use(express.urlencoded());
+// app.use(express.urlencoded({ extended: true }));
 // app.use(express.json());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
-
+app.use(bodyParser.urlencoded({ extended: true }));
+/* Cấu hình nhận thư mục public là thư mục chứa tài nguyên tĩnh */
+app.use(express.static(path.join(__dirname, '../public')));
 
 /* Middleware function */
 

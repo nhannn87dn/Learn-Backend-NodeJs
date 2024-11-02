@@ -106,3 +106,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzIwZTA2Y
 
 POST http://localhost:8080/api/v1/auth/profile
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzIwZTA2YzVkY2Y4ZDFjNTYyNzRkNzciLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTczMDIxMDIxNCwiZXhwIjoxNzMwODE1MDE0fQ.pP8GJawo5RwXDzSSVkb2HNDqOJEnOMK-nSBTz6UNMCA
+
+
+### test send email
+POST http://localhost:8080/api/v1/products/mail/send
+Content-Type: application/json

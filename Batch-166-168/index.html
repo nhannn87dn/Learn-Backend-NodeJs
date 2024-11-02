@@ -1,3 +1,21 @@
-<form method="PUT" action="http://localhost:3000/categories">
+<form method="POST" enctype="multipart/form-data" action="http://localhost:8080/api/v1/products/upload/single">
+    <input type="file" name="file" id="">
   <button type="submit">Submit</button>
+</form>
+
+<h1>Multi</h1>
+
+<form method="POST" enctype="multipart/form-data" action="http://localhost:8080/api/v1/products/upload/array">
+  <input type="file" name="photos" id="">
+  <input type="file" name="photos" id="">
+<button type="submit">Submit</button>
+</form>
+
+
+<h1>text + file</h1>
+
+<form method="POST" enctype="multipart/form-data" action="http://localhost:8080/api/v1/products/upload/multi">
+  <input type="text" name="product_name">
+  <input type="file" name="thumbnail" id="">
+<button type="submit">Submit</button>
 </form>
