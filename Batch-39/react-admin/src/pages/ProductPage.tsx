@@ -13,6 +13,8 @@ import {
   Select,
   Checkbox,
   Upload,
+  Row,
+  Col,
 } from "antd";
 import { axiosClient } from "../lib/axiosClient";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -371,7 +373,9 @@ const ProductPage = () => {
           autoComplete="on"
           layout="vertical"
         >
-          <Form.Item label="Category" name="category">
+          <Row gutter={10}>
+              <Col span={6}>
+              <Form.Item label="Category" name="category">
             <Select
               options={[
                 { value: "", label: "All Categories" },
@@ -384,19 +388,31 @@ const ProductPage = () => {
               ]}
             />
           </Form.Item>
-
-          <Form.Item label="Brand" name="brandId">
+              </Col>
+              <Col span={6}>
+              <Form.Item label="Brand" name="brandId">
             <Select options={[{ value: "", label: "All Brand" }]} />
           </Form.Item>
-
-          <Form.Item label="Keyword" name="keyword">
+              </Col>
+              <Col span={6}>
+              <Form.Item label="Keyword" name="keyword">
             <Input />
           </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
+              </Col>
+              <Col span={4}>
+              <Form.Item>
+            <Button style={{marginTop: 30}} type="primary" htmlType="submit">
               Search
             </Button>
           </Form.Item>
+             </Col>
+          </Row>
+          
+
+          
+
+          
+          
         </Form>
       </div>
 

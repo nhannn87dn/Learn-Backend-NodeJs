@@ -7,7 +7,7 @@ import { authenticateToken } from '../../middlewares/auth.middleware';
 const router = express.Router()
 
 //POST v1/auth/login
-router.post('/login', validateSchemaYup(authValidations.loginSchema), authController.login)
+router.post('/login', authController.login)
 
 router.get('/profile', authenticateToken, authController.profile )
 
