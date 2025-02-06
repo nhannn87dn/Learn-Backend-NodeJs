@@ -27,3 +27,11 @@ Gợi ý:
 - Cài đặt và cấu hình `typescript`
 - Code module
 - Chạy ứng dụng với lệnh `script`
+
+## Task4: File System
+
+1. Tạo một file trống `empty.txt`
+2. Ghi nội dung `Hello NodeJs` vào file trên
+3. Đọc nội dung từ file đó và console ra
+4. Nối thêm ` Học Nodejs thật là dễ` vào sau nội dung có sẵn.
+5. Xóa file `empty.txt`
