@@ -1,0 +1,29 @@
+POST http://localhost:9000/users
+
+## KHOP VOI METHOD
+## KHOP VOI URL
+###
+POST http://localhost:9000/users/ngocnhan
+
+###
+POST http://localhost:9000/users/tuan123
+###
+POST http://localhost:9000/users/titeo_12
+
+###
+POST http://localhost:9000/users/titeo-12
+
+###
+POST http://localhost:9000/product/1?page=12
+Content-Type: application/json
+
+{
+    "name": "Iphone 12",
+    "price": 1200
+}
+
+###
+GET http://localhost:9000/product/224343
+
+###
+GET http://localhost:9000/product/abc
