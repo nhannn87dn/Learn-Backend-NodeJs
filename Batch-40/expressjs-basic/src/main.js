@@ -9,6 +9,8 @@ const path = require('path');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+//Cấu hình thư mục public chuẩn bị cho việc chứa các file static
+app.use(express.static(path.join(__dirname, '../public')));
 
 // cấu hình kiểu tập tin template
 app.engine('.html', require('ejs').__express);
@@ -22,13 +24,25 @@ app.set('view engine', 'html');
 //dinh nghia mot router
 //localhost:9000/
 app.get('/', (req, res) => {
+    const name = 'Teo';
+    var users = [
+        { name: 'tobi', email: 'tobi@learnboost.com' },
+        { name: 'loki', email: 'loki@learnboost.com' },
+        { name: 'jane', email: 'jane@learnboost.com' },
+      ];
+      
     //res.send('Hello World! ');
-    res.render('index');
+    res.render('index', {name, users});
+});
+
+app.get('/contact', (req, res) => {
+    res.render('contact');
 });
 //localhost:9000/about
 app.get('/about',(req, res)=>{
-    res.send('About page updated 12343434');
+    res.render('about');
 });
+
 
 app.post('/users', (req, res)=>{
     res.json([
