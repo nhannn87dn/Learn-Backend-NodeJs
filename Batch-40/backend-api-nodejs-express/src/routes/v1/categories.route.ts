@@ -27,7 +27,7 @@ router.get('/categories/:id', (req, res) => {
     const category = categories.find(category => category.id == Number(id));
     //Nếu không tìm thấy category thì trả về lỗi 404
     if(!category){
-       ///throw new Error('Category not found');
+       //throw new Error('Category not found');
         throw createError(400, 'Category not found');
     }
     res.status(200).json(category);

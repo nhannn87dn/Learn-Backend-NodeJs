@@ -119,7 +119,7 @@ npm install express dotenv --save
 yarn add express dotenv
 ```
 
-Cài thêm
+Cài thêm để code với Typescript
 
 ```bash
 npm i -D typescript  @types/express @types/node ts-node-dev
@@ -127,7 +127,7 @@ npm i -D typescript  @types/express @types/node ts-node-dev
 yarn add -D typescript  @types/express @types/node ts-node-dev
 ```
 
-Tạo file tsconfig.json
+Tạo file `tsconfig.json` để cấu hình biên dịch cho typescript
 
 ```bash
 npx tsc --init
@@ -307,7 +307,11 @@ Resources Category
 Sử dụng thư viện `http-errors` để bắt các lỗi từ request, hệ thống
 
 ```bash
+npm i http-errors
 yarn add http-errors
+
+npm i @types/http-errors --save-dev
+yarn add @types/http-errors --save-dev
 ```
 
 Tại App.ts import vào
