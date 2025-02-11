@@ -34,4 +34,41 @@ router.get('/categories/:id', (req, res) => {
  
 });
 
+// Create Category
+// POST /api/v1/categories
+router.post('/categories', (req, res) => {
+    const category = req.body;
+    console.log('<<=== 🚀 category ===>>',category);
+    categories.push(category);
+    res.status(201).json(category);
+});
+
+// Update Category
+// PUT /api/v1/categories/:id
+router.put('/categories/:id', (req, res) => {
+    const {id} = req.params;
+    const category = categories.find(category => category.id == Number(id));
+    if(!category){
+        throw createError(400, 'Category not found');
+    }
+    const newCategory = req.body;
+    const index = categories.indexOf(category);
+    categories[index] = newCategory;
+    res.status(200).json(newCategory);
+});
+
+// Delete Category
+
+// DELETE /api/v1/categories/:id
+router.delete('/categories/:id', (req, res) => {
+    const {id} = req.params;
+    const category = categories.find(category => category.id == Number(id));
+    if(!category){
+        throw createError(400, 'Category not found');
+    }
+    const index = categories.indexOf(category);
+    categories.splice(index, 1);
+    res.status(204).json();
+});
+
 export default router;
