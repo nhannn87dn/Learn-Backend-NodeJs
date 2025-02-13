@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import createError from 'http-errors';
-import categoriesService from '../services/categories.service';
-import { sendJsonSuccess } from '../helpers/response.helper';
+import brandsService from '../services/brands.service';
+import { httpStatus, sendJsonSuccess } from '../helpers/response.helper';
 /**
  * Controller:
  * - Nhận đầu vào từ router
@@ -12,38 +12,35 @@ import { sendJsonSuccess } from '../helpers/response.helper';
 
 
 const getAll = (req: Request, res: Response) => {
-    const categories = categoriesService.getAll();
-    // res.status(200).json({
-    //     statusCode: 200,
-    //     message: 'Success',
-    //     data: categories
-    // });
-    sendJsonSuccess(res,categories)    
+    const brands = brandsService.getAll();
+    //res.status(200).json(brands);
+    sendJsonSuccess(res,brands)
 }
 const getById = (req: Request, res: Response) => {
     const {id} = req.params;
-    const category = categoriesService.getById(Number(id));
-    res.status(200).json(category);
+    const brand = brandsService.getById(Number(id));
+    res.status(200).json(brand);
  
 }
 
 const create = (req: Request, res: Response) => {
     const payload = req.body;
-    const category = categoriesService.create(payload);
-    res.status(201).json(category);
+    const brand = brandsService.create(payload);
+    //res.status(201).json(brand);
+    sendJsonSuccess(res, brand,httpStatus.CREATED.statusCode,httpStatus.CREATED.message)
 }
 
 const updateByID = (req: Request, res: Response) => {
     const {id} = req.params;
     const payload = req.body;
-    const result = categoriesService.updateById(Number(id), payload);
+    const result = brandsService.updateById(Number(id), payload);
     res.status(200).json(result);
 }
 
 const deleteById = (req: Request, res: Response) => {
     const {id} = req.params;
-   const category = categoriesService.deleteById(Number(id));
-    res.status(200).json(category);
+   const brand = brandsService.deleteById(Number(id));
+    res.status(200).json(brand);
 }
 
 export default {

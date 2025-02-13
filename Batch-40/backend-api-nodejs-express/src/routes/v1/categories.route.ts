@@ -21,4 +21,5 @@ router.put("/categories/:id", categoriesController.updateByID);
 // DELETE /api/v1/categories/:id
 router.delete("/categories/:id", categoriesController.deleteById);
 
+/// + Resource API = bao gồm nhiều phương thức
 export default router;

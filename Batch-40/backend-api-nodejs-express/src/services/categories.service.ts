@@ -36,7 +36,7 @@ const create = (payload: {id: number, name: string})=>{
     return payload;
 }
 
-const updateById = (id: number, payload)=>{
+const updateById = (id: number, payload: {id: number, name: string})=>{
     const category = categories.find(category => category.id == Number(id));
     if(!category){
         throw createError(400, 'Category not found');
