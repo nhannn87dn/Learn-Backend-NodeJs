@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import createError from 'http-errors';
 import categoriesService from '../services/categories.service';
 import { sendJsonSuccess } from '../helpers/response.helper';
+import { Types } from 'mongoose';
 /**
  * Controller:
  * - Nhận đầu vào từ router
@@ -11,8 +12,8 @@ import { sendJsonSuccess } from '../helpers/response.helper';
  */
 
 
-const getAll = (req: Request, res: Response) => {
-    const categories = categoriesService.getAll();
+const getAll = async (req: Request, res: Response) => {
+    const categories = await categoriesService.getAll();
     // res.status(200).json({
     //     statusCode: 200,
     //     message: 'Success',
@@ -20,10 +21,11 @@ const getAll = (req: Request, res: Response) => {
     // });
     sendJsonSuccess(res,categories)    
 }
-const getById = (req: Request, res: Response) => {
+const getById = async (req: Request, res: Response) => {
     const {id} = req.params;
-    const category = categoriesService.getById(Number(id));
-    res.status(200).json(category);
+    const category = await categoriesService.getById(id);
+    //res.status(200).json(category);
+    sendJsonSuccess(res,category) 
  
 }
 

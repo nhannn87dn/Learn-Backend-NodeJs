@@ -1,0 +1,38 @@
+[
+    {
+      "id": 1,
+      "name": "Nguyen Van A",
+      "email": "nguyenvana@example.com",
+      "age": 25,
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "name": "Tran Thi B",
+      "email": "tranthib@example.com",
+      "age": 22,
+      "role": "user"
+    },
+    {
+      "id": 3,
+      "name": "Le Van C",
+      "email": "levanc@example.com",
+      "age": 30,
+      "role": "moderator"
+    },
+    {
+      "id": 4,
+      "name": "Pham Thi D",
+      "email": "phamthid@example.com",
+      "age": 28,
+      "role": "user"
+    },
+    {
+      "id": 5,
+      "name": "Hoang Van E",
+      "email": "hoangvane@example.com",
+      "age": 35,
+      "role": "editor"
+    }
+  ]
+  

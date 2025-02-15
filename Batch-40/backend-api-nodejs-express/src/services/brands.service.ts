@@ -1,4 +1,5 @@
 import createError from 'http-errors';
+import brandModel from '../models/brand.model';
 /**
  * Service
  * - Nhận đầu vào từ controller
@@ -16,8 +17,9 @@ const brands = [
     }
 ]
 
-const getAll = ()=>{
-    return brands;
+const getAll = async()=>{
+    const b = await brandModel.find();
+    return b;
 }
 
 const getById = (id: number)=>{
@@ -30,10 +32,12 @@ const getById = (id: number)=>{
     return brand;
 }
 
-const create = (payload: {id: number, name: string})=>{
-    brands.push(payload);
+const create = async (payload)=>{
+    //brands.push(payload);
+    const brand = new brandModel(payload)
+    await brand.save()
     //Trả về item vừa được tạo
-    return payload;
+    return brand;
 }
 
 const updateById = (id: number, payload: {id: number, name: string})=>{

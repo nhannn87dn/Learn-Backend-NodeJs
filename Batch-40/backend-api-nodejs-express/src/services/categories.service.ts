@@ -1,27 +1,23 @@
 import createError from 'http-errors';
+import categoryModel from '../models/category.model';
+import { ICategoryCreate } from '../types/model';
+import { ObjectId } from 'mongoose';
 /**
  * Service
  * - Nhận đầu vào từ controller
  * - Xử lý logic
  * - Lấy dữ liệu return về controller
  */
-const categories = [
-    {
-        id: 1,
-        name: 'Category 1'
-    },
-    {
-        id: 2,
-        name: 'Category 2'
-    }
-]
 
-const getAll = ()=>{
+const getAll = async()=>{
+    const categories = await categoryModel.find();
+    console.log('<<=== 🚀 categories ===>>',categories);
     return categories;
 }
 
-const getById = (id: number)=>{
-    const category = categories.find(category => category.id == Number(id));
+const getById = async(id: string)=>{
+    //const category = categories.find(category => category.id == Number(id));
+    const category = await categoryModel.findById(id)
     //Nếu không tìm thấy category thì trả về lỗi 404
     if(!category){
         //throw new Error('Category not found');
@@ -30,10 +26,13 @@ const getById = (id: number)=>{
     return category;
 }
 
-const create = (payload: {id: number, name: string})=>{
-    categories.push(payload);
+const create = async(payload: ICategoryCreate)=>{
+    //Tạo category mới
+    const category = new categoryModel(payload);
+    //Lưu vào database
+    await category.save();
     //Trả về item vừa được tạo
-    return payload;
+    return category;
 }
 
 const updateById = (id: number, payload: {id: number, name: string})=>{

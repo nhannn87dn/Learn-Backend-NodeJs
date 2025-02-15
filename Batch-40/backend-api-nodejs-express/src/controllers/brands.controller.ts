@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import createError from 'http-errors';
 import brandsService from '../services/brands.service';
 import { httpStatus, sendJsonSuccess } from '../helpers/response.helper';
@@ -11,8 +11,8 @@ import { httpStatus, sendJsonSuccess } from '../helpers/response.helper';
  */
 
 
-const getAll = (req: Request, res: Response) => {
-    const brands = brandsService.getAll();
+const getAll =async (req: Request, res: Response) => {
+    const brands = await brandsService.getAll();
     //res.status(200).json(brands);
     sendJsonSuccess(res,brands)
 }
@@ -23,11 +23,15 @@ const getById = (req: Request, res: Response) => {
  
 }
 
-const create = (req: Request, res: Response) => {
-    const payload = req.body;
-    const brand = brandsService.create(payload);
-    //res.status(201).json(brand);
-    sendJsonSuccess(res, brand,httpStatus.CREATED.statusCode,httpStatus.CREATED.message)
+const create = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const payload = req.body;
+        const brand = await brandsService.create(payload);
+        //res.status(201).json(brand);
+        sendJsonSuccess(res, brand,httpStatus.CREATED.statusCode,httpStatus.CREATED.message)
+    } catch (error) {
+        next(error)
+    }
 }
 
 const updateByID = (req: Request, res: Response) => {
