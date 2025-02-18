@@ -5,12 +5,12 @@ const brandSchema = new Schema({
         type: String,
         required: true, // NOT NULL
         unique: true, // duy nhất
-        minlength: [4, 'Tối thiểu phải 4 kí tự'], // độ dài tối thiểu
-        maxlength: 50, // độ dài tối đa
+        minLength: [4, 'Tối thiểu phải 4 kí tự'], // độ dài tối thiểu
+        maxLength: 50, // độ dài tối đa
     },
     description: {
         type: String,
-        maxlength: 500,
+        maxLength: 500,
         trim: true, // xóa khoảng trắng ở đầu và cuối 
         default: "" // giá trị mặc định khi tạo mới
      },
