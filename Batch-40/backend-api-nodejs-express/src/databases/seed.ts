@@ -83,6 +83,8 @@ const fakeData = async () => {
   }
   
 }
+
+//chay
 try {
   fakeData();
 } catch (error) {

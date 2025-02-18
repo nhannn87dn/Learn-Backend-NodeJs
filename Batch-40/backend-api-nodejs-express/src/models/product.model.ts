@@ -55,11 +55,13 @@ const productSchema = new Schema({
         type: Schema.Types.ObjectId,
         //tham chiếu tới _id model Category
         ref: 'Category', 
+        require: true,
     },
     brand_id: {
         type: Schema.Types.ObjectId,
         //tham chiếu tới _id model Category
         ref: 'Brand',
+        require: true,
     }
 
 },{
