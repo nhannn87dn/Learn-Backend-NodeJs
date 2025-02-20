@@ -122,11 +122,26 @@ router.get("/queries", async(req, res) => {
     // res.json(product)
 
     //13. JOIN nhieu collection voi populate
+    // const currentPage = 1; //trang hiện tại
+    // const pageSize = 10; // Số lượng items trên 1 trang
+
+    // const product = await Product
+    // .find()
+    // .populate('category', "category_name") //join voi categories collection
+    // .populate('brand_id')
+    // .skip((currentPage - 1) * pageSize)
+    // .limit(pageSize)
+    // res.json(product)
+
+    //14 Tim kiem voi toan tu LIKE
+
     const currentPage = 1; //trang hiện tại
     const pageSize = 10; // Số lượng items trên 1 trang
 
     const product = await Product
-    .find()
+    .find({
+        product_name: new RegExp(/Silk/, 'i') //ten sp co chua ki tu
+    })
     .populate('category', "category_name") //join voi categories collection
     .populate('brand_id')
     .skip((currentPage - 1) * pageSize)
