@@ -50,6 +50,7 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
 
 // error handler, catch 5xx errors
 app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
+  console.log(err.stack);
   const statusCode = err.status || 500;
   res.status(statusCode).json({ 
     statusCode: statusCode, 

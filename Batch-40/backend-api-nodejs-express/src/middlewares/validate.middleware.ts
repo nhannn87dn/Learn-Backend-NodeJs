@@ -10,6 +10,7 @@ const validateSchemaYup = (schema: AnySchema) => async (req: Request, res: Respo
     }, 
     { 
       abortEarly: false, // abortEarly: false để lấy tất cả lỗi thay vì chỉ lấy lỗi đầu tiên
+      stripUnknown: true // stripUnknown: true để loại bỏ các trường không được định nghĩa trong schema
     }  
   );
 
@@ -17,7 +18,7 @@ const validateSchemaYup = (schema: AnySchema) => async (req: Request, res: Respo
 
   } catch (err: any) {
     //console.log(err);
-    if (err instanceof ValidationError) {
+    if (err instanceof Error) {
       //console.error(err);
       res.status(400).json({
         statusCode: 400,
@@ -25,12 +26,12 @@ const validateSchemaYup = (schema: AnySchema) => async (req: Request, res: Respo
         typeError: 'validateSchema'
       });
     }
-
-    res.status(500).json({
-      statusCode: 500,
-      message: 'validate Yup Error',
-      typeError: 'validateSchemaUnknown'
-    });
+    next(err); //next lỗi ra cho app handle
+    // res.status(500).json({
+    //   statusCode: 500,
+    //   message: 'validate Yup Error',
+    //   typeError: 'validateSchemaUnknown'
+    // });
   }
 };
 
