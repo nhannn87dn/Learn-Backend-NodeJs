@@ -10,14 +10,13 @@ POST http://localhost:8080/api/v1/categories
 Content-Type: application/json
 
 {
-  "category_name": "Electronics",
-  "description": "Electronics description"
+  "category_name": "Nin"
 }
 
 ### uPDATE
-PUT http://localhost:8080/api/v1/categories/1
+PUT http://localhost:8080/api/v1/categories/67bdb143ddb8d7647c671e56
 Content-Type: application/json
 
 {
-  "name": "Electricity"
+  "category_name": "Non"
 }

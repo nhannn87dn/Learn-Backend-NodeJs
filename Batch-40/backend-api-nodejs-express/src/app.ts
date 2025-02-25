@@ -11,6 +11,25 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+//Tự định nghĩa 1 middleware
+const myMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  console.log('This is my middleware', 'App Middleware');
+
+  //Kết thúc logic của middleware \
+  // và chuyển hướng cho middleware tiếp theo
+  next();
+}
+
+const myMiddleware2 = (req, res, next)=>{
+ console.log('This is my middleware 2', 'App Middleware');
+ next();
+}
+//Sử dụng middleware
+app.use(myMiddleware);
+app.use(myMiddleware2);
+
+
+
 /** -------|| BEGIN REGISTER ROUTES || --------- */
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
