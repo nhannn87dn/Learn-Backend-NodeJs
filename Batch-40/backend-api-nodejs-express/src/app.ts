@@ -1,16 +1,19 @@
 import express, {NextFunction, Request, Response} from 'express';
 import createError from 'http-errors';
-
+import compression from 'compression';
 // Import routes
 import categoriesRouter from './routes/v1/categories.route'
 import brandsRouter from './routes/v1/brands.route'
 import queriesRouter from './routes/v1/queries.route'
 import productsRouter from './routes/v1/products.route'
+import staffRouter from './routes/v1/staffs.route'
+import authRouter from './routes/v1/auth.route'
 /** -------|| INITIAL APP || --------- */
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use(compression());
 //Tự định nghĩa 1 middleware
 const myMiddleware = (req: Request, res: Response, next: NextFunction) => {
   console.log('This is my middleware', 'App Middleware');
@@ -39,6 +42,8 @@ app.use('/api/v1', categoriesRouter);
 app.use('/api/v1', brandsRouter);
 app.use('/api/v1', queriesRouter);
 app.use('/api/v1', productsRouter);
+app.use('/api/v1', staffRouter);
+app.use('/api/v1/auth', authRouter);
 /** -------|| END REGISTER ROUTES || --------- */
 
 // NO EDIT BEGIN HERE
