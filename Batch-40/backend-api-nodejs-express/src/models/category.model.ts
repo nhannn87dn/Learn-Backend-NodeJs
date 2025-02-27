@@ -8,6 +8,7 @@ const categorySchema = new Schema({
     category_name: {
         type: String,
         maxLength: 50,
+        minLength: 3,
         required: true,
         unique: true
     },
@@ -19,6 +20,7 @@ const categorySchema = new Schema({
     slug: {
         type: String,
         maxLength: 50,
+        minLength: 3,
         required: true,
         unique: true,
         lowercase: true,

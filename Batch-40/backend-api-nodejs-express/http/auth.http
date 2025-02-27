@@ -1,0 +1,12 @@
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email": "john@doe.com",
+    "password": "123456"
+}
+
+### Get Profile
+GET http://localhost:8080/api/v1/auth/get-profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2JkYzFmNTJjMzM5ZmU0OTk5ZGQ4YzAiLCJlbWFpbCI6ImpvaG5AZG9lLmNvbSIsImlhdCI6MTc0MDQ5MTY5NSwiZXhwIjoxNzQwNTc4MDk1fQ.nnCRZxU_fNPRRjIeclkacjB5XJj7q8EcH1FIt8h6710
