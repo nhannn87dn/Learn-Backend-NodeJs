@@ -1,11 +1,11 @@
 import { Schema, model } from "mongoose";
-//import bcrypt from 'bcrypt'
-import { TStaff } from "../types/model";
+import bcrypt from 'bcrypt'
+import { IStaffEntity } from "../types/model";
 
 
 const saltRounds = 10;
 
-const staffSchema = new Schema<TStaff>({
+const staffSchema = new Schema<IStaffEntity>({
     first_name: {
         type: String,
         required: true,
@@ -48,15 +48,15 @@ const staffSchema = new Schema<TStaff>({
 
 //Middleware pre save ở lớp database
 //trước khi data được lưu xuống --> mã hóa mật khẩu
-// staffSchema.pre('save', async function (next) {
-//     const staff = this;
+staffSchema.pre('save', async function (next) {
+    const staff = this;
   
-//     const hash = bcrypt.hashSync(staff.password, saltRounds);
+    const hash = bcrypt.hashSync(staff.password, saltRounds);
   
-//     staff.password = hash;
+    staff.password = hash;
   
-//     next();
-//   });
+    next();
+});
 
   
-export default model<TStaff>('Staff', staffSchema);
+export default model<IStaffEntity>('Staff', staffSchema);

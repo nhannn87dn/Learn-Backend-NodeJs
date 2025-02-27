@@ -3,6 +3,14 @@ export interface ICategoryCreate {
     description: string;
 }
 
+export interface IStaffEntity {
+    first_name: string;
+    last_name: string;
+    phone: string;
+    email: string;
+    password: string;
+    active: boolean,
+  }
 
 export interface TStaff  {
     first_name: string;
