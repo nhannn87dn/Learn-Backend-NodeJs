@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { DataSource } from 'typeorm';
+import { env } from "../helpers/env.helper";
 
 /*
 Đọc doc tương ứng với kiểu database bạn muốn kết nối
