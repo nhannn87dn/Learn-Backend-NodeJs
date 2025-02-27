@@ -1,0 +1,23 @@
+### GET ALL
+GET http://localhost:8080/api/v1/brands
+
+
+### GET One
+GET http://localhost:8080/api/v1/brands/2
+
+### create
+POST http://localhost:8080/api/v1/brands
+Content-Type: application/json
+
+{
+  "brand_name": "s",
+  "description": "jhdsjdhsjh"
+}
+
+### uPDATE
+PUT http://localhost:8080/api/v1/brands/1
+Content-Type: application/json
+
+{
+  "name": "Electricity"
+}

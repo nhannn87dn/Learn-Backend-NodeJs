@@ -1,0 +1,31 @@
+### create
+POST http://localhost:8080/api/v1/products
+Content-Type: application/json
+
+{
+  "product_name": "Sample Product 2",
+  "price": 100,
+  "discount": 10,
+  "description": "This is a sample product description.",
+  "model_year": 2023,
+  "stock": 50,
+  "slug": "sample-product-2",
+  "thumbnail": "http://example.com/sample-thumbnail.jpg",
+  "category": "67b476518bf53c888a7d9252", 
+  "brand_id": "67b474bacfb39df410e04918",
+  "alibaba": "40 ten cuop"
+}
+
+
+### updatte
+PUT http://localhost:8080/api/v1/products/67b7171dc2363f3c1a6f709a
+Content-Type: application/json
+
+{
+  "product_name": "Sample Product 222",
+  "alibaba": "40 ten cuop"
+}
+
+
+### updatte
+DELETE  http://localhost:8080/api/v1/products/67b7171dc2363f3c1a6f709a

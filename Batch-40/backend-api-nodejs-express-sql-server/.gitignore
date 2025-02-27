@@ -1,0 +1,4 @@
+# liet ke danh sach cac file hoac thu muc khong muon dua len git
+.env
+
+node_modules
