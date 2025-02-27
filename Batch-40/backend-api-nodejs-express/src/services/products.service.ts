@@ -3,14 +3,14 @@ import Product from '../models/product.model';
 
 const getAll = async (query: any) => {
 
-  const { page = 1, limit = 10 } = query;
+    //Lấy ra các tham số truyền vào
+    //page = query.page, nếu page không tồn tại thì mặc định là 1
+  const { page = 1, limit = 10, sort_type = 'desc', sort_by='createdAt' } = query;
 
   //Nếu tồn tại sortType và sortBy thì sẽ sắp xếp theo sortType và sortBy
     //Nếu không tồn tại thì sẽ sắp xếp theo createdAt
     let sortObject = {};
-    const sortType = query.sort_type || 'desc';
-    const sortBy = query.sort_by || 'createdAt';
-    sortObject = { ...sortObject, [sortBy]: sortType === 'desc' ? -1 : 1 };
+    sortObject = { ...sortObject, [sort_by]: sort_type === 'desc' ? -1 : 1 };
 
     console.log('<<=== 🚀sortObject  ===>>',sortObject);
 
@@ -24,6 +24,12 @@ const getAll = async (query: any) => {
     if (query.category && query.category.length > 0) {
         where = { ...where, category: query.category };
     }
+    //Nếu tìm kiếm theo thương hiệu
+    if (query.brand_id && query.brand_id.length > 0) {
+        where = { ...where, brand_id: query.brand_id };
+    }
+
+    //Thêm các điều kiện khác nếu cần
 
   const products = await Product
   .find(where)
@@ -38,6 +44,7 @@ const getAll = async (query: any) => {
   
   return {
     products,
+    //Để phân trang
     pagination:{
         totalRecord: count,
         limit,
@@ -101,7 +108,7 @@ const updateById = async(id: string, payload: any) => {
     }
     //câp nhật sản phẩm
     Object.assign(product, payload); //trộn dữ liệu cũ và mới
-    await product.save();
+    await product.save(); //lưu lại vào db
     return product;
 }
 

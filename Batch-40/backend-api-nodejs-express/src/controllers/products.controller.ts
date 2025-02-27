@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import createError from 'http-errors';
 import { httpStatus, sendJsonSuccess } from '../helpers/response.helper';
 import productsService from '../services/products.service';
 
