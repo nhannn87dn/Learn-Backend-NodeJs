@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { DataSource } from 'typeorm';
-import { env } from "../helpers/env.helper";
+import { env } from "./helpers/env.helper";
 
 /*
 Đọc doc tương ứng với kiểu database bạn muốn kết nối
@@ -13,7 +13,7 @@ export const myDataSource = new DataSource({
   username: 'nhan', //username database
   password: '123456789', // mk database
   database: 'Batch40NodeJs', //Tên Database
-  entities: ['entities/**/*.entity{.ts,.js}'], //Chỉ rõ thư mục chứa các file entity
+  entities: ['src/entities/*.entity{.ts,.js}'], //Chỉ rõ thư mục chứa các file entity
   synchronize: true, //Đồng bộ với Database
   logging: false, //ghi log
   options: {

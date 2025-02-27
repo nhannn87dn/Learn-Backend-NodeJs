@@ -1,6 +1,6 @@
 import app from "./app";
 import { env } from "./helpers/env.helper";
-import {myDataSource} from './databases/data-source'
+import {myDataSource} from './data-source'
 const PORT = env.PORT;
 
 myDataSource

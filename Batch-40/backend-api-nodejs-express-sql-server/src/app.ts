@@ -24,7 +24,7 @@ app.get('/', (req: Request, res: Response) => {
 // app.use('/api/v1', brandsRouter);
 // app.use('/api/v1', queriesRouter);
 // app.use('/api/v1', productsRouter);
-// app.use('/api/v1', staffRouter);
+app.use('/api/v1', staffRouter);
 // app.use('/api/v1/auth', authRouter);
 /** -------|| END REGISTER ROUTES || --------- */
 

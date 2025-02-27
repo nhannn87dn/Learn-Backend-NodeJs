@@ -1,5 +1,9 @@
 import createError from 'http-errors';
-import Staff from '../models/staff.model';
+import { myDataSource } from '../data-source';
+import { Staff } from '../entities/staff.entity';
+
+
+const staffRepository = myDataSource.getRepository(Staff);
 
 const getAll = async (query: any) => {
 
@@ -25,23 +29,10 @@ const getAll = async (query: any) => {
         where = { ...where, staff: query.staff };
     }
 
-  const staffs = await Staff
-  .find(where)
-  .skip((page - 1) * limit)
-  .limit(limit)
-  .sort({...sortObject});
+    const staffs = await staffRepository.find();
 
-  //Đếm tổng số record hiện có của collection Staff
-  const count = await Staff.countDocuments(where);
-  
-  return {
-    staffs,
-    pagination:{
-        totalRecord: count,
-        limit,
-        page
-    }
-  };
+    return staffs;
+ 
 };
 
 const getById = async(id: string) => {
@@ -52,17 +43,9 @@ const getById = async(id: string) => {
     return staff;
 }
 const create = async(payload: any) => {
-    //Kiểm tra email có tồn tại không
-    const staffExist = await Staff.findOne({
-        email: payload.email
-    })
-    if (staffExist) {
-        throw createError(400, 'Email already exists');
-    }
-   
-    console.log('<<=== 🚀 payload ===>>',payload);
-    const staff = new Staff(payload);
-    await staff.save();
+    const staff =  staffRepository.create(payload)
+    //lu lai
+    await staffRepository.save(staff)
     return staff;
 }
 

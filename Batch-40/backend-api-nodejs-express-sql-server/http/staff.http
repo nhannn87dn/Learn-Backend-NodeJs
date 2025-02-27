@@ -23,3 +23,17 @@ Content-Type: application/json
     "active": true
 
 }
+
+
+###
+POST http://localhost:8080/api/v1/staffs
+Content-Type: application/json
+
+{
+    "first_name": "coders",
+    "last_name": "coders",
+    "email": "coders",
+    "password": "12345678",
+    "active": true
+
+}

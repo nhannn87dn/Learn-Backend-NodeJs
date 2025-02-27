@@ -17,7 +17,7 @@ router.get("/staffs", validateSchemaYup(staffValidation.getAllSchema), staffsCon
 router.get("/staffs/:id", validateSchemaYup(staffValidation.getByIdSchema),  staffsController.getById);
 // Create Staff
 // POST /api/v1/staffs
-router.post("/staffs", validateSchemaYup(staffValidation.createSchema), staffsController.create);
+router.post("/staffs", staffsController.create);
 // Update Staff
 // PUT /api/v1/staffs/:id
 router.put("/staffs/:id", staffsController.updateById);
