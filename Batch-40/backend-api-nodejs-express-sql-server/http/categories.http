@@ -10,7 +10,7 @@ POST http://localhost:8080/api/v1/categories
 Content-Type: application/json
 
 {
-  "category_name": "Nin"
+  "category_name": "Mountain Bikes"
 }
 
 ### uPDATE

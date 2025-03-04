@@ -10,8 +10,8 @@ POST http://localhost:8080/api/v1/brands
 Content-Type: application/json
 
 {
-  "brand_name": "s",
-  "description": "jhdsjdhsjh"
+  "brand_name": "apple",
+  "description": "apple brands"
 }
 
 ### uPDATE

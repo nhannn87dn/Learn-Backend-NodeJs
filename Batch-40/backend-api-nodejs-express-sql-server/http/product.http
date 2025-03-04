@@ -11,9 +11,8 @@ Content-Type: application/json
   "stock": 50,
   "slug": "sample-product-2",
   "thumbnail": "http://example.com/sample-thumbnail.jpg",
-  "category": "67b476518bf53c888a7d9252", 
-  "brand_id": "67b474bacfb39df410e04918",
-  "alibaba": "40 ten cuop"
+  "category": 2, 
+  "brand": 1
 }
 
 
