@@ -8,6 +8,17 @@ import { Product } from '../entities/product.entity';
 import { myDataSource } from '../data-source';
 
 
+
+myDataSource
+    .initialize()
+    .then(() => {
+        console.log("Data Source has been initialized!");
+    })
+    .catch((err) => {
+        console.error("Error during Data Source initialization:", err)
+})
+
+
 const brands = [
   {
       brand_name: "Trek",
@@ -47,20 +58,23 @@ const runDB = async ()=>{
   console.log('runDB running....');
   //tạo mới 5 danh mục ngẫu nhiên
 
-  for (let index = 1; index < 6; index++) {
+  // for (let index = 1; index < 6; index++) {
     
-    const category = categoryRepository.create({
-      category_name: faker.commerce.department()+index,
-      description: faker.lorem.words(50),
-      slug: faker.lorem.slug()+index,
-    });
-    //Đến bước nó mới chính thức ghi xuống DB
-    await categoryRepository.save(category);
-    console.log('Tạo danh mục thành công....', index);
-  }
+  //   const categoryName = faker.commerce.department()+index;
 
-  //Tạo brands từ mảng có sẵn
-  await brandRepository.insert(brands)
+  //   const category = categoryRepository.create({
+  //     category_name: categoryName,
+  //      description: faker.lorem.word(50),
+  //      //dien-thoai
+  //      slug: faker.helpers.slugify(categoryName),
+  //   });
+  //   //Đến bước nó mới chính thức ghi xuống DB
+  //   await categoryRepository.save(category);
+  //   console.log('Tạo danh mục thành công....', index);
+  // }
+
+  // //Tạo brands từ mảng có sẵn
+  // await brandRepository.insert(brands)
   
  const currentBrands = await brandRepository.find();
  const currentCategories = await categoryRepository.find();
@@ -79,8 +93,8 @@ const runDB = async ()=>{
     product.discount = faker.number.int({ min: 1, max: 50 });
     product.category = category;
     product.brand = brand;
+    product.stock = faker.number.int({ min: 0, max: 100 });
     product.description = faker.commerce.productDescription();
-    product.stock = faker.number.int({ min: 1, max: 200 });
 
     await productRepository.save(product);
 
