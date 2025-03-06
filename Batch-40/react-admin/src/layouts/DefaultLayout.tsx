@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   DesktopOutlined,
   FileOutlined,
@@ -7,9 +7,11 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import { Outlet } from 'react-router';
-
+import { Avatar, Breadcrumb, Flex, Layout, Menu, theme, Dropdown } from 'antd';
+import { Outlet, useNavigate } from 'react-router';
+import '@ant-design/v5-patch-for-react-19';
+import { useAuthStore } from '../stores/useAuthStore';
+import UserInfo from '../components/UserInfo';
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -45,6 +47,14 @@ const DefaultLayout: React.FC = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const {user, tokens} = useAuthStore();
+  const navigate = useNavigate();
+  //kiểm trang tra trạng thái login
+  useEffect(()=>{
+    if(!user && !tokens){
+      navigate('/login')
+    }
+  },[navigate, user, tokens])
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -53,7 +63,11 @@ const DefaultLayout: React.FC = () => {
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
+        <Header style={{ padding: 0, background: colorBgContainer }} >
+          <Flex style={{padding: '0 20px'}} gap={10} align='center' className='py-5' justify='end'>
+            <UserInfo />
+            </Flex>
+          </Header>
         <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
             <Breadcrumb.Item>User</Breadcrumb.Item>

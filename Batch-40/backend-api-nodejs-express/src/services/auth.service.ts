@@ -62,6 +62,7 @@ const login = async({
 
 const getProfile = async(res: Response)=>{
     const {staff} = res.locals;
+    //return without password
     return staff;
 }
 
