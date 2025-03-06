@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Flex, message } from 'antd';
 import axios from 'axios'
@@ -15,14 +15,16 @@ type TFormData = {
 }
 
 const LoginPage: React.FC = () => {
-   const {setTokens, tokens, setUser} = useAuthStore();
+   const {setTokens, setUser} = useAuthStore();
    const [messageApi, contextHolder] = message.useMessage();
+   const [isLoading, setIsLoading] = useState(false);
    const navigate = useNavigate();
 
   const onFinish = async(values: TFormData) => {
     console.log('Received values of form: ', values);
     // TODO: Add your own logic to handle form submission here.
     try {
+      setIsLoading(true);
       const responseLogin = await axios.post(
         `${env.API_URL}/v1/auth/login`,
          { email: values.email, password: values.password },
@@ -63,6 +65,9 @@ const LoginPage: React.FC = () => {
         content: 'Username or password invalid',
       });
     }
+    finally{
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -100,8 +105,8 @@ const LoginPage: React.FC = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button block type="primary" htmlType="submit">
-          Log in
+        <Button disabled={isLoading} loading={isLoading} block type="primary" htmlType="submit">
+          {isLoading ? 'Singing...' : 'Log in'}
         </Button>
       </Form.Item>
     </Form>
