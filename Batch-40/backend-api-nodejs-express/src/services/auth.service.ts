@@ -15,7 +15,8 @@ const login = async({
     //logic đăng nhập
     //Kiểm tra email có tồn tại không
     const staff = await Staff.findOne({
-        email
+        email,
+        active: true //chỉ cho phép acc có trạng thái active mới đc login
     })
     if (!staff) {
         //Báo lỗi chung chung
