@@ -29,3 +29,12 @@ Content-Type: application/json
 
 ### updatte
 DELETE  http://localhost:8080/api/v1/products/67b7171dc2363f3c1a6f709a
+
+
+### Get ALl
+GET http://localhost:8080/api/v1/products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2MwNGM1ZTU1NTg4ODU2MDQwMzgxMzUiLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTc0MTY5MjA0NywiZXhwIjoxNzQxNzc4NDQ3fQ.ZOrfqy2tc99WUgLQIa2aTgQfrqFwPSJXrdMexdDCWYM
+
+### Get ALl
+GET http://localhost:8080/api/v1/products/67b477ac754d958ca4f321d5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2MwNGM1ZTU1NTg4ODU2MDQwMzgxMzUiLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTc0MTY5MjA0NywiZXhwIjoxNzQxNzc4NDQ3fQ.ZOrfqy2tc99WUgLQIa2aTgQfrqFwPSJXrdMexdDCWYM

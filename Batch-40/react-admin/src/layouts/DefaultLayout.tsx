@@ -31,15 +31,20 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('Option 1', '1', <PieChartOutlined />),
-  getItem('Option 2', '2', <DesktopOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [
+  getItem('Dashboard', '', <PieChartOutlined />),
+  getItem('Categories', 'categories', <DesktopOutlined />),
+  getItem('Brands', 'brands', <UserOutlined />, [
     getItem('Tom', '3'),
     getItem('Bill', '4'),
     getItem('Alex', '5'),
   ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined />),
+  getItem('Products', 'products', <DesktopOutlined />),
+  getItem('Customers', 'customers', <TeamOutlined />, [
+    getItem('Team 1', '6'), 
+    getItem('Team 2', '8')]
+  ),
+  getItem('Staffs', 'staffs', <FileOutlined />),
+  getItem('Orders', 'orders', <FileOutlined />),
 ];
 
 const DefaultLayout: React.FC = () => {
@@ -60,7 +65,16 @@ const DefaultLayout: React.FC = () => {
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+        <Menu 
+        theme="dark" 
+        defaultSelectedKeys={['1']} 
+        mode="inline" 
+        items={items} 
+        onClick={({key})=>{
+          console.log('<<=== 🚀 key ===>>',key);
+          navigate(`/${key}`)
+        }}
+        />
       </Sider>
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }} >
