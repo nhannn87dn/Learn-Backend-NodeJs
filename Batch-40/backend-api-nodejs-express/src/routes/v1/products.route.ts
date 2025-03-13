@@ -3,10 +3,8 @@ const router = express.Router();
 import productsController from "../../controllers/products.controller";
 import { authenticateToken } from "../../middlewares/auth.middleware";
 
-/**
- * route để định tuyến
- *  path <==> controller 
- */
+router.get("/products/public/getProductsByCategorySlug/:slug", productsController.getProductsByCategorySlug);
+router.get("/products/public/getProductBySlug/:slug", productsController.getProductBySlug);
 
 // Get All Products
 // GET /api/v1/products

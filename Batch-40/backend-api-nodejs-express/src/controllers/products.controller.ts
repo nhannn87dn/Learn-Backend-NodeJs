@@ -2,6 +2,25 @@ import { NextFunction, Request, Response } from 'express';
 import { httpStatus, sendJsonSuccess } from '../helpers/response.helper';
 import productsService from '../services/products.service';
 
+const getProductsByCategorySlug = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const products = await productsService.getProductsByCategorySlug(req.params,req.query);
+        sendJsonSuccess(res, products);
+    } catch (error) {
+        next(error);
+    }
+}
+
+const getProductBySlug= async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const {slug} = req.params;
+        const product = await productsService.getProductBySlug(slug)
+        sendJsonSuccess(res, product);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const products = await productsService.getAll(req.query);
@@ -57,5 +76,7 @@ export default {
     getById,
     create,
     updateById,
-    deleteById
+    deleteById,
+    getProductsByCategorySlug,
+    getProductBySlug
 }

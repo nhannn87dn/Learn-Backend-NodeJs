@@ -2,38 +2,31 @@ import express from "express";
 import categoriesController from "../../controllers/categories.controller";
 import validateSchemaYup from "../../middlewares/validate.middleware";
 import categoryValidation from "../../validations/categories.validation";
+import { authenticateToken } from "../../middlewares/auth.middleware";
 const router = express.Router();
 
-/**
- * route để định tuyến
- *  path <==> controller 
- */
+/* 
+PUBLIC ROUTES --> cho EndUser
+*/
+router.get("/categories/public/getCategories", categoriesController.getCategoriesTree);
+router.get("/categories/public/getCategoryBySlug/:slug", categoriesController.getCategoryBySlug);
 
-// middleware routes
-const routerMiddleware = (req, res, next) => {
-    console.log("Tác động đến toàn bộ route bên dưới", "Router Middleware");
-    next();
-};
-router.use(routerMiddleware);
+/* === PRIVATE ROUTES --> UI Dashboard ===*/
 
 // Get All Categories
 // GET /api/v1/categories
-router.get("/categories", validateSchemaYup(categoryValidation.getAllSchema), categoriesController.getAll);
+router.get("/categories", authenticateToken, validateSchemaYup(categoryValidation.getAllSchema), categoriesController.getAll);
 
-const privateMiddleware = (req, res, next) => {
-    console.log("Route của categories/:id", "Private Middleware");
-    next();
-}
 // Get Category by Id
-router.get("/categories/:id", validateSchemaYup(categoryValidation.getByIdSchema),  privateMiddleware,  categoriesController.getById);
+router.get("/categories/:id", authenticateToken, validateSchemaYup(categoryValidation.getByIdSchema),   categoriesController.getById);
 // Create Category
 // POST /api/v1/categories
-router.post("/categories", validateSchemaYup(categoryValidation.createSchema), categoriesController.create);
+router.post("/categories",authenticateToken,  validateSchemaYup(categoryValidation.createSchema), categoriesController.create);
 // Update Category
 // PUT /api/v1/categories/:id
-router.put("/categories/:id", categoriesController.updateById);
+router.put("/categories/:id", authenticateToken, categoriesController.updateById);
 // DELETE /api/v1/categories/:id
-router.delete("/categories/:id", categoriesController.deleteById);
+router.delete("/categories/:id", authenticateToken, categoriesController.deleteById);
 
 /// + Resource API = bao gồm nhiều phương thức
 export default router;

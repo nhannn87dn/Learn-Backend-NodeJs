@@ -2,6 +2,28 @@ import { NextFunction, Request, Response } from 'express';
 import { httpStatus, sendJsonSuccess } from '../helpers/response.helper';
 import categoriesService from '../services/categories.service';
 
+
+const getCategoriesTree = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const categories = await categoriesService.getCategoriesTree();
+        sendJsonSuccess(res, categories);
+    } catch (error) {
+        next(error);
+    }
+}
+
+const getCategoryBySlug= async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const {slug} = req.params;
+        const category = await categoriesService.getCategoryBySlug(slug)
+        sendJsonSuccess(res, category);
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const categories = await categoriesService.getAll(req.query);
@@ -57,5 +79,7 @@ export default {
     getById,
     create,
     updateById,
-    deleteById
+    deleteById,
+    getCategoriesTree,
+    getCategoryBySlug
 }

@@ -1,6 +1,75 @@
 import createError from 'http-errors';
 import Product from '../models/product.model';
 
+//Lấy danh sách sản phẩm theo slug của danh mục
+const getProductsByCategorySlug = async(params:any, query:  any)=>{
+    
+    const categorySlug = params.slug;
+    //page = query.page, nếu page không tồn tại thì mặc định là 1
+  const { page = 1, limit = 10, sort_type = 'desc', sort_by='createdAt' } = query;
+
+  //Nếu tồn tại sortType và sortBy thì sẽ sắp xếp theo sortType và sortBy
+    //Nếu không tồn tại thì sẽ sắp xếp theo createdAt
+    let sortObject = {};
+    sortObject = { ...sortObject, [sort_by]: sort_type === 'desc' ? -1 : 1 };
+
+    console.log('<<=== 🚀sortObject  ===>>',sortObject);
+
+    //Tìm kiếm theo điều kiện
+    let where = {};
+    //Nếu có tìm kiếm theo tên sản phẩm
+    if (query.product_name && query.product_name.length > 0) {
+        where = { ...where, product_name: { $regex: query.product_name, $options: 'i' } };
+    }
+    
+    //Nếu tìm kiếm theo thương hiệu
+    if (query.brand_id && query.brand_id.length > 0) {
+        where = { ...where, brand_id: query.brand_id };
+    }
+
+    //Thêm các điều kiện khác nếu cần
+
+  const products = await Product
+  .find(where)
+  .populate({
+    path: 'category',
+    //đi join với category tìm category có slug khớp
+    match: {
+        slug: categorySlug
+    }
+  })
+  .skip((page - 1) * limit)
+  .limit(limit)
+  .sort({...sortObject});
+
+  //Đếm tổng số record hiện có của collection Product
+   // Lọc ra các product mà có category không null (có kết quả phù hợp)
+   const productsWithConditions = products.filter(p => p.category != null);
+
+  const totalRecord = productsWithConditions.length;
+  
+  return {
+    products: productsWithConditions,
+    //Để phân trang
+    pagination:{
+        totalRecord,
+        limit,
+        page
+    }
+  };
+}
+
+
+// Lấy thông tin danh muc theo slug
+const getProductBySlug = async(slug: string)=>{
+    const product = await Product
+    .findOne({
+        slug
+    })
+    .select('-__v');
+    return product
+}
+
 const getAll = async (query: any) => {
 
     //Lấy ra các tham số truyền vào
@@ -125,5 +194,7 @@ export default {
     getById,
     create,
     updateById,
-    deleteById
+    deleteById,
+    getProductsByCategorySlug,
+    getProductBySlug
 }

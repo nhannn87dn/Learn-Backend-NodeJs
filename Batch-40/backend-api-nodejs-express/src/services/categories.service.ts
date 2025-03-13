@@ -2,6 +2,28 @@ import createError from 'http-errors';
 import Category from '../models/category.model';
 import { buildSlug } from '../helpers/slugify.helper';
 
+// ==> PUBLIC ROUTES
+const getCategoriesTree = async()=>{
+    const categories = await Category
+    .find()
+    .select('-__v');
+    return categories
+}
+
+// Lấy thông tin danh muc theo slug
+const getCategoryBySlug = async(slug: string)=>{
+    const category = await Category
+    .findOne({
+        slug
+    })
+    .select('-__v');
+    return category
+}
+
+
+
+
+// ==> PRIVATE ROUTES
 const getAll = async (query: any) => {
 
   const { page = 1, limit = 10 } = query;
@@ -115,5 +137,7 @@ export default {
     getById,
     create,
     updateById,
-    deleteById
+    deleteById,
+    getCategoriesTree,
+    getCategoryBySlug
 }
