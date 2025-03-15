@@ -24,7 +24,9 @@ const getById = async (req: Request, res: Response, next: NextFunction) => {
 const create = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const payload = req.body;
-        const order = await ordersService.create(payload);
+        //Nếu KH đã login
+        const customer = res.locals.customer || null;
+        const order = await ordersService.create(payload, customer);
         sendJsonSuccess(res, order,httpStatus.CREATED.statusCode,httpStatus.CREATED.message)
     } catch (error) {
         next(error);

@@ -1,7 +1,7 @@
 import createError from 'http-errors';
 import Order from '../models/order.model';
 import Customer from '../models/customer.model';
-import { IOrder } from '../types/model';
+import { IOrder, IOrderDTO } from '../types/model';
 // Kết nối trực tiếp với Database
 
 
@@ -129,59 +129,71 @@ Logic tạo đơn hàng
 4. Mặc định để thông tin staff là null, vì chưa có ai duyệt đơn
 */
 
-const create = async (payload: any, customerLogined: any)=>{
+const create = async (payload: IOrderDTO, customerLogined: any)=>{
   console.log('<<=== 🚀 payload order ===>>',payload);
-  //TH 2. Khách đã login
+
+  //check xem đã chọn phương thức thanh toán chưa. Nói chung các trường yêu cầu
+
+  //TH 2. Khách đã login dựa vào token, giải mã lấy thông tin khách hàng từ token
   if(customerLogined && customerLogined._id){
     const payload_order = {
       customer: customerLogined._id,
       payment_type: payload.payment_type,
-      street: payload.customer.street,
-      city: payload.customer.city,
-      state: payload.customer.state,
+      street: payload.customer.street, //láy từ từ payload, ko lấy từ customerLogined
+      city: payload.customer.city, //láy từ từ payload, ko lấy từ customerLogined
+      state: payload.customer.state, //láy từ từ payload, ko lấy từ customerLogined
       order_note: payload.order_note,
       order_items: payload.order_items
      
     }
     const order = await Order.create(payload_order)
-
-    if(order){
-      console.log('Tao don thanh cong', payload.customer.email);
-     
-      // Gửi email
-     
-    }
-
+   
     return order;
   }
 
 
 
-  //TH 1. Khách hàng chưa tồn tại tại trong hệ thống
- 
+  //TH 1. Khách hàng ko login
+  
   if(!payload.customer){
-      throw createError(400, 'Thông tin khách hàng không hợp lệ')
-    }
-  //Đi tạo tạo khách hàng mới
-  const customer = await Customer.create(payload.customer)
-  //Sau đó tạo đơn
-  const payload_order = {
-    customer: customer._id,
-    payment_type: payload.payment_type,
-    street: customer.street,
-    city: customer.city,
-    state: customer.state,
-    order_note: payload.order_note,
-    order_items: payload.order_items
+    throw createError(400, 'Thông tin khách hàng không hợp lệ')
   }
-  const order = await Order.create(payload_order)
 
-  if(order){
-    console.log('Tao don thanh cong', payload.customer.email);
-    
-    // Gửi email
-   
+  ///Step 1 check xem khách đã tồn tại chưa
+  let payload_order = null;
+  const customerExists = await Customer.findOne({
+    email: payload.customer.email,
+    phone: payload.customer.phone
+  })
+  
+  //Nếu chưa ===> Đi tạo tạo khách hàng mới
+  if(!customerExists){
+    const customer = await Customer.create(payload.customer)
+      //Sau đó tạo đơn
+       payload_order = {
+        customer: customer._id, //lấy id vừa tạo từ customer
+        payment_type: payload.payment_type,
+        street: customer.street,
+        city: customer.city,
+        state: customer.state,
+        order_note: payload.order_note,
+        order_items: payload.order_items
+      }
   }
+  //Nếu rồi
+  else{
+     payload_order = {
+      customer: customerExists._id,
+      payment_type: payload.payment_type,
+      street: payload.customer.street, //láy từ từ payload, ko lấy từ customerLogined
+      city: payload.customer.city, //láy từ từ payload, ko lấy từ customerLogined
+      state: payload.customer.state, //láy từ từ payload, ko lấy từ customerLogined
+      order_note: payload.order_note,
+      order_items: payload.order_items
+    }
+  }
+  
+  const order = await Order.create(payload_order)
   
   return order
  

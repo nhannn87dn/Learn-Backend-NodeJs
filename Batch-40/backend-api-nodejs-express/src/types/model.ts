@@ -1,5 +1,19 @@
 import { Model, ObjectId } from "mongoose";
 
+export type TCustomer = {
+  _id?: ObjectId;
+  first_name: string;
+  last_name: string;
+  phone: string;
+  email: string;
+  street: string;
+  city: string;
+  state: string;
+  zip_code?: string;
+  password?: string;
+  active?: boolean;
+  isDelete?: boolean;
+}
 export interface ICategoryCreate {
     category_name: string;
     description: string;
@@ -51,6 +65,18 @@ export type TOrderItems = {
   thumbnail?: string;
   product_name?: string;
 }
+
+export interface IOrderDTO {
+  customer: TCustomer,
+  street: string,
+  city: string,
+  state: string,
+  zip_code?: string,
+  payment_type: number,
+  order_note?: string,
+  order_items: TOrderItems[],
+}
+
 export interface IOrder {
   customer?: ObjectId;
   staff?: ObjectId;
@@ -91,17 +117,3 @@ export type OrderModelType = Model<IOrder>;
 
 
 
-export type TCustomer = {
-  _id?: ObjectId;
-  first_name: string;
-  last_name: string;
-  phone: string;
-  email: string;
-  street: string;
-  city: string;
-  state: string;
-  zip_code?: string;
-  password?: string;
-  active?: boolean;
-  isDelete?: boolean;
-}
