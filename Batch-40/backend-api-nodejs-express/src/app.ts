@@ -9,6 +9,7 @@ import queriesRouter from './routes/v1/queries.route'
 import productsRouter from './routes/v1/products.route'
 import staffRouter from './routes/v1/staffs.route'
 import authRouter from './routes/v1/auth.route'
+import customerRouter from './routes/v1/customers.route'
 /** -------|| INITIAL APP || --------- */
 const app = express();
 app.use(express.json());
@@ -27,6 +28,7 @@ app.use('/api/v1', queriesRouter);
 app.use('/api/v1', productsRouter);
 app.use('/api/v1', staffRouter);
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1', customerRouter);
 /** -------|| END REGISTER ROUTES || --------- */
 
 // NO EDIT BEGIN HERE

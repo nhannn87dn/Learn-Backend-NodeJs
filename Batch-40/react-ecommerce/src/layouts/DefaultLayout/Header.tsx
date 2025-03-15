@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+import CartHeader from '../../components/CartHeader';
 
 export default function Header() {
   return (
@@ -12,13 +13,7 @@ export default function Header() {
         <Link to="/about" className="hover:text-gray-400">About</Link>
         <Link to="/contact" className="hover:text-gray-400">Contact</Link>
       </nav>
-      <div className="cart">
-        <Link to="/cart" className="hover:text-gray-400">
-          <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5H19m-2 8a2 2 0 100 4 2 2 0 000-4zm-10 0a2 2 0 100 4 2 2 0 000-4z"></path>
-          </svg>
-        </Link>
-      </div>
+      <CartHeader />
     </header>
   )
 }

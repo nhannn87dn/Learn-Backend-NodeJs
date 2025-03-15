@@ -10,6 +10,7 @@ import ProductByCategoryPage from './pages/ProductByCategoryPage';
 import ProductDetailsPage from './pages/ProductDetailsPage';
 import DefaultLayout from './layouts/DefaultLayout';
 import CartPage from './pages/CartPage';
+import CheckoutPage from './pages/CheckoutPage';
 
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ function App() {
           <Route path="categories/:slug" element={<ProductByCategoryPage />} />
           <Route path="products/:slug" element={<ProductDetailsPage />} />
           <Route path='cart' element={<CartPage />} />
+          <Route path='checkout' element={<CheckoutPage />} />
         </Route>
         {/* Other routes */}
         {/*... */}

@@ -3,9 +3,10 @@ import { useParams } from "react-router";
 import { env } from "../constants/getEnvs";
 import axios from "axios";
 import { IProduct } from "../types/products";
+import { useShoppingCartStore } from "../stores/useShoppingCartStore";
 
 export default function ProductDetailsPage() {
-
+  const {addCartItem} = useShoppingCartStore();
   const params = useParams();
   const slug = params.slug;
   console.log('<<=== 🚀 slug ===>>',slug);
@@ -40,6 +41,14 @@ export default function ProductDetailsPage() {
             <div className="actions">
               <button onClick={()=>{
                 console.log('Add to cart');
+                addCartItem({
+                    _id: queryProductBySlug.data._id,
+                    product_name: queryProductBySlug.data.product_name,
+                    price: queryProductBySlug.data.price,
+                    discount: queryProductBySlug.data.discount,
+                    quantity: 1, // mặc định số lượng thêm là 1
+                    thumb: queryProductBySlug.data.thumbnail, // ảnh minh họa
+                })
               }}>Add To Cart</button>
             </div>
           </div>
