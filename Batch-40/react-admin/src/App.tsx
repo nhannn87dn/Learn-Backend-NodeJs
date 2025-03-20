@@ -11,6 +11,7 @@ import LoginPage from './pages/LoginPage';
 import NoPage from './pages/NoPage';
 import EmptyLayout from './layouts/EmptyLayout';
 import ProductsPage from './pages/ProductsPage';
+import OrdersPage from './pages/OrdersPage';
 
 
 // Create a client
@@ -26,6 +27,7 @@ function App() {
         <Route path='/' element={<DefaultLayout />}>
             <Route index element={<DashboardPage />} />
             <Route path='products' element={<ProductsPage />} />
+            <Route path='orders' element={<OrdersPage />} />
         </Route>
          {/* Login thi su dung Emptylayout */}
         <Route  path='/login' element={<EmptyLayout />}>

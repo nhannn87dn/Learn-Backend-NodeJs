@@ -2,8 +2,20 @@ import createError from 'http-errors';
 import Order from '../models/order.model';
 import Customer from '../models/customer.model';
 import { IOrder, IOrderDTO } from '../types/model';
+import nodemailer from 'nodemailer';
 // Kết nối trực tiếp với Database
 
+// Tạo transporter
+// Tạo transporter
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false, // true for 465, false for other ports
+  auth: {
+      user: 'ecshopvietnamese@gmail.com',
+      pass: 'bhvksgtrvzrsukqk' //mật khẩu ứng dụng
+  }
+} as nodemailer.TransportOptions);
 
 // Lấy tất cả record
 const getAll = async (query: any)=>{
@@ -131,12 +143,13 @@ Logic tạo đơn hàng
 
 const create = async (payload: IOrderDTO, customerLogined: any)=>{
   console.log('<<=== 🚀 payload order ===>>',payload);
-
+ 
   //check xem đã chọn phương thức thanh toán chưa. Nói chung các trường yêu cầu
-
+  
   //TH 2. Khách đã login dựa vào token, giải mã lấy thông tin khách hàng từ token
   if(customerLogined && customerLogined._id){
-    const payload_order = {
+    console.log('1---');
+     const payload_order = {
       customer: customerLogined._id,
       payment_type: payload.payment_type,
       street: payload.customer.street, //láy từ từ payload, ko lấy từ customerLogined
@@ -144,10 +157,8 @@ const create = async (payload: IOrderDTO, customerLogined: any)=>{
       state: payload.customer.state, //láy từ từ payload, ko lấy từ customerLogined
       order_note: payload.order_note,
       order_items: payload.order_items
-     
     }
     const order = await Order.create(payload_order)
-   
     return order;
   }
 
@@ -160,14 +171,18 @@ const create = async (payload: IOrderDTO, customerLogined: any)=>{
   }
 
   ///Step 1 check xem khách đã tồn tại chưa
-  let payload_order = null;
+ 
   const customerExists = await Customer.findOne({
-    email: payload.customer.email,
-    phone: payload.customer.phone
+    $or: [
+      { email: payload.customer.email },
+      { phone: payload.customer.phone }
+    ] 
   })
-  
+  let payload_order = null;
   //Nếu chưa ===> Đi tạo tạo khách hàng mới
   if(!customerExists){
+    console.log('2---');
+     //TODO: check tồn tại email, tồn tại mobile của khác chưa
     const customer = await Customer.create(payload.customer)
       //Sau đó tạo đơn
        payload_order = {
@@ -182,6 +197,7 @@ const create = async (payload: IOrderDTO, customerLogined: any)=>{
   }
   //Nếu rồi
   else{
+    console.log('3---');
      payload_order = {
       customer: customerExists._id,
       payment_type: payload.payment_type,
@@ -194,7 +210,29 @@ const create = async (payload: IOrderDTO, customerLogined: any)=>{
   }
   
   const order = await Order.create(payload_order)
-  
+  if(order){
+    //gui email thong bao don hang
+    // Tạo nội dung email
+    const mailOptions = {
+      from: 'nhannn@softech.vn', // email người gửi
+      to: payload.customer.email, // email người nhận
+      //cc: 'emailcc @gmail.com',
+      subject: 'Email xác nhận đơn hàng ' + new Date(), // tiêu đề email
+     // text: 'Hello world!', //nội dung với plain text
+      html: `<p><strong>Chào ${payload.customer.first_name}</strong></p>
+      <p>Thông tin đơn hàng: </p>
+      <p>Sản phẩm: </p>`, // html body
+    };
+
+    // Gửi email
+    transporter.sendMail(mailOptions, (error: Error | null, info: nodemailer.SentMessageInfo) => {
+      if (error) {
+          console.log(error);
+      } else {
+          console.log('Email sent: ' + info.response);
+      }
+    });
+  }
   return order
  
  
