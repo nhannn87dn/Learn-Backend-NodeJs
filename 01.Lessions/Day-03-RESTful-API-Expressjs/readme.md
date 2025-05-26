@@ -27,19 +27,26 @@ RESTful API là một loại giao diện lập trình ứng dụng (API) đượ
 
 RESTful API cho phép các ứng dụng giao tiếp và trao đổi dữ liệu với nhau qua mạng. Nó sử dụng các phương thức HTTP như GET, POST, PUT và DELETE để thực hiện các hoạt động CRUD (Create, Read, Update, Delete) trên dữ liệu.
 
-| Method    | Semantics     |
-| --------- | ------------- |
-| POST      | Create        |
-| GET       | Read/Retrieve |
-| PUT/PATCH | Update        |
-| DELETE    | Delete        |
-| --------  | --------      |
-
-Các RESTful API được thiết kế để hoạt động dựa trên nguyên tắc "stateless" (không lưu trạng thái). Điều này có nghĩa là mỗi yêu cầu từ client đến server phải chứa tất cả thông tin cần thiết để server hiểu và xử lý yêu cầu, không phụ thuộc vào bất kỳ trạng thái trước đó nào. Server không lưu trạng thái của client giữa các yêu cầu.
-
-Một RESTful API thường sử dụng các đường dẫn URL để xác định tài nguyên và các phương thức HTTP để xác định hành động trên tài nguyên đó. Các dữ liệu thường được truyền qua các định dạng như JSON hoặc XML.
-
 RESTful API đã trở thành một phương pháp phổ biến để xây dựng các dịch vụ web và ứng dụng di động, vì nó đơn giản, linh hoạt và dễ dùng.
+
+### 🔶 Nguyên tắc thiết kế RESTful API
+
+#### 1. Sử dụng đúng HTTP methods:
+
+- `GET /users` → lấy danh sách user
+- `POST /users` → tạo user mới
+- `GET /users/123` → lấy thông tin user có id=123
+- `PUT /users/123` → cập nhật user
+- `DELETE /users/123` → Xóa user
+
+#### 2. URL biểu diễn tài nguyên (resource), không chứa động từ:
+
+❌ /getAllUsers → sai
+✅ /users → đúng
+
+#### 3. Không lưu trạng thái (stateless):
+Mỗi request phải tự đầy đủ thông tin xác thực (vd: token), không phụ thuộc vào phiên làm việc trước đó.
+#### 4. Sử dụng định dạng dữ liệu phổ biến (thường là JSON)
 
 ### 🔶 API hoạt động như thế nào ?
 
