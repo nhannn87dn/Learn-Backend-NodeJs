@@ -1,5 +1,6 @@
 import express, {Request, Response, NextFunction} from 'express';
 import categoriesRouter from './routes/v1/categories.route';
+import categoriesRouterV2 from './routes/v2/categories.route';
 import createError from "http-errors";
 
 const app = express();
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 
 // Cấu hình route bằng cách sử dụng app.use()
 app.use('/api/v1', categoriesRouter);
+app.use('/api/v2', categoriesRouterV2);
 
 // Handle 404 Not Found
 app.use((req, res, next)=>{
