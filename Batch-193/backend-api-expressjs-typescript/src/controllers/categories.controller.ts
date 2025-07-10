@@ -1,15 +1,22 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import categoriesService from "../services/categories.service";
+import { sendJsonSuccess } from "../helpers/response.helper";
 
-const findAll = (req:Request, res: Response)=>{
+const findAll = (req:Request, res: Response, next: NextFunction)=>{
     
-    const categories = categoriesService.findAll()
+    try {
+         const categories = categoriesService.findAll()
 
-    res.status(200).json({
-        statusCode: 200,
-        message: 'Successfully',
-        data: categories,
-    });
+        // res.status(200).json({
+        //     statusCode: 200,
+        //     message: 'Successfully',
+        //     data: categories,
+        // });
+        sendJsonSuccess(res,categories)
+    } catch (error) {
+        next(error)
+    }
+   
 }
 
 const findById = (req:Request, res: Response) => {
@@ -17,7 +24,6 @@ const findById = (req:Request, res: Response) => {
    
     const category  = categoriesService.findById(parseInt(id))
 
-    console.log('<<=== 🚀 id ===>>',id);
     res.status(200).json({
         statusCode: 200,
         message: 'Successfully',
@@ -29,11 +35,12 @@ const create = (req:Request, res: Response) => {
     
     const category = categoriesService.create(req.body)
     
-    res.status(201).json({
-        statusCode: 201,
-        message: 'Category created successfully',
-        data: category,
-    });
+    // res.status(201).json({
+    //     statusCode: 201,
+    //     message: 'Category created successfully',
+    //     data: category,
+    // });
+    sendJsonSuccess(res, category, 'Category created successfully', 201)
 }
 
 const updateById = (req:Request, res: Response) => {
