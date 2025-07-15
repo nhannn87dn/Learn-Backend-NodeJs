@@ -2,11 +2,12 @@ import { NextFunction, Request, Response } from "express";
 import categoriesService from "../services/categories.service";
 import { sendJsonSuccess } from "../helpers/response.helper";
 
-const findAll = (req:Request, res: Response, next: NextFunction)=>{
+const findAll = async (req:Request, res: Response, next: NextFunction)=>{
     
     try {
-         const categories = categoriesService.findAll()
+         const categories = await categoriesService.findAll()
 
+         console.log('<<=== 🚀 categories Controller ===>>',categories);
         // res.status(200).json({
         //     statusCode: 200,
         //     message: 'Successfully',

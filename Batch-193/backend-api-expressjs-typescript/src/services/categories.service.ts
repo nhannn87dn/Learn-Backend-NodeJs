@@ -1,11 +1,14 @@
 import createError from "http-errors";
 import { categories } from "../databases/db";
+import Category from "../models/Category.model";
 
-const findAll = () => {
+const findAll = async () => {
   //buộc phải có return
-  return categories;
+  const categoriesDB =  await Category.find();
+  console.log('<<=== 🚀  categoriesDB===>>',categoriesDB);
+  return categoriesDB;
 };
-
+ 
 const findById = (id: number) => {
   const category = categories.find((cat) => cat.id === id);
   if (!category) {
