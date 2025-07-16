@@ -7,13 +7,13 @@ const productSchema = new Schema({
         required: true,
         unique: true, // Đảm bảo tên sản phẩm là duy nhất
         trim: true, // Loại bỏ khoảng trắng thừa
-        minlength: 3, // Đặt độ dài tối thiểu cho tên sản phẩm
-        maxlength: 255 // Đặt độ dài tối đa cho tên sản phẩm
+        minLength: 3, // Đặt độ dài tối thiểu cho tên sản phẩm
+        maxLength: 255 // Đặt độ dài tối đa cho tên sản phẩm
     },
     description: {
         type: String,
         required: false,
-        maxlength: 500 // Đặt độ dài tối đa cho mô tả
+        maxLength: 500 // Đặt độ dài tối đa cho mô tả
     },
     price: {
         type: Number,
@@ -57,14 +57,14 @@ const productSchema = new Schema({
         unique: true,
         trim: true, // Loại bỏ khoảng trắng thừa
         lowercase: true, // Chuyển đổi slug thành chữ thường
-        minlength: 3, // Đặt độ dài tối thiểu cho slug
-        maxlength: 255 // Đặt độ dài tối đa cho slug
+        minLength: 3, // Đặt độ dài tối thiểu cho slug
+        maxLength: 255 // Đặt độ dài tối đa cho slug
     },
     thumbnail: {
         type: String,
         required: false,
         trim: true, // Loại bỏ khoảng trắng thừa
-        maxlength: 255 // Đặt độ dài tối đa cho thumbnail
+        maxLength: 255 // Đặt độ dài tối đa cho thumbnail
     }
 }, {
     timestamps: true, // Tự động thêm trường createdAt và updatedAt
