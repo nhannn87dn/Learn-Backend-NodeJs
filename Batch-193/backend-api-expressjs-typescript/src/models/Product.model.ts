@@ -46,11 +46,11 @@ const productSchema = new Schema({
         ref: 'Category', // Liên kết với mô hình Category
         required: true // Bắt buộc phải có category_id
     },
-    // brand_id: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Brand', // Liên kết với mô hình Brand
-    //     required: true // Bắt buộc phải có brand_id
-    // },
+    brand_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Brand', // Liên kết với mô hình Brand
+        required: true // Bắt buộc phải có brand_id
+    },
     slug: {
         type: String,
         required: true,
