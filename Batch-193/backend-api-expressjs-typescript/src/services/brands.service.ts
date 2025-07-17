@@ -1,9 +1,11 @@
 import createError from "http-errors";
 import { brands } from "../databases/db";
+import Brand from "../models/Brand.model";
 
-const findAll = () => {
+const findAll = async () => {
   //buộc phải có return
-  return brands;
+  const brandsDB = await Brand.find();
+  return brandsDB;
 };
 
 const findById = (id: number) => {

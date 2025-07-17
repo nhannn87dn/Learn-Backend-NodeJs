@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import brandsService from "../services/brands.service";
 
-const findAll = (req:Request, res: Response)=>{
+const findAll = async (req:Request, res: Response)=>{
     
-    const brands = brandsService.findAll()
+    const brands = await brandsService.findAll()
 
     res.status(200).json({
         brands

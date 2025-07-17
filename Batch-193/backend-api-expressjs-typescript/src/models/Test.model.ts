@@ -10,7 +10,10 @@ const testSchema = new Schema({
     },
     age: {
         type: Number
-    }
+    },
+    phone: {
+        type: String
+    },
 })
 const Test = model('Test', testSchema);
 export default Test;

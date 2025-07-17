@@ -20,10 +20,10 @@ const findAll = async (req:Request, res: Response, next: NextFunction)=>{
    
 }
 
-const findById = (req:Request, res: Response) => {
+const findById = async (req:Request, res: Response) => {
     const { id } = req.params;
    
-    const category  = categoriesService.findById(parseInt(id))
+    const category  = await categoriesService.findById(id)
 
     res.status(200).json({
         statusCode: 200,
@@ -44,9 +44,9 @@ const create = (req:Request, res: Response) => {
     sendJsonSuccess(res, category, 'Category created successfully', 201)
 }
 
-const updateById = (req:Request, res: Response) => {
+const updateById = async (req:Request, res: Response) => {
     const { id } = req.params;
-    const category = categoriesService.updateById(parseInt(id), req.body)
+    const category = await categoriesService.updateById(id, req.body)
     
     res.status(200).json({
         statusCode: 200,
@@ -55,15 +55,15 @@ const updateById = (req:Request, res: Response) => {
     });
 }
 
-const deleteById = (req:Request, res: Response) => {
+const deleteById = async (req:Request, res: Response) => {
     const { id } = req.params;
 
-    const categories = categoriesService.deleteById(parseInt(id))
+    const category =  await categoriesService.deleteById(id)
     
     res.status(200).json({
         statusCode: 200,
         message: 'Category deleted successfully',
-        data: categories
+        data: category
     });
 }
 
