@@ -10,17 +10,21 @@ const findAll = async (req:Request, res: Response)=>{
     });
 }
 
-const findById = (req:Request, res: Response) => {
+const findById = async (req:Request, res: Response) => {
     const { id } = req.params;
-   
-    const brand  = brandsService.findById(parseInt(id))
-
-    console.log('<<=== 🚀 id ===>>',id);
-    res.status(200).json({
-        statusCode: 200,
-        message: 'Successfully',
-        data: brand,
-    });
+    try {
+        const brand = await brandsService.findById(id);
+        res.status(200).json({
+            statusCode: 200,
+            message: 'Successfully',
+            data: brand,
+        });
+    } catch (error: any) {
+        res.status(error.status || 500).json({
+            statusCode: error.status || 500,
+            message: error.message || 'Internal server error',
+        });
+    }
 }
 
 const create = (req:Request, res: Response) => {

@@ -8,10 +8,11 @@ const findAll = async () => {
   return brandsDB;
 };
 
-const findById = (id: number) => {
-  const brand = brands.find((cat) => cat.id === id);
+const findById = async (id: string) => {
+  // Tìm brand theo id (MongoDB _id)
+  const brand = await Brand.findById(id);
   if (!brand) {
-    throw createError(400, "brand not found");
+    throw createError(404, "brand not found");
   }
   return brand;
 };
