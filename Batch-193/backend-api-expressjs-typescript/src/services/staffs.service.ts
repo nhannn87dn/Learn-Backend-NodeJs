@@ -1,0 +1,70 @@
+import createError from "http-errors";
+import Staff from "../models/staff.model";
+
+const findAll = async (query: any) => {
+  // You can implement filtering, sorting, and pagination based on the query parameters
+  // For example, if you want to filter by active status:
+  const { page = 1, limit = 5, sort = 'desc', keyword = null, active = null } = query;
+  const filter: any = {};
+  if (active) {
+    filter.active = query.active === 'true'; // Convert string to boolean
+  }
+  if (keyword) {
+    filter.$or = [
+      { first_name: new RegExp(keyword, 'i') },
+      { last_name: new RegExp(keyword, 'i') },
+      { email: new RegExp(keyword, 'i') }
+    ];
+  }
+  const staffsDB = await Staff
+  .find({ ...filter })
+  .sort({ createdAt: sort === 'asc' ? 1 : -1 })
+  .skip((page - 1) * limit)
+  .limit(limit)
+  return staffsDB;
+};
+
+const findById = async (id: string) => {
+  const staff = await Staff.findById(id);
+  if (!staff) {
+    throw createError(404, "Staff not found");
+  }
+  return staff;
+};
+
+const create = (payload: any) => {
+
+  const newStaff = new Staff({
+    first_name: payload.first_name,
+    last_name: payload.last_name,
+    email: payload.email,
+    active: payload.active,
+    password: payload.password,
+  });
+  newStaff.save();
+  return newStaff;
+};
+
+const updateById = async (id: string, payload: any) => {
+  const staff = await findById(id);
+ 
+  Object.assign(staff, payload);
+ 
+  console.log('<<=== 🚀updateById staff ===>>',staff);
+  await staff.save();
+  return staff;
+};
+
+const deleteById = async (id: string) => {
+  const staff = await findById(id);
+  await Staff.findByIdAndDelete(staff._id);
+  return staff;
+};
+
+export default {
+  findAll,
+  findById,
+  create,
+  deleteById,
+  updateById,
+};

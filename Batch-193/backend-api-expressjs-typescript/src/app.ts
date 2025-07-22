@@ -5,6 +5,9 @@ import categoriesRouter from './routes/v1/categories.route';
 import categoriesRouterV2 from './routes/v2/categories.route';
 import brandsRouter from './routes/v1/brands.route'
 import testRouter from './routes/v1/test.route';
+import productRouter from './routes/v1/products.route';
+import staffRouter from './routes/v1/staffs.route';
+import { appExample } from './midlewares/appExample.midleware';
 
 const app = express();
 
@@ -12,6 +15,10 @@ const app = express();
 // express.json() để parse JSON data
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+//middleware cấp độ ứng dụng
+app.use(appExample);
+
 
 app.get('/', (req, res) => {
   res.status(200).json({
@@ -24,6 +31,8 @@ app.use('/api/v1', categoriesRouter);
 app.use('/api/v1', brandsRouter);
 app.use('/api/v2', categoriesRouterV2);
 app.use('/api/v1', testRouter);
+app.use('/api/v1/products', productRouter);
+app.use('/api/v1/staffs', staffRouter);
 
 // Handle 404 Not Found
 app.use((req, res, next)=>{

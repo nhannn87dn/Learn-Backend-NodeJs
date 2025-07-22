@@ -1,0 +1,31 @@
+POST http://localhost:9000/api/v1/staffs
+Content-Type: application/json
+
+{
+  "first_name": "admin",
+  "last_name": "supper",
+  "email": "admin@gmail.com",
+  "password": "CatFly@200miles"
+}
+
+###
+
+POST http://localhost:9000/api/v1/staffs
+Content-Type: application/json
+
+{
+  "first_name": "dev",
+  "last_name": "Developer",
+  "email": "dev@gmail.com",
+  "password": "CatFly@200miles"
+}
+
+
+###
+
+PUT http://localhost:9000/api/v1/staffs/687f85dabdfe3c47f62bfbaa
+Content-Type: application/json
+
+{
+  "last_name": "supper"
+}
