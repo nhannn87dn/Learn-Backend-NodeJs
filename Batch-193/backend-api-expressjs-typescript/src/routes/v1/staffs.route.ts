@@ -1,22 +1,21 @@
-
 import { Router } from 'express';
 import staffController from '../../controllers/staff.controller';
+import validateSchemaYup from '../../midlewares/validateSchema.midleware';
+import staffValidation from '../../validations/staff.validation';
+import { authenticateToken, authRoles } from '../../midlewares/auth.middleware';
+
 
 const router = Router();
 
-// Middleware for staff routes
-import { routeStaffMiddleware } from '../../midlewares/routeStaff.middleware';
-import { routeStaffMiddleware2 } from '../../midlewares/routeStaff2.middleware';
-import validateSchemaYup from '../../midlewares/validateSchema.midleware';
-import staffValidation from '../../validations/staff.validation';
-//router.use(routeStaffMiddleware);
+router.use(authenticateToken);
 
 // GET /api/v1/staffs
-router.get('/', routeStaffMiddleware, routeStaffMiddleware2, staffController.findAll);
+router.get('/',  staffController.findAll);
 
 // GET /api/v1/staffs/:id
-router.get('/:id',validateSchemaYup(staffValidation.findById), staffController.findById);
-
+//router.get('/:id', authenticateToken, authRoles(["admin"]),  validateSchemaYup(staffValidation.findById), staffController.findById);
+router.get('/:id', authRoles(["admin"]),  validateSchemaYup(staffValidation.findById), staffController.findById);
+//
 // POST /api/v1/staffs
 router.post('/', validateSchemaYup(staffValidation.create), staffController.create);
 

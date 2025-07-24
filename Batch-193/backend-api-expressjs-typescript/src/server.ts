@@ -1,15 +1,12 @@
-import dotenv from 'dotenv';
 import app from './app';
 import mongoose from 'mongoose'
+import { env } from './helpers/env.helper';
 
-dotenv.config({ path: '.env' });
-const PORT = process.env.PORT || 8080;
-
-
+const PORT = env.PORT || 8080;
 
 // Kết nối đến MongoDB
 mongoose
-.connect(process.env.MONGODB_URI as string)
+.connect(env.MONGODB_URI)
 .then(() => {
   console.log('Connected to MongoDB successfully');
   // Khởi động server

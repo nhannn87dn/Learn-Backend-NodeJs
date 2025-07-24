@@ -20,12 +20,14 @@ Content-Type: application/json
   "password": "CatFly@200miles"
 }
 
+### get all staffs
 
-###
-
-PUT http://localhost:9000/api/v1/staffs/687f85dabdfe3c47f62bfbaa
+GET http://localhost:9000/api/v1/staffs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4N2Y4YmYyYTM3NmU3OTliMDM4YzAyMCIsImVtYWlsIjoiZGV2QGdtYWlsLmNvbSIsInJvbGVzIjpbImFkbWluIl0sImlhdCI6MTc1MzM2MDUxOCwiZXhwIjoxNzUzOTY1MzE4fQ.jEs4ud0tjAPlMkApt1Rg83fXrv5M-FgcgNhtEz7KW6c
 
-{
-  "last_name": "supper"
-}
+### get single staff
+
+GET http://localhost:9000/api/v1/staffs/687f85dabdfe3c47f62bfbaa
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4N2Y4YmYyYTM3NmU3OTliMDM4YzAyMCIsImVtYWlsIjoiZGV2QGdtYWlsLmNvbSIsInJvbGVzIjpbImFkbWluIl0sImlhdCI6MTc1MzM2MDUxOCwiZXhwIjoxNzUzOTY1MzE4fQ.jEs4ud0tjAPlMkApt1Rg83fXrv5M-FgcgNhtEz7KW6c

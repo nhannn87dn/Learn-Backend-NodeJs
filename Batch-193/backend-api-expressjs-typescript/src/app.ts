@@ -1,23 +1,40 @@
 import express, {Request, Response, NextFunction} from 'express';
 import createError from "http-errors";
-
+import compression from 'compression';
+import helmet from 'helmet';
 import categoriesRouter from './routes/v1/categories.route';
 import categoriesRouterV2 from './routes/v2/categories.route';
 import brandsRouter from './routes/v1/brands.route'
 import testRouter from './routes/v1/test.route';
 import productRouter from './routes/v1/products.route';
 import staffRouter from './routes/v1/staffs.route';
-import { appExample } from './midlewares/appExample.midleware';
+import authRouter from './routes/v1/auth.route';
+import { authApiKey } from './midlewares/authApiKey.midleware'
+import { rateLimit } from 'express-rate-limit'
 
 const app = express();
 
+//sử dụng rate limiting để giới hạn số lượng request từ một IP
+app.use(rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 phút
+  max: 100, // Giới hạn mỗi IP chỉ được gửi tối đa 100 request trong khoảng thời gian trên
+  message: {
+    statusCode: 429,
+    message: 'Too many requests, please try again later.',
+    data: null
+  }
+}));
+// Sử dụng helmet để bảo mật ứng dụng Express
+app.use(helmet());
+// Sử dụng compression để nén dữ liệu trả về
+app.use(compression());
 // cấu hình để nhận dữ liệu từ body của request
 // express.json() để parse JSON data
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-//middleware cấp độ ứng dụng
-app.use(appExample);
+//Sử dụng x-api-key middleware
+//app.use(authApiKey);
 
 
 app.get('/', (req, res) => {
@@ -33,6 +50,7 @@ app.use('/api/v2', categoriesRouterV2);
 app.use('/api/v1', testRouter);
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/staffs', staffRouter);
+app.use('/api/v1/auth', authRouter);
 
 // Handle 404 Not Found
 app.use((req, res, next)=>{

@@ -6,3 +6,10 @@ export interface IStaffEntity {
     active: boolean,
     roles: string[];
   }
+
+export interface IStaff extends IStaffEntity{
+   _id: string;
+   id: string;
+   createdAt: Date;
+    updatedAt: Date;
+}

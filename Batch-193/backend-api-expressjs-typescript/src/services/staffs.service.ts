@@ -16,12 +16,17 @@ const findAll = async (query: any) => {
       { email: new RegExp(keyword, 'i') }
     ];
   }
-  const staffsDB = await Staff
+  const staffs = await Staff
   .find({ ...filter })
   .sort({ createdAt: sort === 'asc' ? 1 : -1 })
   .skip((page - 1) * limit)
   .limit(limit)
-  return staffsDB;
+  return {
+    staffs,
+    page,
+    limit,
+    totalRecords: await Staff.countDocuments(),
+  };
 };
 
 const findById = async (id: string) => {
