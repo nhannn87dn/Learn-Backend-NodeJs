@@ -20,6 +20,14 @@ Content-Type: application/json
   "password": "CatFly@200miles"
 }
 
+### update
+PUT http://localhost:9000/api/v1/staffs/687f85dabdfe3c47f62bfbaa
+Content-Type: application/json
+
+{
+  "password": "CatFly@200miles"
+}
+
 ### get all staffs
 
 GET http://localhost:9000/api/v1/staffs

@@ -7,7 +7,7 @@ import { authenticateToken, authRoles } from '../../midlewares/auth.middleware';
 
 const router = Router();
 
-router.use(authenticateToken);
+//router.use(authenticateToken);
 
 // GET /api/v1/staffs
 router.get('/',  staffController.findAll);

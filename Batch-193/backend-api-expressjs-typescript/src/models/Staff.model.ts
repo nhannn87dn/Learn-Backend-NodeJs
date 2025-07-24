@@ -25,7 +25,12 @@ const staffSchema = new Schema<IStaffEntity>({
         lowercase: true,
         validate: {
             validator: function (v: string) {
-              return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v);
+              //Nếu email đã được sửa đổi hoặc là mới, thì thực hiện kiểm tra định dạng
+              //Nếu không thì bỏ qua kiểm tra
+              if (this.isModified('email') || this.isNew) {
+                return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v);
+              }
+              return true; // Skip validation if email is unchanged
             },
             message: (props: {value: string}) => `${props.value} is not a valid email!`,
           },
@@ -48,20 +53,24 @@ const staffSchema = new Schema<IStaffEntity>({
     minLength: 6,
     maxLength: 255,
     require: true,
-    // validate: {
-    //   validator: function (v: string) {
-    //     //Nếu c
-    //     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(v);
-    //   },
-    //   message: (props: {value: string}) => `${props.value} is not a valid password! It must contain at least one uppercase letter, one lowercase letter, one number, and one special character.`,   
-    // },
+    validate: {
+        validator: function (this: IStaffEntity, v: string) {
+          // Only validate password if it has been modified or is new
+          if (this.isModified('password') || this.isNew) {
+            return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(v);
+          }
+          return true; // Skip validation if password is unchanged
+        },
+        message: (props: { value: string }) =>
+          `${props.value} is not a valid password! It must contain at least one uppercase letter, one lowercase letter, one number, and one special character.`,
+      },
   }
 }, {
     timestamps: true,
     versionKey: false,
     virtuals: {
       fullName: {
-        get() {
+        get(this: IStaffEntity) {
           return `${this.first_name} ${this.last_name}`;
         }
     }
@@ -69,16 +78,16 @@ const staffSchema = new Schema<IStaffEntity>({
     toJSON: {
       virtuals: true,
       transform: (doc, ret) => {
-        delete ret.password; // Do not return password in the response
-        return ret;
-      }
+        const { password, ...rest } = ret; // Destructure to exclude password
+        return rest;
+      },
     },
     toObject: {
       virtuals: true,
       transform: (doc, ret) => {
-        delete ret.password; // Do not return password in the response
-        return ret;
-      }
+        const { password, ...rest } = ret; // Destructure to exclude password
+        return rest;
+      },
     }
 })
 
@@ -87,10 +96,12 @@ const staffSchema = new Schema<IStaffEntity>({
 //trước khi data được lưu xuống --> mã hóa mật khẩu
 staffSchema.pre('save', async function (next) {
     const staff = this;
-  
-    const hash = bcrypt.hashSync(staff.password, saltRounds);
-  
-    staff.password = hash;
+
+    //Nếu staff không có password thì không cần mã hóa
+    if (staff.isModified('password')) {
+      const hash = bcrypt.hashSync(staff.password, saltRounds);
+      staff.password = hash;
+    }
   
     next();
 });
