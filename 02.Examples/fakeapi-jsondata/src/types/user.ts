@@ -6,6 +6,7 @@ export interface IUser {
     password: string;
     active: boolean;
     role: string;
+    permissions: string[];
 }
 
 export interface IUserCreate {
@@ -15,6 +16,7 @@ export interface IUserCreate {
     password: string;
     active: boolean;
     role: string;
+    permissions: string[];
 }
 
 export interface IUserUpdate {
@@ -24,4 +26,5 @@ export interface IUserUpdate {
     password?: string;
     active?: boolean;
     role?: string;
+    permissions?: string[];
 }

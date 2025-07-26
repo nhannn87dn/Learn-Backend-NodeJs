@@ -1,0 +1,70 @@
+[
+  {
+    "id": 1,
+    "first_name": "Hester",
+    "last_name": "Mitchell",
+    "email": "cory.kassulke@gmail.com",
+    "password": "fake123456",
+    "active": false,
+    "role": "developer",
+    "permissions": [
+      "brand.delete",
+      "user.create",
+      "brand.read",
+      "product.read"
+    ]
+  },
+  {
+    "id": 2,
+    "first_name": "Henri",
+    "last_name": "Satterfield",
+    "email": "buck89@hotmail.com",
+    "password": "fake123456",
+    "active": true,
+    "role": "superadmin",
+    "permissions": [
+      "product.create",
+      "brand.read",
+      "user.update",
+      "brand.update"
+    ]
+  },
+  {
+    "id": 3,
+    "first_name": "Trenton",
+    "last_name": "Windler",
+    "email": "rickie_anderson@gmail.com",
+    "password": "fake123456",
+    "active": true,
+    "role": "staff",
+    "permissions": [
+      "brand.create"
+    ]
+  },
+  {
+    "id": 4,
+    "first_name": "Malinda",
+    "last_name": "Gulgowski",
+    "email": "rosalind_greenfelder0@hotmail.com",
+    "password": "fake123456",
+    "active": false,
+    "role": "staff",
+    "permissions": [
+      "user.read",
+      "product.delete",
+      "product.create"
+    ]
+  },
+  {
+    "id": 5,
+    "first_name": "Curtis",
+    "last_name": "Lynch",
+    "email": "keven.mann@gmail.com",
+    "password": "fake123456",
+    "active": false,
+    "role": "staff",
+    "permissions": [
+      "user.update"
+    ]
+  }
+]

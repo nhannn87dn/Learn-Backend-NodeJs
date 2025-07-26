@@ -5,12 +5,14 @@ import path from 'path';
 const BRAND_PATH = path.join(__dirname, '../databases/brand.json');
 const CATEGORY_PATH = path.join(__dirname, '../databases/categories.json');
 const PRODUCT_PATH = path.join(__dirname, '../databases/product.json');
+const USER_PATH = path.join(__dirname, '../databases/user.json');
 
 export const seedDB = async () => {
   //clear all data
   await writeFile(BRAND_PATH, []);
   await writeFile(CATEGORY_PATH, []);
   await writeFile(PRODUCT_PATH, []);
+  await writeFile(USER_PATH, []);
   //create fake data
   await fakeData();
 }
@@ -67,4 +69,38 @@ const fakeData = async () => {
   }
   await writeFile(PRODUCT_PATH, products);
   console.log('Fake products success!');
+
+  // Tạo 5 user giả
+  const users = [];
+  for (let i = 1; i <= 5; i++) {
+    users.push({
+      id: i,
+      first_name: faker.person.firstName(),
+      last_name: faker.person.lastName(),
+      email: faker.internet.email().toLowerCase(),
+      password: 'fake123456',
+      active: faker.datatype.boolean(),
+      role: faker.helpers.arrayElement(['staff', 'admin', 'superadmin', 'developer']),
+      permissions: faker.helpers.arrayElements([
+        'user.create',
+        'user.update',
+        'user.delete',
+        'user.read',
+        'product.create',
+        'product.update',
+        'product.delete',
+        'product.read',
+        'category.create',
+        'category.update',
+        'category.delete',
+        'category.read',
+        'brand.create',
+        'brand.update',
+        'brand.delete',
+        'brand.read',
+      ], { min: 1, max: 4 }),
+    });
+  }
+  await writeFile(USER_PATH, users);
+  console.log('Fake users success!');
 };

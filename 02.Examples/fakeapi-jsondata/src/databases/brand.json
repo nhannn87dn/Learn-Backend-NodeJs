@@ -1,1 +1,32 @@
-[{"id":1,"brand_name":"large language models1","description":"Monitored composite help-desk","slug":"large-language-models1"},{"id":2,"brand_name":"synergies2","description":"Grass-roots systemic strategy","slug":"synergies2"},{"id":3,"brand_name":"partnerships3","description":"Virtual context-sensitive encryption","slug":"partnerships3"},{"id":4,"brand_name":"blockchains4","description":"Secured systemic capability","slug":"blockchains4"},{"id":5,"brand_name":"AI5","description":"Future-proofed user-facing encryption","slug":"AI5"}]
+[
+  {
+    "id": 1,
+    "brand_name": "metrics1",
+    "description": "Upgradable tertiary challenge",
+    "slug": "metrics1"
+  },
+  {
+    "id": 2,
+    "brand_name": "models2",
+    "description": "Realigned regional circuit",
+    "slug": "models2"
+  },
+  {
+    "id": 3,
+    "brand_name": "deliverables3",
+    "description": "Expanded reciprocal paradigm",
+    "slug": "deliverables3"
+  },
+  {
+    "id": 4,
+    "brand_name": "infrastructures4",
+    "description": "Reverse-engineered cohesive budgetary management",
+    "slug": "infrastructures4"
+  },
+  {
+    "id": 5,
+    "brand_name": "synergies5",
+    "description": "Triple-buffered coherent structure",
+    "slug": "synergies5"
+  }
+]

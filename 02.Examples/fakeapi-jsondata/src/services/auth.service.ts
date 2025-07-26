@@ -3,6 +3,7 @@ import { generateToken } from "../utils/token.util";
 import { IUser } from "../types/user";
 import path from 'path';
 import { readFile } from '../helpers/fileHandler';
+import { ILogin } from "../types/auth";
 
 const USER_PATH = path.join(__dirname, '../databases/user.json');
 
@@ -18,10 +19,7 @@ async function getAllUsers(): Promise<IUser[]> {
 const verifyUserByCredentials = async ({
   email,
   password,
-}: {
-  email: string;
-  password: string;
-}) => {
+}: ILogin) => {
   const users = await getAllUsers();
   const user = users.find(u => u.email === email && u.password === password);
   if (!user) throw createError(401, 'Email hoặc mật khẩu không đúng');

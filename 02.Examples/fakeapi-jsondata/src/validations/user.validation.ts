@@ -21,6 +21,7 @@ const create = yup
       active: yup.boolean().optional().default(true),
       password: yup.string().matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/, 'Mật khẩu không hợp lệ').max(255, "Password tối đa 255 ký tự").required(),
       role: yup.string().oneOf(['staff', 'admin', 'superadmin', 'developer']).default('staff'),
+      permissions: yup.array().of(yup.string()).min(0).required(),
     }),
   })
   .required();
@@ -45,6 +46,7 @@ const updateById = yup
         active: yup.boolean().optional(),
         password: yup.string().matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/, 'Mật khẩu không hợp lệ').max(255, "Password tối đa 255 ký tự").optional(),
         role: yup.string().oneOf(['staff', 'admin', 'superadmin', 'developer']).optional(),
+        permissions: yup.array().of(yup.string()).min(0).optional(),
     })
   })
   .required();
