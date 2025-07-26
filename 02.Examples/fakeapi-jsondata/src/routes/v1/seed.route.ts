@@ -4,7 +4,7 @@ import { sendJsonSuccess } from '../../helpers/response.helper';
 import { seedDB } from '../../services/seed.service';
 const router = express.Router();
 
-router.post('/', async (req, res, next)=>{
+router.post('', async (req, res, next)=>{
     try {
         const { password } = req.body;
         if(password && password === 'seed@123'){

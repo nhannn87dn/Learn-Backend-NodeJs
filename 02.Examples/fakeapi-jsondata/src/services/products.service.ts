@@ -7,16 +7,27 @@ const PRODUCT_PATH = path.join(__dirname, '../databases/product.json');
 
 async function getAllProducts(): Promise<IProduct[]> {
   try {
-    const data = await readFile(PRODUCT_PATH);
+    let data = await readFile(PRODUCT_PATH);
     return Array.isArray(data) ? (data as IProduct[]) : [];
   } catch {
     return [];
   }
 }
 
-const findAll = async () => {
-  let products: IProduct[] = await getAllProducts();
-  return products;
+const findAll = async (query: any) => {
+  let data: IProduct[] = await getAllProducts();
+  if(query.category_id){
+    data = data.filter((p: IProduct) => p.category_id === query.category_id);
+  }
+  //filter by brand_id
+  if(query.brand_id){
+    data = data.filter((p: IProduct) => p.brand_id === query.brand_id);
+  }
+  //filter by product_name
+  if(query.product_name){
+    data = data.filter((p: IProduct) => p.product_name.toLowerCase().includes(query.product_name.toLowerCase()));
+  }
+  return data;
 };
 
 const findById = async (id: string) => {
