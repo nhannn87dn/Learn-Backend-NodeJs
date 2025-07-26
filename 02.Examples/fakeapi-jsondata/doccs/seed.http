@@ -1,5 +1,5 @@
-#@baseUrl = https://learn-backend-nodejs.onrender.com
-@baseUrl = http://localhost:9000
+@baseUrl = https://learn-backend-nodejs.onrender.com
+//@baseUrl = http://localhost:9000
 
 POST {{baseUrl}}/api/v1/seed
 content-type: application/json

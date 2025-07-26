@@ -27,7 +27,7 @@ const fakeData = async () => {
       id: index,
       brand_name: brandName,
       description: faker.company.catchPhrase(),
-      slug: faker.helpers.slugify(brandName),
+      slug: faker.helpers.slugify(brandName).toLowerCase(),
     });
   }
   await writeFile(BRAND_PATH, brands);
@@ -41,22 +41,22 @@ const fakeData = async () => {
       id: index,
       category_name: categoryName,
       description: faker.lorem.words(10),
-      slug: faker.helpers.slugify(categoryName),
+      slug: faker.helpers.slugify(categoryName).toLowerCase(),
     });
   }
   await writeFile(CATEGORY_PATH, categories);
   console.log('Fake categories success!');
 
-  // Tạo 15 product giả
+  // Tạo 30 product giả
   const products = [];
-  for (let i = 1; i <= 15; i++) {
+  for (let i = 1; i <= 30; i++) {
     const productName = faker.commerce.productName() + i;
     const brand = brands[Math.floor(Math.random() * brands.length)];
     const category = categories[Math.floor(Math.random() * categories.length)];
     products.push({
       id: i,
       product_name: productName,
-      price: faker.commerce.price({ min: 100, max: 1200 }),
+      price: parseFloat(faker.commerce.price({ min: 100, max: 1200 })),
       discount: faker.number.int({ min: 1, max: 50 }),
       category_id: category.id,
       brand_id: brand.id,
@@ -64,7 +64,7 @@ const fakeData = async () => {
       model_year: faker.number.int({ min: 1900, max: 2024 }),
       stock: faker.number.int({ min: 1, max: 200 }),
       thumbnail: 'https://picsum.photos/400/400',
-      slug: faker.helpers.slugify(productName),
+      slug: faker.helpers.slugify(productName).toLowerCase(),
     });
   }
   await writeFile(PRODUCT_PATH, products);
