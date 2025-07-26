@@ -1,0 +1,37 @@
+#@baseUrl = https://learn-backend-nodejs.onrender.com
+@baseUrl = http://localhost:9000
+
+### Get all products
+GET  {{baseUrl}}/api/v1/products
+
+### Get product by id
+GET {{baseUrl}}/api/v1/products/1
+
+### Create product
+POST {{baseUrl}}/api/v1/products
+content-type: application/json
+
+{
+    "product_name": "Product 1",
+    "price": 100,
+    "discount": 10,
+    "category_id": 1,
+    "brand_id": 1,
+    "description": "Description 1",
+    "model_year": 2024,
+    "stock": 50,
+    "thumbnail": "https://picsum.photos/400/400",
+    "slug": "product-1"
+}
+
+### Update product
+PUT {{baseUrl}}/api/v1/products/1
+content-type: application/json
+
+{
+    "product_name": "Product 1 Updated",
+    "price": 150
+}
+
+### Delete product
+DELETE {{baseUrl}}/api/v1/products/1

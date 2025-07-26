@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import staffService from "../services/users.service";
+import userService from "../services/users.service";
 import { sendJsonSuccess } from "../helpers/response.helper";
 
 const findAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
         console.log('2');
-        const staffs = await staffService.findAll();
-        sendJsonSuccess(res, staffs);
+        const users = await userService.findAll();
+        sendJsonSuccess(res, users);
     } catch (error) {
         next(error);
     }
@@ -15,8 +15,8 @@ const findAll = async (req: Request, res: Response, next: NextFunction) => {
 const findById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
-        const staff = await staffService.findById(id);
-        sendJsonSuccess(res, staff);
+        const user = await userService.findById(id);
+        sendJsonSuccess(res, user);
     } catch (error) {
         next(error);
     }
@@ -24,8 +24,8 @@ const findById = async (req: Request, res: Response, next: NextFunction) => {
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const staff = await staffService.create(req.body);
-        sendJsonSuccess(res, staff, 'Staff created successfully', 201);
+        const user = await userService.create(req.body);
+        sendJsonSuccess(res, user, 'User created successfully', 201);
     } catch (error) {
         next(error);
     }
@@ -34,8 +34,8 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 const updateById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
-        const staff = await staffService.updateById(id, req.body);
-        sendJsonSuccess(res, staff, 'Staff updated successfully');
+        const user = await userService.updateById(id, req.body);
+        sendJsonSuccess(res, user, 'User updated successfully');
     } catch (error) {
         next(error);
     }
@@ -44,8 +44,8 @@ const updateById = async (req: Request, res: Response, next: NextFunction) => {
 const deleteById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
-        const staff = await staffService.deleteById(id);
-        sendJsonSuccess(res, staff, 'Staff deleted successfully');
+        const user = await userService.deleteById(id);
+        sendJsonSuccess(res, user, 'User deleted successfully');
     } catch (error) {
         next(error);
     }

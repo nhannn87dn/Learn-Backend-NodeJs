@@ -1,0 +1,32 @@
+#@baseUrl = https://learn-backend-nodejs.onrender.com
+@baseUrl = http://localhost:9000
+
+### Get all users
+GET  {{baseUrl}}/api/v1/users
+
+### Get user by id
+GET {{baseUrl}}/api/v1/users/1
+
+### Create user
+POST {{baseUrl}}/api/v1/users
+content-type: application/json
+
+{
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@example.com",
+    "password": "Password123!",
+    "active": true,
+    "role": "staff"
+}
+
+### Update user
+PUT {{baseUrl}}/api/v1/users/1
+content-type: application/json
+
+{
+    "role": "admin"
+}
+
+### Delete user
+DELETE {{baseUrl}}/api/v1/users/1

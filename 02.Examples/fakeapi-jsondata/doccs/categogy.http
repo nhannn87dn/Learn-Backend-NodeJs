@@ -1,0 +1,29 @@
+#@baseUrl = https://learn-backend-nodejs.onrender.com
+@baseUrl = http://localhost:9000
+
+### Get all categories
+GET  {{baseUrl}}/api/v1/categories
+
+### Get category by id
+GET {{baseUrl}}/api/v1/categories/1
+
+### Create category
+POST {{baseUrl}}/api/v1/categories
+content-type: application/json
+
+{
+    "category_name": "Category 1",
+    "description": "Description 1",
+    "slug": "category-1"
+}
+
+### Update category
+PUT {{baseUrl}}/api/v1/categories/1
+content-type: application/json
+
+{
+    "category_name": "Category 1 Updated"
+}
+
+### Delete category
+DELETE {{baseUrl}}/api/v1/categories/1

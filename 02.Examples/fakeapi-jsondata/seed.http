@@ -1,6 +1,0 @@
-POST https://fake-api-lime-gamma.vercel.app/api/v1/seed
-content-type: application/json
-
-{
-    "password": "seed@123"
-}
