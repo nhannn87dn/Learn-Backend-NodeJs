@@ -9,7 +9,7 @@ const USER_PATH = path.join(__dirname, '../databases/user.json');
 async function getAllUsers(): Promise<IUser[]> {
   try {
     const data = await readFile(USER_PATH);
-    return Array.isArray(data) ? (data as IUser[]) : [];
+   return Array.isArray(data) ? (data as IUser[]).sort((a, b) => b.id - a.id) : [];
   } catch {
     return [];
   }

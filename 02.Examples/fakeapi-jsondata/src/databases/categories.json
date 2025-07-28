@@ -1,32 +1,32 @@
 [
   {
     "id": 1,
-    "category_name": "Automotive1",
-    "description": "victoria crinis consectetur baiulus corrupti stabilis depereo altus inventore vespillo",
-    "slug": "Automotive1"
+    "category_name": "Beauty1",
+    "description": "stabilis atrox unus amitto accendo tempus cohibeo modi adstringo pecto",
+    "slug": "beauty1"
   },
   {
     "id": 2,
-    "category_name": "Shoes2",
-    "description": "aliquam vita cilicium odit repellendus studio cursim pariatur thymum tabella",
-    "slug": "Shoes2"
+    "category_name": "Books2",
+    "description": "taceo derelinquo conqueror atavus dapifer statim tabella despecto crur bellum",
+    "slug": "books2"
   },
   {
     "id": 3,
-    "category_name": "Movies3",
-    "description": "adversus suscipio tui pax aro virga artificiose deinde degusto adfectus",
-    "slug": "Movies3"
+    "category_name": "Games3",
+    "description": "itaque vinculum voluptatibus acceptus teres acies thalassinus perferendis denuo sufficio",
+    "slug": "games3"
   },
   {
     "id": 4,
-    "category_name": "Music4",
-    "description": "vitium porro suffragium cursus celo aegrotatio cupiditate ante convoco aegrus",
-    "slug": "Music4"
+    "category_name": "Home4",
+    "description": "abduco ubi capillus sustineo subnecto derelinquo demonstro ipsa delinquo clibanus",
+    "slug": "home4"
   },
   {
     "id": 5,
-    "category_name": "Outdoors5",
-    "description": "similique cometes a nisi voluptas adfectus asporto torqueo arbustum taceo",
-    "slug": "Outdoors5"
+    "category_name": "Books5",
+    "description": "ceno torrens accendo curo vix uter deporto unde ver ulterius",
+    "slug": "books5"
   }
 ]

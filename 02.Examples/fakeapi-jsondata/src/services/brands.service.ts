@@ -9,7 +9,7 @@ const BRAND_PATH = path.join(__dirname, '../databases/brand.json');
 async function getAllBrands(): Promise<IBrand[]> {
   try {
     const data = await readFile(BRAND_PATH);
-    return Array.isArray(data) ? (data as IBrand[]) : [];
+    return Array.isArray(data) ? (data as IBrand[]).sort((a, b) => b.id - a.id) : [];
   } catch {
     return [];
   }

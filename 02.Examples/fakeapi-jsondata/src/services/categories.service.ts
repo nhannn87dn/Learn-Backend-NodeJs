@@ -9,7 +9,7 @@ async function getAllCategories(): Promise<ICategory[]> {
   try {
     const data = await readFile(CATEGORY_PATH);
     console.log('<<=== 🚀 data ===>>',data);
-    return Array.isArray(data) ? (data as ICategory[]) : [];
+    return Array.isArray(data) ? (data as ICategory[]).sort((a, b) => b.id - a.id) : [];
   } catch {
     return [];
   }

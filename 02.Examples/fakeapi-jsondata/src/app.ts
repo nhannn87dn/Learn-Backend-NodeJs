@@ -10,8 +10,12 @@ import authRouter from './routes/v1/auth.route';
 import seedRouter from './routes/v1/seed.route';
 import { rateLimit } from 'express-rate-limit'
 import { env } from './helpers/env.helper';
+import cors from 'cors'
 
 const app = express();
+
+//bat cors
+app.use(cors())
 
 //sử dụng rate limiting để giới hạn số lượng request từ một IP
 app.use(rateLimit({

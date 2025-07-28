@@ -8,7 +8,7 @@ const PRODUCT_PATH = path.join(__dirname, '../databases/product.json');
 async function getAllProducts(): Promise<IProduct[]> {
   try {
     let data = await readFile(PRODUCT_PATH);
-    return Array.isArray(data) ? (data as IProduct[]) : [];
+    return Array.isArray(data) ? (data as IProduct[]).sort((a, b) => b.id - a.id) : [];
   } catch {
     return [];
   }
@@ -34,7 +34,7 @@ const findAll = async (query: any) => {
   //1 = 0 10
   //2 = 10 20
   return {
-    data: data.filter((p) =>  p.id >= skip && p.id < offset ),
+    data: data.filter((_,index) =>  index >= skip && index < offset ),
     totalRecords: data.length,
     page,
     limit,

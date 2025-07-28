@@ -1,70 +1,66 @@
 [
   {
     "id": 1,
-    "first_name": "Hester",
-    "last_name": "Mitchell",
-    "email": "cory.kassulke@gmail.com",
-    "password": "fake123456",
-    "active": false,
-    "role": "developer",
-    "permissions": [
-      "brand.delete",
-      "user.create",
-      "brand.read",
-      "product.read"
-    ]
-  },
-  {
-    "id": 2,
-    "first_name": "Henri",
-    "last_name": "Satterfield",
-    "email": "buck89@hotmail.com",
+    "first_name": "Wendy",
+    "last_name": "Hackett",
+    "email": "edwin.kessler44@yahoo.com",
     "password": "fake123456",
     "active": true,
-    "role": "superadmin",
+    "role": "developer",
     "permissions": [
-      "product.create",
-      "brand.read",
       "user.update",
       "brand.update"
     ]
   },
   {
-    "id": 3,
-    "first_name": "Trenton",
-    "last_name": "Windler",
-    "email": "rickie_anderson@gmail.com",
+    "id": 2,
+    "first_name": "Andres",
+    "last_name": "Effertz",
+    "email": "oswald.okon46@yahoo.com",
     "password": "fake123456",
     "active": true,
-    "role": "staff",
+    "role": "superadmin",
     "permissions": [
-      "brand.create"
+      "category.read"
+    ]
+  },
+  {
+    "id": 3,
+    "first_name": "Eriberto",
+    "last_name": "Mann",
+    "email": "lonie_koepp@gmail.com",
+    "password": "fake123456",
+    "active": false,
+    "role": "superadmin",
+    "permissions": [
+      "user.update"
     ]
   },
   {
     "id": 4,
-    "first_name": "Malinda",
-    "last_name": "Gulgowski",
-    "email": "rosalind_greenfelder0@hotmail.com",
+    "first_name": "Rusty",
+    "last_name": "Crooks",
+    "email": "claudia_lindgren7@yahoo.com",
     "password": "fake123456",
-    "active": false,
-    "role": "staff",
+    "active": true,
+    "role": "superadmin",
     "permissions": [
-      "user.read",
-      "product.delete",
-      "product.create"
+      "user.delete",
+      "user.update",
+      "brand.update"
     ]
   },
   {
     "id": 5,
-    "first_name": "Curtis",
-    "last_name": "Lynch",
-    "email": "keven.mann@gmail.com",
+    "first_name": "Arely",
+    "last_name": "Walker",
+    "email": "ernestine_mitchell53@hotmail.com",
     "password": "fake123456",
     "active": false,
-    "role": "staff",
+    "role": "developer",
     "permissions": [
-      "user.update"
+      "product.delete",
+      "brand.read"
     ]
   }
 ]
