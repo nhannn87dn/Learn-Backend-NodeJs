@@ -17,12 +17,16 @@ async function getAllCategories(): Promise<ICategory[]> {
 
 const findAll = async (query: any) => {
   let categories: ICategory[] = await getAllCategories();
+  const page = query.page || 1;
+  const limit = query.limit || 10;
+  const skip = (page - 1) * limit;
+  const offset = page * limit;
   return {
-    data: categories.slice((query.page - 1) * query.limit, query.page * query.limit), //return data with limit and page
-    totalRecords: categories.length,
-    page: query.page || 1,
-    limit: query.limit || 10,
-    totalPages: Math.ceil(categories.length / (query.limit || 10)),
+   data: categories.filter((p) =>  p.id >= skip && p.id < offset ),
+      totalRecords: categories.length,
+      page,
+      limit,
+      totalPages: Math.ceil(categories.length / limit),
   };
 };
 

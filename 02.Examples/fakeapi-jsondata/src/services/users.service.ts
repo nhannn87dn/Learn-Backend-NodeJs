@@ -17,12 +17,20 @@ async function getAllUsers(): Promise<IUser[]> {
 
 const findAll = async (query: any) => {
   let users: IUser[] = await getAllUsers();
+
+  const page = query.page || 1;
+  const limit = query.limit || 10;
+  const skip = (page - 1) * limit;
+  const offset = page * limit;
+  //1 = 0 10
+  //2 = 10 20
+
   return {
-    data: users.slice((query.page - 1) * query.limit, query.page * query.limit), //return data with limit and page
-    totalRecords: users.length,
-    page: query.page || 1,
-    limit: query.limit || 10,
-    totalPages: Math.ceil(users.length / (query.limit || 10)),
+     data: users.filter((p) =>  p.id >= skip && p.id < offset ),
+      totalRecords: users.length,
+      page,
+      limit,
+      totalPages: Math.ceil(users.length / limit),
   };
 };
 

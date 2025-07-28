@@ -27,12 +27,18 @@ const findAll = async (query: any) => {
   if(query.product_name){
     data = data.filter((p: IProduct) => p.product_name.toLowerCase().includes(query.product_name.toLowerCase()));
   }
+  const page = query.page || 1;
+  const limit = query.limit || 10;
+  const skip = (page - 1) * limit;
+  const offset = page * limit;
+  //1 = 0 10
+  //2 = 10 20
   return {
-    data: data.slice((query.page - 1) * query.limit, query.page * query.limit), //return data with limit and page
+    data: data.filter((p) =>  p.id >= skip && p.id < offset ),
     totalRecords: data.length,
-    page: query.page || 1,
-    limit: query.limit || 10,
-    totalPages: Math.ceil(data.length / (query.limit || 10)),
+    page,
+    limit,
+    totalPages: Math.ceil(data.length / limit),
   };
 };
 

@@ -17,12 +17,16 @@ async function getAllBrands(): Promise<IBrand[]> {
 
 const findAll = async (query: any) => {
   let brands: IBrand[] = await getAllBrands();
+   const page = query.page || 1;
+  const limit = query.limit || 10;
+  const skip = (page - 1) * limit;
+  const offset = page * limit;
   return {
-    data: brands.slice((query.page - 1) * query.limit, query.page * query.limit), //return data with limit and page
-    totalRecords: brands.length,
-    page: query.page || 1,
-    limit: query.limit || 10,
-    totalPages: Math.ceil(brands.length / (query.limit || 10)),
+    data: brands.filter((p) =>  p.id >= skip && p.id < offset ),
+      totalRecords: brands.length,
+      page,
+      limit,
+      totalPages: Math.ceil(brands.length / limit),
   };
 };
 
