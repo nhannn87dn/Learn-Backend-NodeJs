@@ -28,7 +28,7 @@ const findAll = async (query: any) => {
     data = data.filter((p: IProduct) => p.product_name.toLowerCase().includes(query.product_name.toLowerCase()));
   }
   return {
-    data,
+    data: data.slice((query.page - 1) * query.limit, query.page * query.limit), //return data with limit and page
     totalRecords: data.length,
     page: query.page || 1,
     limit: query.limit || 10,

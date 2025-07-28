@@ -18,7 +18,7 @@ async function getAllBrands(): Promise<IBrand[]> {
 const findAll = async (query: any) => {
   let brands: IBrand[] = await getAllBrands();
   return {
-    data: brands,
+    data: brands.slice((query.page - 1) * query.limit, query.page * query.limit), //return data with limit and page
     totalRecords: brands.length,
     page: query.page || 1,
     limit: query.limit || 10,

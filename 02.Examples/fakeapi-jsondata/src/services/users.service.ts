@@ -18,7 +18,7 @@ async function getAllUsers(): Promise<IUser[]> {
 const findAll = async (query: any) => {
   let users: IUser[] = await getAllUsers();
   return {
-    data: users,
+    data: users.slice((query.page - 1) * query.limit, query.page * query.limit), //return data with limit and page
     totalRecords: users.length,
     page: query.page || 1,
     limit: query.limit || 10,

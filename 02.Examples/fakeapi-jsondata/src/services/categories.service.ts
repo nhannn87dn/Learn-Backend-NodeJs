@@ -18,7 +18,7 @@ async function getAllCategories(): Promise<ICategory[]> {
 const findAll = async (query: any) => {
   let categories: ICategory[] = await getAllCategories();
   return {
-    data: categories,
+    data: categories.slice((query.page - 1) * query.limit, query.page * query.limit), //return data with limit and page
     totalRecords: categories.length,
     page: query.page || 1,
     limit: query.limit || 10,
