@@ -5,7 +5,7 @@ import { sendJsonSuccess } from "../helpers/response.helper";
 const findAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
         console.log('2');
-        const users = await userService.findAll();
+        const users = await userService.findAll(req.query);
         sendJsonSuccess(res, users);
     } catch (error) {
         next(error);

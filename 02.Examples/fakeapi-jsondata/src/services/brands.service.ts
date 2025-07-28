@@ -15,9 +15,15 @@ async function getAllBrands(): Promise<IBrand[]> {
   }
 }
 
-const findAll = async () => {
+const findAll = async (query: any) => {
   let brands: IBrand[] = await getAllBrands();
-  return brands;
+  return {
+    data: brands,
+    totalRecords: brands.length,
+    page: query.page || 1,
+    limit: query.limit || 10,
+    totalPages: Math.ceil(brands.length / (query.limit || 10)),
+  };
 };
 
 const findById = async (id: string) => {

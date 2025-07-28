@@ -15,9 +15,15 @@ async function getAllCategories(): Promise<ICategory[]> {
   }
 }
 
-const findAll = async () => {
+const findAll = async (query: any) => {
   let categories: ICategory[] = await getAllCategories();
-  return categories;
+  return {
+    data: categories,
+    totalRecords: categories.length,
+    page: query.page || 1,
+    limit: query.limit || 10,
+    totalPages: Math.ceil(categories.length / (query.limit || 10)),
+  };
 };
 
 const findById = async (id: string) => {

@@ -27,7 +27,13 @@ const findAll = async (query: any) => {
   if(query.product_name){
     data = data.filter((p: IProduct) => p.product_name.toLowerCase().includes(query.product_name.toLowerCase()));
   }
-  return data;
+  return {
+    data,
+    totalRecords: data.length,
+    page: query.page || 1,
+    limit: query.limit || 10,
+    totalPages: Math.ceil(data.length / (query.limit || 10)),
+  };
 };
 
 const findById = async (id: string) => {

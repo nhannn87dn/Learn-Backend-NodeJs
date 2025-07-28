@@ -15,9 +15,15 @@ async function getAllUsers(): Promise<IUser[]> {
   }
 }
 
-const findAll = async () => {
+const findAll = async (query: any) => {
   let users: IUser[] = await getAllUsers();
-  return users;
+  return {
+    data: users,
+    totalRecords: users.length,
+    page: query.page || 1,
+    limit: query.limit || 10,
+    totalPages: Math.ceil(users.length / (query.limit || 10)),
+  };
 };
 
 const findById = async (id: string) => {
