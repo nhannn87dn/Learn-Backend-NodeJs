@@ -129,6 +129,7 @@ Thêm 1 dòng này vào phần `compilerOptions` trong  file `tsconfig.json`
 ```json
 "emitDecoratorMetadata": true,
 "experimentalDecorators": true,
+"strictPropertyInitialization": false
 ```
 
 Trước khi tạo `entity` để nó không báo lỗi typescript

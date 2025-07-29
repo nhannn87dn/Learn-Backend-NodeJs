@@ -1,0 +1,23 @@
+POST http://localhost:9000/api/v1/categories
+Content-Type: application/json
+
+{
+  "category_name": "d",
+  "description": "d",
+  "slug": "d"
+}
+
+###
+GET http://localhost:9000/api/v1/categories
+x-api-key: l5YvVVbedh6qeqRELX0UcCftgRHwVrT7
+###
+
+PUT http://localhost:9000/api/v1/categories/6878f0835d5016b5abe1c90b
+Content-Type: application/json
+
+{
+  "description": "All about laptops updated v2"
+}
+
+###
+DELETE http://localhost:9000/api/v1/categories/6878f0835d5016b5abe1c90b

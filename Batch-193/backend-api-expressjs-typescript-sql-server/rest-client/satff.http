@@ -1,0 +1,41 @@
+POST http://localhost:9000/api/v1/staffs
+Content-Type: application/json
+
+{
+  "first_name": "admin",
+  "last_name": "supper",
+  "email": "admin@gmail.com",
+  "password": "CatFly@200miles"
+}
+
+###
+
+POST http://localhost:9000/api/v1/staffs
+Content-Type: application/json
+
+{
+  "first_name": "dev",
+  "last_name": "Developer",
+  "email": "dev@gmail.com",
+  "password": "CatFly@200miles"
+}
+
+### update
+PUT http://localhost:9000/api/v1/staffs/687f85dabdfe3c47f62bfbaa
+Content-Type: application/json
+
+{
+  "password": "CatFly@200miles"
+}
+
+### get all staffs
+
+GET http://localhost:9000/api/v1/staffs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4N2Y4YmYyYTM3NmU3OTliMDM4YzAyMCIsImVtYWlsIjoiZGV2QGdtYWlsLmNvbSIsInJvbGVzIjpbImFkbWluIl0sImlhdCI6MTc1MzM2MDUxOCwiZXhwIjoxNzUzOTY1MzE4fQ.jEs4ud0tjAPlMkApt1Rg83fXrv5M-FgcgNhtEz7KW6c
+
+### get single staff
+
+GET http://localhost:9000/api/v1/staffs/687f85dabdfe3c47f62bfbaa
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4N2Y4YmYyYTM3NmU3OTliMDM4YzAyMCIsImVtYWlsIjoiZGV2QGdtYWlsLmNvbSIsInJvbGVzIjpbImFkbWluIl0sImlhdCI6MTc1MzM2MDUxOCwiZXhwIjoxNzUzOTY1MzE4fQ.jEs4ud0tjAPlMkApt1Rg83fXrv5M-FgcgNhtEz7KW6c
