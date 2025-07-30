@@ -8,7 +8,10 @@ const EnvSchema = yup.object().shape({
   JWT_SECRET: yup.string().required().default('catFly200@smiles'),
   JWT_ACCESS_TOKEN_EXPIRES_IN: yup.string().required().default('7d'),
   JWT_REFRESH_TOKEN_EXPIRES_IN: yup.string().required().default('30d'),
-  X_API_KEY: yup.string().required()
+  X_API_KEY: yup.string().required(),
+  //DATABASE
+  DATABASE_TYPE: yup.string().required().oneOf(["mssql", "mysql", "postgres"]).default('mssql'),
+  DATABASE_HOST: yup.string().required().default('localhost')
 });
 
 // Environment Configuration Helper

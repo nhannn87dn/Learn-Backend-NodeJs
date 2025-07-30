@@ -49,7 +49,7 @@ export class Category {
                 }));
 
                 // Ném lỗi với http-errors
-                throw createError(400, 'Validation failed: '+formattedErrors[0].property + ' - '+ JSON.stringify(formattedErrors[0].constraints), {
+                throw createError(400, 'Validation failed', {
                     errors: formattedErrors, // Gửi chi tiết lỗi
                 });
         }

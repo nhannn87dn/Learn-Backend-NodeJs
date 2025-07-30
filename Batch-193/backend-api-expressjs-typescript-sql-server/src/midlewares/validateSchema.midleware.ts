@@ -21,15 +21,14 @@ const validateSchemaYup = (schema: AnySchema) => async (req: Request, res: Respo
       //console.error(err);
       res.status(400).json({
         statusCode: 400,
-        message: err.errors, // err.errors chứa tất cả các thông điệp lỗi
-        typeError: 'validateSchema'
+        message: 'Request invalid', // err.errors chứa tất cả các thông điệp lỗi
+        errors: err.errors || []
       });
     }
 
     res.status(500).json({
       statusCode: 500,
-      message: 'validate Yup Error',
-      typeError: 'validateSchemaUnknown'
+      message: 'validate Error',
     });
   }
 };

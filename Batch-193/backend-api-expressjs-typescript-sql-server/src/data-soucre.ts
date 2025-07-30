@@ -3,8 +3,8 @@ import { DataSource } from 'typeorm';
 import { env } from "./helpers/env.helper";
 
 export const myDataSource = new DataSource({
-  type: 'mssql', //loại database
-  host: 'NHANPC', //Computer Name
+  type: env.DATABASE_TYPE, //loại database
+  host: env.DATABASE_HOST, //Computer Name
   port: 1433,
   username: 'nhan',
   password: '123456789',

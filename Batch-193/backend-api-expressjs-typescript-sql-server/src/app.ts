@@ -62,6 +62,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   res.json({
     statusCode: err.status || 500,
     message: err.message || 'Internal Server Error',
+    errors: err.errors || [], // chi tiết lỗi
     data: null
   });
 });

@@ -8,8 +8,12 @@ const findAll = async () => {
 };
 
 
-const findById = async (id: string) => {
- return [];
+const findById = async (id: number) => {
+ return await brandRepository.findOne({
+  where: {
+    id
+  }
+ });
 };
 
 

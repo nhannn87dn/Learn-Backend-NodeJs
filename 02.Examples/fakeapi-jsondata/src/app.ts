@@ -11,6 +11,8 @@ import seedRouter from './routes/v1/seed.route';
 import { rateLimit } from 'express-rate-limit'
 import { env } from './helpers/env.helper';
 import cors from 'cors'
+import { seedDB } from './services/seed.service';
+import { sendJsonSuccess } from './helpers/response.helper';
 
 const app = express();
 
@@ -40,10 +42,13 @@ app.use(express.urlencoded({ extended: false }));
 //app.use(authApiKey);
 
 
-app.get('/', (req, res) => {
-  res.status(200).json({
-    message: 'Fake  API JSON Data',
-  })
+app.get('/', async(req, res, next) => {
+ try {
+        await seedDB();
+        sendJsonSuccess(res, null, "FakeAPI is ready !");
+     } catch (error) {
+         next(error);
+     }
 });
 
 // Cấu hình route bằng cách sử dụng app.use()
