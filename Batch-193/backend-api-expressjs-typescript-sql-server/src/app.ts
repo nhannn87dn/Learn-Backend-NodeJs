@@ -3,9 +3,9 @@ import createError from "http-errors";
 import compression from 'compression';
 import helmet from 'helmet';
 import categoriesRouter from './routes/v1/categories.route';
-// import brandsRouter from './routes/v1/brands.route'
+import brandsRouter from './routes/v1/brands.route'
 import testRouter from './routes/v1/test.route';
-// import productRouter from './routes/v1/products.route';
+import productRouter from './routes/v1/products.route';
 // import staffRouter from './routes/v1/staffs.route';
 // import authRouter from './routes/v1/auth.route';
 import { authApiKey } from './midlewares/authApiKey.midleware'
@@ -44,9 +44,9 @@ app.get('/', (req, res) => {
 
 // Cấu hình route bằng cách sử dụng app.use()
 app.use('/api/v1', categoriesRouter);
-// app.use('/api/v1', brandsRouter);
+app.use('/api/v1', brandsRouter);
 app.use('/api/v1', testRouter);
-// app.use('/api/v1/products', productRouter);
+app.use('/api/v1/products', productRouter);
 // app.use('/api/v1/staffs', staffRouter);
 // app.use('/api/v1/auth', authRouter);
 

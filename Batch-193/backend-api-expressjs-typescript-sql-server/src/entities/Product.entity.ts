@@ -1,12 +1,12 @@
 import { Column, Entity, ManyToOne, OneToMany, JoinTable, PrimaryGeneratedColumn } from 'typeorm';
 import { Category } from './Category.entity';
 import { Brand } from './Brand.entity';
-import { IsDecimal, IsInt, Max, Min } from 'class-validator';
+import { IsDecimal, IsInt, IsOptional, Max, Min } from 'class-validator';
 
 
 @Entity({ name: 'products'})
 export class Product {
-  @PrimaryGeneratedColumn({ name: 'Id' })
+  @PrimaryGeneratedColumn()
   id: number;
 
   // ----------------------------------------------------------------------------------------------
@@ -15,17 +15,23 @@ export class Product {
   @Column({ type: 'nvarchar', length: 255, unique: true })
   product_name: string;
 
+
+  @Column({ type: 'nvarchar', length: 255, unique: true })
+  slug: string;
+
   // ----------------------------------------------------------------------------------------------
   // PRICE
   // ----------------------------------------------------------------------------------------------
+  @IsOptional()
   @IsDecimal()
   @Min(0)
-  @Column({ type: 'decimal', precision: 18, scale: 2 })
+  @Column({ type: 'decimal', precision: 18, scale: 2, default: 0 })
   price: number;
 
   // ----------------------------------------------------------------------------------------------
   // DISCOUNT
   // ----------------------------------------------------------------------------------------------
+  @IsOptional()
   @IsDecimal()
   @Min(0)
   @Max(70)
@@ -43,8 +49,17 @@ export class Product {
   // ----------------------------------------------------------------------------------------------
   // DESCRIPTION
   // ----------------------------------------------------------------------------------------------
+  @IsOptional()
   @Column({ type: 'nvarchar', length: 'MAX', nullable: true })
   description: string;
+
+  @IsOptional()
+  @Column({ type: 'nvarchar',  nullable: true })
+  thumbnail: string;
+
+
+  @Column()
+  model_year: number;
   // ----------------------------------------------------------------------------------------------
   // RELATIONS
   // ----------------------------------------------------------------------------------------------

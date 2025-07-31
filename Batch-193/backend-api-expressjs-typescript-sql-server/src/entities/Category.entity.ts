@@ -1,6 +1,6 @@
 import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
 import { Product } from "./Product.entity"
-import { Length, validateOrReject } from "class-validator"
+import { IsOptional, Length, validateOrReject } from "class-validator"
 import createError from "http-errors";
 //decorator
 
@@ -11,11 +11,12 @@ export class Category {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Length(3, 50)
+    @Length(1, 50)
     @Column({type: 'varchar',   length: 50, unique: true, nullable: false})
     category_name: string
 
-    @Length(10, 500)
+    @Length(2, 500)
+    @IsOptional()
     @Column({type: 'varchar', length: 500, nullable: true, default: null})
     description: string
 
@@ -23,8 +24,10 @@ export class Category {
     slug: string
 
     @CreateDateColumn()
+    @IsOptional()
     created_at: Date
 
+    @IsOptional()
     @UpdateDateColumn()
     updated_at: Date
 
@@ -40,7 +43,7 @@ export class Category {
         try {
             await validateOrReject(this);
           } catch (errors: any) {
-            //console.log('Caught promise rejection (validation failed). Errors: ', errors);
+            console.log('Caught promise rejection (validation failed). Errors: ', errors);
             // Định dạng lỗi từ class-validator
                 const formattedErrors = errors.map((error: any) => ({
                     property: error.property,
