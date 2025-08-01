@@ -9,6 +9,8 @@ import testRouter from './routes/v1/test.route';
 import productRouter from './routes/v1/products.route';
 import staffRouter from './routes/v1/staffs.route';
 import authRouter from './routes/v1/auth.route';
+import customerRouter from './routes/v1/customer.route';
+import orderRouter from './routes/v1/order.route';
 import { authApiKey } from './midlewares/authApiKey.midleware'
 import { rateLimit } from 'express-rate-limit'
 
@@ -51,6 +53,8 @@ app.use('/api/v1', testRouter);
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/staffs', staffRouter);
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/customers', customerRouter);
+app.use('/api/v1/orders', orderRouter);
 
 // Handle 404 Not Found
 app.use((req, res, next)=>{
