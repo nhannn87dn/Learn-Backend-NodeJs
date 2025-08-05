@@ -1,3 +1,0 @@
-
-POST http://localhost:8686/api/sendmail HTTP/2
-content-type: application/json

@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import productController from '../../controllers/product.controller';
+import { authenticateToken } from '../../midlewares/auth.middleware';
 
 const router = Router();
+
+router.use(authenticateToken)
 
 // GET /api/v1/products
 router.get('/', productController.findAll);

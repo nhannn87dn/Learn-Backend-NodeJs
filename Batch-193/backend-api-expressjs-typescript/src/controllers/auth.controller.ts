@@ -27,7 +27,25 @@ const refreshToken = async (req: Request, res: Response, next: NextFunction) => 
     }
 };
 
+
+
+const getProfile = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        //Sau khi authenticateToken middleware đã xác thực token và lưu staff vào res.locals.staff
+        //Chúng ta có thể lấy staff từ res.locals.staff
+        const staff = res.locals.staff;
+        
+        sendJsonSuccess(res, staff, "Successfully");
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+
+
 export default {
     login,
-    refreshToken
+    refreshToken,
+    getProfile
 };

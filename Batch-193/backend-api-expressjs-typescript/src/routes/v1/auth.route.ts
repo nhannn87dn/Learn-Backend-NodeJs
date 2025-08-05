@@ -9,4 +9,6 @@ router.post('/login', authController.login)
 
 router.post('/refresh-token', authenticateToken, authController.refreshToken)
 
+router.get('/get-profile', authenticateToken, authController.getProfile)
+
 export default router;

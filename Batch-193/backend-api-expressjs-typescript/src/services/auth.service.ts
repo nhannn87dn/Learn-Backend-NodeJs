@@ -44,7 +44,12 @@ const refreshToken = async (staff: IStaff) => {
     return tokens;
 }
 
+const getProfile =  async(staff: IStaff)=>{
+    return staff
+}
+
 export default {
     verifyUserByCredentials,
-    refreshToken
+    refreshToken,
+    getProfile
 }

@@ -71,10 +71,47 @@ const deleteById = async (id: string) => {
   return deleted;
 };
 
+const updateUserRole = async (id: string, role: string) => {
+  const users = await getAllUsers();
+  const idx = users.findIndex((u: any) => String(u.id) === String(id));
+  if (idx === -1) throw createError(404, "User not found");
+  users[idx].role = role;
+  await writeFile(USER_PATH, users);
+};
+
+const assignPermissions = async (id: string, permissions: string[]) => {
+  const users = await getAllUsers();
+  const idx = users.findIndex((u: any) => String(u.id) === String(id));
+  if (idx === -1) throw createError(404, "User not found");
+  // mix  old permissions with new permissions
+  users[idx].permissions = [...users[idx].permissions, ...permissions];
+  await writeFile(USER_PATH, users);
+};
+
+const removePermissions = async (id: string, permissions: string[]) => {
+  const users = await getAllUsers();
+  const idx = users.findIndex((u: any) => String(u.id) === String(id));
+  if (idx === -1) throw createError(404, "User not found");
+  users[idx].permissions = users[idx].permissions.filter((p: string) => !permissions.includes(p));
+  await writeFile(USER_PATH, users);
+};
+
+const removePermission = async (id: string, permission: string) => {
+  const users = await getAllUsers();
+  const idx = users.findIndex((u: any) => String(u.id) === String(id));
+  if (idx === -1) throw createError(404, "User not found");
+  users[idx].permissions = users[idx].permissions.filter((p: string) => p !== permission);
+  await writeFile(USER_PATH, users);
+};
+
 export default {
   findAll,
   findById,
   create,
   deleteById,
   updateById,
+  updateUserRole,
+  assignPermissions,
+  removePermissions,
+  removePermission
 };

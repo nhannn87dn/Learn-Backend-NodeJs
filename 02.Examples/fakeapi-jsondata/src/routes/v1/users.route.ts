@@ -23,4 +23,16 @@ router.put('/:id', authenticateToken, authRoles(["admin"]), validateSchemaYup(us
 // DELETE /api/v1/users/:id
 router.delete('/:id', authenticateToken, authRoles(["admin"]), validateSchemaYup(userValidation.deleteById), userController.deleteById);
 
+// PUT /api/v1/users/:id/role
+router.put('/:id/role', authenticateToken, authRoles(["admin"]), validateSchemaYup(userValidation.updateUserRole), userController.updateUserRole);
+
+// PUT /api/v1/users/:id/permissions
+router.put('/:id/permissions', authenticateToken, authRoles(["admin"]), validateSchemaYup(userValidation.assignPermissions), userController.assignPermissions);
+
+// DELETE /api/v1/users/:id/permissions
+router.delete('/:id/permissions', authenticateToken, authRoles(["admin"]), validateSchemaYup(userValidation.removePermissions), userController.removePermissions);
+
+// DELETE /api/v1/users/:id/permissions/:permission
+router.delete('/:id/permissions/:permission', authenticateToken, authRoles(["admin"]), validateSchemaYup(userValidation.removePermission), userController.removePermission);
+
 export default router;

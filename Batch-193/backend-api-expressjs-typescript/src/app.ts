@@ -13,8 +13,12 @@ import customerRouter from './routes/v1/customer.route';
 import orderRouter from './routes/v1/order.route';
 import { authApiKey } from './midlewares/authApiKey.midleware'
 import { rateLimit } from 'express-rate-limit'
-
+import cors from "cors"
 const app = express();
+
+//Cau hinh cors
+//cho phép tất cả domain gọi lên
+app.use(cors())
 
 //sử dụng rate limiting để giới hạn số lượng request từ một IP
 app.use(rateLimit({

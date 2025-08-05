@@ -41,6 +41,47 @@ const updateById = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
+const updateUserRole = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+        const user = await userService.updateUserRole(id, req.body.role);
+        sendJsonSuccess(res, user, 'User role updated successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
+const assignPermissions = async (req: Request, res: Response, next: NextFunction) => { 
+    try {
+        const { id } = req.params;
+        const user = await userService.assignPermissions(id, req.body.permissions);
+        sendJsonSuccess(res, user, 'User permissions updated successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
+const removePermissions = async (req: Request, res: Response, next: NextFunction) => {
+
+    try {
+        const { id } = req.params;
+        const user = await userService.removePermissions(id, req.body.permissions);
+        sendJsonSuccess(res, user, 'User permissions removed successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
+const removePermission = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id, permission } = req.params;
+        const user = await userService.removePermission(id, permission);
+        sendJsonSuccess(res, user, 'User permission removed successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
 const deleteById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
@@ -56,5 +97,9 @@ export default {
     findById,
     create,
     updateById,
-    deleteById
+    deleteById,
+    updateUserRole,
+    assignPermissions,
+    removePermissions,
+    removePermission
 };
