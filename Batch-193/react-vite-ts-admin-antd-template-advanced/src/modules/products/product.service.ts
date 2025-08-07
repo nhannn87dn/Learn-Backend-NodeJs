@@ -3,10 +3,14 @@ import type { ProductType } from "./product.type";
 
 
 export const fetchCategories = async () => {
-  const url = `https://api.escuelajs.co/api/v1/categories`;
-  return fetch(url).then((res) => res.json());
+ const response = await apiClient.get(`/v1/categories`);
+ return response.data
 };
 
+export const fetchBrands = async () => {
+   const response = await apiClient.get(`/v1/brands`);
+   return response.data
+};
 
 //Hàm get Sản phẩm
 export const fetchProducts = async (page: number, limit = 10) => {
@@ -15,27 +19,19 @@ export const fetchProducts = async (page: number, limit = 10) => {
 };
 
 
-export const fetchDelete = async (id: number) =>
-      fetch(`https://api.escuelajs.co/api/v1/products/${id}`, {
-        method: 'DELETE',
-      }).then((response) => response.json());
-
-
-export const updateData = async (formData: ProductType) => {
-  const {id, ...payload} = formData;
-  return fetch(`https://api.escuelajs.co/api/v1/products/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  }).then((response) => response.json());
+export const fetchDelete = async (id: string) =>{
+   const response = await apiClient.delete(`/v1/products/${id}`);
+  return response.data;
 }
 
-export const fetchCreate = async (formData: ProductType) => fetch(`https://api.escuelajs.co/api/v1/products`, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify(formData),
-}).then((response) => response.json());
+export const updateData = async (data: {id: string, formData: ProductType}) => {
+   const {id, formData} = data;
+  const response = await apiClient.put(`/v1/products/${id}`, formData);
+   return response.data
+};
+
+
+export const fetchCreate = async (formData: ProductType) => {
+   const response = await apiClient.post(`/v1/products`, formData);
+   return response.data
+};

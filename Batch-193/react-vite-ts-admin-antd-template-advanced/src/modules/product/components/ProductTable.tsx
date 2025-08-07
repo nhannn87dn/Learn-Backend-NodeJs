@@ -2,6 +2,7 @@ import { Table, Pagination, Card, Button, Spin } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { ProductType } from '../product.type';
 import React from 'react';
+import ActionHasRoles from '../../auth/components/ActionHasRoles';
 
 interface ProductTableProps {
   data?: ProductType[];
@@ -24,9 +25,11 @@ const ProductTable: React.FC<ProductTableProps> = ({
     <Card
       title="Product List"
       extra={
+        <ActionHasRoles requiredRoles={['admin']}>
         <Button type="primary" onClick={onAddClick}>
           Thêm mới
         </Button>
+        </ActionHasRoles>
       }
     >
       {loading ? (

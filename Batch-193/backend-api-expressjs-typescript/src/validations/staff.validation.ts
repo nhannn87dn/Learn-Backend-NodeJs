@@ -59,10 +59,34 @@ const deleteById = yup
   })
   .required();
 
+const addRole = yup
+  .object({
+    params: yup.object({
+        id: yup.string().matches(/^[0-9a-fA-F]{24}$/, {message: 'ID is non-Objectid'}).required(),
+    }),
+    body: yup.object({
+        role: yup.string().oneOf(['staff', 'admin', 'superadmin']).required(),
+    }),
+  })
+  .required();
+
+const removeRole = yup
+  .object({
+    params: yup.object({
+        id: yup.string().matches(/^[0-9a-fA-F]{24}$/, {message: 'ID is non-Objectid'}).required(),
+    }),
+    body: yup.object({
+        role: yup.string().oneOf(['staff', 'admin', 'superadmin']).required(),
+    }),
+  })
+  .required();
+
 export default {
   create,
   findById,
   updateById,
-  deleteById,
-  findAll
+  deleteById, 
+  findAll,
+  addRole,
+  removeRole
 };

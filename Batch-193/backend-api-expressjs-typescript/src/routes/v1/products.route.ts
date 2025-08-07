@@ -4,7 +4,7 @@ import { authenticateToken } from '../../midlewares/auth.middleware';
 
 const router = Router();
 
-router.use(authenticateToken)
+//router.use(authenticateToken)
 
 // GET /api/v1/products
 router.get('/', productController.findAll);

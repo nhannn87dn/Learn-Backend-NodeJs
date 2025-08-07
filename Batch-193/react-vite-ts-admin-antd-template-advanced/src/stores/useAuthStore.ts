@@ -49,6 +49,7 @@ export const useAuthStore = create<TAuthStore>()(
                   Authorization: `Bearer ${accessToken}`,
                 },
               })
+              //set state user
               set({user: {
                 ...responseProfile.data.data,
                 access_token: responseLogin.data.data.accessToken,

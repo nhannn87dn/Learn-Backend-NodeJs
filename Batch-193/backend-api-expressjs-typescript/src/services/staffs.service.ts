@@ -60,9 +60,33 @@ const updateById = async (id: string, payload: any) => {
   return staff;
 };
 
+
 const deleteById = async (id: string) => {
   const staff = await findById(id);
   await Staff.findByIdAndDelete(staff._id);
+  return staff;
+};
+
+const addRole = async (id: string, role: string) => {
+  const staff = await findById(id);
+  //check duplicate role
+  if (staff.roles.includes(role)) {
+    throw createError(400, "Role already exists");
+  }
+  staff.roles.push(role);
+  await staff.save();
+  return staff;
+};
+
+const removeRole = async (id: string, role: string) => {
+
+  const staff = await findById(id);
+  //check role exists
+  if (!staff.roles.includes(role)) {
+    throw createError(400, "Role not found");
+  }
+  staff.roles = staff.roles.filter((r: string) => r !== role);
+  await staff.save();
   return staff;
 };
 
@@ -72,4 +96,6 @@ export default {
   create,
   deleteById,
   updateById,
+  addRole,
+  removeRole
 };

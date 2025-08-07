@@ -1,3 +1,0 @@
-{   
-    "ignore": ["http/*.http", "src/seeds/**/*.ts", "README"] 
-}

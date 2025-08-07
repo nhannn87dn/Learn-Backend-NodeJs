@@ -8,6 +8,17 @@ Content-Type: application/json
   "password": "CatFly@200miles"
 }
 
+### 
+POST http://localhost:9000/api/v1/staffs
+Content-Type: application/json
+
+{
+  "first_name": "user",
+  "last_name": "normal",
+  "email": "user@gmail.com",
+  "password": "CatFly@200miles"
+}
+
 ###
 
 POST http://localhost:9000/api/v1/staffs

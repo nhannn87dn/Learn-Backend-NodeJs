@@ -51,10 +51,34 @@ const deleteById = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
+const addRole = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+        const { role } = req.body;
+        const staff = await staffService.addRole(id, role);
+        sendJsonSuccess(res, staff, 'Role added successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
+const removeRole = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+        const { role } = req.body;
+        const staff = await staffService.removeRole(id, role);
+        sendJsonSuccess(res, staff, 'Role removed successfully');
+    } catch (error) {
+        next(error);
+    }
+};
+
 export default {
     findAll,
     findById,
     create,
     updateById,
-    deleteById
+    deleteById,
+    addRole,
+    removeRole
 };

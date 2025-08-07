@@ -31,7 +31,7 @@ export const routesAdministrator: RouteItem[] = [
         element: null,
         isShowMenu: true,
         isPrivate: true,
-        roles: ['admin', 'user'],
+        roles: ['dev', 'user'],
         permissions: ['roles.view'],
       },
     ],

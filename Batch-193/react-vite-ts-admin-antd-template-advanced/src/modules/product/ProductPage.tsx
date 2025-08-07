@@ -11,6 +11,7 @@ import { fetchCategories, fetchCreate, fetchData, fetchDelete, updateData } from
 import ProductAdd from './components/ProductAdd';
 import ProductEdit from './components/ProductEdit';
 import ProductTable from './components/ProductTable';
+import ActionHasRoles from '../auth/components/ActionHasRoles';
 
 /**
  * Component Product
@@ -182,6 +183,7 @@ const ProductPage = () => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
+          <ActionHasRoles requiredRoles={['admin']}>
           <Button
             type="dashed"
             icon={<EditOutlined />}
@@ -192,6 +194,7 @@ const ProductPage = () => {
               setEditFormVisible(true);
             }}
           />
+          </ActionHasRoles>
           <Popconfirm
             title="Are you sure to delete?"
             onConfirm={() => {

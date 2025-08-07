@@ -8,28 +8,39 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import ProtectedRoute from './modules/auth/components/ProtectedRoute';
 
 // Create a client
 const queryClient = new QueryClient()
 
-// Đệ quy sinh route từ mảng routes
+// Đệ quy sinh route từ mảng routes, bọc element bằng ProtectedRoute
 function renderRoutes(routes: RouteItem[], parentIsPrivate = false) {
   return routes.map((route) => {
     let Layout = route.layout !== undefined ? route.layout : DashboardLayout;
     if (route.isPrivate || parentIsPrivate) {
       Layout = DashboardLayout;
     }
+    // Nếu có children
     if (route.children && route.children.length > 0) {
-      // Route cha bọc Layout, các con chỉ render element
       return (
         <Route key={route.key} path={route.path} element={<Layout />}>
           {/* Nếu có element ở cha, render ở index */}
-          {route.element && <Route index element={route.element} />}
+          {route.element && (
+            <Route index element={
+              <ProtectedRoute route={route}>
+                {route.element}
+              </ProtectedRoute>
+            } />
+          )}
           {/* Các route con không bọc lại Layout */}
           {route.children.map(child =>
             child.children && child.children.length > 0
               ? renderRoutes([child], route.isPrivate || parentIsPrivate)
-              : <Route key={child.key} path={child.path} element={child.element || <div>{child.label} Page</div>} />
+              : <Route key={child.key} path={child.path} element={
+                  <ProtectedRoute route={child}>
+                    {child.element || <div>{child.label} Page</div>}
+                  </ProtectedRoute>
+                } />
           )}
         </Route>
       );
@@ -37,7 +48,13 @@ function renderRoutes(routes: RouteItem[], parentIsPrivate = false) {
     // Route không có children, vẫn bọc Layout phù hợp
     return (
       <Route key={route.key} path={route.path} element={<Layout />}>
-        {route.element && <Route index element={route.element} />}
+        {route.element && (
+          <Route index element={
+            <ProtectedRoute route={route}>
+              {route.element}
+            </ProtectedRoute>
+          } />
+        )}
       </Route>
     );
   });

@@ -13,7 +13,7 @@ export const routesProduct: RouteItem[] = [
     element: <ProductPage />,
     isShowMenu: true,
     isPrivate: true,
-    roles: ['admin', 'user'],
+    roles: ['admin', 'staff'],
     permissions: ['product.view'],
   },
 ]
