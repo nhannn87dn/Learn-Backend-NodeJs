@@ -9,6 +9,8 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import ProtectedRoute from './modules/auth/components/ProtectedRoute';
+// import UserListPage from './modules/administrator/pages/UserListPage';
+// import ProtectedRouteSimple from './modules/auth/components/ProtectedRouteSimple';
 
 // Create a client
 const queryClient = new QueryClient()
@@ -79,6 +81,7 @@ function App() {
         <Route path="/" element={<Navigate to="/dashboard" />} />
         {renderRoutes(routes)}
         <Route path="*" element={<NotFoundPage />} />
+         {/* <Route path="/users" element={<ProtectedRouteSimple roles={['admin']}><UserListPage /></ProtectedRouteSimple>} /> */}
       </Routes>
     </BrowserRouter>
      {/* The rest of your application */}
