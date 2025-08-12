@@ -4,21 +4,23 @@ import { authenticateToken } from '../../midlewares/auth.middleware';
 
 const router = Router();
 
-//router.use(authenticateToken)
+/** PUBLIC ROUTES */
+// GET /api/v1/products/home/:catId?limit=5
+router.get('/products/home/:catId', productController.findHomeProducts);
+// GET /api/v1/products/category/:slug
+router.get('/products/category/:slug', productController.getProductsByCategorySlug);
 
-// GET /api/v1/products
-router.get('/', productController.findAll);
-
-// GET /api/v1/products/:id
-router.get('/:id', productController.findById);
+/** PRIVATE ROUTES */
+router.get('/products', authenticateToken, productController.findAll);
+router.get('/products/:id', authenticateToken, productController.findById);
 
 // POST /api/v1/products
-router.post('/', productController.create);
+router.post('/products', authenticateToken, productController.create);
 
 // PUT /api/v1/products/:id
-router.put('/:id', productController.updateById);
+router.put('/products/:id', authenticateToken, productController.updateById);
 
 // DELETE /api/v1/products/:id
-router.delete('/:id', productController.deleteById);
+router.delete('/products/:id', authenticateToken, productController.deleteById);
 
 export default router;

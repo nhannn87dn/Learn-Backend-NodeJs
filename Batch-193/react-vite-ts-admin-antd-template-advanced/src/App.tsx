@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router';
 import DashboardLayout from './layouts/DashboardLayout';
 import { routes, type RouteItem } from './routes';
 import NotFoundPage from './modules/notfound/NotFoundPage';
@@ -9,6 +9,8 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import ProtectedRoute from './modules/auth/components/ProtectedRoute';
+import { useEffect } from 'react';
+import { useAuthStore } from './stores/useAuthStore';
 // import UserListPage from './modules/administrator/pages/UserListPage';
 // import ProtectedRouteSimple from './modules/auth/components/ProtectedRouteSimple';
 
@@ -63,17 +65,14 @@ function renderRoutes(routes: RouteItem[], parentIsPrivate = false) {
 }
 
 function App() {
-  // get user from useAuthStore
-  /*
-  {
-    id: 1,
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    roles: ['admin', 'user'],
-    permissions: ['dashboard.view', 'product.view', 'administrators.view', 'roles.view', 'users.view'],
-  }
-
-  */
+  const history =  useLocation();
+  const {user} = useAuthStore()
+  useEffect(()=>{
+      if(user?.access_token && history.pathname !== '/login' && history.pathname !== '/logout'){
+          //get Profile for update roles and permissions
+          console.log('App.tsx test refresh account profile');
+      }
+  },[history])
   return (
     <QueryClientProvider client={queryClient}>
     <BrowserRouter>

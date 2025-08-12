@@ -54,7 +54,7 @@ app.use('/api/v1', categoriesRouter);
 app.use('/api/v1', brandsRouter);
 app.use('/api/v2', categoriesRouterV2);
 app.use('/api/v1', testRouter);
-app.use('/api/v1/products', productRouter);
+app.use('/api/v1', productRouter);
 app.use('/api/v1/staffs', staffRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/customers', customerRouter);

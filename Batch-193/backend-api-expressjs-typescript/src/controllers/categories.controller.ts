@@ -2,6 +2,15 @@ import { NextFunction, Request, Response } from "express";
 import categoriesService from "../services/categories.service";
 import { sendJsonSuccess } from "../helpers/response.helper";
 
+const getCategoryTree = async (req:Request, res: Response, next: NextFunction) => {
+    try {
+        const categoryTree = await categoriesService.getCategoryTree();
+        sendJsonSuccess(res, categoryTree);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const findAll = async (req:Request, res: Response, next: NextFunction)=>{
     
     try {
@@ -72,5 +81,6 @@ export default {
     findById,
     create,
     updateById,
-    deleteById
+    deleteById,
+    getCategoryTree
 }

@@ -1,6 +1,13 @@
 import createError from "http-errors";
 import Category from "../models/Category.model";
 
+const getCategoryTree = async()=>{
+  const categoriesDB =  await Category
+  .find()
+  .select("_id category_name slug");
+  return categoriesDB;
+}
+
 const findAll = async () => {
   //buộc phải có return
   const categoriesDB =  await Category.find();
@@ -73,4 +80,5 @@ export default {
   create,
   deleteById,
   updateById,
+  getCategoryTree
 };
