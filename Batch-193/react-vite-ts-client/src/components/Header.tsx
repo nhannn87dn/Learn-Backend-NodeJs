@@ -1,6 +1,9 @@
+
 import { NavLink } from "react-router";
+import CartInfoHeader from "./CartInfoHeader";
 
 const Header = () => {
+ 
   return (
     <header className="bg-indigo-600 text-white py-4">
       <div className="container mx-auto">
@@ -29,14 +32,7 @@ const Header = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink
-                  to={"/cart"}
-                  className={({ isActive, isPending }) =>
-                    isPending ? "pending" : isActive ? "font-bold" : ""
-                  }
-                >
-                  Cart
-                </NavLink>
+                <CartInfoHeader />
               </li>
             </ul>
           </nav>

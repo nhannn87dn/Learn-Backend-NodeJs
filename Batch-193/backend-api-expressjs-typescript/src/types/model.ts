@@ -81,42 +81,42 @@ order_items: TOrderItems[],
 }
 
 export interface IOrder {
-customer?: ObjectId;
-staff?: ObjectId;
-order_date: Date,
-require_date?: Date,
-shipping_date?: Date,
-order_status: number,
-first_name: string;
-last_name: string;
-phone: string;
-email: string;
-street: string;
-city: string;
-state: string;
-zip_code?: string;
-payment_type: number,
-order_note?: string,
-order_items: TOrderItems[],
-createdAt?: Date,
-isDelete?: boolean
+  customer?: ObjectId;
+  staff?: ObjectId;
+  order_date: Date,
+  require_date?: Date,
+  shipping_date?: Date,
+  order_status: number,
+  first_name: string;
+  last_name: string;
+  phone: string;
+  email: string;
+  street: string;
+  city: string;
+  state: string;
+  zip_code?: string;
+  payment_type: number,
+  order_note?: string,
+  order_items: TOrderItems[],
+  createdAt?: Date,
+  isDelete?: boolean
 }
 
 export interface IPayloadOrder {
-orderItems: TOrderItems[],
-orderNote?: string,
-paymentType: EnumPayments,
-customer: {
-    _id?: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    phone: string,
-    street: string,
-    city: string,
-    state: string,
-    zip_code?: string,
-}
+  orderItems: TOrderItems[],
+  orderNote?: string,
+  paymentType: EnumPayments,
+  customer: {
+      _id?: string,
+      firstName: string,
+      lastName: string,
+      email: string,
+      phone: string,
+      street: string,
+      city: string,
+      state: string,
+      zip_code?: string,
+  }
 
 }
 // Models and schemas

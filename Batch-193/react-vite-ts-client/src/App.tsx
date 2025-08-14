@@ -10,6 +10,8 @@ import {
 } from '@tanstack/react-query'
 import ProductDetailPage from "./pages/ProductDetailPage";
 import LoginPage from "./pages/LoginPage";
+import CartCheckoutPage from "./pages/CartCheckoutPage";
+import CartDonePage from "./pages/CartDonePage";
 
 const queryClient = new QueryClient()
 
@@ -25,6 +27,8 @@ function App() {
             <Route path="product/:slug" element={<ProductDetailPage />} />
             <Route path="cart" element={<CartPage />} />
             <Route path="login" element={<LoginPage />} />
+            <Route path="cart/checkout" element={<CartCheckoutPage />} />
+            <Route path="cart/done" element={<CartDonePage />} />
           </Route>
           
       </Routes>

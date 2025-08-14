@@ -1,0 +1,28 @@
+GET http://localhost:9000/api/v1/orders
+### create new Order
+POST http://localhost:9000/api/v1/orders
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4N2Y4NWRhYmRmZTNjNDdmNjJiZmJhYSIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZXMiOlsiYWRtaW4iXSwiaWF0IjoxNzU1MDU3NjAzLCJleHAiOjE3NTUwNjEyMDN9.eaYZxyxFuMtwHoDxcsUNi2xQ9efmSqOiOhnVBFArluc
+
+{
+    "customer": {
+      "first_name": "John v2",
+      "last_name": "Does",
+      "phone": "0988777555",
+      "email": "nhannn88dn@gmail.com",
+      "street": "24 le thanh ton",
+      "city": "hai chau",
+      "state": "da nang",
+      "zip_code": "55000"
+    },
+    "payment_type": 1,
+    "order_note": "goi truoc khi giao",
+    "order_items": [
+        {
+            "product": "6878dda0981122f05b23faea",
+            "price":885.85,
+            "discount": 46,
+            "quantity": 1
+        }
+    ]
+}
