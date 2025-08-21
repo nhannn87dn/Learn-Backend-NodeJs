@@ -7,7 +7,7 @@ import { sendJsonSuccess } from "../helpers/response.helper";
 const findAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const brands = await brandsService.findAll();
-        console.log('<<=== 🚀 brands Controller ===>>', brands);
+        //console.log('<<=== 🚀 brands Controller ===>>', brands);
         sendJsonSuccess(res, brands);
     } catch (error) {
         next(error);

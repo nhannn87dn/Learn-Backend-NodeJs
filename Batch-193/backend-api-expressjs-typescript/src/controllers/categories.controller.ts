@@ -16,7 +16,7 @@ const findAll = async (req:Request, res: Response, next: NextFunction)=>{
     try {
          const categories = await categoriesService.findAll()
 
-         console.log('<<=== 🚀 categories Controller ===>>',categories);
+        // console.log('<<=== 🚀 categories Controller ===>>',categories);
         // res.status(200).json({
         //     statusCode: 200,
         //     message: 'Successfully',

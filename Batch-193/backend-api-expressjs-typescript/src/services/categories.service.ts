@@ -11,7 +11,7 @@ const getCategoryTree = async()=>{
 const findAll = async () => {
   //buộc phải có return
   const categoriesDB =  await Category.find();
-  console.log('<<=== 🚀  categoriesDB===>>',categoriesDB);
+  //console.log('<<=== 🚀  categoriesDB===>>',categoriesDB);
   return categoriesDB;
 };
  

@@ -1,13 +1,15 @@
-import { Button, Flex, Form, Input, InputNumber, Modal, Pagination, Popconfirm, Select, Space, Table } from 'antd';
-import type { TableProps } from 'antd';
+import { Button, Flex, Form, Input, InputNumber, Modal, Pagination, Popconfirm, Select, Space, Table, Upload } from 'antd';
+import type { GetProp, TableProps, UploadFile, UploadProps } from 'antd';
 
 import { fetchBrands, fetchCategories, fetchCreate, fetchDelete, fetchProducts, updateData } from './product.service';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { ProductsResponse, ProductType } from './product.type';
+import type { ProductDTO, ProductsResponse, ProductType } from './product.type';
 import { useNavigate, useSearchParams } from 'react-router';
 import { useAppMessage } from '../../stores/useAppMessage';
 import { useState } from 'react';
 import ActionHasRoles from '../auth/components/ActionHasRoles';
+import { UploadOutlined } from '@ant-design/icons';
+type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
 const ProductsPage = () => {
 
@@ -64,8 +66,9 @@ const queryBrands = useQuery({
 
 })
 
-console.log('<<=== 🚀 queryBrands.data ===>>',queryBrands.data);
 
+console.log('<<=== 🚀 queryBrands.data ===>>',queryBrands.data); 
+const [fileList, setFileList] = useState<UploadFile[]>([]);
 const [isModalAddOpen,setIsModalAddOpen] = useState(false);
 const [formAdd] = Form.useForm();
 const handleModalAddOk = () => {
@@ -92,11 +95,43 @@ const handleModalAddOk = () => {
   const handleModalAddCancel = () => {
     setIsModalAddOpen(false);
   };
-  const onFinishAdd = async (values: ProductType) => {
+  const onFinishAdd = async (values: any) => {
     console.log('<<=== 🚀 values ===>>',values);
-    await mutationAddProduct.mutateAsync(values)
+    if (fileList.length === 0) {
+      message.error('Vui lòng chọn file trước khi tải lên.');
+      return;
+    }
+
+    const formData = new FormData();
+    // Lặp qua tất cả các trường trong values và thêm chúng vào formData
+    Object.entries(values).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    fileList.forEach((file) => {
+      formData.append('file', file as FileType);
+    });
+
+    console.log(formData)
+
+    await mutationAddProduct.mutateAsync(formData);
 
   };
+
+  const uploadProps: UploadProps = {
+    onRemove: (file) => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList(newFileList);
+    },
+    beforeUpload: (file) => {
+      setFileList([file]);  // Chỉ chọn một file, nếu cần nhiều file thì sử dụng `setFileList([...fileList, file])`
+      return false;  // Tắt upload tự động
+    },
+    fileList,
+  };
+
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
@@ -150,7 +185,7 @@ const columns: TableProps<ProductType>['columns'] = [
     dataIndex: 'thumbnail',
     render: (_, record) => (
       <>
-        <img height={40} width={40} src={record.thumbnail} alt={record.product_name} />
+        <img height={40} width={40} src={`${import.meta.env.VITE_BACKEND_URL_STATIC}/${record.thumbnail}`} alt={record.product_name} />
       </>
     ),
   },
@@ -211,7 +246,7 @@ const columns: TableProps<ProductType>['columns'] = [
   },
 ];
 
-
+  console.log('<<=== 🚀 fileList ===>>',fileList);
 
   return (<>
   <Flex justify='space-between' align='center'>
@@ -397,11 +432,16 @@ const columns: TableProps<ProductType>['columns'] = [
       <Form.Item
         label="Thumbnail URL"
         name="thumbnail"
-        rules={[
-          { max: 255, message: 'Thumbnail URL cannot exceed 255 characters!' },
-        ]}
+        // rules={[
+        //   { max: 255, message: 'Thumbnail URL cannot exceed 255 characters!' },
+        // ]}
       >
-        <Input placeholder="Enter thumbnail URL" />
+        {/* <Input placeholder="Enter thumbnail URL" /> */}
+        <Upload
+          {...uploadProps}
+        >
+          <Button icon={<UploadOutlined />}>Select Thumbnail</Button>
+        </Upload>
       </Form.Item>
 
       

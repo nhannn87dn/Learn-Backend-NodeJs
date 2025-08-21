@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Axios, { type InternalAxiosRequestConfig } from 'axios';
 
-const URL = 'http://localhost:9000/api';
+const URL = import.meta.env.VITE_BACKEND_URL_API || 'http://localhost:9000/api';
 
 export const apiClientPublic = Axios.create({
   baseURL: URL,

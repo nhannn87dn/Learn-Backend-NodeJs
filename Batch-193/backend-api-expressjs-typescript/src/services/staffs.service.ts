@@ -1,5 +1,5 @@
 import createError from "http-errors";
-import Staff from "../models/staff.model";
+import Staff from "../models/Staff.model";
 
 const findAll = async (query: any) => {
   // You can implement filtering, sorting, and pagination based on the query parameters

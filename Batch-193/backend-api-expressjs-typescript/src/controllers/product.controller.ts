@@ -1,7 +1,18 @@
+import createError from 'http-errors';
 import { NextFunction, Request, Response } from "express";
 import productsService from "../services/products.service";
 import { sendJsonSuccess } from "../helpers/response.helper";
 
+
+
+const uploadSingle = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+       
+        sendJsonSuccess(res, [], 'Product uploaded successfully');
+    } catch (error) {
+        next(error);
+    }
+};
 
 const findHomeProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -45,7 +56,17 @@ const findById = async (req: Request, res: Response, next: NextFunction) => {
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const product = await productsService.create(req.body);
+        console.log('create req.file',req.file);
+        //TODO: handle error when not exist req.file
+        if (!req.file) {
+            return next(createError(400, "Please upload a file"));
+        }
+        const product = await productsService.create({
+            ...req.body,
+            //path: 'public\\uploads\\chanh-1755779841245.png'
+            //remove public\\
+            thumbnail: req.file ? req.file.destination.replace('public/', '') + '/' + req.file.filename : '', // Lưu đường dẫn file đã upload
+        });
         sendJsonSuccess(res, product, 'Product created successfully', 201);
     } catch (error) {
         next(error);
@@ -79,5 +100,6 @@ export default {
     updateById,
     deleteById,
     findHomeProducts,
-    getProductsByCategorySlug
+    getProductsByCategorySlug,
+    uploadSingle
 };

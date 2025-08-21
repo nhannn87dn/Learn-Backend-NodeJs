@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import createError from "http-errors";
-import Staff from "../models/staff.model";
+import Staff from "../models/Staff.model";
 import { decodedJWT, verifyToken } from "../utils/token.util";
 
 

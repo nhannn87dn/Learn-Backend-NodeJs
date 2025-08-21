@@ -6,6 +6,21 @@ export interface ProductType {
   price: number;
   stock: number;
   thumbnail: string;
+  category_id: CategoryType;
+  brand_id: BrandType;
+}
+
+export interface ProductDTO {
+  product_name: string;
+  price: number;
+  stock: number;
+  thumbnail: string;
+  category_id: string;
+  brand_id: string;
+  discount: number;
+  model_year: number;
+  slug: string;
+  description?: string;
 }
 
 export interface ProductsResponse {
@@ -16,7 +31,14 @@ export interface ProductsResponse {
 }
 
 export interface CategoryType {
+  _id: string;
   id: number;
-  name: string;
+  category_name: string;
+}
+
+export interface BrandType {
+    _id: string;
+  id: number;
+  brand_name: string;
   image: string;
 }

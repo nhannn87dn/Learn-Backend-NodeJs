@@ -1,13 +1,13 @@
 import apiClient from "../../libs/axiosClient";
-import type { ProductType } from "./product.type";
+import type { BrandType, CategoryType, ProductDTO, ProductType } from "./product.type";
 
 
-export const fetchCategories = async () => {
+export const fetchCategories = async (): Promise<CategoryType[]> => {
  const response = await apiClient.get(`/v1/categories`);
  return response.data
 };
 
-export const fetchBrands = async () => {
+export const fetchBrands = async (): Promise<BrandType[]> => {
    const response = await apiClient.get(`/v1/brands`);
    return response.data
 };
@@ -31,7 +31,11 @@ export const updateData = async (data: {id: string, formData: ProductType}) => {
 };
 
 
-export const fetchCreate = async (formData: ProductType) => {
-   const response = await apiClient.post(`/v1/products`, formData);
+export const fetchCreate = async (formData: any) => {
+   const response = await apiClient.post(`/v1/products`, formData, {
+      headers: {
+         'Content-Type': 'multipart/form-data'
+      }
+   });
    return response.data
 };

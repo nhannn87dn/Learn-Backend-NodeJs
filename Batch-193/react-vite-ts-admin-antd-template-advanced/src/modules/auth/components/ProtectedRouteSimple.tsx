@@ -17,7 +17,7 @@ interface ProtectedRouteProps {
  */
 const ProtectedRouteSimple: React.FC<ProtectedRouteProps> = ({
   children,
-  roles=['admin'],
+  roles = ['admin'],
   fallback = <AccessDenyPage />
 }) => {
   const { user, isAuthenticated } = useAuthStore();
@@ -31,7 +31,7 @@ const ProtectedRouteSimple: React.FC<ProtectedRouteProps> = ({
     }
     
     // Nếu không có roles yêu cầu, cho phép tất cả user đã đăng nhập
-    if (roles || roles.length === 0) return true;
+    if (!roles || roles.length === 0) return true;
     
     // Nếu user có role admin, cho phép tất cả
     if (user.roles.includes('admin')) return true;

@@ -1,4 +1,4 @@
-import Staff from "../models/staff.model";
+import Staff from "../models/Staff.model";
 import createError from "http-errors";
 import bcrypt from 'bcrypt'
 import { generateToken } from "../utils/token.util";

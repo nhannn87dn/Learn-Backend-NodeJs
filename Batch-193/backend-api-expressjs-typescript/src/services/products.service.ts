@@ -112,7 +112,7 @@ const findById = async (id: string) => {
   return product;
 };
 
-const create = (payload: any) => {
+const create = async(payload: any) => {
   const newProduct = new Product({
     product_name: payload.product_name,
     description: payload.description,
@@ -123,7 +123,7 @@ const create = (payload: any) => {
     category_id: payload.category_id,
     brand_id: payload.brand_id,
     slug: payload.slug,
-    thumbnail: payload.thumbnail,
+    thumbnail: payload.thumbnail, //uploads/bi-1755776296973.png
   });
   newProduct.save();
   return newProduct;

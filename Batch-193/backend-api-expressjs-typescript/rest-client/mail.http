@@ -1,0 +1,1 @@
+POST http://localhost:9000/api/v1/send-mail

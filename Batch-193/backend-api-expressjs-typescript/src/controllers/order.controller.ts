@@ -24,6 +24,7 @@ const findById = async (req: Request, res: Response, next: NextFunction) => {
 const create = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const order = await orderService.create(req.body);
+        //TODO: send email
         sendJsonSuccess(res, order, 'Order created successfully', 201);
     } catch (error) {
         next(error);

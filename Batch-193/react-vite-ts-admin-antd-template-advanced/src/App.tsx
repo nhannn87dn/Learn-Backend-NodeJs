@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
 import DashboardLayout from './layouts/DashboardLayout';
 import { routes, type RouteItem } from './routes';
 import NotFoundPage from './modules/notfound/NotFoundPage';
@@ -9,10 +9,6 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import ProtectedRoute from './modules/auth/components/ProtectedRoute';
-import { useEffect } from 'react';
-import { useAuthStore } from './stores/useAuthStore';
-// import UserListPage from './modules/administrator/pages/UserListPage';
-// import ProtectedRouteSimple from './modules/auth/components/ProtectedRouteSimple';
 
 // Create a client
 const queryClient = new QueryClient()
@@ -65,14 +61,7 @@ function renderRoutes(routes: RouteItem[], parentIsPrivate = false) {
 }
 
 function App() {
-  const history =  useLocation();
-  const {user} = useAuthStore()
-  useEffect(()=>{
-      if(user?.access_token && history.pathname !== '/login' && history.pathname !== '/logout'){
-          //get Profile for update roles and permissions
-          console.log('App.tsx test refresh account profile');
-      }
-  },[history])
+ 
   return (
     <QueryClientProvider client={queryClient}>
     <BrowserRouter>
@@ -80,7 +69,6 @@ function App() {
         <Route path="/" element={<Navigate to="/dashboard" />} />
         {renderRoutes(routes)}
         <Route path="*" element={<NotFoundPage />} />
-         {/* <Route path="/users" element={<ProtectedRouteSimple roles={['admin']}><UserListPage /></ProtectedRouteSimple>} /> */}
       </Routes>
     </BrowserRouter>
      {/* The rest of your application */}

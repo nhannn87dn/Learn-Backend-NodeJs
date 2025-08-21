@@ -14,11 +14,18 @@ import orderRouter from './routes/v1/order.route';
 import { authApiKey } from './midlewares/authApiKey.midleware'
 import { rateLimit } from 'express-rate-limit'
 import cors from "cors"
+import path from 'path';
 const app = express();
 
 //Cau hinh cors
 //cho phép tất cả domain gọi lên
-app.use(cors())
+//app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 //sử dụng rate limiting để giới hạn số lượng request từ một IP
 app.use(rateLimit({
@@ -42,6 +49,9 @@ app.use(express.urlencoded({ extended: false }));
 //Sử dụng x-api-key middleware
 //app.use(authApiKey);
 
+
+//Cấu hình thư mục tĩnh
+app.use(express.static(path.join(__dirname, '../public')));
 
 app.get('/', (req, res) => {
   res.status(200).json({
