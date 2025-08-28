@@ -1,5 +1,5 @@
-#@baseUrl = https://learn-backend-nodejs.onrender.com
-@baseUrl = http://localhost:9000
+@baseUrl = https://learn-backend-nodejs.onrender.com
+#@baseUrl = http://localhost:9000
 
 ### Get all brands
 GET  {{baseUrl}}/api/v1/brands
@@ -18,11 +18,11 @@ content-type: application/json
 }
 
 ### Update brand
-PUT {{baseUrl}}/api/v1/brands/6
+PUT {{baseUrl}}/api/v1/brands/5
 content-type: application/json
 
 {
-    "brand_name": "Brand 16"
+    "brand_name": "Brand 5"
 }
 
 ### Delete brand

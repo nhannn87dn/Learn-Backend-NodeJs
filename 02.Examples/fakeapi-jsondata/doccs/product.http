@@ -1,5 +1,5 @@
-#@baseUrl = https://learn-backend-nodejs.onrender.com
-@baseUrl = http://localhost:9000
+@baseUrl = https://learn-backend-nodejs.onrender.com
+#@baseUrl = http://localhost:9000
 
 ### Get all products
 GET  {{baseUrl}}/api/v1/products
@@ -25,12 +25,11 @@ content-type: application/json
 }
 
 ### Update product
-PUT {{baseUrl}}/api/v1/products/1
+PUT {{baseUrl}}/api/v1/products/30
 content-type: application/json
 
 {
-    "product_name": "Product 1 Updated",
-    "price": 150
+    "price": 30
 }
 
 ### Delete product

@@ -3,8 +3,9 @@ import Link from "next/link";
 
 const navigation = [
   { name: "Home", href: "/" },
-  { name: "Blog", href: "/blog" },
-  { name: "Products", href: "/products" },
+  { name: "Brands (Client + use Hook)", href: "/brands" },
+  { name: "Categories (Client + useEffect)", href: "/categories" },
+  { name: "Products (Server)", href: "/products" },
   { name: "Profile", href: "/customer/profile" },
 ];
 
