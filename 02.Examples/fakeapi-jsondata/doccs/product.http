@@ -29,7 +29,7 @@ PUT {{baseUrl}}/api/v1/products/30
 content-type: application/json
 
 {
-    "price": 30
+    "price": 120
 }
 
 ### Delete product
