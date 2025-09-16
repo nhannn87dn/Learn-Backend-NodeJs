@@ -1,0 +1,31 @@
+### Create new category
+POST http://localhost:8080/api/v1/categories
+Content-Type: application/json
+
+{
+    "categoryName": "Electronics",
+    "description": "Electronic products and devices",
+    "slug": "electronics",
+    "sort": 1,
+    "isActive": true
+}
+
+### Create new category with invalid slug format
+POST http://localhost:8080/api/v1/categories
+Content-Type: application/json
+
+{
+    "categoryName": "Gaming Laptops",
+    "description": "Gaming laptops and accessories",
+    "slug": "gaming-laptops", 
+    "sort": 4,
+    "isActive": true
+}
+
+### PUT update category
+PUT http://localhost:8080/api/v1/categories/68c91b1df0cd9e9f274c2a19
+Content-Type: application/json
+
+{
+    "sort": 4
+}

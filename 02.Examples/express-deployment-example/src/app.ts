@@ -3,12 +3,15 @@ import cors from 'cors'
 import { sendJsonErrors } from './helpers/responseHandler';
 import createError  from 'http-errors';
 import routeCategories from './routes/v1/categories.route'
+import { setupSwagger } from "./config/swagger";
 const app: Express = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(cors({ origin: '*' })); //Cho phép gọi bất kỳ đâu
+
+setupSwagger(app); // swagger tại /docs
 
 app.get("/", (req, res) => {
         res.send({

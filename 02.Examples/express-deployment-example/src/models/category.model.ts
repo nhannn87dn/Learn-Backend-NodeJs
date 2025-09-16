@@ -3,6 +3,58 @@ import { ICategory } from '../types/models';
 import buildSlug from '../helpers/slugHelper'
 import { NextFunction } from 'express';
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Category:
+ *       type: object
+ *       required:
+ *         - categoryName
+ *         - slug
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: The auto-generated id of the category
+ *         categoryName:
+ *           type: string
+ *           minLength: 3
+ *           maxLength: 50
+ *           description: Name of the category
+ *         description:
+ *           type: string
+ *           maxLength: 500
+ *           description: Description of the category
+ *         slug:
+ *           type: string
+ *           maxLength: 255
+ *           pattern: ^[a-z0-9\-]+$
+ *           description: URL-friendly version of the category name
+ *         sort:
+ *           type: number
+ *           minimum: 1
+ *           default: 50
+ *           description: Sorting order of the category
+ *         isActive:
+ *           type: boolean
+ *           default: true
+ *           description: Whether the category is active
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: The date the category was created
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: The date the category was last updated
+ *       example:
+ *         categoryName: "Electronics"
+ *         description: "Electronic products and accessories"
+ *         slug: "electronics"
+ *         sort: 1
+ *         isActive: true
+ */
+
 const categorySchema = new Schema(
     {
       categoryName: {

@@ -1,8 +1,25 @@
 import createError from 'http-errors';
 import Category from '../models/category.model';
 import { ICategory } from '../types/models';
+import redisService from './redis.service';
+
+const CACHE_TTL = 30; // 1 hour cache
+const CACHE_KEY_ALL = 'categories:all';
+const CACHE_KEY_PREFIX = 'category:';
+
 //Tra lai ket qua
 const getAll = async (query: any)=>{
+    // Try to get from cache first
+    const cacheKey =  await redisService.buildCacheKey(CACHE_KEY_ALL, query);
+    const cachedData = await redisService.get(cacheKey);
+
+    console.log('<<=== 🚀 cacheKey ===>>', cacheKey);
+    console.log('<<=== 🚀 cachedData ===>>', cachedData);
+    
+    if (cachedData) {
+        console.log('Fetching categories from cache');
+        return JSON.parse(cachedData);
+    }
     //Phân trang
     const currentPage = query && query.page ? parseInt(query.page as string) : 1; //trang hiện tại
     const pageSize = query &&  query.limit ? parseInt(query.limit as string) : 5; // Số lượng items trên 1 trang
@@ -28,35 +45,61 @@ const getAll = async (query: any)=>{
     //Số phần tử khớp với điều kiện lọc được
     const filteredCount = categories.length;
 
-    return {
-        limit: pageSize,// số lượng item trên 1 trang
-        page: currentPage, //trang hiện tại
-        totalPages: Math.ceil(count / pageSize), //tổng số trang
-        totalItems: count, //tổng số records
-        filteredCount, //số record khớp điều kiện
-        sortBy: sortObject,
+    const result = {
+        metadata: {
+            limit: pageSize,// số lượng item trên 1 trang
+            page: currentPage, //trang hiện tại
+            totalPages: Math.ceil(count / pageSize), //tổng số trang
+            totalItems: count, //tổng số records
+            filteredCount, //số record khớp điều kiện
+            sortBy: sortObject
+        },
         categories: categories
-    }
+    };
+
+    // Save to cache
+    await redisService.set(cacheKey, JSON.stringify(result), 30);
+    console.log('Fetching categories from DB and caching to Redis');
+    return result;
 }
 
-const getCategoryById  = async (id:string)=>{
+const getCategoryById = async (id:string)=>{
+    // Try to get from cache first
+    const cacheKey = `${CACHE_KEY_PREFIX}${id}`;
+    const cachedData = await redisService.get(cacheKey);
+    
+    if (cachedData) {
+        console.log('Fetching category from cache');
+        return JSON.parse(cachedData);
+    }
+
     //SELECT * FROM categorys WHERE _id = id
     const result = await Category.findById(id);
 
     if(!result){
         throw createError(404,'Category not found');
     }
+
+    // Save to cache
+    await redisService.set(cacheKey, JSON.stringify(result), CACHE_TTL);
+    console.log('Fetching category from DB and caching to Redis');
     return result;
 }
 
 const createCategory = async (data: ICategory)=>{
-    const result = await Category.create(data)
+    const result = await Category.create(data);
+    
+    // Invalidate the categories list cache by deleting the pattern
+    await redisService.del(`${CACHE_KEY_ALL}:*`);
+    
     return result;
 }
 
 const updateCategory = async (id: string,data: ICategory)=>{
     /* Tận dùng hàm có sẳn để tìm xem danh mục có tồn tại chưa */
-    const category = await getCategoryById(id);
+    const category = await Category.findById(id);
+
+    console.log('updateCategory',category);
 
     /**
      * Dùng assign để merge giữa cũ và mới lại với nhau
@@ -65,6 +108,10 @@ const updateCategory = async (id: string,data: ICategory)=>{
      */
     Object.assign(category, data);
     await category.save();
+
+    // Invalidate both category detail and list caches
+    await redisService.del(`${CACHE_KEY_PREFIX}${id}`);
+    await redisService.del(`${CACHE_KEY_ALL}:*`);
 
     return category
 }
@@ -75,6 +122,11 @@ const deleteCategory = async (id:string)=>{
     /* Tận dùng hàm có sẳn để tìm xem danh mục có tồn tại chưa */
     const category = await getCategoryById(id);
     await Category.deleteOne({ _id: category._id });
+
+    // Invalidate both category detail and list caches
+    await redisService.del(`${CACHE_KEY_PREFIX}${id}`);
+    await redisService.del(`${CACHE_KEY_ALL}:*`);
+
     return category
 }
 
