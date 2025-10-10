@@ -1,0 +1,19 @@
+POST http://localhost:3000/blog
+Content-Type: application/json
+
+{
+  "title": "My First Blog",
+  "content": "This is the content of my first blog."
+}
+
+### PUT
+PUT http://localhost:3000/blog
+Content-Type: application/json
+
+{
+  "title": "Updated Blog Title",
+  "content": "This is the updated content of the blog."
+}
+
+### DELETE
+DELETE http://localhost:3000/blog
