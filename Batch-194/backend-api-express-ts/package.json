@@ -1,0 +1,29 @@
+{
+  "name": "backend-api-express-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.11.0",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "http-errors": "^2.0.0",
+    "yup": "^1.7.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/http-errors": "^2.0.5",
+    "@types/node": "^24.7.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  }
+}
