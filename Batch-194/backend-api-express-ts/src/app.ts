@@ -1,4 +1,4 @@
-import  express, {Express, NextFunction, Response} from 'express';
+import  express, {Express, NextFunction, Response, Request} from 'express';
 import categoriesRoute from './routes/v1/categories.route';
 import createError, {HttpError } from 'http-errors';
 import { ENV } from './config/ENV';
@@ -29,7 +29,7 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.use(function(err: any, req: Request, res: Response, next: NextFunction) {
+app.use(function(err: HttpError, req: Request, res: Response, next: NextFunction) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = ENV.NODE_ENV === 'development' ? err : {};
