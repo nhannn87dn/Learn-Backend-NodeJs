@@ -1,5 +1,6 @@
 import  express, {Express, NextFunction, Response, Request} from 'express';
 import categoriesRoute from './routes/v1/categories.route';
+import categoriesRouteV2 from './routes/v1/categories.route';
 import createError, {HttpError } from 'http-errors';
 import { ENV } from './config/ENV';
 
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 
 /*********** BEGIN DECLARATION ROUTES **************** */
 app.use('/api/v1/categories', categoriesRoute);
+app.use('/api/v2/categories', categoriesRouteV2);
 /************END DECLARATION ROUTES********** */
 
 

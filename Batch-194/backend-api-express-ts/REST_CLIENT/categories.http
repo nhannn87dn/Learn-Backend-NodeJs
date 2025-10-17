@@ -1,8 +1,14 @@
+@baseUrl=http://localhost:8080
+
 ### List
-GET http://localhost:8080/api/v1/categories
+GET {{baseUrl}}/api/v1/categories
+
+### Find By ID
+GET {{baseUrl}}/api/v1/categories/1
+
 
 ### Create new 
-POST http://localhost:8080/api/v1/categories
+POST {{baseUrl}}/api/v1/categories
 Content-Type: application/json
 
 {
@@ -10,7 +16,7 @@ Content-Type: application/json
 }
 
 ### Update
-PUT http://localhost:8080/api/v1/categories/6
+PUT {{baseUrl}}/api/v1/categories/6
 Content-Type: application/json
 
 {
@@ -18,6 +24,5 @@ Content-Type: application/json
 }
 
 ### DELETE
-DELETE  http://localhost:8080/api/v1/categories/9
+DELETE  {{baseUrl}}/api/v1/categories/1
 ####
-GET  http://localhost:8080/api
