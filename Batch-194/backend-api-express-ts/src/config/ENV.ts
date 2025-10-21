@@ -18,6 +18,10 @@ const envSchema = yup.object({
     .oneOf(["development", "production", "test"])
     .required("NODE_ENV is required")
     .default("development"),
+
+  MONGODB_CONNECTION_STRING: yup
+    .string()
+    .required("MONGODB_CONNECTION_STRING is required")
   /// add more env here
   
 });
