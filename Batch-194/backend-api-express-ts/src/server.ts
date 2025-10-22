@@ -18,12 +18,13 @@ mongoose
   .then(() => {
     console.log("Connected to MongoDB");
     //should listen app here
+    //express app listen
+    app.listen(PORT, () => {
+        console.log(`Example app listening on port http://localhost:${PORT}`)
+    });
   })
   .catch((err) => {
     console.error("Failed to Connect to MongoDB", err);
   });
 
-//express app listen
-app.listen(PORT, () => {
-    console.log(`Example app listening on port http://localhost:${PORT}`)
-})
+
