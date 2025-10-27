@@ -4,7 +4,7 @@
 GET {{baseUrl}}/api/v1/categories
 
 ### Find By ID
-GET {{baseUrl}}/api/v1/categories/1
+GET {{baseUrl}}/api/v1/categories/68fb7ab3dbbe0847aa5ecae4
 
 
 ### Create new 
@@ -12,17 +12,21 @@ POST {{baseUrl}}/api/v1/categories
 Content-Type: application/json
 
 {
-    "name": "Laptop"
+    "category_name": "Accessories",
+    "slug": "accessories",
+    "description": "Mobile accessories"
 }
 
 ### Update
-PUT {{baseUrl}}/api/v1/categories/6
+PUT {{baseUrl}}/api/v1/categories/68fb79ceca81b40b9e816436
 Content-Type: application/json
 
 {
-    "name": "Mobile"
+    "category_name": "Laptop Apple",
+    "description": "Laptop co ban tra gop, gia tot nhat thi truong.",
+    "slug": "laptop-apple"
 }
 
 ### DELETE
-DELETE  {{baseUrl}}/api/v1/categories/1
+DELETE  {{baseUrl}}/api/v1/categories/68fb7f0107dd0e6bb9b14e96
 ####

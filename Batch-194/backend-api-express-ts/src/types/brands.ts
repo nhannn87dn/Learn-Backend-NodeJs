@@ -1,14 +1,14 @@
 import { ObjectId } from "mongoose";
 
-export interface ICategoryDTO {
-    category_name: string
+export interface IBrandDTO {
+    brand_name: string
     description?: string
     slug: string
 }
 
-export interface ICategory{
+export interface IBrand{
     _id: ObjectId;
-    category_name: string
+    brand_name: string
     description?: string
     slug: string
 }

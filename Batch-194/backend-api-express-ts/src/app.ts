@@ -1,9 +1,10 @@
 import  express, {Express, NextFunction, Response, Request} from 'express';
 import categoriesRoute from './routes/v1/categories.route';
 import categoriesRouteV2 from './routes/v1/categories.route';
+import brandRoute from './routes/v1/brands.route';
+import productRoute from './routes/v1/products.route';
 import createError, {HttpError } from 'http-errors';
 import { ENV } from './config/ENV';
-import Student from './models/Student.model';
 
 const app: Express = express()
 
@@ -20,26 +21,8 @@ app.get('/', (req, res) => {
 /*********** BEGIN DECLARATION ROUTES **************** */
 app.use('/api/v1/categories', categoriesRoute);
 app.use('/api/v2/categories', categoriesRouteV2);
-app.get('/students', async (req: Request, res: Response) => {
-  const students = await Student.find();
-  res.json({
-    message: 'Danh sách sinh viên',
-    data: students
-  })
-});
-app.post('/students', async (req: Request, res: Response) => {
-  const { fullName, age, code } = req.body;
-  const newStudent = new Student({
-    fullName,
-    age,
-    code
-  });
-  await newStudent.save();
-  res.status(201).json({
-    message: 'Tạo sinh viên thành công',
-    data: newStudent
-  })
-});
+app.use('/api/v1/brands', brandRoute);
+app.use('/api/v1/products', productRoute);
 
 /************END DECLARATION ROUTES********** */
 

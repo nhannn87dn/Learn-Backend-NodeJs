@@ -1,0 +1,80 @@
+@baseUrl=http://localhost:8080
+
+### List
+GET {{baseUrl}}/api/v1/products
+
+### Find By ID
+GET {{baseUrl}}/api/v1/products/YOUR_PRODUCT_ID_HERE
+
+
+### Create new Product 1
+POST {{baseUrl}}/api/v1/products
+Content-Type: application/json
+
+{
+    "product_name": "iPhone 15 Pro Max",
+    "slug": "iphone-15-pro-max",
+    "description": "iPhone 15 Pro Max 256GB - Titanium Design",
+    "price": 29990000,
+    "discount": 10,
+    "modelYear": 2024,
+    "thumbnail": "iphone-15-pro-max.jpg",
+    "stock": 50,
+    "category": "68fb7ab3dbbe0847aa5ecae4",
+    "brand": "68fb82e004b3d9a765e93fdd"
+}
+
+### Create new Product 2
+POST {{baseUrl}}/api/v1/products
+Content-Type: application/json
+
+{
+    "product_name": "Samsung Galaxy S24 Ultra",
+    "slug": "samsung-galaxy-s24-ultra",
+    "description": "Samsung Galaxy S24 Ultra 512GB - AI Camera",
+    "price": 31990000,
+    "discount": 5,
+    "modelYear": 2024,
+    "thumbnail": "samsung-s24-ultra.jpg",
+    "stock": 30,
+    "category": "68fb7ab3dbbe0847aa5ecae4",
+    "brand": "68fb82eb04b3d9a765e93fdf"
+}
+
+### Create new Product 3
+POST {{baseUrl}}/api/v1/products
+Content-Type: application/json
+
+{
+    "product_name": "MacBook Pro M3 14 inch",
+    "slug": "macbook-pro-m3-14-inch",
+    "description": "MacBook Pro 14 inch M3 Chip 16GB RAM 512GB SSD",
+    "price": 45990000,
+    "discount": 8,
+    "modelYear": 2024,
+    "thumbnail": "macbook-pro-m3.jpg",
+    "stock": 20,
+    "category": "68fb79ceca81b40b9e816436",
+    "brand": "68fb82e004b3d9a765e93fdd"
+}
+
+### Update
+PUT {{baseUrl}}/api/v1/products/YOUR_PRODUCT_ID_HERE
+Content-Type: application/json
+
+{
+    "product_name": "iPhone 15 Pro Max 512GB",
+    "description": "iPhone 15 Pro Max 512GB - Titanium Design - Updated",
+    "slug": "iphone-15-pro-max-512gb",
+    "price": 34990000,
+    "discount": 12,
+    "modelYear": 2024,
+    "thumbnail": "iphone-15-pro-max-512gb.jpg",
+    "stock": 45,
+    "category": "68fb7ab3dbbe0847aa5ecae4",
+    "brand": "YOUR_BRAND_ID_HERE"
+}
+
+### DELETE
+DELETE {{baseUrl}}/api/v1/products/YOUR_PRODUCT_ID_HERE
+####
