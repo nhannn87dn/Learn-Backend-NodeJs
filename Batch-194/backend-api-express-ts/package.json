@@ -7,13 +7,15 @@
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "jest"
+    "test": "jest",
+    "seed": "ts-node-dev --respawn --transpile-only src/seed/seed.db.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.11.0",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "http-errors": "^2.0.0",
@@ -21,6 +23,7 @@
     "yup": "^1.7.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.1.0",
     "@types/express": "^5.0.3",
     "@types/http-errors": "^2.0.5",
     "@types/jest": "^30.0.0",

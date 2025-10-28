@@ -3,47 +3,60 @@ import { IProductDTO } from "../types/products";
 import Product from "../models/Product.model";
 
 const findAll = async (query:any) => {
-    //SELECT * FROM products
-    // const products = await Product
-    //     .find()
-    //     .populate('category')
-    //     .populate('brand');
+   
+    const {page=1, limit=10} = query;
+    let where = {};
+    //filter theo category
+    if(query?.cat_id && query.cat_id !== '') {
+        where = {
+            ...where,
+            category: query.cat_id
+        }
+    }
+    //filter theo brand
+    if(query?.brand_id && query.brand_id !== '') {
+        where = {
+            ...where,
+            brand: query.brand_id
+        }
+    }
+    //filter theo isNew
+    if(query?.isNew && query.isNew !== '') {
+        where = {
+            ...where,
+            isNew: query.isNew === 'true' ? true : false,
+        }
+    }
+    //search theo product_name
+    if(query?.keyword && query.keyword !== '') {
+        where = {
+            ...where,
+            product_name: {
+                $regex: query.keyword,
+                $options: 'i'
+            }
+        }
+    }
 
-    //SELECT c1, c2, ... FROM products 
-    // JOIN categories ON products.category_id = categories.id 
-    // JOIN brands ON products.brand_id = brands.id
-    // const products = await Product
-    //     .find() //cấu hình điều kiện where
-    //     .select('product_name price') //cấu hình trường cần lấy hoặc loại bỏ
-    //     .populate('category', '_id category_name') //join collection
-    //     .populate('brand', '_id brand_name');
+    /* Sort By and Sort Type */
+    let sortObj: any = {};
+    const sortBy = query?.sortBy || 'createdAt';
+    const sortType = query?.sortType === 'desc' ? -1 : 1; // Mặc định là tăng dần
+    sortObj[sortBy] = sortType;
 
-    //SELECT với WHERE
-    // const category_id  = '68fb7ab3dbbe0847aa5ecae4';
-    // const products = await Product
-    //     .find({
-    //         category: category_id,
-    //         price: { $lt: 30000000 } //price < 30000000
-    //     }) //cấu hình điều kiện where
-    //     .select('product_name price') //cấu hình trường cần lấy hoặc loại bỏ
-    //     .populate('category', '_id category_name') //join collection
-    //     .populate('brand', '_id brand_name');
-    
-
-    //Lấy tất cả sản phẩm CÓ phân trang
-    //Mặc định page=1, limit=1 nếu không có truyền vào
-    const {page=1, limit=1} = query;
     const products = await Product
-        .find() //cấu hình điều kiện where
-        .select('product_name price') //cấu hình trường cần lấy hoặc loại bỏ
+        .find({...where}) //cấu hình điều kiện where
+        .select('-__v') //cấu hình trường cần lấy hoặc loại bỏ
         .populate('category', '_id category_name') //join collection
         .populate('brand', '_id brand_name')
+        //sắp xếp
+        .sort(sortObj)
         //thuật toán phân trang
         .skip((page - 1) * limit) //bỏ qua bao nhiêu bản ghi
         .limit(limit);//lấy tối đa bao nhiêu bản ghi
 
     //lấy tổng số bản ghi của product
-    const total = await Product.countDocuments();
+    const total = await Product.countDocuments({...where});
     return {
         items: products,
         pagination: {

@@ -1,3 +1,4 @@
+import { io } from 'socket.io-client';
 import { ObjectId } from "mongoose";
 
 export interface IProductDTO {
@@ -11,6 +12,7 @@ export interface IProductDTO {
     stock?: number;
     category: ObjectId;
     brand: ObjectId;
+    isNew?: boolean;
 }
 
 export interface IProduct {
@@ -27,4 +29,5 @@ export interface IProduct {
     brand: ObjectId;
     createdAt?: Date;
     updatedAt?: Date;
+     isNew?: boolean;
 }

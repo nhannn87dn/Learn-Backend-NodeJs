@@ -1,18 +1,18 @@
 import { Request, Response } from "express"
 import createError from 'http-errors';
-import productsService from "../services/products.service";
+import customersService from "../services/customers.service";
 import { sendJsonSuccess, SUCCESS } from "../helpers/responseHandler";
 
-/** Get All Products */
+/** Get All Customers */
 const findAll = async (req: Request, res: Response) => {
-    const products = await productsService.findAll(req.query);
+    const customers = await customersService.findAll(req.query);
     sendJsonSuccess({
         res,
-        data: products
+        data: customers
     })
 }
 
-/* Find a product by id */
+/* Find a customer by id */
 const findById = async (req: Request, res: Response) => {
     const { id } = req.params; //id nhận được luôn là string
     //Đảm bảo có id 
@@ -20,39 +20,38 @@ const findById = async (req: Request, res: Response) => {
         throw createError(400, "ID not found")
     }
 
-    const product = await productsService.findById({ id })
+    const customer = await customersService.findById({ id })
 
     sendJsonSuccess({
         res,
-        data: product
+        data: customer
     })
 }
 
-//create a new product
+//create a new customer
 const create = async (req: Request, res: Response) => {
     console.log('<===== req.body =====>', req.body);
-    const newProduct = await productsService.create({
-        product_name: req.body.product_name,
-        description: req.body.description,
-        slug: req.body.slug,
-        price: req.body.price,
-        discount: req.body.discount,
-        modelYear: req.body.modelYear,
-        thumbnail: req.body.thumbnail,
-        stock: req.body.stock,
-        category: req.body.category,
-        brand: req.body.brand,
-        isNew: req.body.isNew,
+    const newCustomer = await customersService.create({
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        phone: req.body.phone,
+        email: req.body.email,
+        street: req.body.street,
+        city: req.body.city,
+        state: req.body.state,
+        zip_code: req.body.zip_code,
+        password: req.body.password,
+        active: req.body.active,
     });
 
     sendJsonSuccess({
         res,
         status: SUCCESS.CREATED,
-        data: newProduct
+        data: newCustomer
     })
 }
 
-/* Update a product by Id */
+/* Update a customer by Id */
 const updateById = async (req: Request, res: Response) => {
     console.log(req.params, req.body);
     const { id } = req.params;
@@ -61,31 +60,30 @@ const updateById = async (req: Request, res: Response) => {
         throw createError(400, "ID not found")
     }
 
-    const product = await productsService.updateById({
+    const customer = await customersService.updateById({
         id,
         payload: {
-            product_name: req.body.product_name,
-            description: req.body.description,
-            slug: req.body.slug,
-            price: req.body.price,
-            discount: req.body.discount,
-            modelYear: req.body.modelYear,
-            thumbnail: req.body.thumbnail,
-            stock: req.body.stock,
-            category: req.body.category,
-            brand: req.body.brand,
-            isNew: req.body.isNew,
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            phone: req.body.phone,
+            email: req.body.email,
+            street: req.body.street,
+            city: req.body.city,
+            state: req.body.state,
+            zip_code: req.body.zip_code,
+            password: req.body.password,
+            active: req.body.active,
         }
     })
 
     sendJsonSuccess({
         res,
         status: SUCCESS.OK,
-        data: product
+        data: customer
     })
 }
 
-/* Delete a product by Id */
+/* Delete a customer by Id */
 const deleteById = async (req: Request, res: Response) => {
     //step1: check xem id co ton tai khong
     const { id } = req.params;
@@ -94,11 +92,11 @@ const deleteById = async (req: Request, res: Response) => {
         throw createError(400, "ID not found")
     }
     //step1: Check xem trong db co ton tai record co id khong
-    const product = await productsService.deleteById(id)
+    const customer = await customersService.deleteById(id)
     sendJsonSuccess({
         res,
         status: SUCCESS.OK,
-        data: product
+        data: customer
     })
 }
 

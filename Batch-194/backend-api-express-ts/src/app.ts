@@ -3,6 +3,8 @@ import categoriesRoute from './routes/v1/categories.route';
 import categoriesRouteV2 from './routes/v1/categories.route';
 import brandRoute from './routes/v1/brands.route';
 import productRoute from './routes/v1/products.route';
+import customerRoute from './routes/v1/customers.route';
+import staffRoute from './routes/v1/staffs.route';
 import createError, {HttpError } from 'http-errors';
 import { ENV } from './config/ENV';
 
@@ -23,6 +25,8 @@ app.use('/api/v1/categories', categoriesRoute);
 app.use('/api/v2/categories', categoriesRouteV2);
 app.use('/api/v1/brands', brandRoute);
 app.use('/api/v1/products', productRoute);
+app.use('/api/v1/customers', customerRoute);
+app.use('/api/v1/staffs', staffRoute);
 
 /************END DECLARATION ROUTES********** */
 

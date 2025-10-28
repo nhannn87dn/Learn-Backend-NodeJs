@@ -56,6 +56,12 @@ const productSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Brand',
         required: true,
+    },
+    //isNew
+    isNew: {
+        type: Boolean,
+        default: false,
+        required: false,
     }
 },{
     timestamps: true,
