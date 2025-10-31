@@ -264,6 +264,7 @@ const validateSchemaYup = (schema: AnySchema) => async (req: Request, res: Respo
         message: err.errors, // err.errors chứa tất cả các thông điệp lỗi
         typeError: 'validateSchema'
       });
+      return;
     }
 
     res.status(500).json({

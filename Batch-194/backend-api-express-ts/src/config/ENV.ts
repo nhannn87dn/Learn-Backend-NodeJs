@@ -21,9 +21,21 @@ const envSchema = yup.object({
 
   MONGODB_CONNECTION_STRING: yup
     .string()
-    .required("MONGODB_CONNECTION_STRING is required")
+    .required("MONGODB_CONNECTION_STRING is required"),
   /// add more env here
-  
+
+  JWT_SECRET_KEY: yup
+    .string()
+    .optional().default("your_jwt_secret_key"),
+
+  JWT_ACCESS_TOKEN_EXPIRES_IN: yup
+    .string()
+    .optional().default("7d"),
+
+  JWT_REFRESH_TOKEN_EXPIRES_IN: yup
+    .string()
+    .optional().default("30d"),
+
 });
 
 // Validate process.env

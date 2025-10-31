@@ -1,10 +1,10 @@
-import { Schema, model } from "mongoose";
-import { IStaff } from "../types/staffs";
+import { Model, Schema, model } from "mongoose";
+import { IStaff, StaffMethods, } from "../types/staffs";
 import bcrypt from 'bcryptjs';
 
 const saltRounds = 10;
 
-const staffSchema = new Schema<IStaff>({
+const staffSchema = new Schema<IStaff, Model<IStaff>, StaffMethods >({
     fullName: {
         type: String,
         required: true,
@@ -53,11 +53,30 @@ const staffSchema = new Schema<IStaff>({
         required: true,
         enum: ['admin', 'manager', 'staff'],
         default: 'staff',
-    }
+    },
+    //Phân quyền nâng cao hơn với permissions
+    // permissions: {
+    //     type: [String],
+    //     default: [],
+    // }
 }, {
-    timestamps: true
-    
+    timestamps: true,
+
 });
+
+
+//Methods compare password
+staffSchema.methods.comparePassword = function (rawPassword: string): boolean {
+    const staff = this as IStaff;
+    //rawPassword: mật khẩu chưa mã hóa
+    //staff.password: mật khẩu đã mã hóa
+    return bcrypt.compareSync(rawPassword, staff.password);
+};
+//     const staff = this as IStaff;
+//     //rawPassword: mật khẩu chưa mã hóa
+//     //staff.password: mật khẩu đã mã hóa
+//     return bcrypt.compareSync(rawPassword, staff.password);
+// };
 
 //Middleware pre save ở lớp database
 //trước khi data được lưu xuống --> mã hóa mật khẩu
@@ -75,6 +94,6 @@ staffSchema.pre('save', async function (next) {
 });
 
 
-const Staff = model<IStaff>("Staff", staffSchema);
+const Staff = model("Staff", staffSchema);
 
 export default Staff;

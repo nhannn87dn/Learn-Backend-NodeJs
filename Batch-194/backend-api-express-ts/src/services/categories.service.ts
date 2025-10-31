@@ -46,8 +46,18 @@ const updateById =async({
     }
 
     //Step 2: Xử lý update khi có thay đổi
-    Object.assign(category, payload);//merge 2 object lại với nhau
+   // Object.assign(category, payload);//merge 2 object lại với nhau
     
+    if(payload.category_name !== undefined){
+        category.category_name = payload.category_name;
+    }
+    if(payload.description !== undefined){
+        category.description = payload.description;
+    }
+    if(payload.slug !== undefined){
+        category.slug = payload.slug;
+    }
+
     //Lưu lại vào db
     await category.save();
     return category
