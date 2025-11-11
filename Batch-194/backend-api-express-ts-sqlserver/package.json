@@ -20,6 +20,9 @@
     "express": "^5.1.0",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
+    "mssql": "^12.1.0",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.27",
     "yup": "^1.7.1"
   },
   "devDependencies": {
