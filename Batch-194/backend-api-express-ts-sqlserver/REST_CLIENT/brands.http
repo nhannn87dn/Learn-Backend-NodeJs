@@ -1,0 +1,32 @@
+@baseUrl=http://localhost:8080
+
+### List
+GET {{baseUrl}}/api/v1/brands
+
+### Find By ID
+GET {{baseUrl}}/api/v1/brands/68fb7ab3dbbe0847aa5ecae4
+
+
+### Create new 
+POST {{baseUrl}}/api/v1/brands
+Content-Type: application/json
+
+{
+    "brand_name": "Samsung",
+    "slug": "samsung",
+    "description": "Samsung la thuong hieu dien thoai noi tieng."
+}
+
+### Update
+PUT {{baseUrl}}/api/v1/brands/68fb79ceca81b40b9e816436
+Content-Type: application/json
+
+{
+    "brand_name": "Laptop Dell",
+    "description": "Laptop co ban tra gop, gia tot nhat thi truong.",
+    "slug": "laptop-dell"
+}
+
+### DELETE
+DELETE  {{baseUrl}}/api/v1/brands/68fb7f0107dd0e6bb9b14e96
+####

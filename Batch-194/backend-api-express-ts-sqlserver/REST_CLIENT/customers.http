@@ -1,0 +1,90 @@
+@baseUrl=http://localhost:8080
+
+### List - Lấy tất cả customers với phân trang
+GET {{baseUrl}}/api/v1/customers
+
+### List với phân trang tùy chỉnh
+GET {{baseUrl}}/api/v1/customers?page=1&limit=5
+
+### Find By ID
+GET {{baseUrl}}/api/v1/customers/YOUR_CUSTOMER_ID_HERE
+
+
+### Create new Customer 1
+POST {{baseUrl}}/api/v1/customers
+Content-Type: application/json
+
+{
+    "first_name": "Nguyen",
+    "last_name": "Van A",
+    "phone": "123-456-7890",
+    "email": "nguyenvana@example.com",
+    "street": "123 Le Loi Street",
+    "city": "Ho Chi Minh",
+    "state": "HCM",
+    "zip_code": "70000",
+    "password": "password123",
+    "active": true
+}
+
+### Create new Customer 2
+POST {{baseUrl}}/api/v1/customers
+Content-Type: application/json
+
+{
+    "first_name": "Tran",
+    "last_name": "Thi B",
+    "phone": "098-765-4321",
+    "email": "tranthib@example.com",
+    "street": "456 Nguyen Hue Street",
+    "city": "Ha Noi",
+    "state": "HN",
+    "zip_code": "10000",
+    "password": "password456",
+    "active": true
+}
+
+### Create new Customer 3
+POST {{baseUrl}}/api/v1/customers
+Content-Type: application/json
+
+{
+    "first_name": "Le",
+    "last_name": "Van C",
+    "phone": "111-222-3333",
+    "email": "levanc@example.com",
+    "street": "789 Tran Hung Dao Street",
+    "city": "Da Nang",
+    "state": "DN",
+    "zip_code": "50000",
+    "password": "password789",
+    "active": true
+}
+
+### Update
+PUT {{baseUrl}}/api/v1/customers/YOUR_CUSTOMER_ID_HERE
+Content-Type: application/json
+
+{
+    "first_name": "Nguyen",
+    "last_name": "Van A Updated",
+    "phone": "123-456-7890",
+    "email": "nguyenvana.updated@example.com",
+    "street": "123 Le Loi Street - Updated",
+    "city": "Ho Chi Minh City",
+    "state": "HCM",
+    "zip_code": "70000",
+    "active": true
+}
+
+### Update - Deactivate account (Khóa tài khoản)
+PUT {{baseUrl}}/api/v1/customers/YOUR_CUSTOMER_ID_HERE
+Content-Type: application/json
+
+{
+    "active": false
+}
+
+### DELETE
+DELETE {{baseUrl}}/api/v1/customers/YOUR_CUSTOMER_ID_HERE
+####

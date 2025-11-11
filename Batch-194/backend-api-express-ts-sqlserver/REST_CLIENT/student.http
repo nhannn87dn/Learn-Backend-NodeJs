@@ -1,0 +1,14 @@
+@baseUrl=http://localhost:8080
+
+### List
+GET {{baseUrl}}/students
+
+### Create new 
+POST {{baseUrl}}/students
+Content-Type: application/json
+
+{
+    "fullName": "John Doe 35",
+    "age": 20,
+    "code": "JD2024"
+}

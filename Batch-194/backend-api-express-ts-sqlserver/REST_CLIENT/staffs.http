@@ -1,0 +1,59 @@
+@baseUrl=http://localhost:8080
+
+### List - Lấy tất cả staffs (phân trang mặc định)
+GET {{baseUrl}}/api/v1/staffs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTAwYmIzMWE3NTY2NmQ4YzY1MzlkNzgiLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwicm9sZSI6InN0YWZmIiwiaWF0IjoxNzYxOTE3NjM2LCJleHAiOjE3NjI1MjI0MzZ9.tW8zAZLIgVe9e6Azw1BqQzt7BiJmvdtbjZ9XXx5ifiA
+
+### List với phân trang tùy chỉnh
+GET {{baseUrl}}/api/v1/staffs?page=1&limit=5
+
+### Find By ID
+GET {{baseUrl}}/api/v1/staffs/YOUR_STAFF_ID_HERE
+
+
+### Create new Staff 1
+POST {{baseUrl}}/api/v1/staffs
+Content-Type: application/json
+
+{
+	"fullName": "Nguyen Van Admin",
+	"email": "admin1@example.com",
+	"password": "Admin@123",
+	"active": true
+}
+
+### Create new Staff 2
+POST {{baseUrl}}/api/v1/staffs
+Content-Type: application/json
+
+{
+	"fullName": "Supper Admin",
+	"email": "admin@example.com",
+	"password": "Admin@123",
+	"active": true
+}
+
+### Create new Staff 3
+POST {{baseUrl}}/api/v1/staffs
+Content-Type: application/json
+
+{
+	"fullName": "Le Van Support",
+	"email": "support1@example.com",
+	"password": "Support@123",
+	"active": true
+}
+
+### Update (đổi tên và trạng thái, có thể đổi mật khẩu nếu cần)
+PUT {{baseUrl}}/api/v1/staffs/6900bb31a75666d8c6539d78
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTAwYmIzMWE3NTY2NmQ4YzY1MzlkNzgiLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwicm9sZSI6InN0YWZmIiwiaWF0IjoxNzYxOTE3NjM2LCJleHAiOjE3NjI1MjI0MzZ9.tW8zAZLIgVe9e6Azw1BqQzt7BiJmvdtbjZ9XXx5ifiA
+
+{
+	"fullName": "Admin Supper"
+}
+
+### DELETE
+DELETE {{baseUrl}}/api/v1/staffs/YOUR_STAFF_ID_HERE
+####
+
