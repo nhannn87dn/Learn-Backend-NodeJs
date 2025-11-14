@@ -37,12 +37,10 @@ const create = async (req: Request, res: Response) => {
         slug: req.body.slug,
         price: req.body.price,
         discount: req.body.discount,
-        modelYear: req.body.modelYear,
+        model_year: req.body.model_year,
         thumbnail: req.body.thumbnail,
         stock: req.body.stock,
         category: req.body.category,
-        brand: req.body.brand,
-        isNew: req.body.isNew,
     });
 
     sendJsonSuccess({
@@ -69,12 +67,10 @@ const updateById = async (req: Request, res: Response) => {
             slug: req.body.slug,
             price: req.body.price,
             discount: req.body.discount,
-            modelYear: req.body.modelYear,
+            model_year: req.body.model_year,
             thumbnail: req.body.thumbnail,
             stock: req.body.stock,
             category: req.body.category,
-            brand: req.body.brand,
-            isNew: req.body.isNew,
         }
     })
 

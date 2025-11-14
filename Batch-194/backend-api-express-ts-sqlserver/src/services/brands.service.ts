@@ -1,31 +1,35 @@
 import createError from 'http-errors';
-import Brand from "../models/Brand.model";
-import { IBrandDTO } from '../types/brands';
+import {  ICategoryDTO } from "../types/categories";
+import {myDataSource} from '../data-soucre';
+import { Category } from '../entities/category.entity';
+
+//Khởi tạo một repository cho entity Category
+const categoryRepository = myDataSource.getRepository(Category);
 
 const findAll = async()=>{
-    //SELECT * FROM brands
-    const brands = await Brand.find();
-    return brands;
+    //SELECT * FROM categories
+    const categories = await categoryRepository.find();
+    return categories;
 }
 
 const findById = async({id}: {id: string}) =>{
-    //SELECT * FROM brands WHERE id = ?
-    const brand = await Brand.findById(id);
+    //SELECT * FROM categories WHERE id = ?
+    const category = await categoryRepository.findOneBy({id: parseInt(id)});
     //Phải kiểm tra xem có tồn tại thật không. Nếu không thì trả về 404.
-    if (!brand) {
-       throw createError(404, "Brand not found")
+    if (!category) {
+       throw createError(404, "Category not found")
     }
-    return brand
+    return category
 }
 
 
-const create =async(brandDto: IBrandDTO)=>{
-   const brand = new Brand({
-    brand_name: brandDto.brand_name,
-    description: brandDto.description,
-    slug: brandDto.slug,
-   });
-   const result = await brand.save();
+const create =async(categoryDto: ICategoryDTO)=>{
+    const category = categoryRepository.create({
+        category_name: categoryDto.category_name,
+        description:  categoryDto.description ? categoryDto.description : '',
+        slug: categoryDto.slug
+    });
+    const result = await categoryRepository.save(category);
     return result
 }
 
@@ -34,31 +38,33 @@ const updateById =async({
     payload
 }: {
     id: string,
-    payload: Partial<IBrandDTO>
+    payload: Partial<ICategoryDTO>
 })=>{
     //step1: Check xem trong db co ton tai record co id khong
-    let brand = await findById({id});
-    if(!brand){
-        throw createError(404, "Brand not found")
+    let category = await findById({id});
+    if(!category){
+        throw createError(404, "Category not found")
     }
 
-    //Step 2: Xử lý update khi có thay đổi
-    Object.assign(brand, payload);//merge 2 object lại với nhau
-    
+    Object.assign(category, payload)
+
+    //lưu lai
+   const result =  await categoryRepository.save(category)
+
     //Lưu lại vào db
-    await brand.save();
-    return brand
+    //const result = await categoryRepository.update(category.id, payload);
+    return result
 }
 
 const deleteById = async(id: string)=>{
-    const brand = await findById({id});
-    if(!brand){
-        throw createError(404, "Brand not found")
+    const category = await findById({id});
+    if(!category){
+        throw createError(404, "Category not found")
     }
     //step2: Xoa neu co ton tai
-    await Brand.findByIdAndDelete(brand._id);
-    //Trả về brand đã xóa
-    return brand;
+    await categoryRepository.delete(category.id);
+    //Trả về category đã xóa
+    return category;
 }
 
 export default {

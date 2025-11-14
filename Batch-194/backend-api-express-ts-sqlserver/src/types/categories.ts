@@ -1,13 +1,12 @@
-import { ObjectId } from "mongoose";
 
 export interface ICategoryDTO {
     category_name: string
-    description?: string
+    description: string
     slug: string
 }
 
 export interface ICategory{
-    _id: ObjectId;
+    id: number;
     category_name: string
     description?: string
     slug: string

@@ -17,11 +17,10 @@ Content-Type: application/json
     "description": "iPhone 15 Pro Max 256GB - Titanium Design",
     "price": 29990000,
     "discount": 10,
-    "modelYear": 2024,
+    "model_year": 2024,
     "thumbnail": "iphone-15-pro-max.jpg",
     "stock": 50,
-    "category": "68fb7ab3dbbe0847aa5ecae4",
-    "brand": "68fb82e004b3d9a765e93fdd"
+    "category": 1
 }
 
 ### Create new Product 2
@@ -34,11 +33,10 @@ Content-Type: application/json
     "description": "Samsung Galaxy S24 Ultra 512GB - AI Camera",
     "price": 31990000,
     "discount": 5,
-    "modelYear": 2024,
+    "model_year": 2024,
     "thumbnail": "samsung-s24-ultra.jpg",
     "stock": 30,
-    "category": "68fb7ab3dbbe0847aa5ecae4",
-    "brand": "68fb82eb04b3d9a765e93fdf"
+    "category":3
 }
 
 ### Create new Product 3
@@ -51,11 +49,10 @@ Content-Type: application/json
     "description": "MacBook Pro 14 inch M3 Chip 16GB RAM 512GB SSD",
     "price": 45990000,
     "discount": 8,
-    "modelYear": 2024,
+    "model_year": 2024,
     "thumbnail": "macbook-pro-m3.jpg",
     "stock": 20,
-    "category": "68fb79ceca81b40b9e816436",
-    "brand": "68fb82e004b3d9a765e93fdd"
+    "category": 1
 }
 
 ### Update

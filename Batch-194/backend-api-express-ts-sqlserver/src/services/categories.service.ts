@@ -1,19 +1,20 @@
 import createError from 'http-errors';
 import {  ICategoryDTO } from "../types/categories";
-import Category from "../models/Category.model";
+import {myDataSource} from '../data-soucre';
+import { Category } from '../entities/category.entity';
+
+//Khởi tạo một repository cho entity Category
+const categoryRepository = myDataSource.getRepository(Category);
 
 const findAll = async()=>{
     //SELECT * FROM categories
-    const categories = await Category
-    .find()
-    .select('-__v'); //loại bỏ trường __v không cần thiết
-    
+    const categories = await categoryRepository.find();
     return categories;
 }
 
 const findById = async({id}: {id: string}) =>{
     //SELECT * FROM categories WHERE id = ?
-    const category = await Category.findById(id);
+    const category = await categoryRepository.findOneBy({id: parseInt(id)});
     //Phải kiểm tra xem có tồn tại thật không. Nếu không thì trả về 404.
     if (!category) {
        throw createError(404, "Category not found")
@@ -23,12 +24,12 @@ const findById = async({id}: {id: string}) =>{
 
 
 const create =async(categoryDto: ICategoryDTO)=>{
-   const category = new Category({
-    category_name: categoryDto.category_name,
-    description: categoryDto.description,
-    slug: categoryDto.slug,
-   });
-   const result = await category.save();
+    const category = categoryRepository.create({
+        category_name: categoryDto.category_name,
+        description:  categoryDto.description ? categoryDto.description : '',
+        slug: categoryDto.slug
+    });
+    const result = await categoryRepository.save(category);
     return result
 }
 
@@ -45,22 +46,14 @@ const updateById =async({
         throw createError(404, "Category not found")
     }
 
-    //Step 2: Xử lý update khi có thay đổi
-   // Object.assign(category, payload);//merge 2 object lại với nhau
-    
-    if(payload.category_name !== undefined){
-        category.category_name = payload.category_name;
-    }
-    if(payload.description !== undefined){
-        category.description = payload.description;
-    }
-    if(payload.slug !== undefined){
-        category.slug = payload.slug;
-    }
+    Object.assign(category, payload)
+
+    //lưu lai
+   const result =  await categoryRepository.save(category)
 
     //Lưu lại vào db
-    await category.save();
-    return category
+    //const result = await categoryRepository.update(category.id, payload);
+    return result
 }
 
 const deleteById = async(id: string)=>{
@@ -69,7 +62,7 @@ const deleteById = async(id: string)=>{
         throw createError(404, "Category not found")
     }
     //step2: Xoa neu co ton tai
-    await Category.findByIdAndDelete(category._id);
+    await categoryRepository.delete(category.id);
     //Trả về category đã xóa
     return category;
 }

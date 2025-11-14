@@ -1,14 +1,10 @@
-import { ObjectId } from 'mongoose';
 import * as yup from 'yup';
-
-const ObjectIdRegex = /^[0-9a-fA-F]{24}$/;
 
 /* get category By Id */
 const getByIdSchema = yup
   .object({
     params: yup.object({
-      //id: yup.string().required().length(24)
-      id: yup.string().required().matches(ObjectIdRegex, 'Invalid ID format')
+      id: yup.number().required()
     })
   })
   .required();
@@ -30,7 +26,7 @@ const createSchema = yup
 const updateSchema = yup
   .object({
     params: yup.object({
-      id: yup.string().required().matches(ObjectIdRegex, 'Invalid ID format')
+      id: yup.number().required()
     }),
     body: yup.object({
         //Note: Tuỳ theo logic cập nhật từng trường hay là tất cả
@@ -46,7 +42,7 @@ const updateSchema = yup
 const deleteSchema = yup
   .object({
     params: yup.object({
-      id: yup.string().required().matches(ObjectIdRegex, 'Invalid ID format')
+      id: yup.number().required()
     })
   })
   .required();

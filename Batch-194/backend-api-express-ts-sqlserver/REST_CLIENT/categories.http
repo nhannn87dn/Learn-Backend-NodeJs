@@ -31,13 +31,11 @@ Content-Type: application/json
 }
 
 ### Update
-PUT {{baseUrl}}/api/v1/categories/68fb79ceca81b40b9e816436
+PUT {{baseUrl}}/api/v1/categories/2
 Content-Type: application/json
 
 {
-    "category_name": "Laptop Apple",
-    "description": "Laptop co ban tra gop, gia tot nhat thi truong.",
-    "slug": "laptop-apple"
+    "description": "Tablet v2 co ban tra gop, gia tot nhat thi truong."
 }
 
 ### Update with invalid data
@@ -49,5 +47,5 @@ Content-Type: application/json
 }
 
 ### DELETE
-DELETE  {{baseUrl}}/api/v1/categories/68fb7f0107dd0e6bb9b14e96
+DELETE  {{baseUrl}}/api/v1/categories/2
 ####

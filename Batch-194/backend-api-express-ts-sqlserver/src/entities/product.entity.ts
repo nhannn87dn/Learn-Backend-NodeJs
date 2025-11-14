@@ -1,7 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from "typeorm"
 import { Category } from "./category.entity"
 
-@Entity()
+@Entity({
+    name: 'products', //Đặt tên cho table trong DB là products
+})
 export class Product  {
     @PrimaryGeneratedColumn()
     id: number

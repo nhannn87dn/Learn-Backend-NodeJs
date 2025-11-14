@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm"
-
+import {BaseField} from "../commons/baseEntity"
 // 
 @Entity() //Để xác định đây là 1 entity
-export class User {
+export class User  extends BaseField{
     @PrimaryGeneratedColumn() //sinh ra khoá chính tự tăng
     id: number
 
@@ -11,4 +11,6 @@ export class User {
 
     @Column()
     lastName: string
+
+    
 }
