@@ -1,0 +1,135 @@
+
+/* File: NotFound404.module.css */
+
+/* Layout */
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color: #0f172a;
+}
+
+.card {
+  max-width: 960px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: center;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+  padding: 28px;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .art { order: -1; }
+}
+
+.art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+.svg {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+}
+
+.ghostBody {
+  fill: #e6f2ff;
+  stroke: #cfe7ff;
+  stroke-width: 2;
+}
+
+.shadow {
+  fill: rgba(15,23,42,0.06);
+}
+
+.ghostFace {
+  fill: #0f172a;
+}
+
+.cardBox {
+  fill: #fff;
+  stroke: #e6eef9;
+}
+
+.content {
+  padding: 8px 6px;
+}
+
+.title {
+  margin: 0 0 8px 0;
+  font-size: 28px;
+  line-height: 1.05;
+}
+
+.description {
+  margin: 0 0 18px 0;
+  color: #475569;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.primaryBtn {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #2563eb, #7c3aed);
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(99,102,241,0.18);
+}
+
+.primaryBtn:focus,
+.primaryBtn:hover {
+  transform: translateY(-2px);
+}
+
+.ghostBtn {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #e6eef9;
+  background: transparent;
+  cursor: pointer;
+}
+
+.footer {
+  margin-top: 18px;
+  color: #94a3b8;
+}
+
+/* small accessibility tweaks */
+.primaryBtn:focus,
+.ghostBtn:focus {
+  outline: 3px solid rgba(37,99,235,0.18);
+  outline-offset: 3px;
+}
+
+/* Add subtle animation */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+.art .svg { animation: float 4s ease-in-out infinite; }
