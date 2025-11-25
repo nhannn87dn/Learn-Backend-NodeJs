@@ -13,6 +13,7 @@ import LoginPage from "./modules/auth/LoginPage";
 import ForgotPassword from "./modules/auth/ForgotPassword";
 import ResetPassword from "./modules/auth/ResetPassword";
 import EmptyLayout from "./components/layouts/EmptyLayout";
+import ProductsPage from "./modules/products/ProductsPage";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ function App() {
         <Route path="dashboard" element={<DashboardPage />} />
         {/* categories */}
         <Route path="categories" element={<CategoriesPage />} />
+        <Route path="products" element={<ProductsPage />} />
       </Route>
 
       <Route path="/" element={<EmptyLayout />}>

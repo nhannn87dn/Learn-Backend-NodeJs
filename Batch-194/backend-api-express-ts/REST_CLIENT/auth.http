@@ -9,6 +9,11 @@ Content-Type: application/json
 	"password": "Admin@123"
 }
 
+
+### resfresh Token
+POST {{baseUrl}}/api/v1/auth/refresh-token
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTAwYmIzMWE3NTY2NmQ4YzY1MzlkNzgiLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwicm9sZSI6InN0YWZmIiwiaWF0IjoxNzYzNzI5NDEzLCJleHAiOjE3NjYzMjE0MTN9.iwK14QOWl6xhqUhAuQJoWwFbm0ZF7pb5d5we_4XXO2A
+
 ### GET Profile
 GET {{baseUrl}}/api/v1/auth/profile
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OTAwYmIzMWE3NTY2NmQ4YzY1MzlkNzgiLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwicm9sZSI6InN0YWZmIiwiaWF0IjoxNzYxOTE3NjM2LCJleHAiOjE3NjI1MjI0MzZ9.tW8zAZLIgVe9e6Azw1BqQzt7BiJmvdtbjZ9XXx5ifiA

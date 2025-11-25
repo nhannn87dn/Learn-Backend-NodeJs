@@ -1,8 +1,20 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Flex } from "antd";
+import { useAuthStore } from "../../stores/useAuthStore";
+import { useNavigate } from "react-router";
+
 const LoginPage = () => {
-  const onFinish = (values: any) => {
+  const navigate = useNavigate();
+  const { login, isLoading } = useAuthStore((state) => state);
+
+
+  const onFinish = async(values: any) => {
     console.log("Received values of form: ", values);
+    //GỌI API để login
+    login(values.username, values.password, ()=>{
+      console.log('Đăng nhập thành công, chuyển trang dashboard');
+      navigate('/dashboard');
+    });
   };
   return (
     <main style={{ backgroundColor: "#f0f2f5", height: "100vh" }}>
@@ -10,7 +22,11 @@ const LoginPage = () => {
         <div className="login-form" style={{ padding: 24, background: "#fff", borderRadius: 8 }}>
           <Form
             name="login"
-            initialValues={{ remember: true }}
+            initialValues={{ 
+              remember: true, 
+              username: 'admin@example.com',
+              password: 'Admin@123'
+             }}
             style={{ maxWidth: 360 }}
             onFinish={onFinish}
           >
@@ -44,8 +60,8 @@ const LoginPage = () => {
             </Form.Item>
 
             <Form.Item>
-              <Button block type="primary" htmlType="submit">
-                Log in
+              <Button disabled={isLoading} block type="primary" htmlType="submit">
+                {isLoading ? 'Signing in...' : 'Log in'}
               </Button>
              
             </Form.Item>

@@ -92,6 +92,7 @@ const CategoriesPage = () => {
      <Button type="primary">Add Category</Button>
      </>} 
      >
+      <title>Categories List</title>
       <Table columns={columns} dataSource={data} pagination={false} />
       <Pagination defaultCurrent={1} total={50} />
     </Card>

@@ -36,6 +36,11 @@ const envSchema = yup.object({
     .string()
     .optional().default("30d"),
 
+  CORS_ALLOWED_ORIGINS: yup
+    .string()
+    .required("CORS_ALLOWED_ORIGINS is required")
+    .default("http://localhost:3000,http://localhost:5173")
+
 });
 
 // Validate process.env

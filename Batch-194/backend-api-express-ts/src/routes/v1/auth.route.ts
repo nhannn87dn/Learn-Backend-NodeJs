@@ -8,5 +8,6 @@ const router = express.Router() as Router;
 router.post('/login', authController.login);
 //GET api/v1/auth/profile ==> get user profile
 router.get('/profile', authenticateToken, authController.getProfile);
-
+//resfresh token
+router.post('/refresh-token', authenticateToken, authController.refreshToken);
 export default router;

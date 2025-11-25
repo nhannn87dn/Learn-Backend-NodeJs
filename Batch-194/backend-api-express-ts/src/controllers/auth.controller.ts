@@ -27,12 +27,33 @@ const getProfile = async (req: Request, res: Response, next: NextFunction) => {
 
     sendJsonSuccess({
         res,
-        data: staff,
+        data: {
+            id: staff._id,
+            email: staff.email,
+            fullName: staff.fullName,
+            role: staff.role,
+            active: staff.active,
+        },
         //data: staffWithoutPassword
     });
 }
 
+//refresh token
+const refreshToken = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const staff = res.locals.staff;
+        const result = await authService.refreshToken(staff);
+        sendJsonSuccess({
+            res,
+            data: result,
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
 export default {
     login,
-    getProfile
+    getProfile,
+    refreshToken,
 }

@@ -27,6 +27,35 @@ mongoose
   
 //step 2: Su dung cac model de ket noi den collection
 const fakeData = async () => {
+
+  //new fake 5 brand
+    for (let index = 1; index <= 5; index++) {
+      const brandName = faker.company.buzzNoun()+index;
+      const brand = new Brand({
+        brand_name: brandName,
+        description: faker.company.catchPhrase(),
+        slug: faker.helpers.slugify(brandName),
+      });
+      await brand.save();
+      console.log('Fake brand is success', index);
+      
+    }
+  
+    // insert 5 fake categories
+    for (let index = 1; index <= 5; index++) {
+      //dien thoai
+      const categoryName = faker.commerce.department()+index;
+      const category = new Category({
+        category_name: categoryName,
+         description: faker.lorem.word(50),
+         //dien-thoai
+         slug: faker.helpers.slugify(categoryName),
+      });
+      await category.save();
+      console.log('Fake categoryName is success', index);
+      
+    }
+    
     console.log('<<=== 🚀 Creating fake products ===>>');
    const currentBrands = await Brand.find();
    const currentCategories = await Category.find();

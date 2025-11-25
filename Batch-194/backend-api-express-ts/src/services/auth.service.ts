@@ -31,6 +31,17 @@ const verifyUser = async({
     return tokens;
 }
 
+const refreshToken = async(staff: any) => {
+    //Tạo mới access token và refresh token
+    const tokens = generateTokens({
+        sub: staff._id.toString(),
+        email: staff.email,
+        role: staff.role,
+    } as TokenPayload);
+    return tokens;
+}
+
 export default {
-    verifyUser
+    verifyUser,
+    refreshToken,
 }

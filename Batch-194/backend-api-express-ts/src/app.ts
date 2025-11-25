@@ -6,7 +6,7 @@ import productRoute from './routes/v1/products.route';
 import customerRoute from './routes/v1/customers.route';
 import staffRoute from './routes/v1/staffs.route';
 import authRoute from './routes/v1/auth.route';
-
+import cors from 'cors';
 import createError, {HttpError } from 'http-errors';
 import { ENV } from './config/ENV';
 import { sendJsonError } from './helpers/responseHandler';
@@ -19,6 +19,11 @@ const app: Express = express()
 /**Cấu hình để nhận request từ Body */
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+//Cấu hình CORS
+app.use(cors({
+  origin: ENV.CORS_ALLOWED_ORIGINS.split(',')
+}));
 
 //Applicaiton middleware example
 //app.use(appExampleMiddleware); //su dung middleware
