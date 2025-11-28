@@ -1,7 +1,24 @@
-import { Request, Response } from "express"
+import { NextFunction, Request, Response } from "express"
 import createError from 'http-errors';
 import productsService from "../services/products.service";
 import { sendJsonSuccess, SUCCESS } from "../helpers/responseHandler";
+import productStoreService from '../services/webStore/productStore.service';
+
+const getProductsByCategoryHome = async (req: Request, res: Response, next: NextFunction) =>{
+    try {
+        const products = await productStoreService.getProductsByCategoryHome({
+            categoryId: req.query.cat_id as string,
+            limit: req.query.limit ? Number(req.query.limit) : 5
+        });
+        sendJsonSuccess({
+            res,
+            data: products
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 /** Get All Products */
 const findAll = async (req: Request, res: Response) => {
@@ -107,5 +124,6 @@ export default {
     findById,
     create,
     updateById,
-    deleteById
+    deleteById,
+    getProductsByCategoryHome
 }

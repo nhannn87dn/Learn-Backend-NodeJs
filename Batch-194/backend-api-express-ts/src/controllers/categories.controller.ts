@@ -1,7 +1,17 @@
 import { Request, Response } from "express"
 import createError from 'http-errors';
 import categoriesService from "../services/categories.service";
+import categoriesStoreService from "../services/webStore/categoriesStore.service";
 import { sendJsonSuccess, SUCCESS } from "../helpers/responseHandler";
+
+/**Get Category Tree */
+const getCategoryTree = async (req: Request, res: Response) => {
+    const categoryTree = await categoriesStoreService.getCategoryTree();
+    sendJsonSuccess({
+        res,
+        data: categoryTree
+    });
+}
 
 /** Get All Categories */
 const findAll = async (req: Request, res:Response)=>{
@@ -96,5 +106,6 @@ export default {
     findById,
     create,
     updateById,
-    deleteById
+    deleteById,
+    getCategoryTree
 }

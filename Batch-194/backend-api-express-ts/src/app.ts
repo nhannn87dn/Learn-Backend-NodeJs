@@ -1,3 +1,4 @@
+import { categories } from './../../../Batch-37-38/project-restful-apis/src/seeds/category';
 import  express, {Express, NextFunction, Response, Request} from 'express';
 import categoriesRoute from './routes/v1/categories.route';
 import categoriesRouteV2 from './routes/v1/categories.route';
@@ -11,6 +12,11 @@ import createError, {HttpError } from 'http-errors';
 import { ENV } from './config/ENV';
 import { sendJsonError } from './helpers/responseHandler';
 //import {appExampleMiddleware} from './middleware/appExample.middleware'
+
+/** Public route */
+import categoriesStoreRoute from './routes/v1/webStore/categoriesStore.route';
+import productStoreRoute from './routes/v1/webStore/productStore.route';
+
 
 const app: Express = express()
 
@@ -44,6 +50,11 @@ app.use('/api/v1/products', productRoute);
 app.use('/api/v1/customers', customerRoute);
 app.use('/api/v1/staffs', staffRoute);
 app.use('/api/v1/auth', authRoute);
+
+//Public routes - Web Store
+app.use('/api/web-store/v1/categories', categoriesStoreRoute);
+app.use('/api/web-store/v1/products', productStoreRoute);
+
 
 /************END DECLARATION ROUTES********** */
 
