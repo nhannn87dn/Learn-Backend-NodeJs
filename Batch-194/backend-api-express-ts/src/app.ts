@@ -16,7 +16,9 @@ import { sendJsonError } from './helpers/responseHandler';
 /** Public route */
 import categoriesStoreRoute from './routes/v1/webStore/categoriesStore.route';
 import productStoreRoute from './routes/v1/webStore/productStore.route';
-
+import uploadRoute from './routes/v1/upload.route';
+import path from 'node:path';
+import sendmailRoute from './routes/v1/sendmail.route';
 
 const app: Express = express()
 
@@ -30,6 +32,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors({
   origin: ENV.CORS_ALLOWED_ORIGINS.split(',')
 }));
+
+/** Serve static files from the public directory */
+app.use(express.static(path.join(__dirname, '../public')));
 
 //Applicaiton middleware example
 //app.use(appExampleMiddleware); //su dung middleware
@@ -50,6 +55,8 @@ app.use('/api/v1/products', productRoute);
 app.use('/api/v1/customers', customerRoute);
 app.use('/api/v1/staffs', staffRoute);
 app.use('/api/v1/auth', authRoute);
+app.use('/api/v1/upload', uploadRoute);
+app.use('/api/v1/sendmail', sendmailRoute);
 
 //Public routes - Web Store
 app.use('/api/web-store/v1/categories', categoriesStoreRoute);

@@ -171,6 +171,7 @@ brands: any[];
           name="thumbnail"
         >
           <Input />
+          {/* uploads/icon-05-1764936977872.png */}
         </Form.Item>
         </div>
 

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>Một file</h3>
+    <form action="/api/v1/upload/avatar" method="post" enctype="multipart/form-data">
+    <input type="file" name="avatar" />
+    <button type="submit">Upload</button>
+    </form>
+    <h3>Nhiều files cũng name</h3>
+    <form action="/api/v1/upload/photos" method="post" enctype="multipart/form-data">
+    <input type="file" name="photos" />
+    <input type="file" name="photos" />
+    <input type="file" name="photos" />
+    <button type="submit">Uploads</button>
+    </form>
+    <h3>Nhiều file khác name</h3>
+    <form action="/api/v1/upload/mixed" method="post" enctype="multipart/form-data">
+    <input type="file" name="avatar" />
+    <input type="file" name="gallery" />
+    <button type="submit">Uploads</button>
+    </form>
+</body>
+</html>
