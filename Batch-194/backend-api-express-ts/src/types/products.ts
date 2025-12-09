@@ -1,4 +1,3 @@
-import { io } from 'socket.io-client';
 import { ObjectId } from "mongoose";
 
 export interface IProductDTO {
