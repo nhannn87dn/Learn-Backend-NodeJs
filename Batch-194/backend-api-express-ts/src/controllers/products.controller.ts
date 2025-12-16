@@ -1,3 +1,4 @@
+import { getProductsHomeByCategoryId } from './../../../react-ts-frontside/src/modules/home/home.service';
 import { NextFunction, Request, Response } from "express"
 import createError from 'http-errors';
 import productsService from "../services/products.service";
@@ -119,11 +120,37 @@ const deleteById = async (req: Request, res: Response) => {
     })
 }
 
+const getProductsPagination = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const products = await productStoreService.getProductsPagination(req.query);
+        sendJsonSuccess({
+            res,
+            data: products
+        });
+    } catch (error) {
+        next(error);
+    }   
+}
+
+const getProductDetailsBySlug = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const product = await productStoreService.getProductDetailsBySlug(req.params.slug);
+        sendJsonSuccess({
+            res,
+            data: product
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+}
 export default {
     findAll,
     findById,
     create,
     updateById,
     deleteById,
-    getProductsByCategoryHome
+    getProductsByCategoryHome,
+    getProductsPagination,
+    getProductDetailsBySlug
 }

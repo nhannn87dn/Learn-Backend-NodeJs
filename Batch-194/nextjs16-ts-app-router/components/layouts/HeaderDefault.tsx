@@ -15,6 +15,9 @@ const HeaderDefault = () => {
                         <li>
                             <Link href="/">Home</Link>
                         </li>
+                         <li>
+                            <Link href="/products">Products (Server)</Link>
+                        </li>
                         <li>
                             <Link href="/about">About</Link>
                         </li>
@@ -22,7 +25,7 @@ const HeaderDefault = () => {
                             <Link href="/contact">Contact</Link>
                         </li>
                         <li>
-                            <Link href="/blog">Blog</Link>
+                            <Link href="/blog">Blog (Client)</Link>
                         </li>
                         <li>
                             <Link href="/customer">Customer</Link>
