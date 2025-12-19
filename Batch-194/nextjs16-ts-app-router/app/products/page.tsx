@@ -1,6 +1,14 @@
 import ProductPagination from "@/components/blocks/ProductPagination";
 import ProductsGrid from "@/components/blocks/ProductsGrid";
 import { getProductPagination } from "@/services/products.service";
+import { Metadata } from "next";
+
+
+export const metadata: Metadata = {
+  title: "Products List Page",
+  description: "Products List page descriptions",
+};
+
 
 const ProductsPage = async (
   {
