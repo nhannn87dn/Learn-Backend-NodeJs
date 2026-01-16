@@ -1,0 +1,12 @@
+POST http://localhost:3000/blog
+Content-Type: application/json
+
+{
+  "title": "My First Blog Post",
+  "content": "This is the content of my first blog post."
+}
+
+
+
+###
+PUT http://localhost:3000/blog
