@@ -16,10 +16,25 @@ Tạo route khớp với định dạng sau:
 
 Tạo một Task resource 
 
-* GET `/task`
+* GET `/task?status=active`
 * GET `/task/:id`
 * POST `/task`
+    Body:
+    ```json
+    {
+        "title": "Task title",
+        "description": "Task description"
+    }
+    ```
 * PUT `/task/:id`
+    Body:
+    ```json
+    {
+        "title": "Updated Task title",
+        "description": "Updated Task description",
+        "status": "completed"
+    }
+    ```
 * DELETE `/task/:id`
 
 Và data handling tương ứng với các method trên và trả về response tương ứng với JSON data.
