@@ -1,25 +1,6 @@
-# Asynchronous programming and API server
+# 💛 Xây dựng cấu trúc RESTFul-APIs
 
-Nội dung chính trong bài:
-
-- Callback and Error-First Pattern
-- Promises and Async/Await
-- Xây dựng cấu trúc RESTFul-APIs
-- Error handling
-- Middleware trong Express
-- Express middleware phổ biến
-- Logging Requests
-- Chuẩn hóa Response API
-
-=====================
-
-## 💛 Callback and Error-First Pattern
-
-Xem ở đây [Callbacks](2.Async-Await/callback-deep.md)
-
-## 💛 Xây dựng cấu trúc RESTFul-APIs
-
-### 🔶 RESTful API là gì ?
+## 🔶 RESTful API là gì ?
 
 RESTful API là một loại giao diện lập trình ứng dụng (API) được thiết kế theo các nguyên tắc của kiến trúc REST (Representational State Transfer). REST là một kiểu kiến trúc phần mềm dựa trên giao thức HTTP và các tiêu chuẩn web liên quan khác.
 
@@ -29,7 +10,7 @@ RESTful API cho phép các ứng dụng giao tiếp và trao đổi dữ liệu 
 
 RESTful API đã trở thành một phương pháp phổ biến để xây dựng các dịch vụ web và ứng dụng di động, vì nó đơn giản, linh hoạt và dễ dùng.
 
-### 🔶 Nguyên tắc thiết kế RESTful API
+## 🔶 Nguyên tắc thiết kế RESTful API
 
 #### 1. Sử dụng đúng HTTP methods:
 
@@ -492,4 +473,295 @@ Dưới đây là một số bước để làm việc với biến môi trườ
 
 Tóm lại, sử dụng biến môi trường giúp bạn quản lý cấu hình ứng dụng một cách an toàn, linh hoạt và dễ dàng. 🌟
 
-## 💛 Homework Guides
+## 💛  Cách sử dụng Biome.js cho Node.js TypeScript
+
+Biome.js là một công cụ hiện đại thay thế ESLint và Prettier, nhanh hơn và dễ cấu hình hơn.
+
+### 1. Cài đặt Biome
+
+```bash
+npm install --save-dev --save-exact @biomejs/biome
+```
+
+### 2. Khởi tạo cấu hình
+
+```bash
+npx @biomejs/biome init
+```
+
+Lệnh này sẽ tạo file `biome.json` với cấu hình mặc định.
+
+### 3. Cấu hình `biome.json`
+
+Đây là cấu hình đầy đủ cho dự án Node.js TypeScript:
+
+```json
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "ignore": [
+      "node_modules",
+      "dist",
+      "build",
+      "coverage",
+      "*.config.js"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 100,
+    "attributePosition": "auto"
+  },
+  "organizeImports": {
+    "enabled": true
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "complexity": {
+        "noExtraBooleanCast": "error",
+        "noMultipleSpacesInRegularExpressionLiterals": "error",
+        "noUselessCatch": "error",
+        "noUselessTypeConstraint": "error"
+      },
+      "correctness": {
+        "noUnusedVariables": "error",
+        "noUnusedImports": "error",
+        "useExhaustiveDependencies": "warn"
+      },
+      "style": {
+        "noNonNullAssertion": "warn",
+        "useConsistentArrayType": {
+          "level": "error",
+          "options": {
+            "syntax": "shorthand"
+          }
+        },
+        "useImportType": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "warn",
+        "noExtraNonNullAssertion": "error",
+        "noMisleadingInstantiator": "error",
+        "noUnsafeDeclarationMerging": "error"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "es5",
+      "semicolons": "always",
+      "arrowParentheses": "asNeeded",
+      "bracketSpacing": true,
+      "bracketSameLine": false,
+      "quoteStyle": "single",
+      "attributePosition": "auto"
+    }
+  },
+  "overrides": [
+    {
+      "include": ["*.ts", "*.tsx"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedVariables": "error"
+          }
+        }
+      }
+    }
+  ]
+}
+```
+
+### 4. Thêm scripts vào `package.json`
+
+```json
+{
+  "scripts": {
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "ci": "biome ci ."
+  }
+}
+```
+
+**Giải thích scripts:**
+- `check`: Kiểm tra cả linting và formatting
+- `check:fix`: Tự động fix cả linting và formatting
+- `format`: Chỉ format code
+- `lint`: Chỉ kiểm tra linting
+- `lint:fix`: Chỉ fix linting issues
+- `ci`: Chạy trong CI/CD (không fix, chỉ báo lỗi)
+
+### 5. Cấu hình VS Code
+
+Cài đặt extension **Biome** từ VS Code Marketplace.
+
+Tạo file `.vscode/settings.json`:
+
+```json
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.codeActionsOnSave": {
+    "quickfix.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  }
+}
+```
+
+### 6. Migration từ ESLint/Prettier
+
+Nếu bạn đang chuyển từ ESLint/Prettier:
+
+```bash
+# Gỡ cài đặt ESLint và Prettier
+npm uninstall eslint prettier eslint-config-prettier eslint-plugin-prettier @typescript-eslint/parser @typescript-eslint/eslint-plugin
+
+# Xóa các file cấu hình cũ
+rm .eslintrc.json .prettierrc .eslintignore .prettierignore
+```
+
+Biome có thể migrate cấu hình tự động:
+
+```bash
+npx @biomejs/biome migrate eslint --write
+npx @biomejs/biome migrate prettier --write
+```
+
+### 7. Sử dụng
+
+```bash
+# Kiểm tra toàn bộ (lint + format)
+npm run check
+
+# Tự động fix toàn bộ
+npm run check:fix
+
+# Chỉ format
+npm run format
+
+# Chỉ lint
+npm run lint
+
+# Chạy trong CI
+npm run ci
+```
+
+### 8. Cấu hình nâng cao
+
+#### Ignore specific files
+
+Trong `biome.json`:
+
+```json
+{
+  "files": {
+    "ignore": [
+      "node_modules",
+      "dist",
+      "**/*.test.ts",
+      "**/__tests__/**"
+    ]
+  }
+}
+```
+
+#### Tắt rules cụ thể cho file
+
+Thêm comment trong file:
+
+```typescript
+// biome-ignore lint/suspicious/noExplicitAny: legacy code
+function oldFunction(data: any) {
+  // ...
+}
+```
+
+#### Override rules cho thư mục cụ thể
+
+```json
+{
+  "overrides": [
+    {
+      "include": ["tests/**/*.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    }
+  ]
+}
+```
+
+### 9. So sánh với ESLint + Prettier
+
+**Ưu điểm của Biome:**
+- ⚡ Nhanh hơn 25-50 lần (viết bằng Rust)
+- 🎯 Một công cụ cho cả linting và formatting
+- 🚀 Cấu hình đơn giản hơn nhiều
+- 📦 Không cần nhiều dependencies
+- 🔄 Organize imports tự động
+- 💾 File cấu hình nhỏ gọn
+
+**Nhược điểm:**
+- Ít plugins hơn ESLint (nhưng đang phát triển nhanh)
+- Cộng đồng nhỏ hơn
+
+### 10. Pre-commit hook (tùy chọn)
+
+Cài đặt husky và lint-staged:
+
+```bash
+npm install --save-dev husky lint-staged
+npx husky init
+```
+
+Thêm vào `package.json`:
+
+```json
+{
+  "lint-staged": {
+    "*.{js,ts,json}": ["biome check --write --no-errors-on-unmatched"]
+  }
+}
+```
+
+Tạo `.husky/pre-commit`:
+
+```bash
+npx lint-staged
+```
+
+Với Biome, bạn có một công cụ hiện đại, nhanh chóng và dễ sử dụng cho dự án Node.js TypeScript! 🚀
