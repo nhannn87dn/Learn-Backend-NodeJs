@@ -39,7 +39,7 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
   // Chỉ biên dịch những code trong folder src + file chỉ định
   "include": ["src/**/*"],

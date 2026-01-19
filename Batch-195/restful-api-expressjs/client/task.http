@@ -1,0 +1,7 @@
+@baseUrl = http://localhost:8080
+
+### Get tasks
+GET {{baseUrl}}/api/v1/tasks
+
+### create new Task
+POST {{baseUrl}}/api/v1/tasks
