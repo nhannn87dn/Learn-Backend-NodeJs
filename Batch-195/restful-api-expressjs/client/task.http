@@ -5,3 +5,21 @@ GET {{baseUrl}}/api/v1/tasks
 
 ### create new Task
 POST {{baseUrl}}/api/v1/tasks
+Content-Type: application/json
+
+{
+    "title": "Giặt đồ",
+    "completed": true
+}
+
+
+### update Task
+PUT {{baseUrl}}/api/v1/tasks/2
+Content-Type: application/json
+
+{
+    "completed": false
+}
+
+### delete Task
+DELETE  {{baseUrl}}/api/v1/tasks/2

@@ -5,6 +5,10 @@ import taskRouter from './routes/v1/tasks.route';
 
 const app: Express = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+
 /*** BEGIN DECLARE ROUTES */
 app.get('/', (req, res) => {
   res.send('Hello World');
