@@ -8,8 +8,9 @@ POST {{baseUrl}}/api/v1/tasks
 Content-Type: application/json
 
 {
-    "title": "Giặt đồ",
-    "completed": true
+    "title": "Nâu cơm",
+    "completed": false,
+    "description": "Nấu cơm bằng nồi cơm điện"
 }
 
 

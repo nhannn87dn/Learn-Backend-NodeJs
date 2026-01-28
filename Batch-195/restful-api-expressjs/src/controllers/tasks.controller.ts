@@ -2,8 +2,8 @@ import type { Request, Response } from 'express';
 import tasksService from '../services/tasks.service';
 import { sendJsonSuccess, SUCCESS, } from '../helpers/responseHandler';
 
-const getAllTasks = (req: Request, res: Response) => {
-  const data = tasksService.getAllTasks();
+const getAllTasks = async(req: Request, res: Response) => {
+  const data = await tasksService.getAllTasks();
   // res.json({
   //   statusCode: 200,
   //   message: 'Tasks fetched successfully',
@@ -16,10 +16,10 @@ const getAllTasks = (req: Request, res: Response) => {
   });
 };
 
-const getTaskById = (req: Request, res: Response) => {
+const getTaskById = async(req: Request, res: Response) => {
   const { id } = req.params; //id is string
   console.log(typeof id);
-  const task = tasksService.getTaskById(Number(id));
+  const task = await tasksService.getTaskById(id);
   //res.json(task);
   sendJsonSuccess({
     res,
@@ -28,10 +28,10 @@ const getTaskById = (req: Request, res: Response) => {
   });
 };
 
-const createTask = (req: Request, res: Response) => {
+const createTask = async(req: Request, res: Response) => {
 const payload = req.body;
 console.log('<<=== 🚀 payload ===>>',payload);
-  const newTask = tasksService.createTask(payload);
+  const newTask = await tasksService.createTask(payload);
   //res.status(201).json(newTask);
   sendJsonSuccess({
     res,
@@ -40,10 +40,10 @@ console.log('<<=== 🚀 payload ===>>',payload);
   });
 }
 
-const updateTaskById = (req: Request, res: Response) => {
+const updateTaskById = async(req: Request, res: Response) => {
   const { id } = req.params;
   const payload = req.body;
-  const updatedTask = tasksService.updateTaskById(Number(id), payload);
+  const updatedTask = await tasksService.updateTaskById(id, payload);
   //res.json(updatedTask);
   sendJsonSuccess({
     res,
@@ -52,9 +52,9 @@ const updateTaskById = (req: Request, res: Response) => {
   });
 }
 
-const deleteTaskById = (req: Request, res: Response) => {
+const deleteTaskById = async(req: Request, res: Response) => {
   const { id } = req.params;
-  const deletedTasks = tasksService.deleteTaskById(Number(id));
+  const deletedTasks = await tasksService.deleteTaskById(id);
   //res.json(deletedTasks);
   sendJsonSuccess({
     res,
