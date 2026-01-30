@@ -3,6 +3,8 @@ import { ICategory } from '../types/category.type';
 
 const categorySchema = new Schema<ICategory>(
   {
+   // _id: { type: Schema.Types.ObjectId }, mặc định
+   //category_id: { type: Number, required: true, unique: true },
     category_name: { 
         type: String, 
         required: [true, 'Category name is required'], 

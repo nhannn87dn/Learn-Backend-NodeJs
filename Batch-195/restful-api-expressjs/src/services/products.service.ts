@@ -3,8 +3,49 @@ import createError from 'http-errors';
 import Product from "../models/product.model";
 
 const getAllProducts = async () => {
-    // get all products from database
-    const result = await Product.find();
+    //1. select * from products
+    // const result = await Product.find();
+
+    //2. select product_name, price, modelYear from products
+    // const result = await Product
+    // .find()
+    // .select('product_name price modelYear'); //Chỉ lấy các trường cần thiết
+    
+    //3. Lấy tất cả các trường ngoại trừ updatedAt
+
+    // const result = await Product.find().select('-updatedAt');
+
+    //4.select với sắp xếp 
+    // const result = await Product.find()
+    // .select('-updatedAt')
+    // .sort({
+    //     product_name: 1, //1: tăng dần, -1: giảm dần
+    //     price: -1, //1: tăng dần, -1: giảm dần
+    // })
+
+    //5. Select với điều kiện where
+    //vd1: select * from product where price > 1000
+
+    // const result = await Product.find(
+    //     {
+    //         price: { $gt: 1000 } //gt: greater than
+    //     }
+    // )
+
+    //vd1: select * from product where price > 1000 and category = 697c99202d5eb0ca72e5c232
+    // const result = await Product.find({
+    //     $and: [
+    //         {price: { $gt: 1000 }},
+    //         {category: '697c99202d5eb0ca72e5c232'}
+    //     ]
+    // })
+    //6. select voi populate (join)
+    const result = await Product
+    .find()
+    .populate('category', '_id category_name') //join với bảng category
+    .populate('brand', '_id brand_name'); //join với bảng brand
+
+    
     return result;
 }
 
