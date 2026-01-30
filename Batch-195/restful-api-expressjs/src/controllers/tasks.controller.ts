@@ -1,72 +1,87 @@
-import type { Request, Response } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import tasksService from '../services/tasks.service';
-import { sendJsonSuccess, SUCCESS, } from '../helpers/responseHandler';
+import { sendJsonSuccess, SUCCESS } from '../helpers/responseHandler';
 
-const getAllTasks = async(req: Request, res: Response) => {
-  const data = await tasksService.getAllTasks();
-  // res.json({
-  //   statusCode: 200,
-  //   message: 'Tasks fetched successfully',
-  //   data: data,
-  // });
-  sendJsonSuccess({
-    res,
-    status: SUCCESS.OK,
-    data: data,
-  });
+const getAllTasks = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const data = await tasksService.getAllTasks();
+    sendJsonSuccess({
+      res,
+      status: SUCCESS.OK,
+      data: data,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
-const getTaskById = async(req: Request, res: Response) => {
+const getTaskById = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params; //id is string
   console.log(typeof id);
-  const task = await tasksService.getTaskById(id);
-  //res.json(task);
-  sendJsonSuccess({
-    res,
-    status: SUCCESS.OK,
-    data: task,
-  });
+  try {
+    const task = await tasksService.getTaskById(id);
+    //res.json(task);
+    sendJsonSuccess({
+      res,
+      status: SUCCESS.OK,
+      data: task,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
-const createTask = async(req: Request, res: Response) => {
-const payload = req.body;
-console.log('<<=== 🚀 payload ===>>',payload);
-  const newTask = await tasksService.createTask(payload);
-  //res.status(201).json(newTask);
-  sendJsonSuccess({
-    res,
-    status: SUCCESS.CREATED,
-    data: newTask,
-  });
-}
+const createTask = async (req: Request, res: Response, next: NextFunction) => {
+  const payload = req.body;
+  console.log('<<=== 🚀 payload ===>>', payload);
+  try {
+    const newTask = await tasksService.createTask(payload);
+    //res.status(201).json(newTask);
+    sendJsonSuccess({
+      res,
+      status: SUCCESS.CREATED,
+      data: newTask,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
-const updateTaskById = async(req: Request, res: Response) => {
+const updateTaskById = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
   const payload = req.body;
-  const updatedTask = await tasksService.updateTaskById(id, payload);
-  //res.json(updatedTask);
-  sendJsonSuccess({
-    res,
-    status: SUCCESS.OK,
-    data: updatedTask,
-  });
-}
+  try {
+    const updatedTask = await tasksService.updateTaskById(id, payload);
+    //res.json(updatedTask);
+    sendJsonSuccess({
+      res,
+      status: SUCCESS.OK,
+      data: updatedTask,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
-const deleteTaskById = async(req: Request, res: Response) => {
+const deleteTaskById = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
-  const deletedTasks = await tasksService.deleteTaskById(id);
-  //res.json(deletedTasks);
-  sendJsonSuccess({
-    res,
-    status: SUCCESS.OK,
-    data: deletedTasks,
-  });
-}
+  try {
+    const deletedTasks = await tasksService.deleteTaskById(id);
+    //res.json(deletedTasks);
+    sendJsonSuccess({
+      res,
+      status: SUCCESS.OK,
+      data: deletedTasks,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 export default {
-    getAllTasks,
-    getTaskById,
-    updateTaskById,
-    deleteTaskById,
-    createTask
-}
+  getAllTasks,
+  getTaskById,
+  updateTaskById,
+  deleteTaskById,
+  createTask,
+};

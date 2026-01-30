@@ -13,7 +13,8 @@ const categorySchema = new Schema<ICategory>(
     },
     description: { 
         type: String, 
-        trim: true 
+        trim: true,
+        maxLength: [500, 'Description must be at most 500 characters long'],
     },
     slug: { type: String, 
         required: [true, 'Slug is required'], 

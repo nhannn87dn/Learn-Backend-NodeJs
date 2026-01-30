@@ -2,12 +2,6 @@ import { TTaskPayload } from "../types/task.type";
 import createError from 'http-errors';
 import Task from "../models/task.model";
 
-const tasks = [
-  { id: 1, title: 'Task 1', completed: false },
-  { id: 2, title: 'Task 2', completed: true },
-  { id: 3, title: 'Task 3', completed: false },
-];
-
 const getAllTasks = async ()=>{
     //get all tasks from database
     const result = await Task.find();
