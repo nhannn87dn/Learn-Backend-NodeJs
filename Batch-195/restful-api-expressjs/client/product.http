@@ -1,0 +1,15 @@
+@baseUrl = http://localhost:8080
+
+### create new product
+POST {{baseUrl}}/api/v1/products
+Content-Type: application/json
+
+{
+    "product_name": "Sample Product",
+    "slug": "sample-product",
+    "description": "This is a sample product.",
+    "price": 29.99,
+    "category": "64a7f0c2e1b8c2a5d6f0e1b2", 
+    "brand": "64a7f0d3e1b8c2a5d6f0e1b3",
+    "modelYear": 2023
+}

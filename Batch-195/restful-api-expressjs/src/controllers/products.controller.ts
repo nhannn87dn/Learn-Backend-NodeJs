@@ -4,7 +4,8 @@ import { sendJsonSuccess, SUCCESS } from '../helpers/responseHandler';
 
 const getAllProducts = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const data = await productsService.getAllProducts();
+    //example uri: /api/products?page=1&limit=10
+    const data = await productsService.getAllProducts(req.query);
     sendJsonSuccess({
       res,
       status: SUCCESS.OK,

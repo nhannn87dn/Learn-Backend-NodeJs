@@ -1,4 +1,3 @@
-import { get } from 'node:http';
 import app from './app';
 import { getEnv } from './common/configs/env';
 import mongoose from "mongoose"
