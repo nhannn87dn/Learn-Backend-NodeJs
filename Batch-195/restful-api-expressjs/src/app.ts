@@ -5,12 +5,13 @@ import taskRouter from './routes/v1/tasks.route';
 import brandRouter from './routes/v1/brands.route';
 import categoryRouter from './routes/v1/categories.route';
 import productRouter from './routes/v1/products.route';
+import { logMiddleware } from './middlewares/log.middleware';
 
 const app: Express = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
+app.use(logMiddleware)
 
 /*** BEGIN DECLARE ROUTES */
 app.get('/', (req, res) => {

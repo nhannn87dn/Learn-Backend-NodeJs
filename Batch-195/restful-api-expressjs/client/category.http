@@ -1,0 +1,11 @@
+@baseUrl = http://localhost:8080
+
+### create new product
+POST {{baseUrl}}/api/v1/categories
+Content-Type: application/json
+
+{
+    "category_name": "e",
+    "description": "All kinds of electronic devices and gadgets.",
+    "slug": ""
+}

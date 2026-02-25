@@ -86,9 +86,9 @@ describe('GET /api/v1/categories/:id', () => {
         const createResponse = await agent
         .post('/api/v1/categories')
         .send({
-        category_name:  'Laptops ' + Date.now(),
+        category_name:  'Laptops',
         description: 'A category for laptops',
-        slug: 'laptops-' + Date.now(),
+        slug: 'laptops',
         });
 
         expect(createResponse.status).toBe(201);

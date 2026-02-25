@@ -17,7 +17,7 @@ const getAllCategories = async (req: Request, res: Response, next: NextFunction)
 
 const getCategoryById = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params; //id is string
-  console.log(typeof id);
+  
   try {
     const category = await categoryService.getCategoryById(id);
     sendJsonSuccess({
