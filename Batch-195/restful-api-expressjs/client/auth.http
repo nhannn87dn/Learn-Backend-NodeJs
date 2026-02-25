@@ -1,0 +1,19 @@
+@baseUrl = http://localhost:8080
+
+### create new product
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@example.com",
+    "password": "admin123"
+}
+
+### manager
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email": "jane.smith@example.com",
+    "password": "password456"
+}
