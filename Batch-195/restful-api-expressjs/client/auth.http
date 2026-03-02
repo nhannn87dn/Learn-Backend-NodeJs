@@ -17,3 +17,11 @@ Content-Type: application/json
     "email": "jane.smith@example.com",
     "password": "password456"
 }
+
+### refresh token
+POST {{baseUrl}}/api/v1/auth/refresh-token
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OWVlZDFiMzVmMzZhN2U4Y2ZmZDMzNCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MjQ1MDgxNSwiZXhwIjoxNzczMDU1NjE1fQ.88EVI8zxhDDj_fhH5rqRqIVHG9ZocXJ5HR_wwlTLlNc
+
+### getProfile
+GET {{baseUrl}}/api/v1/auth/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OWVlZDFiMzVmMzZhN2U4Y2ZmZDMzNCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MjQ1MDgxNSwiZXhwIjoxNzcyNDUwODc1fQ.AvAqzK2XUaHnfPFuCK4nSnnCb5VPp4GMu1ISp-vw4qA

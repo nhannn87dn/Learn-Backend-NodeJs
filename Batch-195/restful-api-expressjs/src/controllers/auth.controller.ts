@@ -17,6 +17,36 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
+const refreshToken = async (req: Request, res: Response, next: NextFunction) => {
+  const staff = res.locals.staff;
+  try {
+    const data = await authService.refreshToken(staff._id);
+    sendJsonSuccess({
+      res,
+      status: SUCCESS.OK,
+      data: data,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+const getProfile = async (req: Request, res: Response, next: NextFunction) => {
+  const staff = res.locals.staff;
+  try {
+    const data = await authService.getProfile(staff._id);
+    sendJsonSuccess({
+      res,
+      status: SUCCESS.OK,
+      data: data,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 export default {
   login,
+  refreshToken,
+  getProfile
 }
