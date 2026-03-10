@@ -62,6 +62,7 @@ const ProductsPage = () => {
       onHandleDelete={handleDeleteProduct}
       />
     </Card>
+    
     </>
   )
 }
