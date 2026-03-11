@@ -75,10 +75,41 @@ const deleteProductById = async (req: Request, res: Response, next: NextFunction
   }
 };
 
+const getRecommendProduct = async(req: Request, res: Response, next: NextFunction)=>{
+    try {
+        const products = await productsService.getRecommendProduct(req.query);
+        sendJsonSuccess({
+            res,
+            status: SUCCESS.OK,
+            data: products
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
+const getSaleProductByCategory = async(req: Request, res: Response, next: NextFunction)=>{
+  try {
+    const {catId=''} = req.params;
+    const limit = req.query.limit || 5;
+   
+    const products = await productsService.getSaleProductByCategory(catId, parseInt(limit as string));
+    sendJsonSuccess({
+        res,
+        status: SUCCESS.OK,
+        data: products
+    })
+  } catch (error) {
+    next(error);
+  }
+}
+
 export default {
   getAllProducts,
   getProductById,
   updateProductById,
   deleteProductById,
   createProduct,
+  getRecommendProduct,
+  getSaleProductByCategory
 };

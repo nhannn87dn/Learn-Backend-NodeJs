@@ -189,10 +189,40 @@ const makeSureBrandExists = async (brandId: string) => {
     return true;
 };
 
+// ENUM ProductType {
+//   NEW = 'new',
+//   HOT = 'hot',
+//   SALE = 'sale',
+// }
+/* Lấy 5 sp mới nhất, hot nhất, sale nhiều nhất ra Homepage */
+const getRecommendProduct = (query: any)=>{
+  const {type='new', limit=5} = query;
+
+  let where = {};
+  if( type === 'new'){
+    where = {...where, isNew: true} 
+  }
+  //TODO: implement logic for hot and sale product
+  return Product.find({...where}).sort({createdAt: -1}).limit(limit);
+}
+
+//Lấy ra 5 sp KM của một danh mục cụ thể để đưa ra Home
+const getSaleProductByCategory = (catId: string, limit=5)=>{
+  if(!catId) {
+    throw createError(400, "Category ID is required");
+  }
+    return Product.find({
+        category: catId,
+        discount: {$gt: 0} //sp
+    }).sort({discount: -1}).limit(limit);
+}
+
 export default {
   getAllProducts,
   getProductById,
   createProduct,
   updateProductById,
   deleteProductById,
+  getRecommendProduct,
+  getSaleProductByCategory
 };

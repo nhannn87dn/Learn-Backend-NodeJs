@@ -13,3 +13,11 @@ Content-Type: application/json
     "brand": "64a7f0d3e1b8c2a5d6f0e1b3",
     "modelYear": 2023
 }
+
+### Update
+PUT {{baseUrl}}/api/v1/products/697c99212d5eb0ca72e5c257
+Content-Type: application/json
+
+{
+    "isNew": true
+}

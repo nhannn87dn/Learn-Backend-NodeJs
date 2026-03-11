@@ -1,20 +1,25 @@
 import express from 'express';
 import type { Router } from 'express';
 import categoriesController from '../../controllers/categories.controller';
-import { routeMiddleware } from '../../middlewares/route.middleware';
 import validateSchemaYup from '../../middlewares/validation.middleware';
 import { createCategorySchema } from '../../validations/categorySchema';
+import { authenticateToken } from '../../middlewares/auth.middleware';
 const router: Router = express.Router();
 
+/* Public routes */
+// GET /api/v1/categories/web/categories-tree
+router.get('/web/categories-tree', categoriesController.getCategoriesTree);
+
+/** PRIVATE ROUTES */
 // GET /api/v1/categories
-router.get('/', routeMiddleware, categoriesController.getAllCategories);
+router.get('/', authenticateToken, categoriesController.getAllCategories);
 // GET /api/v1/categories/:id
-router.get('/:id', categoriesController.getCategoryById);
+router.get('/:id', authenticateToken,  categoriesController.getCategoryById);
 // POST /api/v1/categories
-router.post('/', validateSchemaYup(createCategorySchema), categoriesController.createCategory);
+router.post('/', authenticateToken, validateSchemaYup(createCategorySchema), categoriesController.createCategory);
 // PUT /api/v1/categories/:id
-router.put('/:id', categoriesController.updateCategoryById);
+router.put('/:id', authenticateToken, categoriesController.updateCategoryById);
 // DELETE /api/v1/categories/:id
-router.delete('/:id', categoriesController.deleteCategoryById);
+router.delete('/:id', authenticateToken, categoriesController.deleteCategoryById);
 
 export default router;

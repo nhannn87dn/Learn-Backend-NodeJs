@@ -1,6 +1,21 @@
 import type { Request, Response, NextFunction } from 'express';
 import categoryService from '../services/categories.service';
-import { sendJsonSuccess, SUCCESS } from '../helpers/responseHandler';
+import { ERROR, sendJsonSuccess, SUCCESS } from '../helpers/responseHandler';
+
+/* Danh cho public route */
+const getCategoriesTree = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const data = await categoryService.getCategoriesTree();
+    sendJsonSuccess({
+      res,
+      status: SUCCESS.OK,
+      data: data,
+    });
+  }
+    catch (error) {
+    next(error);
+  }
+};
 
 const getAllCategories = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -16,9 +31,15 @@ const getAllCategories = async (req: Request, res: Response, next: NextFunction)
 };
 
 const getCategoryById = async (req: Request, res: Response, next: NextFunction) => {
-  const { id } = req.params; //id is string
   
   try {
+    const { id } = req.params; //id is string
+    if(!id) {
+      return res.status(ERROR.BAD_REQUEST).json({
+        success: false,
+        message: 'Category ID is required',
+      });
+    }
     const category = await categoryService.getCategoryById(id);
     sendJsonSuccess({
       res,
@@ -80,4 +101,5 @@ export default {
   updateCategoryById,
   deleteCategoryById,
   createCategory,
+  getCategoriesTree,
 };

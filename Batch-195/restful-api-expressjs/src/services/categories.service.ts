@@ -51,10 +51,23 @@ const deleteCategoryById = async (id: string) => {
     return result;
 }
 
+/* Dành cho public route */
+//Chi lay nhung truowng can thiet
+const getCategoriesTree = async()=>{
+    const categories = Category
+    .find()
+    .select('category_name slug')    ;
+    // logic để xây dựng cây danh mục từ mảng categories
+    // có thể sử dụng đệ quy hoặc các thuật toán khác để xây dựng cây
+    // trả về cây danh mục
+    return categories;
+}
+
 export default {
     getAllCategories,
     getCategoryById,
     createCategory,
     updateCategoryById,
     deleteCategoryById,
+    getCategoriesTree,
 }
