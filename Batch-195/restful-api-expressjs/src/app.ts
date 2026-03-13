@@ -8,6 +8,8 @@ import productRouter from './routes/v1/products.route';
 import { logMiddleware } from './middlewares/log.middleware';
 import staffRouter from './routes/v1/staffs.route';
 import authRouter from './routes/v1/auth.route';
+import uploadRouter from './routes/v1/upload.route';
+
 import cors from 'cors';
 
 
@@ -47,6 +49,7 @@ app.use('/api/v1/categories', categoryRouter);
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/staffs', staffRouter);
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/uploads', uploadRouter);
 
 /*** END DECLARE ROUTES */
 
