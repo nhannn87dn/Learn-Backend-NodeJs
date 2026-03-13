@@ -9,6 +9,7 @@ import { logMiddleware } from './middlewares/log.middleware';
 import staffRouter from './routes/v1/staffs.route';
 import authRouter from './routes/v1/auth.route';
 import uploadRouter from './routes/v1/upload.route';
+import mailRouter from './routes/v1/sendmail.route';
 
 import cors from 'cors';
 
@@ -50,7 +51,7 @@ app.use('/api/v1/products', productRouter);
 app.use('/api/v1/staffs', staffRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/uploads', uploadRouter);
-
+app.use('/api/v1/mail', mailRouter);
 /*** END DECLARE ROUTES */
 
 /** Handle Errors */
