@@ -1,66 +1,31 @@
 import { ICategoryDTO } from "../types/category.type";
 import createError from 'http-errors';
-import Category from "../models/category.model";
+import { Category } from "../entities/category.entity";
+import { myDataSource } from "../data-soucre";
+
+//tạo một repository để thao tác với bảng categories trong database
+const categoryRepository = myDataSource.getRepository(Category);
+
 
 const getAllCategories = async () => {
-    // get all categories from database
-    const result = await Category.find();
-    return result;
+    const categories = await categoryRepository.find();
+    return categories;
 }
 
 const getCategoryById = async (id: string) => {
-    // SELECT * FROM categories WHERE id = id
-    const category = await Category.findById(id);
-    if (!category) {
-        throw createError(404, 'Category not found');
-    }
-    return category;
+   return null;
 }
 
 const createCategory = async (payload: ICategoryDTO) => {
-    // Implementation for creating a category
-    const newCategory = {
-        category_name: payload.category_name,
-        description: payload.description,
-        slug: payload.slug,
-    };
-    const category = new Category(newCategory);
-    const result = await category.save(); // lưu vào database
-    // trả về kết quả tạo mới
-    return result;
+    return null;
 }
 
 const updateCategoryById = async (id: string, payload: ICategoryDTO) => {
-    // Implementation for updating a category
-    let category = await getCategoryById(id);
-    Object.assign(category, {
-        category_name: payload.category_name,
-        description: payload.description,
-        slug: payload.slug,
-    });
-    const result = await category.save();
-    // trả về kết quả cập nhật
-    return result;
+   return null;
 }
 
 const deleteCategoryById = async (id: string) => {
-    // trả về kết quả sau khi xóa
-    const category = await getCategoryById(id);
-    const result = await Category.deleteOne({ _id: category._id });
-    // trả về kết quả xóa
-    return result;
-}
-
-/* Dành cho public route */
-//Chi lay nhung truowng can thiet
-const getCategoriesTree = async()=>{
-    const categories = Category
-    .find()
-    .select('category_name slug')    ;
-    // logic để xây dựng cây danh mục từ mảng categories
-    // có thể sử dụng đệ quy hoặc các thuật toán khác để xây dựng cây
-    // trả về cây danh mục
-    return categories;
+    return null
 }
 
 export default {
@@ -69,5 +34,4 @@ export default {
     createCategory,
     updateCategoryById,
     deleteCategoryById,
-    getCategoriesTree,
 }
