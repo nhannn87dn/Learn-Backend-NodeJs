@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, BeforeInsert, BeforeUpdate } from "typeorm"
 import { Category } from "./category.entity"
 import { IsInt, Max, Min, validateOrReject } from "class-validator"
+import { Brand } from "./brand.entity"
 
 @Entity({
     name: 'products' //Tên bảng trong database
@@ -78,6 +79,9 @@ export class Product {
     //relation with category
    @ManyToOne(() => Category, (c) => c.products)
    category: Category;
+
+   @ManyToOne(() => Brand, (b) => b.products)
+   brand: Brand;
 
 
    //validator
