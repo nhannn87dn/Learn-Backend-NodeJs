@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm"
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm"
+import { Product } from "./product.entity"
 
 @Entity({
     name: 'categories' //Tên bảng trong database
@@ -30,4 +31,8 @@ export class Category {
         unique: true
     })
     slug: string
+
+    //relation with product
+    @OneToMany(() => Product, (p) => p.category)
+    products: Product[];
 }
