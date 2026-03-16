@@ -1,0 +1,50 @@
+@baseUrl = http://localhost:8080
+
+### create new staff
+POST {{baseUrl}}/api/v1/staffs
+Content-Type: application/json
+
+{
+    "fullName": "John Doe",
+    "email": "john.doe@example.com",
+    "password": "password123",
+    "role": "staff"
+}
+
+###
+
+POST {{baseUrl}}/api/v1/staffs
+Content-Type: application/json
+
+{
+    "fullName": "Admin User",
+    "email": "admin@example.com",
+    "password": "admin123",
+    "role": "admin"
+}
+
+### new staff
+POST {{baseUrl}}/api/v1/staffs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OWVlZDFiMzVmMzZhN2U4Y2ZmZDMzNCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MjAyNTA4OCwiZXhwIjoxNzcyMDI1OTg4fQ.deit0lC1pwvtB_w8wZZ0kqrS2S02lzqUz5ciETCZT1Q
+
+{
+    "fullName": "Jane Smith",
+    "email": "jane.smith@example.com",
+    "password": "password456",
+    "role": "manager"
+}
+
+### new staff
+POST {{baseUrl}}/api/v1/staffs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OWVlZDFiMzVmMzZhN2U4Y2ZmZDMzNCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MjAyNTA4OCwiZXhwIjoxNzcyMDI1OTg4fQ.deit0lC1pwvtB_w8wZZ0kqrS2S02lzqUz5ciETCZT1Q
+x-api-key: your_api_key_here
+app_name: your_app_name_here
+
+{
+    "fullName": "Jane David",
+    "email": "jane.david@example.com",
+    "password": "password456",
+    "role": "staff"
+}
