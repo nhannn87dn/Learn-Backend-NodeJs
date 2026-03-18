@@ -5,17 +5,6 @@ import { Product } from "../entities/product.entity";
 import { Category } from "../entities/category.entity";
 import { Brand } from "../entities/brand.entity";
 
-
-//step 1: Ket noi den MongoDB
-myDataSource
-    .initialize()
-    .then(() => {
-        console.log("Data Source has been initialized!");
-    })
-    .catch((err) => {
-        console.error("Error during Data Source initialization:", err)
-    })
-
 //step 2: Fake data vao collection
 const fakeData = async () => {
   //Your fake data logic here
@@ -96,4 +85,21 @@ const fakeData = async () => {
   }
 };
 
-fakeData(); //run
+const runSeed = async () => {
+  try {
+    await myDataSource.initialize();
+    console.log("Data Source has been initialized!");
+
+    await fakeData();
+    console.log("Seed completed successfully!");
+  } catch (err) {
+    console.error("Error during seed:", err);
+  } finally {
+    if (myDataSource.isInitialized) {
+      await myDataSource.destroy();
+      console.log("Data Source has been closed.");
+    }
+  }
+};
+
+runSeed();

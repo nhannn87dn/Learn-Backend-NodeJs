@@ -17,7 +17,12 @@ const getCategoryById = async (id: string) => {
 }
 
 const createCategory = async (payload: ICategoryDTO) => {
-    return null;
+    const category = categoryRepository.create({
+    category_name: payload.category_name,
+    description: payload.description ? payload.description : '',
+    slug: payload.slug,
+    });
+    return await categoryRepository.save(category);
 }
 
 const updateCategoryById = async (id: string, payload: ICategoryDTO) => {

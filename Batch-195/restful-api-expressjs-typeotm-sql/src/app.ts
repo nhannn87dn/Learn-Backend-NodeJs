@@ -3,7 +3,7 @@ import type { Express, Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
 // import taskRouter from './routes/v1/tasks.route';
 // import brandRouter from './routes/v1/brands.route';
-// import categoryRouter from './routes/v1/categories.route';
+ import categoryRouter from './routes/v1/categories.route';
 // import productRouter from './routes/v1/products.route';
 // import { logMiddleware } from './middlewares/log.middleware';
 // import staffRouter from './routes/v1/staffs.route';
@@ -46,7 +46,7 @@ app.get('/status', (req, res) => {
 // Mount task routes
 // app.use('/api/v1/tasks', taskRouter);
 // app.use('/api/v1/brands', brandRouter);
-// app.use('/api/v1/categories', categoryRouter);
+ app.use('/api/v1/categories', categoryRouter);
 // app.use('/api/v1/products', productRouter);
 // app.use('/api/v1/staffs', staffRouter);
 // app.use('/api/v1/auth', authRouter);

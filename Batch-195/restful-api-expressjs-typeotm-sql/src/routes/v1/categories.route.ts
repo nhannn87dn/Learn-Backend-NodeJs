@@ -12,14 +12,14 @@ router.get('/web/categories-tree', categoriesController.getCategoriesTree);
 
 /** PRIVATE ROUTES */
 // GET /api/v1/categories
-router.get('/', authenticateToken, categoriesController.getAllCategories);
+router.get('/',  categoriesController.getAllCategories);
 // GET /api/v1/categories/:id
-router.get('/:id', authenticateToken,  categoriesController.getCategoryById);
+router.get('/:id',  categoriesController.getCategoryById);
 // POST /api/v1/categories
-router.post('/', authenticateToken, validateSchemaYup(createCategorySchema), categoriesController.createCategory);
+router.post('/', validateSchemaYup(createCategorySchema), categoriesController.createCategory);
 // PUT /api/v1/categories/:id
-router.put('/:id', authenticateToken, categoriesController.updateCategoryById);
+router.put('/:id', categoriesController.updateCategoryById);
 // DELETE /api/v1/categories/:id
-router.delete('/:id', authenticateToken, categoriesController.deleteCategoryById);
+router.delete('/:id',  categoriesController.deleteCategoryById);
 
 export default router;

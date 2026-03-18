@@ -33,6 +33,6 @@ export class Brand {
     slug: string
 
     //relation with product
-    @OneToMany(() => Product, (p) => p.category)
+    @OneToMany(() => Product, (p) => p.brand)
     products: Product[];
 }
