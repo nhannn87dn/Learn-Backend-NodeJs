@@ -1,4 +1,3 @@
-import { ObjectId} from 'mongoose';
 
 export interface IProductDTO {
         product_name: string;
@@ -6,13 +5,13 @@ export interface IProductDTO {
         slug: string;
         price: number;
         discount: number;
-        category: string;
-        brand: string;
+        category: number;
+        brand: number;
         stock: number;
         thumbnail?: string;
-        modelYear: number;
+        model_year: number;
 }
 
 export interface IProduct extends IProductDTO {
-        _id: ObjectId;
+        id: number;
 }

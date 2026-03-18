@@ -22,7 +22,7 @@ export class Product {
         length: 256, //Độ dài tối đa của chuỗi
         nullable: true, //Cho phép giá trị null
     })
-    description: string
+    description: string | null
 
     @IsInt()
     @Min(0)
@@ -73,7 +73,7 @@ export class Product {
         length: 255,
         nullable: true,//allow null value
     })
-    thumbnail: string
+    thumbnail: string | null
 
 
     //relation with category
