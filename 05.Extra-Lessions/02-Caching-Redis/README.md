@@ -1,7 +1,5 @@
 # Caching with Redis
-Ok, mình sẽ viết giải thích rõ ràng, dễ hiểu và có ví dụ minh họa cho bạn nhé 👇
 
----
 
 ## 🔹 **Caching là gì ?**
 
@@ -113,6 +111,36 @@ Không phải lúc nào cũng cần caching, nếu lạm dụng có thể gây p
 
 
 ## 🔹 1. Cài đặt Redis
+
+Cài đặt Redis server với docker composer:
+
+Tạo file `docker-compose.yml` cùng cấp với `package.json`:
+
+```yaml
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: redis_cache
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: always
+    command: redis-server --appendonly yes
+
+volumes:
+  redis_data:
+```
+
+Chạy Redis server:
+
+```bash
+docker-compose up -d
+```
+
+Cài đặt thư viện Redis client cho Node.js:
 
 ```bash
 npm install ioredis
@@ -269,7 +297,4 @@ export default app;
    * Cập nhật MongoDB.
    * Xóa cache Redis (`del user:id`) để đảm bảo dữ liệu lần sau là mới nhất.
 
----
-
-👉 Với `ioredis`, bạn sẽ có thêm lợi thế khi sau này cần **Cluster, Sentinel, Pub/Sub, pipeline**, dễ mở rộng hơn so với `redis` chính chủ.
 
