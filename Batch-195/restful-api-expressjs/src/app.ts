@@ -12,9 +12,11 @@ import uploadRouter from './routes/v1/upload.route';
 import mailRouter from './routes/v1/sendmail.route';
 
 import cors from 'cors';
+import { setupSwagger } from './common/configs/swagger';
 
 
 const app: Express = express();
+setupSwagger(app); // swagger tại /docs
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

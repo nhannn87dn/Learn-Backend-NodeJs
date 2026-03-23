@@ -19,5 +19,5 @@ PUT {{baseUrl}}/api/v1/products/697c99212d5eb0ca72e5c257
 Content-Type: application/json
 
 {
-    "isNew": true
+    "price": 999.99
 }

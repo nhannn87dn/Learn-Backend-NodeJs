@@ -56,16 +56,19 @@ export function setupSwagger(app: Express) {
 Trong file `app.ts` hoặc `server.ts`:
 
 ```ts
-import swaggerUi from 'swagger-ui-express';
-import swaggerSpec from './configs/swagger';
+//src/app.ts
+import {setupSwagger} from "./configs/swagger";
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// ... code khác
+const app = express();
+
+setupSwagger(app);
 ```
 
 👉 Truy cập:
 
 ```
-http://localhost:8080/api-docs
+http://localhost:8080/docs
 ```
 
 ---

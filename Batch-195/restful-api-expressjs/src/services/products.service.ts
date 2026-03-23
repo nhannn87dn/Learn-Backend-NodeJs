@@ -3,8 +3,25 @@ import createError from 'http-errors';
 import Product from '../models/product.model';
 import Brand from '../models/brand.model';
 import Category from '../models/category.model';
+import redisClient from '../common/configs/redisClient';
 
 const getAllProducts = async (query: any) => {
+  //implement redis cache
+
+  //step 1: cache key with static key
+  const cacheKey = `products`;
+
+  //step2: check if data exists in cache
+  const cachedData = await redisClient.get(cacheKey);
+  if(cachedData) {
+    console.log('CACHE HIT');
+    return JSON.parse(cachedData);
+  }
+
+
+  //step 3: if not exists in cache, query database
+  console.log('CACHE MISS');
+
   //paginatio
   const { page = '1', limit = '10' } = query;
   const pageNumber = parseInt(page as string, 10); //default page 1
@@ -72,7 +89,8 @@ const getAllProducts = async (query: any) => {
   ]);
   const totalPages = Math.ceil(total / limitNumber);
 
-  return {
+
+  const queryData = {
     items: products,
     pagination: {
         totalItems: total,
@@ -80,10 +98,29 @@ const getAllProducts = async (query: any) => {
         currentPage: pageNumber,
         pageSize: limitNumber,
     }
-  };
+  }
+
+  //step 4: store data in cache with expiration time (e.g., 1 hour)
+  await redisClient.set(cacheKey, JSON.stringify(queryData), 'EX', 3600); // 3600 seconds = 1 hour
+  console.log('Data stored in cache');
+
+  return queryData;
 };
 
 const getProductById = async (id: string) => {
+  //step 1: cache key
+  const cacheKey = `product:${id}`;
+  //step 2: check cache
+
+  const cacheData = await redisClient.get(cacheKey);
+  if(cacheData){
+    console.log('CACHE HIT')
+    return JSON.parse(cacheData)
+  }
+
+  //step 3: query db if not exists cache
+  console.log('cache miss')
+
   // SELECT * FROM products WHERE id = id
   const product = await Product
   .findById(id)
@@ -93,6 +130,11 @@ const getProductById = async (id: string) => {
   if (!product) {
     throw createError(404, 'Product not found');
   }
+
+  //step 4: save data to cache
+  await redisClient.set(cacheKey, JSON.stringify(product), 'EX', 3600); // 3600 seconds = 1 hour
+
+  
   return product;
 };
 
@@ -131,21 +173,34 @@ const updateProductById = async (id: string, payload: IProductDTO) => {
     //Áp dụng tất cả logic tương tự bên create
 
 
-  let product = await getProductById(id);
-  Object.assign(product, {
-    product_name: payload.product_name,
-    description: payload.description,
-    slug: payload.slug,
-    price: payload.price,
-    discount: payload.discount,
-    category: payload.category,
-    brand: payload.brand,
-    stock: payload.stock,
-    thumbnail: payload.thumbnail,
-    modelYear: payload.modelYear,
-  });
+  const  product = await Product.findById(id);
+ if (!product) {
+    throw createError(404, 'Product not found');
+  }
+
+  // Object.assign(product, {
+  //   product_name: payload.product_name,
+  //   description: payload.description,
+  //   slug: payload.slug,
+  //   price: payload.price,
+  //   discount: payload.discount,
+  //   category: payload.category,
+  //   brand: payload.brand,
+  //   stock: payload.stock,
+  //   thumbnail: payload.thumbnail,
+  //   modelYear: payload.modelYear,
+  // });
+
+  if(payload.price) {
+    product.price = payload.price;
+  }
+
   const result = await product.save();
   // trả về kết quả cập nhật
+
+  // invalidate cache sau khi update
+  const cacheKey = `product:${id}`;
+  await redisClient.del(cacheKey); // xóa cache của sản phẩm đã cập nhật
   return result;
 };
 
