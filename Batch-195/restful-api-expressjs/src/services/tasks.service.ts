@@ -57,9 +57,9 @@ const updateTaskById = async (id: string, payload: TTaskPayload) => {
 const deleteTaskById = async (id: string) => {
     // trả về mảng tasks sau khi xóa
     const task = await getTaskById(id);
-    const result = await Task.deleteOne({_id: task._id});
+    await Task.deleteOne({_id: task._id});
     //trả về kết quả xóa
-    return result;
+    return task;
    
 }
 

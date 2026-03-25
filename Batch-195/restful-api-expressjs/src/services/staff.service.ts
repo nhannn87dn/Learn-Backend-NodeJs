@@ -114,9 +114,9 @@ const createStaff = async (payload: IStaffDTO) => {
   
   // Remove password from result before returning
   const staffObject = result.toObject();
-  delete staffObject.password;
+  const { password, ...staffWithoutPassword } = staffObject;
   
-  return staffObject;
+  return staffWithoutPassword;
 };
 
 const updateStaffById = async (id: string, payload: IStaffDTO) => {
@@ -149,9 +149,9 @@ const updateStaffById = async (id: string, payload: IStaffDTO) => {
   
   // Remove password from result before returning
   const staffObject = result.toObject();
-  delete staffObject.password;
+  const { password, ...staffWithoutPassword } = staffObject;
   
-  return staffObject;
+  return staffWithoutPassword;
 };
 
 const deleteStaffById = async (id: string) => {
@@ -162,9 +162,9 @@ const deleteStaffById = async (id: string) => {
     throw createError(404, 'Staff not found');
   }
   
-  const result = await Staff.deleteOne({ _id: staff._id });
+  await Staff.deleteOne({ _id: staff._id });
   // trả về kết quả xóa
-  return result;
+  return staff;
 };
 
 const makeSureEmailIsUnique = async (email: string) => {

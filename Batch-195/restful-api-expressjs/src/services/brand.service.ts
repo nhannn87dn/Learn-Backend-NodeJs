@@ -46,9 +46,9 @@ const updateBrandById = async (id: string, payload: IBrandDTO) => {
 const deleteBrandById = async (id: string) => {
     // trả về kết quả sau khi xóa
     const brand = await getBrandById(id);
-    const result = await Brand.deleteOne({ _id: brand._id });
+    await Brand.deleteOne({ _id: brand._id });
     // trả về kết quả xóa
-    return result;
+    return brand;
 }
 
 export default {

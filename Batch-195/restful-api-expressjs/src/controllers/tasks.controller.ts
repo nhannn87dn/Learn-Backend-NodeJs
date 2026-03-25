@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import tasksService from '../services/tasks.service';
-import { sendJsonSuccess, SUCCESS } from '../helpers/responseHandler';
+import { ERROR, sendJsonError, sendJsonSuccess, SUCCESS } from '../helpers/responseHandler';
 
 const getAllTasks = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -18,8 +18,15 @@ const getAllTasks = async (req: Request, res: Response, next: NextFunction) => {
 const getTaskById = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params; //id is string
   console.log(typeof id);
+  if(!id) {
+     sendJsonError({
+      res,
+      status: ERROR.BAD_REQUEST,
+     });
+    }
+
   try {
-    const task = await tasksService.getTaskById(id);
+    const task = await tasksService.getTaskById(String(id));
     //res.json(task);
     sendJsonSuccess({
       res,
@@ -49,9 +56,15 @@ const createTask = async (req: Request, res: Response, next: NextFunction) => {
 
 const updateTaskById = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
+  if(!id) {
+     sendJsonError({
+      res,
+      status: ERROR.BAD_REQUEST,
+     });
+    }
   const payload = req.body;
   try {
-    const updatedTask = await tasksService.updateTaskById(id, payload);
+    const updatedTask = await tasksService.updateTaskById(String(id), payload);
     //res.json(updatedTask);
     sendJsonSuccess({
       res,
@@ -65,8 +78,14 @@ const updateTaskById = async (req: Request, res: Response, next: NextFunction) =
 
 const deleteTaskById = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
+  if(!id) {
+     sendJsonError({
+      res,
+      status: ERROR.BAD_REQUEST,
+     });
+    }
   try {
-    const deletedTasks = await tasksService.deleteTaskById(id);
+    const deletedTasks = await tasksService.deleteTaskById(String(id));
     //res.json(deletedTasks);
     sendJsonSuccess({
       res,

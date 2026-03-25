@@ -46,9 +46,9 @@ const updateCategoryById = async (id: string, payload: ICategoryDTO) => {
 const deleteCategoryById = async (id: string) => {
     // trả về kết quả sau khi xóa
     const category = await getCategoryById(id);
-    const result = await Category.deleteOne({ _id: category._id });
+    await Category.deleteOne({ _id: category._id });
     // trả về kết quả xóa
-    return result;
+    return category;
 }
 
 /* Dành cho public route */

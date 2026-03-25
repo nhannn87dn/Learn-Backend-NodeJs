@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import categoryService from '../services/categories.service';
-import { ERROR, sendJsonSuccess, SUCCESS } from '../helpers/responseHandler';
+import { ERROR, sendJsonError, sendJsonSuccess, SUCCESS } from '../helpers/responseHandler';
 
 /* Danh cho public route */
 const getCategoriesTree = async (req: Request, res: Response, next: NextFunction) => {
@@ -35,12 +35,12 @@ const getCategoryById = async (req: Request, res: Response, next: NextFunction) 
   try {
     const { id } = req.params; //id is string
     if(!id) {
-      return res.status(ERROR.BAD_REQUEST).json({
-        success: false,
-        message: 'Category ID is required',
-      });
+     sendJsonError({
+      res,
+      status: ERROR.BAD_REQUEST,
+     });
     }
-    const category = await categoryService.getCategoryById(id);
+    const category = await categoryService.getCategoryById(String(id));
     sendJsonSuccess({
       res,
       status: SUCCESS.OK,
@@ -68,9 +68,15 @@ const createCategory = async (req: Request, res: Response, next: NextFunction) =
 
 const updateCategoryById = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
+  if(!id) {
+     sendJsonError({
+      res,
+      status: ERROR.BAD_REQUEST,
+     });
+    }
   const payload = req.body;
   try {
-    const updatedCategory = await categoryService.updateCategoryById(id, payload);
+    const updatedCategory = await categoryService.updateCategoryById(String(id), payload);
     sendJsonSuccess({
       res,
       status: SUCCESS.OK,
@@ -83,8 +89,14 @@ const updateCategoryById = async (req: Request, res: Response, next: NextFunctio
 
 const deleteCategoryById = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
+  if(!id) {
+     sendJsonError({
+      res,
+      status: ERROR.BAD_REQUEST,
+     });
+    }
   try {
-    const deletedCategory = await categoryService.deleteCategoryById(id);
+    const deletedCategory = await categoryService.deleteCategoryById(String(id));
     sendJsonSuccess({
       res,
       status: SUCCESS.OK,

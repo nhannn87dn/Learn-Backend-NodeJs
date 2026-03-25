@@ -207,9 +207,9 @@ const updateProductById = async (id: string, payload: IProductDTO) => {
 const deleteProductById = async (id: string) => {
   // trả về kết quả sau khi xóa
   const product = await getProductById(id);
-  const result = await Product.deleteOne({ _id: product._id });
+  await Product.deleteOne({ _id: product._id });
   // trả về kết quả xóa
-  return result;
+  return product;
 };
 
 const makeSureProductNameIsUnique = async (product_name: string) => {

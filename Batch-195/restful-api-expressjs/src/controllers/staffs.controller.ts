@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import staffService from '../services/staff.service';
-import { sendJsonSuccess, SUCCESS } from '../helpers/responseHandler';
+import { ERROR, sendJsonError, sendJsonSuccess, SUCCESS } from '../helpers/responseHandler';
 
 const getAllStaff = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -19,8 +19,14 @@ const getAllStaff = async (req: Request, res: Response, next: NextFunction) => {
 const getStaffById = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params; //id is string
   console.log(typeof id);
+  if(!id) {
+     sendJsonError({
+      res,
+      status: ERROR.BAD_REQUEST,
+      });
+    }
   try {
-    const staff = await staffService.getStaffById(id);
+    const staff = await staffService.getStaffById(String(id));
     sendJsonSuccess({
       res,
       status: SUCCESS.OK,
@@ -48,9 +54,15 @@ const createStaff = async (req: Request, res: Response, next: NextFunction) => {
 
 const updateStaffById = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
+  if(!id) {
+     sendJsonError({
+      res,
+      status: ERROR.BAD_REQUEST,
+     });
+    }
   const payload = req.body;
   try {
-    const updatedStaff = await staffService.updateStaffById(id, payload);
+    const updatedStaff = await staffService.updateStaffById(String(id), payload);
     sendJsonSuccess({
       res,
       status: SUCCESS.OK,
@@ -63,8 +75,14 @@ const updateStaffById = async (req: Request, res: Response, next: NextFunction) 
 
 const deleteStaffById = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
+  if(!id) {
+     sendJsonError({
+      res,
+      status: ERROR.BAD_REQUEST,
+     });
+    }
   try {
-    const deletedStaff = await staffService.deleteStaffById(id);
+    const deletedStaff = await staffService.deleteStaffById(String(id));
     sendJsonSuccess({
       res,
       status: SUCCESS.OK,

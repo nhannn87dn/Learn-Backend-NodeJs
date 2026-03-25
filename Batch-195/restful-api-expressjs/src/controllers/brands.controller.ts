@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import brandService from '../services/brand.service';
-import { sendJsonSuccess, SUCCESS } from '../helpers/responseHandler';
+import { ERROR, sendJsonError, sendJsonSuccess, SUCCESS } from '../helpers/responseHandler';
 
 const getAllBrands = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -18,8 +18,16 @@ const getAllBrands = async (req: Request, res: Response, next: NextFunction) => 
 const getBrandById = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params; //id is string
   console.log(typeof id);
+
+  if(!id) {
+    return sendJsonError({
+      res,
+      status: ERROR.BAD_REQUEST,
+    });
+  }
+
   try {
-    const brand = await brandService.getBrandById(id);
+    const brand = await brandService.getBrandById(String(id));
     sendJsonSuccess({
       res,
       status: SUCCESS.OK,
@@ -47,9 +55,17 @@ const createBrand = async (req: Request, res: Response, next: NextFunction) => {
 
 const updateBrandById = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
+
+  if(!id) {
+    return sendJsonError({
+      res,
+      status: ERROR.BAD_REQUEST,
+    });
+  }
+
   const payload = req.body;
   try {
-    const updatedBrand = await brandService.updateBrandById(id, payload);
+    const updatedBrand = await brandService.updateBrandById(String(id), payload);
     sendJsonSuccess({
       res,
       status: SUCCESS.OK,
@@ -62,8 +78,14 @@ const updateBrandById = async (req: Request, res: Response, next: NextFunction) 
 
 const deleteBrandById = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
+  if(!id) {
+    return sendJsonError({
+      res,
+      status: ERROR.BAD_REQUEST,
+    });
+  }
   try {
-    const deletedBrand = await brandService.deleteBrandById(id);
+    const deletedBrand = await brandService.deleteBrandById(String(id));
     sendJsonSuccess({
       res,
       status: SUCCESS.OK,
