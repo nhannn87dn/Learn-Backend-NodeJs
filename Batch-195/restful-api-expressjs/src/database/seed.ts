@@ -22,17 +22,17 @@ const fakeData = async () => {
   //Your fake data logic here
 
   //new fake 5 brand
-    //   for (let index = 1; index <= 5; index++) {
-    //     const brandName = faker.company.buzzNoun()+index;
-    //     const brand = new Brand({
-    //       brand_name: brandName,
-    //       description: faker.company.catchPhrase(),
-    //       slug: faker.helpers.slugify(brandName).toLocaleLowerCase(),
-    //     });
-    //     await brand.save();
-    //     console.log('Fake brand is success', index);
+      for (let index = 1; index <= 5; index++) {
+        const brandName = faker.company.buzzNoun()+index;
+        const brand = new Brand({
+          brand_name: brandName,
+          description: faker.company.catchPhrase(),
+          slug: faker.helpers.slugify(brandName).toLocaleLowerCase(),
+        });
+        await brand.save();
+        console.log('Fake brand is success', index);
         
-    //   }
+      }
 
 
       // insert 5 fake categories

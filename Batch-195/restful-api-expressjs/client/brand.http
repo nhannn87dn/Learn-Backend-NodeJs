@@ -1,0 +1,11 @@
+@baseUrl=https://learn-backend-nodejs-1.onrender.com
+
+### create new product
+POST {{baseUrl}}/api/v1/brands
+Content-Type: application/json
+
+{
+    "brand_name": "apple",
+    "description": "All kinds of electronic devices and gadgets.",
+    "slug": "apple"
+}
