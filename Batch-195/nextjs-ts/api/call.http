@@ -1,0 +1,6 @@
+PUT https://learn-backend-nodejs.onrender.com/api/v1/products/30
+Content-Type: application/json
+
+{
+  "price": 100
+}
