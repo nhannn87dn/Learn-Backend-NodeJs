@@ -1,0 +1,35 @@
+POST http://localhost:3000/blog
+Content-Type: application/json
+
+###
+
+PUT http://localhost:3000/blog
+Content-Type: application/json
+
+###
+DELETE http://localhost:3000/blog
+
+
+### GET by ID
+GET http://localhost:3000/blog/2
+
+### 
+GET http://localhost:3000/post/iphone-gia-re-2024
+
+
+### GET Products
+GET http://localhost:3000/products?page=1&limit=10
+
+### POST Product
+POST http://localhost:3000/products
+Content-Type: application/json
+
+{
+    "name": "iPhone 15 Pro Max",
+    "price": 1099,
+    "description": "The latest iPhone with advanced features and improved performance.",
+    "category": "Smartphones"
+}
+
+### GET Product by ID
+GET http://localhost:3000/products/2
