@@ -1,0 +1,40 @@
+@baseUrl = http://localhost:8080/api
+
+### Get all users
+GET {{baseUrl}}/v1/users
+
+### Create a new user
+POST {{baseUrl}}/v1/users
+Content-Type: application/json
+
+{
+  "name": "new User"
+}
+
+
+### Update a user
+PUT {{baseUrl}}/v1/users/1
+Content-Type: application/json
+
+{
+  "name": "updated User"
+}
+
+### Delete a user
+DELETE {{baseUrl}}/v1/users/1
+
+### Create a new category
+POST {{baseUrl}}/v1/categories
+Content-Type: application/json
+
+{
+  "name": "New Category"
+}
+
+### Update a category
+PUT {{baseUrl}}/v1/categories/1
+Content-Type: application/json
+
+{
+  "name": "Updated Category"
+}
