@@ -6,6 +6,7 @@ import userRoute from "./routes/v1/users.route";
 import userRouteV2 from "./routes/v2/users.route";
 import studentRoute from "./routes/v1/students.route";
 import categoryRoute from "./routes/v1/categories.route";
+import brandsRoute from "./routes/v1/brands.route";
 
 const app: Express = express();
 
@@ -22,6 +23,8 @@ app.use('/api/v1/students', studentRoute);
 app.use('/api/v2/users', userRouteV2);
 //Gắn route categories
 app.use('/api/v1/categories', categoryRoute);
+//Gắn route brands
+app.use('/api/v1/brands', brandsRoute);
 
 //Xử lý lỗi 404
 app.use((req, res, next)=>{

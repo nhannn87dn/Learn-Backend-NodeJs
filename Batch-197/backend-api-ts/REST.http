@@ -38,3 +38,16 @@ Content-Type: application/json
 {
   "name": "Updated Category"
 }
+
+### GET ALL STUDENTS
+GET {{baseUrl}}/v1/students
+
+### create a new student
+POST {{baseUrl}}/v1/students
+Content-Type: application/json
+
+{
+  "name": "nguyen van a",
+  "age": 18,
+  "email": "ABC@example.com"
+}
