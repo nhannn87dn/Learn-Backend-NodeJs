@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import categoriesService from "../services/categories.service";
+import { UpdateCategoryDto } from "../types/category.type";
 
 /**
  * Nhiệm vụ của controller là nhận request từ client, 
@@ -26,16 +27,16 @@ const findById = async (req: Request, res: Response) => {
 
 //create new category
 const create = async (req: Request, res: Response) => {
-  const { name } = req.body;
-  const newCategory = await categoriesService.create(name);
+  const createCategoryDto = req.body;
+  const newCategory = await categoriesService.create(createCategoryDto);
   res.status(201).json(newCategory);
 };
 
 //update category by id
 const update = async (req: Request, res: Response) => {
   const id = req.params.id as string;
-  const { name } = req.body;
-  const category = await categoriesService.updateById(id, name);
+  const updateCategoryDto = req.body as UpdateCategoryDto;
+  const category = await categoriesService.updateById(id, updateCategoryDto);
   res.json(category);
 };
 

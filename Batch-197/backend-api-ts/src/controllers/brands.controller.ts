@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import brandsService from "../services/brands.service";
+import { UpdateBrandDto } from "../types/brand.type";
 
 /**
  * Nhiệm vụ của controller là nhận request từ client, 
@@ -26,16 +27,16 @@ const findById = async (req: Request, res: Response) => {
 
 //create new brand
 const create = async (req: Request, res: Response) => {
-  const { name, description } = req.body;
-  const newBrand = await brandsService.create(name, description);
+  const createBrandDto = req.body;
+  const newBrand = await brandsService.create(createBrandDto);
   res.status(201).json(newBrand);
 };
 
 //update brand by id
 const update = async (req: Request, res: Response) => {
   const id = req.params.id as string;
-  const { name, description } = req.body;
-  const brand = await brandsService.updateById(id, name, description);
+  const updateBrandDto = req.body as UpdateBrandDto;
+  const brand = await brandsService.updateById(id, updateBrandDto);
   res.json(brand);
 };
 

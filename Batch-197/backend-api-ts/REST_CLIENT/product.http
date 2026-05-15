@@ -1,0 +1,51 @@
+@baseUrl = http://localhost:8080/api/v1
+
+
+GET {{baseUrl}}/products?keyword=Granite
+###
+
+### Get product by ID
+GET {{baseUrl}}/products/:id
+
+###
+
+### Create a new product
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "product_name": "Laptop",
+  "price": 1000,
+  "discount": 10,
+  "category": "Electronics",
+  "brand": "Dell",
+  "description": "A laptop for everyday use",
+  "model_year": 2022,
+  "slug": "laptop",
+  "thumbnail": "https://example.com/laptop.jpg",
+  "stock": 10
+}
+
+###
+
+### Update a product by ID
+PUT {{baseUrl}}/products/:id
+Content-Type: application/json
+
+{
+  "product_name": "Laptop",
+  "price": 1000,
+  "discount": 10,
+  "category": "Electronics",
+  "brand": "Dell",
+  "description": "A laptop for everyday use",
+  "model_year": 2022,
+  "slug": "laptop",
+  "thumbnail": "https://example.com/laptop.jpg",
+  "stock": 10
+}
+
+###
+
+### Delete a product by ID
+DELETE {{baseUrl}}/products/:id
