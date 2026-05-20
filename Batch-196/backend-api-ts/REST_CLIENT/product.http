@@ -14,16 +14,16 @@ POST {{baseUrl}}/products
 Content-Type: application/json
 
 {
-  "product_name": "Laptop",
+  "product_name": "Laptop 1",
   "price": 1000,
   "discount": 10,
-  "category": "Electronics",
-  "brand": "Dell",
+  "category": "6a0703e8004b0464d96393d9",
+  "brand": "6a0703e8004b0464d96393d5",
   "description": "A laptop for everyday use",
   "model_year": 2022,
   "slug": "laptop",
   "thumbnail": "https://example.com/laptop.jpg",
-  "stock": 10
+  "stock": -5
 }
 
 ###

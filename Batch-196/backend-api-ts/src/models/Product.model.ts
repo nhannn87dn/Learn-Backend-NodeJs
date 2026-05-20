@@ -7,6 +7,7 @@ const productSchema = new Schema({
         required: true,
         unique: true,
         trim: true,
+        minLength: [3, 'Tên sản phẩm ít nhất 3 ký tự'],
         maxLength: [255, 'Tên sản phẩm tối đa 255 ký tự']
     },
     price: {
@@ -43,6 +44,7 @@ const productSchema = new Schema({
     slug: {
         type: String,
         unique: true,
+        minLength: [3, 'Slug ít nhất 3 ký tự'],
         maxLength: [255, 'Slug tối đa 255 ký tự'],
         default: null
     },

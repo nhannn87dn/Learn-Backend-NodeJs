@@ -1,0 +1,47 @@
+@baseUrl = http://localhost:8080/api/v1
+
+@staffId = 6a0da44289fcc4a76cc86b1b
+
+### Get all staffs
+GET {{baseUrl}}/staffs
+
+### Get single staff by id
+GET {{baseUrl}}/staffs/{{staffId}}
+
+
+### Create a new staff with role admin
+POST {{baseUrl}}/staffs
+Content-Type: application/json
+
+{
+  "name": "Administrator",
+  "email": "admin@example.com",
+  "password": "password123",
+  "is_active": true,
+  "role": "admin"
+}
+
+### Create a new staff
+POST {{baseUrl}}/staffs
+Content-Type: application/json
+
+{
+  "name": "Nguyen Van A",
+  "email": "nva@example.com",
+  "password": "password123",
+  "is_active": true,
+  "role": "staff"
+}
+
+### Update a staff by id
+PUT {{baseUrl}}/staffs/{{staffId}}
+Content-Type: application/json
+
+{
+  "name": "Nguyen Van B",
+  "email": "nvb@example.com",
+  "role": "admin"
+}
+
+### Delete a staff by id
+DELETE {{baseUrl}}/staffs/{{staffId}}

@@ -1,5 +1,6 @@
 import express from 'express';
 import createError from "http-errors";
+import {routeMiddleware} from '../../middleware/route.middleware';
 
 const router = express.Router();
 
@@ -10,8 +11,16 @@ const users = [
     {id: 3, name: 'Charlie'},
 ]
 
+//route middleware
+//Chay middleware cho tất cả các route trong router này
+//router.use(routeMiddleware);
+
+
+
 // GET /api/v1/users - Lấy danh sách tất cả người dùng (READ)
-router.get('/', (req, res)=>{
+
+//middleware sẽ được thực thi trước khi xử lý route handler
+router.get('/', routeMiddleware, (req, res)=>{
     res.json(
         users
     );

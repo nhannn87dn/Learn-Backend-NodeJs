@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import categoriesService from "../services/categories.service";
 import { UpdateCategoryDto } from "../types/category.type";
+import { sendJsonSuccess, SUCCESS } from "../helpers/responseHandler";
 
 /**
  * Nhiệm vụ của controller là nhận request từ client, 
@@ -13,7 +14,7 @@ import { UpdateCategoryDto } from "../types/category.type";
 */
 const findAll = async (req: Request, res: Response) => {
   const data = await categoriesService.findAll();
-  res.json(data);
+  sendJsonSuccess({ res, data });
 };
 
 /*
@@ -22,14 +23,14 @@ const findAll = async (req: Request, res: Response) => {
 const findById = async (req: Request, res: Response) => {
   const id = req.params.id as string;
   const category = await categoriesService.getByIdOrFail(id);
-  res.json(category);
+  sendJsonSuccess({ res, data: category });
 };
 
 //create new category
 const create = async (req: Request, res: Response) => {
   const createCategoryDto = req.body;
   const newCategory = await categoriesService.create(createCategoryDto);
-  res.status(201).json(newCategory);
+  sendJsonSuccess({ res, status: SUCCESS.CREATED, data: newCategory });
 };
 
 //update category by id
@@ -37,14 +38,14 @@ const update = async (req: Request, res: Response) => {
   const id = req.params.id as string;
   const updateCategoryDto = req.body as UpdateCategoryDto;
   const category = await categoriesService.updateById(id, updateCategoryDto);
-  res.json(category);
+  sendJsonSuccess({ res, data: category });
 };
 
 //delete category by id
 const remove = async (req: Request, res: Response) => {
   const id = req.params.id as string;
   const category = await categoriesService.deleteById(id);
-  res.status(204).json(category);
+  sendJsonSuccess({ res, data: category });
 };
 
 export default {

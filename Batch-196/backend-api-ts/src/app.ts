@@ -8,11 +8,21 @@ import studentRoute from "./routes/v1/students.route";
 import categoryRoute from "./routes/v1/categories.route";
 import brandsRoute from "./routes/v1/brands.route";
 import productsRoute from "./routes/v1/products.route";
+import staffRoute from "./routes/v1/staffs.route";
+import {demoMiddleware} from './middleware/demo.middleware';
+import {testMiddleware} from './middleware/test.middleware';
 
 const app: Express = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+//Gắn middleware demo
+//middleware cấp độ ứng dụng (toàn app)
+app.use(demoMiddleware);
+//Gắn middleware test
+//middleware cấp độ ứng dụng (toàn app)
+app.use(testMiddleware);
 
 app.get('/', (req, res, next)=>{
     res.send('Hello World!');
@@ -28,6 +38,8 @@ app.use('/api/v1/categories', categoryRoute);
 app.use('/api/v1/brands', brandsRoute);
 //Gắn route products
 app.use('/api/v1/products', productsRoute);
+//Gắn route staffs
+app.use('/api/v1/staffs', staffRoute);
 
 //Xử lý lỗi 404
 app.use((req, res, next)=>{

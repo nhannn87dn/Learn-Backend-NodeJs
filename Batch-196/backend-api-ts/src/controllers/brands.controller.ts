@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import brandsService from "../services/brands.service";
 import { UpdateBrandDto } from "../types/brand.type";
+import { sendJsonSuccess, SUCCESS } from "../helpers/responseHandler";
 
 /**
  * Nhiệm vụ của controller là nhận request từ client, 
@@ -13,7 +14,7 @@ import { UpdateBrandDto } from "../types/brand.type";
 */
 const findAll = async (req: Request, res: Response) => {
   const data = await brandsService.findAll();
-  res.json(data);
+  sendJsonSuccess({ res, data });
 };
 
 /*
@@ -22,14 +23,14 @@ const findAll = async (req: Request, res: Response) => {
 const findById = async (req: Request, res: Response) => {
   const id = req.params.id as string;
   const brand = await brandsService.getByIdOrFail(id);
-  res.json(brand);
+  sendJsonSuccess({ res, data: brand });
 };
 
 //create new brand
 const create = async (req: Request, res: Response) => {
   const createBrandDto = req.body;
   const newBrand = await brandsService.create(createBrandDto);
-  res.status(201).json(newBrand);
+  sendJsonSuccess({ res, status: SUCCESS.CREATED, data: newBrand });
 };
 
 //update brand by id
@@ -37,14 +38,14 @@ const update = async (req: Request, res: Response) => {
   const id = req.params.id as string;
   const updateBrandDto = req.body as UpdateBrandDto;
   const brand = await brandsService.updateById(id, updateBrandDto);
-  res.json(brand);
+  sendJsonSuccess({ res, data: brand });
 };
 
 //delete brand by id
 const remove = async (req: Request, res: Response) => {
   const id = req.params.id as string;
   const brand = await brandsService.deleteById(id);
-  res.status(204).json(brand);
+  sendJsonSuccess({ res, data: brand });
 };
 
 export default {

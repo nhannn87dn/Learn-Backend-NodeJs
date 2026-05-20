@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import productsService from "../services/products.service";
 import { UpdateProductDto } from "../types/product.type";
-import { sendJsonSuccess } from "../helpers/responseHandler";
+import { sendJsonSuccess, SUCCESS } from "../helpers/responseHandler";
 
 /**
  * Nhiệm vụ của controller là nhận request từ client, 
@@ -33,14 +33,14 @@ const findAll = async (req: Request, res: Response) => {
 const findById = async (req: Request, res: Response) => {
   const id = req.params.id as string;
   const product = await productsService.getByIdOrFail(id);
-  res.json(product);
+  sendJsonSuccess({ res, data: product });
 };
 
 //create new product
 const create = async (req: Request, res: Response) => {
   const createProductDto = req.body;
   const newProduct = await productsService.create(createProductDto);
-  res.status(201).json(newProduct);
+  sendJsonSuccess({ res, status: SUCCESS.CREATED, data: newProduct });
 };
 
 //update product by id
@@ -48,14 +48,14 @@ const update = async (req: Request, res: Response) => {
   const id = req.params.id as string;
   const updateProductDto = req.body as UpdateProductDto;
   const product = await productsService.updateById(id, updateProductDto);
-  res.json(product);
+  sendJsonSuccess({ res, data: product });
 };
 
 //delete product by id
 const remove = async (req: Request, res: Response) => {
   const id = req.params.id as string;
   const product = await productsService.deleteById(id);
-  res.status(204).json(product);
+  sendJsonSuccess({ res, data: product });
 };
 
 export default {
