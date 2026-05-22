@@ -38,8 +38,13 @@ const findAll = async (query: any) => {
   };
 };
 
-const getByIdOrFail = async (id: string) => {
+const findById = async (id: string) => {
   const staff = await Staff.findById(id).select('-password');
+  return staff;
+};
+
+const getByIdOrFail = async (id: string) => {
+  const staff = await findById(id);
   if (!staff) {
     throw createError(404, 'Staff not found');
   }
@@ -106,11 +111,29 @@ const comparePassword = async (password: string, hashedPassword: string): Promis
   }
 };
 
+const verifyStaffCredentials = async (email: string, password: string) => {
+  //1. Tìm người dùng trong database theo email
+  const staff = await Staff.findOne({ email });
+  if (!staff) {
+    throw createError(401, 'Invalid email or password');
+  }
+
+  //2.Nếu tìm thấy thì đi so sánh mật khẩu đã nhập với mật khẩu đã lưu trong database
+  const isMatch = await comparePassword(password, staff.password);
+  if (!isMatch) {
+    throw createError(401, 'Invalid email or password');
+  }
+
+  return staff;
+};
+
 export default {
   findAll,
+  findById,
   getByIdOrFail,
   create,
   updateById,
   deleteById,
  comparePassword,
+  verifyStaffCredentials,
 };

@@ -9,6 +9,7 @@ import categoryRoute from "./routes/v1/categories.route";
 import brandsRoute from "./routes/v1/brands.route";
 import productsRoute from "./routes/v1/products.route";
 import staffRoute from "./routes/v1/staffs.route";
+import authRoute from "./routes/v1/auth.route";
 import {demoMiddleware} from './middleware/demo.middleware';
 import {testMiddleware} from './middleware/test.middleware';
 
@@ -40,6 +41,8 @@ app.use('/api/v1/brands', brandsRoute);
 app.use('/api/v1/products', productsRoute);
 //Gắn route staffs
 app.use('/api/v1/staffs', staffRoute);
+//Gắn route auth
+app.use('/api/v1/auth', authRoute);
 
 //Xử lý lỗi 404
 app.use((req, res, next)=>{

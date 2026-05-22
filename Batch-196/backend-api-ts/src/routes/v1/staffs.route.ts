@@ -8,6 +8,7 @@ import {
   getStaffByIdSchema,
   updateStaffSchema,
 } from '../../validations/staff.validation';
+import { authenticateToken, authorize } from '../../middleware/auth.middleware';
 
 const router = express.Router();
 
@@ -19,18 +20,19 @@ là :
 */
 
 // GET /api/v1/staffs
-router.get('/', validateSchemaYup(getAllStaffsSchema), staffsController.findAll);
+router.get('/', authenticateToken, validateSchemaYup(getAllStaffsSchema), staffsController.findAll);
 
 // GET /api/v1/staffs/:id
-router.get('/:id', validateSchemaYup(getStaffByIdSchema), staffsController.findById);
+router.get('/:id', authenticateToken, validateSchemaYup(getStaffByIdSchema), staffsController.findById);
 
 // POST /api/v1/staffs
-router.post('/', validateSchemaYup(createStaffSchema), staffsController.create);
+router.post('/', authenticateToken, validateSchemaYup(createStaffSchema), staffsController.create);
 
 // PUT /api/v1/staffs/:id
-router.put('/:id', validateSchemaYup(updateStaffSchema), staffsController.update);
+//Chỉ admin mới có quyền cập nhật thông tin staff
+router.put('/:id', authenticateToken, authorize(['admin']), validateSchemaYup(updateStaffSchema), staffsController.update);
 
 // DELETE /api/v1/staffs/:id
-router.delete('/:id', validateSchemaYup(deleteStaffSchema), staffsController.remove);
+router.delete('/:id', authenticateToken, validateSchemaYup(deleteStaffSchema), staffsController.remove);
 
 export default router;

@@ -1,0 +1,18 @@
+@baseUrl = http://localhost:8080/api
+### LOGIN
+POST {{baseUrl}}/v1/auth/login
+Content-Type: application/json
+
+{
+   "email": "admin@example.com",
+   "password": "password123"
+}
+
+### Staff role login
+POST {{baseUrl}}/v1/auth/login
+Content-Type: application/json
+
+{
+   "email": "nva@example.com",
+   "password": "password123"
+}
