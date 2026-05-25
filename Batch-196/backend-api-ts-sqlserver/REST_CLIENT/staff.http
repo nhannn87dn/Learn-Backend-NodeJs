@@ -1,0 +1,53 @@
+@baseUrl = http://localhost:8080/api/v1
+
+@staffId = 6a0da48789fcc4a76cc86b1c
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTBkYTQ0Mjg5ZmNjNGE3NmNjODZiMWIiLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzc5NDUxMzM1LCJleHAiOjE3Nzk0NTQ5MzV9.Yk3kWnfVDJ1Yq_1Vu7bS4YOCbdwAb7ywI1PT3J_o_Z0
+
+
+### Get all staffs
+GET {{baseUrl}}/staffs
+Authorization: Bearer {{accessToken}}
+
+### Get single staff by id
+GET {{baseUrl}}/staffs/{{staffId}}
+Authorization: Bearer {{accessToken}}
+
+
+### Create a new staff with role admin
+POST {{baseUrl}}/staffs
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "name": "Administrator",
+  "email": "admin@example.com",
+  "password": "password123",
+  "is_active": true,
+  "role": "admin"
+}
+
+### Create a new staff
+POST {{baseUrl}}/staffs
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "name": "Nguyen Van A",
+  "email": "nva@example.com",
+  "password": "password123",
+  "is_active": true,
+  "role": "staff"
+}
+
+### Update a staff by id
+PUT {{baseUrl}}/staffs/{{staffId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "name": "Nguyen Van B"
+}
+
+### Delete a staff by id
+DELETE {{baseUrl}}/staffs/{{staffId}}
+Authorization: Bearer {{accessToken}}

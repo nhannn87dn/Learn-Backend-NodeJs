@@ -1,0 +1,28 @@
+@baseUrl = http://localhost:8080/api
+
+### GET ALL BRANDS
+GET {{baseUrl}}/v1/brands
+
+### GET BRAND BY ID
+GET {{baseUrl}}/v1/brands/6a0703e8004b0464d96393d4
+
+### CREATE A NEW BRAND
+POST {{baseUrl}}/v1/brands
+Content-Type: application/json
+
+{
+    "brand_name": "new Brand",
+    "description": "new Brand description",
+    "slug": "new-brand-slug"
+}
+
+### UPDATE A BRAND
+PUT {{baseUrl}}/v1/brands/6a0709186d6b17418a7e7589
+Content-Type: application/json
+
+{
+    "brand_name": "updated Brand xxx"
+}
+
+### DELETE A BRAND
+DELETE {{baseUrl}}/v1/brands/6a0709186d6b17418a7e7589
