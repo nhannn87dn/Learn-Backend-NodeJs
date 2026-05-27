@@ -1,20 +1,18 @@
-export interface Brand {
-  _id: string;
-  brand_name: string;
-  description: string;
-  slug: string;
-  createdAt: string;
-  updatedAt: string;
+export interface BrandDto {
+  id: number;
+  brandName: string;
+  description?: string | null;
+  slug?: string | null;
 }
 
 export interface CreateBrandDto {
-  brand_name: string;
+  brandName: string;
   description?: string;
-  slug: string;
+  slug?: string;
 }
 
 export interface UpdateBrandDto {
-  brand_name: string;
+  brandName?: string;
   description?: string;
-  slug: string;
+  slug?: string;
 }

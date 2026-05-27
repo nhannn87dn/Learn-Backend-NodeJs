@@ -24,6 +24,10 @@ router.get(
   validateSchemaYup(getAllProductsSchema),
   productsController.findAll,
 );
+router.get(
+  "/query",
+  productsController.query,
+);
 // GET /api/v1/products/:id
 router.get(
   "/:id",

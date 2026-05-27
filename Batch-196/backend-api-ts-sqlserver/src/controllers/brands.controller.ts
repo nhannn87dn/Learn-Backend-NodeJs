@@ -27,7 +27,7 @@ const findAll = async (req: Request, res: Response, next: NextFunction) => {
 const findById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id as string;
-    const brand = await brandsService.getByIdOrFail(id);
+    const brand = await brandsService.getByIdOrFail(Number(id));
     sendJsonSuccess({ res, data: brand });
   } catch (error) {
     next(error);
@@ -50,7 +50,7 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id as string;
     const updateBrandDto = req.body as UpdateBrandDto;
-    const brand = await brandsService.updateById(id, updateBrandDto);
+    const brand = await brandsService.updateById(Number(id), updateBrandDto);
     sendJsonSuccess({ res, data: brand });
   } catch (error) {
     next(error);
@@ -61,7 +61,7 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
 const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id as string;
-    const brand = await brandsService.deleteById(id);
+    const brand = await brandsService.deleteById(Number(id));
     sendJsonSuccess({ res, data: brand });
   } catch (error) {
     next(error);

@@ -1,6 +1,47 @@
 import createError from "http-errors";
-import Product from "../models/Product.model";
-import { CreateProductDto, ProductDocument, UpdateProductDto } from "../types/product.type";
+import { Product } from "../entities/Product.entity";
+import { CreateProductDto, UpdateProductDto } from "../types/product.type";
+import { myDataSource } from "../dataSource";
+
+// khởi tạo repository cho entity Product
+const productRepository = myDataSource.getRepository(Product);
+
+const query = async (query: unknown) => {
+  //TH1.SELECT * FROM products
+  //const products = await productRepository.find();
+  //TH 2. SELECT some fields
+  // const products = await productRepository
+  // .find({
+  //   select: {
+  //     id: true,
+  //     productName: true,
+  //   }
+  // });
+  //Th3: SELECT with WHERE
+   const products = await productRepository
+  .find({
+    select: {
+      id: true,
+      productName: true,
+      price: true,
+      modelYear: true,
+      category: {
+        categoryName: true,
+      },
+      brand: {
+        brandName: true,
+      }
+    },
+    relations: {
+      category: true,
+      brand: true,
+    },
+    where: {
+      modelYear: 2022,
+    }
+  });
+  return products;
+}
 
 /**
  * Service là nơi chứa logic nghiệp vụ của ứng dụng cho Product,
@@ -9,55 +50,59 @@ import { CreateProductDto, ProductDocument, UpdateProductDto } from "../types/pr
  */
 
 /**
- * @desc Get all list Products
+ * @desc Get all list Products with pagination and filters
  * @route GET /api/v1/products
- * @returns Promise<Array<Object>>
+ * @returns Promise<Object> with data and pagination
  */
 const findAll = async (query: any) => {
-
-  //phân trang
-  const {page = 1, limit = 10} = query;
+  // phân trang
+  const { page = 1, limit = 10 } = query;
   const skip = (page - 1) * limit;
 
-  let where = {};
+  let where: any = {};
 
-  if (query.category && query.category != "") {
-    where = { ...where, category: query.category };
+  // filter by category
+  if (query.categoryId && query.categoryId !== "") {
+    where.categoryId = query.categoryId;
   }
 
-  if (query.brand && query.brand != "") {
-    where = { ...where, brand: query.brand };
+  // filter by brand
+  if (query.brandId && query.brandId !== "") {
+    where.brandId = query.brandId;
   }
 
-  //filter for keyword
-  if (query.keyword && query.keyword != "") {
-    where = { 
-      ...where, 
-      product_name: {
-         $regex: query.keyword,
-         $options: 'i' 
-      }
-    };
+  // search by keyword
+  if (query.keyword && query.keyword !== "") {
+    where.productName = query.keyword; // will use ILike for case-insensitive search
   }
 
-  const products = await Product
-    .find({
-      ...where
-    })
-    .select("-createdAt -updatedAt -__v")
-    //quan hệ
-    .populate("category", "category_name")
-    .populate("brand", "brand_name")
-    .sort({
-      //price: -1, //giảm dần
-      price: 1, //tăng dần
-    })
+  const queryBuilder = productRepository.createQueryBuilder("product")
+    .leftJoinAndSelect("product.category", "category")
+    .leftJoinAndSelect("product.brand", "brand")
+    .select(["product", "category.id", "category.categoryName", "brand.id", "brand.brandName"]);
+
+  // apply filters
+  if (where.categoryId) {
+    queryBuilder.andWhere("product.categoryId = :categoryId", { categoryId: where.categoryId });
+  }
+
+  if (where.brandId) {
+    queryBuilder.andWhere("product.brandId = :brandId", { brandId: where.brandId });
+  }
+
+  if (where.productName) {
+    queryBuilder.andWhere("product.productName LIKE :productName", { productName: `%${where.productName}%` });
+  }
+
+  // count total records before pagination
+  const totalRecords = await queryBuilder.getCount();
+
+  // apply pagination and sorting
+  const products = await queryBuilder
+    .orderBy("product.price", "ASC")
     .skip(skip)
-    .limit(limit);
-
-  const totalRecords = await Product.countDocuments({
-    ...where
-  });
+    .take(limit)
+    .getMany();
 
   return {
     data: products,
@@ -65,18 +110,24 @@ const findAll = async (query: any) => {
       page: Number(page),
       limit: Number(limit),
       totalPage: Math.ceil(totalRecords / limit),
-      totalRecords
-    }
+      totalRecords,
+    },
   };
 };
 
 /**
  * @desc Get Product by ID or throw error
- * @param id string
+ * @param id number
  * @returns Product
  */
-const getByIdOrFail = async (id: string) => {
-  const product = await Product.findById(id);
+const getByIdOrFail = async (id: number) => {
+  const product = await productRepository.findOne({
+    where: { id },
+    relations: {
+      category: true,
+      brand: true
+    }
+  });
   if (!product) {
     throw createError(404, 'Product not found');
   }
@@ -89,23 +140,35 @@ const getByIdOrFail = async (id: string) => {
  * @returns Product
  */
 const create = async (createProductDto: CreateProductDto) => {
-  const newProduct = await Product.create(createProductDto);
-  return newProduct;
+  const newProduct = productRepository.create({
+    productName: createProductDto.productName,
+    price: createProductDto.price,
+    discount: createProductDto.discount || 0,
+    categoryId: createProductDto.categoryId,
+    brandId: createProductDto.brandId,
+    description: createProductDto.description,
+    modelYear: createProductDto.modelYear,
+    slug: createProductDto.slug,
+    thumbnail: createProductDto.thumbnail,
+    stock: createProductDto.stock || 0,
+  });
+
+  return await productRepository.save(newProduct);
 };
 
 /**
  * @desc Update a product by ID
- * @param id string
+ * @param id number
  * @param updateProductDto UpdateProductDto
  * @returns Product
  */
-const updateById = async (id: string, updateProductDto: UpdateProductDto) => {
+const updateById = async (id: number, updateProductDto: UpdateProductDto) => {
   // step 1: check if product exists
   const product = await getByIdOrFail(id);
 
   // step 2: update fields if they are provided
-  if (updateProductDto.product_name !== undefined) {
-    product.product_name = updateProductDto.product_name;
+  if (updateProductDto.productName !== undefined) {
+    product.productName = updateProductDto.productName;
   }
   if (updateProductDto.price !== undefined) {
     product.price = updateProductDto.price;
@@ -113,17 +176,17 @@ const updateById = async (id: string, updateProductDto: UpdateProductDto) => {
   if (updateProductDto.discount !== undefined) {
     product.discount = updateProductDto.discount;
   }
-  if (updateProductDto.category !== undefined) {
-    product.category = updateProductDto.category;
+  if (updateProductDto.categoryId !== undefined) {
+    product.categoryId = updateProductDto.categoryId;
   }
-  if (updateProductDto.brand !== undefined) {
-    product.brand = updateProductDto.brand;
+  if (updateProductDto.brandId !== undefined) {
+    product.brandId = updateProductDto.brandId;
   }
   if (updateProductDto.description !== undefined) {
     product.description = updateProductDto.description;
   }
-  if (updateProductDto.model_year !== undefined) {
-    product.model_year = updateProductDto.model_year;
+  if (updateProductDto.modelYear !== undefined) {
+    product.modelYear = updateProductDto.modelYear;
   }
   if (updateProductDto.slug !== undefined) {
     product.slug = updateProductDto.slug;
@@ -135,20 +198,19 @@ const updateById = async (id: string, updateProductDto: UpdateProductDto) => {
     product.stock = updateProductDto.stock;
   }
 
-  await product.save();
-  return product;
+  return await productRepository.save(product);
 };
 
 /**
  * @desc Delete a product by ID
- * @param id string
+ * @param id number
  * @returns Product
  */
-const deleteById = async (id: string) => {
+const deleteById = async (id: number) => {
   // step 1: check if product exists
-  const product = await getByIdOrFail(id) as any;
+  const product = await getByIdOrFail(id);
   // step 2: remove it
-  await Product.deleteOne({ _id: product._id });
+  await productRepository.remove(product);
   return product;
 };
 
@@ -158,4 +220,5 @@ export default {
   create,
   updateById,
   deleteById,
+  query
 };

@@ -9,6 +9,14 @@ import { sendJsonSuccess, SUCCESS } from "../helpers/responseHandler";
  * và trả về response cho client
  */
 
+const query = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const result = await productsService.query(req.query);
+    sendJsonSuccess({ res, data: result });
+  } catch (error) {
+    next(error);
+  }
+}
 /*
  Get all products
 */
@@ -36,7 +44,7 @@ const findAll = async (req: Request, res: Response, next: NextFunction) => {
 const findById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id as string;
-    const product = await productsService.getByIdOrFail(id);
+    const product = await productsService.getByIdOrFail(Number(id));
     sendJsonSuccess({ res, data: product });
   } catch (error) {
     next(error);
@@ -59,7 +67,7 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id as string;
     const updateProductDto = req.body as UpdateProductDto;
-    const product = await productsService.updateById(id, updateProductDto);
+    const product = await productsService.updateById(Number(id), updateProductDto);
     sendJsonSuccess({ res, data: product });
   } catch (error) {
     next(error);
@@ -70,7 +78,7 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
 const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id as string;
-    const product = await productsService.deleteById(id);
+    const product = await productsService.deleteById(Number(id));
     sendJsonSuccess({ res, data: product });
   } catch (error) {
     next(error);
@@ -83,4 +91,5 @@ export default {
   create,
   update,
   remove,
+  query
 };
