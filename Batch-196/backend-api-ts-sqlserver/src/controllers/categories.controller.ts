@@ -27,7 +27,7 @@ const findAll = async (req: Request, res: Response, next: NextFunction) => {
 const findById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id as string;
-    const category = await categoriesService.getByIdOrFail(id);
+    const category = await categoriesService.getByIdOrFail(Number(id));
     sendJsonSuccess({ res, data: category });
   } catch (error) {
     next(error);
@@ -50,7 +50,7 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id as string;
     const updateCategoryDto = req.body as UpdateCategoryDto;
-    const category = await categoriesService.updateById(id, updateCategoryDto);
+    const category = await categoriesService.updateById(Number(id), updateCategoryDto);
     sendJsonSuccess({ res, data: category });
   } catch (error) {
     next(error);
@@ -61,7 +61,7 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
 const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id as string;
-    const category = await categoriesService.deleteById(id);
+    const category = await categoriesService.deleteById(Number(id));
     sendJsonSuccess({ res, data: category });
   } catch (error) {
     next(error);

@@ -1,0 +1,158 @@
+### =============================================
+### CATEGORY API - TEST CASES
+### =============================================
+@baseUrl = http://localhost:8080/api/v1
+@contentType = application/json
+@token = your_jwt_token_here
+
+### =============================================
+### 1. GET ALL CATEGORIES
+### =============================================
+GET {{baseUrl}}/categories HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+### =============================================
+### 2. GET CATEGORY BY ID (ID: 1)
+### =============================================
+GET {{baseUrl}}/categories/4 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+### =============================================
+### 3. CREATE NEW CATEGORY - Electronics
+### =============================================
+POST {{baseUrl}}/categories HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "categoryName": "Electronics",
+  "description": "Electronic devices and gadgets",
+  "slug": "electronics"
+}
+
+### =============================================
+### 4. CREATE NEW CATEGORY - Books
+### =============================================
+POST {{baseUrl}}/categories HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "categoryName": "Books",
+  "description": "Books and reading materials",
+  "slug": "books"
+}
+
+### =============================================
+### 5. CREATE NEW CATEGORY - Clothing
+### =============================================
+POST {{baseUrl}}/categories HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "categoryName": "Clothing",
+  "description": "Clothing and fashion items",
+  "slug": "clothing"
+}
+
+### =============================================
+### 6. UPDATE CATEGORY (ID: 1)
+### =============================================
+PUT {{baseUrl}}/categories/1 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "categoryName": "Electronics & Gadgets",
+  "description": "Updated description for electronics and gadgets",
+  "slug": "electronics-gadgets"
+}
+
+### =============================================
+### 7. UPDATE CATEGORY STATUS TO INACTIVE (ID: 2)
+### =============================================
+PUT {{baseUrl}}/categories/2 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "categoryName": "Books",
+  "description": "Books and reading materials",
+  "slug": "books"
+}
+
+### =============================================
+### 8. DELETE CATEGORY (ID: 3)
+### =============================================
+DELETE {{baseUrl}}/categories/3 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+### =============================================
+### 9. TEST VALIDATION - CREATE WITH EMPTY NAME
+### =============================================
+POST {{baseUrl}}/categories HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "categoryName": "",
+  "description": "Invalid category",
+  "slug": "invalid"
+}
+
+### =============================================
+### 10. TEST ERROR - GET NON-EXISTING CATEGORY
+### =============================================
+GET {{baseUrl}}/categories/99999 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+### =============================================
+### 11. TEST ERROR - UPDATE NON-EXISTING CATEGORY
+### =============================================
+PUT {{baseUrl}}/categories/99999 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "categoryName": "Non-existing Category",
+  "description": "This category does not exist",
+  "slug": "non-existing"
+}
+
+### =============================================
+### 12. TEST ERROR - DELETE NON-EXISTING CATEGORY
+### =============================================
+DELETE {{baseUrl}}/categories/99999 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+### =============================================
+### 13. CREATE CATEGORY - Food & Beverages
+### =============================================
+POST {{baseUrl}}/categories HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "categoryName": "Food & Beverages",
+  "description": "Food, drinks and beverages",
+  "slug": "food-beverages"
+}
+
+### =============================================
+### 14. CREATE CATEGORY - Sports & Outdoors
+### =============================================
+POST {{baseUrl}}/categories HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "categoryName": "Sports & Outdoors",
+  "description": "Sports equipment and outdoor gear",
+  "slug": "sports-outdoors"
+}

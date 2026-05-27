@@ -1,6 +1,6 @@
 export interface Category {
-  _id: string;
-  category_name: string;
+  id: number;
+  categoryName: string;
   description: string;
   slug: string;
   createdAt: string;
@@ -8,13 +8,13 @@ export interface Category {
 }
 
 export interface CreateCategoryDto {
-  category_name: string;
+  categoryName: string;
   description?: string;
   slug: string;
 }
 
 export interface UpdateCategoryDto {
-  category_name?: string;
+  categoryName?: string;
   description?: string;
   slug?: string;
 }

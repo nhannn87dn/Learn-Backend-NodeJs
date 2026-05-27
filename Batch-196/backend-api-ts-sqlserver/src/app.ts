@@ -2,10 +2,10 @@ import express from 'express';
 import type { Express } from 'express';
 import createError from 'http-errors';
 
-// import userRoute from "./routes/v1/users.route";
+import userRoute from "./routes/v1/users.route"
 // import userRouteV2 from "./routes/v2/users.route";
 // import studentRoute from "./routes/v1/students.route";
-// import categoryRoute from "./routes/v1/categories.route";
+import categoryRoute from "./routes/v1/categories.route";
 // import brandsRoute from "./routes/v1/brands.route";
 // import productsRoute from "./routes/v1/products.route";
 // import staffRoute from "./routes/v1/staffs.route";
@@ -22,13 +22,13 @@ app.use(express.urlencoded({ extended: false }));
 app.get('/', (req, res, next)=>{
     res.send('Hello World!');
 })
-//Gắn route users
-// app.use('/api/v1/users', userRoute);
+// Gắn route users
+app.use('/api/v1/users', userRoute);
 // //Gắn route students
 // app.use('/api/v1/students', studentRoute);
 // app.use('/api/v2/users', userRouteV2);
 // //Gắn route categories
-// app.use('/api/v1/categories', categoryRoute);
+app.use('/api/v1/categories', categoryRoute);
 // //Gắn route brands
 // app.use('/api/v1/brands', brandsRoute);
 // //Gắn route products

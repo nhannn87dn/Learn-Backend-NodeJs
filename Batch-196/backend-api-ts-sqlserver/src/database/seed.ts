@@ -1,83 +1,137 @@
-import { faker } from '@faker-js/faker';
-import mongoose from 'mongoose';
-import { ENV } from '../config/env';
-import Brand from '../models/Brand.model';
-import Category from '../models/Category.model';
-import Product from '../models/Product.model';
+import { faker } from "@faker-js/faker"
+import { myDataSource } from "../dataSource"
+import { Brand } from "../entities/Brand.entity"
+import { Category } from "../entities/Category.entity"
+import { Product } from "../entities/Product.entity"
 
-//step 1: Ket noi den MongoDB
-mongoose
-  .connect(ENV.MONGO_URI)
-  .then(async () => {
-    console.log("Connected to MongoDB");
-    // step 2: Chạy hàm seed dữ liệu
-    await fakeData();
-    // Ngắt kết nối sau khi hoàn thành
-    mongoose.disconnect();
-    console.log("Disconnected from MongoDB");
-  })
-  .catch((err) => {
-    console.error("Failed to Connect to MongoDB", err);
-  });
+const categoriesData = [
+  {
+    categoryName: "Road",
+    description: "Bicycles designed for paved roads",
+  },
+  {
+    categoryName: "Mountain",
+    description: "Off-road and trail bicycles",
+  },
+  {
+    categoryName: "Hybrid",
+    description: "Versatile bikes for various terrains",
+  },
+  {
+    categoryName: "Cruiser",
+    description: "Comfortable and stylish bikes for leisurely rides",
+  },
+  {
+    categoryName: "Electric",
+    description: "Bicycles powered by electric motors",
+  },
+]
 
-const fakeData = async () => {
-    try {
-        console.log('Starting seed data...');
+const brandsData = [
+  {
+    brandName: "Trek",
+    description: "High-quality bikes for all terrains",
+  },
+  {
+    brandName: "Giant",
+    description: "Specializing in road and mountain bikes",
+  },
+  {
+    brandName: "Specialized",
+    description: "Innovative designs for cycling enthusiasts",
+  },
+  {
+    brandName: "Cannondale",
+    description: "Known for its performance-oriented bicycles",
+  },
+  {
+    brandName: "Scott",
+    description: "Offers a wide range of bicycles for various purposes",
+  },
+]
 
-        // 1. Fake 5 brands
-        for (let i = 1; i <= 5; i++) {
-            const brandName = faker.company.name() + " " + i;
-            const brand = new Brand({
-                brand_name: brandName,
-                description: faker.lorem.sentence(),
-                slug: faker.helpers.slugify(brandName).toLowerCase(),
-            });
-            await brand.save();
-            console.log(`Fake brand ${i} success`);
-        }
+const productNames = [
+  "Road Bike",
+  "Mountain Bike",
+  "Hybrid Bike",
+  "Cruiser Bike",
+  "Electric Bike",
+  "Road Bike Pro",
+  "Mountain Bike Pro",
+  "Hybrid Bike Pro",
+  "Cruiser Bike Pro",
+  "Electric Bike Pro",
+  "Road Bike XL",
+  "Mountain Bike XL",
+  "Hybrid Bike XL",
+  "Cruiser Bike XL",
+  "Electric Bike XL",
+]
 
-        // 2. Fake 5 categories
-        for (let i = 1; i <= 5; i++) {
-            const categoryName = faker.commerce.department() + " " + i;
-            const category = new Category({
-                category_name: categoryName,
-                description: faker.lorem.sentence(),
-                slug: faker.helpers.slugify(categoryName).toLowerCase(),
-            });
-            await category.save();
-            console.log(`Fake category ${i} success`);
-        }
+const buildProductName = (index: number) => {
+  const baseName = productNames[index % productNames.length]
+  const suffix = Math.ceil((index + 1) / productNames.length)
+  return suffix === 1 ? baseName : `${baseName} ${suffix}`
+}
 
-        // 3. Fake 30 products
-        const currentBrands = await Brand.find();
-        const currentCategories = await Category.find();
+myDataSource
+    .initialize()
+    .then(() => {
+        console.log("Data Source has been initialized!");
+        seed();
+    })
+    .catch((err) => {
+        console.error("Error during Data Source initialization:", err)
+    })
 
-        for (let i = 1; i <= 30; i++) {
-            const productName = faker.commerce.productName() + " " + i;
-            const brand = currentBrands[Math.floor(Math.random() * currentBrands.length)];
-            const category = currentCategories[Math.floor(Math.random() * currentCategories.length)];
 
-            if (!brand || !category) continue;
+const seed = async () => {
+  try {
+  
 
-            const product = new Product({
-                product_name: productName,
-                price: Number(faker.commerce.price({ min: 100, max: 2000 })),
-                discount: faker.number.int({ min: 0, max: 70 }),
-                category: category._id,
-                brand: brand._id,
-                description: faker.commerce.productDescription(),
-                model_year: faker.number.int({ min: 2020, max: 2024 }),
-                stock: faker.number.int({ min: 0, max: 100 }),
-                thumbnail: faker.image.url(),
-                slug: faker.helpers.slugify(productName).toLowerCase(),
-            });
+    const brandRepo = myDataSource.getRepository(Brand)
+    const categoryRepo = myDataSource.getRepository(Category)
+    const productRepo = myDataSource.getRepository(Product)
 
-            await product.save();
-            console.log(`Fake product ${i} success`);
-        }
+    // Clean existing data in child-first order
+    // await productRepo.clear()
+    // await brandRepo.clear()
+    // await categoryRepo.clear()
 
-        console.log('Seed data completed successfully!');
-    } catch (error) {
-        console.error('Error seeding data:', error);
+    const savedCategories = await categoryRepo.save(
+      categoriesData.map((payload) => categoryRepo.create(payload)),
+    )
+
+    const savedBrands = await brandRepo.save(
+      brandsData.map((payload) => brandRepo.create(payload)),
+    )
+
+    const products: Product[] = []
+    for (let i = 0; i < 30; i += 1) {
+      const category = faker.helpers.arrayElement(savedCategories)
+      const brand = faker.helpers.arrayElement(savedBrands)
+      const productName = buildProductName(i)
+
+      const product = productRepo.create({
+        productName,
+        price:Number(faker.commerce.price({ min: 100, max: 2000 })),
+        discount: Number(faker.number.int({ min: 0, max: 70 })),
+        categoryId: category.id,
+        brandId: brand.id,
+        description: faker.commerce.productDescription(),
+        modelYear: faker.number.int({ min: 2020, max: 2025 }),
+        thumbnail: faker.image.urlLoremFlickr({ category: "bicycle", width: 640, height: 480 }),
+        stock: faker.number.int({ min: 0, max: 200 }),
+      })
+
+      products.push(product)
     }
-};
+
+    await productRepo.save(products)
+    console.log("Seeding finished: 5 brands, 5 categories, 30 products created.")
+    process.exit(0)
+  } catch (error) {
+    console.error("Seed error:", error)
+    process.exit(1)
+  }
+}

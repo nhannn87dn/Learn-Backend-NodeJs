@@ -1,6 +1,10 @@
 import createError from "http-errors";
-import Category from "../models/Category.model";
+import {Category} from '../entities/Category.entity';
 import { CreateCategoryDto, UpdateCategoryDto } from "../types/category.type";
+import {myDataSource} from '../dataSource';
+
+//khởi tạo repository cho entity Category
+const categoryRepository = myDataSource.getRepository(Category);
 
 /**
  * Service là nơi chứa logic nghiệp vụ của ứng dụng cho Category,
@@ -14,7 +18,7 @@ import { CreateCategoryDto, UpdateCategoryDto } from "../types/category.type";
  * @returns Promise<Array<Object>>
  */
 const findAll = async () => {
-  const data = await Category.find();
+  const data = await categoryRepository.find();
   return data;
 };
 
@@ -23,8 +27,10 @@ const findAll = async () => {
  * @param id string
  * @returns Category
  */
-const getByIdOrFail = async (id: string) => {
-  const category = await Category.findById(id);
+const getByIdOrFail = async (id: number) => {
+  const category = await categoryRepository.findOne({
+    where: { id },
+  });
   if (!category) {
     throw createError(404, 'Category not found');
   }
@@ -37,12 +43,13 @@ const getByIdOrFail = async (id: string) => {
  * @returns Category
  */
 const create = async (createCategoryDto: CreateCategoryDto) => {
-  const newCategory = await Category.create({
-    category_name: createCategoryDto.category_name,
+  const newCategory =  categoryRepository.create({
+    categoryName: createCategoryDto.categoryName,
     description: createCategoryDto.description,
     slug: createCategoryDto.slug,
   });
-  return newCategory;
+
+  return await categoryRepository.save(newCategory);
 };
 
 /**
@@ -51,13 +58,13 @@ const create = async (createCategoryDto: CreateCategoryDto) => {
  * @param updateCategoryDto UpdateCategoryDto
  * @returns Category
  */
-const updateById = async (id: string, updateCategoryDto: UpdateCategoryDto) => {
+const updateById = async (id: number, updateCategoryDto: UpdateCategoryDto) => {
   // step 1: check if category exists
   const category = await getByIdOrFail(id);
 
   // step 2: update fields if they are provided
-  if (updateCategoryDto.category_name !== undefined) {
-    category.category_name = updateCategoryDto.category_name;
+  if (updateCategoryDto.categoryName !== undefined) {
+    category.categoryName = updateCategoryDto.categoryName;
   }
   if (updateCategoryDto.description !== undefined) {
     category.description = updateCategoryDto.description;
@@ -66,8 +73,7 @@ const updateById = async (id: string, updateCategoryDto: UpdateCategoryDto) => {
     category.slug = updateCategoryDto.slug;
   }
 
-  await category.save();
-  return category;
+  return await categoryRepository.save(category);
 };
 
 /**
@@ -75,11 +81,11 @@ const updateById = async (id: string, updateCategoryDto: UpdateCategoryDto) => {
  * @param id string
  * @returns Category
  */
-const deleteById = async (id: string) => {
+const deleteById = async (id: number) => {
   // step 1: check if category exists
   const category = await getByIdOrFail(id);
   // step 2: remove it
-  await Category.deleteOne({ _id: category._id });
+  await categoryRepository.remove(category);
   return category;
 };
 

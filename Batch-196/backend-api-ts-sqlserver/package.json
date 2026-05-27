@@ -23,6 +23,7 @@
     "jsonwebtoken": "^9.0.3",
     "mssql": "^12.5.4",
     "reflect-metadata": "^0.2.2",
+    "slugify": "^1.6.9",
     "typeorm": "^1.0.0",
     "yup": "^1.7.1"
   },
