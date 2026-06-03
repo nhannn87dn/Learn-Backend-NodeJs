@@ -152,10 +152,26 @@ const deleteById = async (id: string) => {
   return product;
 };
 
+
+// get 5 products have promition for home page
+const getPromotionProducts = async (limit: number = 5) => {
+  return await Product
+    .find()
+    .where({
+      discount: { $gt: 0 } //sp có khuyến mãi
+    })
+    .limit(limit) //lấy 5 sản phẩm
+    .select('product_name price discount slug thumbnail')
+    //quan hệ
+    .populate("category", "category_name")
+    .populate("brand", "brand_name")
+}
+
 export default {
   findAll,
   getByIdOrFail,
   create,
   updateById,
   deleteById,
+  getPromotionProducts
 };

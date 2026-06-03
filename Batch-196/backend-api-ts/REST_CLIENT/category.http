@@ -1,0 +1,11 @@
+@baseUrl = http://localhost:8080/api
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTBkYTQ0Mjg5ZmNjNGE3NmNjODZiMWIiLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzgwNDg1MTI0LCJleHAiOjE3ODA0ODg3MjR9.sqzRCaN0E_hLR95rUjrH5Yj3jbwD362xc5Ui4V3atVc
+
+### GET ALL CATEGORIES
+GET {{baseUrl}}/v1/categories
+Authorization: Bearer {{token}}
+
+
+### GET CATEGORIES TREE 
+GET {{baseUrl}}/v1/categories/tree
+Authorization: Bearer {{token}}

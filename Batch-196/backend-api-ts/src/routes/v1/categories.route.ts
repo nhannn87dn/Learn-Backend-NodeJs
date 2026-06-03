@@ -1,5 +1,6 @@
 import express from 'express';
 import categoriesController from '../../controllers/categories.controller';
+import { authenticateToken } from '../../middleware/auth.middleware';
 const router = express.Router();
 
 /*
@@ -9,15 +10,23 @@ là :
 - Gắn controller tương ứng với từng endpoint
 */
 
+/** PUBLIC ROUTE FOR CLIENT */
+
+//Get categories tree for client
+router.get('/tree', categoriesController.findAllTree);
+
+
+/** PRIVATE ROUTE FOR DASHBOARD */
+
 // GET /api/v1/categories
-router.get('/', categoriesController.findAll);
+router.get('/', authenticateToken, categoriesController.findAll);
 // GET /api/v1/categories/:id
-router.get('/:id', categoriesController.findById)
+router.get('/:id', authenticateToken, categoriesController.findById)
 // POST /api/v1/categories
-router.post('/', categoriesController.create);
+router.post('/', authenticateToken, categoriesController.create);
 // PUT /api/v1/categories/:id
-router.put('/:id', categoriesController.update);
+router.put('/:id', authenticateToken, categoriesController.update);
 // DELETE /api/v1/categories/:id
-router.delete('/:id', categoriesController.remove);
+router.delete('/:id', authenticateToken, categoriesController.remove);
 
 export default router;

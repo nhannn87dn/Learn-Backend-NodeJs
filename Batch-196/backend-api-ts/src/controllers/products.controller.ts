@@ -9,6 +9,22 @@ import { sendJsonSuccess, SUCCESS } from "../helpers/responseHandler";
  * và trả về response cho client
  */
 
+
+
+
+/*
+ Get 5 products have promition for home page
+*/  
+const getPromotionProducts = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const limit = Number(req.query.limit) || 5;
+    const products = await productsService.getPromotionProducts(limit);
+    sendJsonSuccess({ res, data: products });
+  } catch (error) {
+    next(error);
+  }
+}
+
 /*
  Get all products
 */
@@ -83,4 +99,5 @@ export default {
   create,
   update,
   remove,
+  getPromotionProducts,
 };

@@ -8,6 +8,17 @@ import { CreateCategoryDto, UpdateCategoryDto } from "../types/category.type";
  * và trả về kết quả cho controller thông qua return statement
  */
 
+// get categories tree
+const findAllTree = async () => {
+  const categories = await Category
+    .find()
+    .select('category_name slug')
+    .skip(0)
+    .limit(50) //lấy tối đa 50 danh mục.
+  return categories;
+}
+
+
 /**
  * @desc Get all list Categories
  * @route GET /api/v1/categories
@@ -89,4 +100,5 @@ export default {
   create,
   updateById,
   deleteById,
+  findAllTree
 };

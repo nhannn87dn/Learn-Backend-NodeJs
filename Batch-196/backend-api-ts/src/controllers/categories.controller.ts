@@ -9,6 +9,17 @@ import { sendJsonSuccess, SUCCESS } from "../helpers/responseHandler";
  * và trả về response cho client
  */
 
+//Get categories tree for client
+const findAllTree = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const data = await categoriesService.findAllTree();
+    sendJsonSuccess({ res, data });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 /*
  Get all categories
 */
@@ -33,6 +44,7 @@ const findById = async (req: Request, res: Response, next: NextFunction) => {
     next(error);
   }
 };
+
 
 //create new category
 const create = async (req: Request, res: Response, next: NextFunction) => {
@@ -74,4 +86,5 @@ export default {
   create,
   update,
   remove,
+  findAllTree
 };

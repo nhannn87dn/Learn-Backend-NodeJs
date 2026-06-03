@@ -57,6 +57,11 @@ const productSchema = new Schema({
         type: Number,
         default: 0,
         min: [0, 'Số lượng tồn kho không được nhỏ hơn 0']
+    },
+    //isHome
+    isHome: {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: true, // tự động thêm createdAt và updatedAt
