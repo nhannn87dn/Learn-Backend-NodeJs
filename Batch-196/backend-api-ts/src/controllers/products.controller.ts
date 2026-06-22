@@ -24,6 +24,16 @@ const getPromotionProducts = async (req: Request, res: Response, next: NextFunct
     next(error);
   }
 }
+//Get product detail by slug
+const getProductDetailBySlug = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const slug = req.params.slug as string;
+    const product = await productsService.getProductDetailBySlug(slug);
+    sendJsonSuccess({ res, data: product });
+  } catch (error) {
+    next(error);
+  }
+}
 
 /*
  Get all products
@@ -100,4 +110,5 @@ export default {
   update,
   remove,
   getPromotionProducts,
+  getProductDetailBySlug
 };

@@ -167,11 +167,28 @@ const getPromotionProducts = async (limit: number = 5) => {
     .populate("brand", "brand_name")
 }
 
+// get product detail by slug
+const getProductDetailBySlug = async (slug: string) => {
+  const product = await Product
+    .findOne({ slug })
+    .select('-__v')
+    //quan hệ
+    .populate("category", "category_name")
+    .populate("brand", "brand_name");
+
+  if (!product) {
+    throw createError(404, 'Product not found');
+  }
+
+  return product;
+}
+
 export default {
   findAll,
   getByIdOrFail,
   create,
   updateById,
   deleteById,
-  getPromotionProducts
+  getPromotionProducts,
+  getProductDetailBySlug
 };

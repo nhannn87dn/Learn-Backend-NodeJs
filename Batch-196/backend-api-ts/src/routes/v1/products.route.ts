@@ -24,7 +24,8 @@ là :
 
 // GET /api/v1/products/home/promotions?limit=5
 router.get("/home/promotions", productsController.getPromotionProducts)
-
+//GET /api/v1/products/detail/:slug
+router.get("/detail/:slug", productsController.getProductDetailBySlug)
 
 
 // PRIVATE ROUTERs
@@ -53,7 +54,7 @@ router.post(
 // PUT /api/v1/products/:id
 router.put(
   "/:id",
-  authenticateToken,
+  //authenticateToken,
   validateSchemaYup(updateProductSchema),
   productsController.update,
 );

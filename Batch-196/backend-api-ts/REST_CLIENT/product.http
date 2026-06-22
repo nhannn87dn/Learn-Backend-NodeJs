@@ -54,3 +54,12 @@ Content-Type: application/json
 
 ### Delete a product by ID
 DELETE {{baseUrl}}/products/:id
+
+
+### Update Price by ID
+PUT {{baseUrl}}/products/6a0703e8004b0464d96393e1
+Content-Type: application/json
+
+{
+  "price": 400
+}
