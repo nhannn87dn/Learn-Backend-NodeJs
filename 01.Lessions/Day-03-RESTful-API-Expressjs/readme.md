@@ -10,6 +10,9 @@ RESTful API cho phép các ứng dụng giao tiếp và trao đổi dữ liệu 
 
 RESTful API đã trở thành một phương pháp phổ biến để xây dựng các dịch vụ web và ứng dụng di động, vì nó đơn giản, linh hoạt và dễ dùng.
 
+
+---
+
 ## 🔶 Nguyên tắc thiết kế RESTful API
 
 #### 1. Sử dụng đúng HTTP methods:
@@ -93,27 +96,35 @@ Cài đặt xem lại ở bài học trước với TypeScript
 
 ### 🔶Cài đặt dự án với TypeScript
 
+### Bước 1: Tạo thư mục dự án và khởi tạo package.json
+
 ```bash
 npm init
 #hoặc
-yarn init
+pnpm init
 ```
 
 Để khởi tạo file package.json
 
+#### Bước 2: Cài đặt Express
+
 ```bash
-npm install express dotenv --save
+npm install express --save
 #hoặc
-yarn add express dotenv
+pnpm add express
 ```
+
+#### Bước 3: Cài đặt các gói cần thiết cho TypeScript
 
 Cài thêm để code với Typescript
 
 ```bash
 npm i -D typescript  @types/express @types/node ts-node-dev
 #or
-yarn add -D typescript  @types/express @types/node ts-node-dev
+pnpm add -D typescript  @types/express @types/node ts-node-dev
 ```
+
+#### Bước 4: Cấu hình TypeScript
 
 Tạo file `tsconfig.json` để cấu hình biên dịch cho typescript
 
@@ -126,32 +137,29 @@ Sau đó mở file tsconfig.json và tìm sửa lại những thông tin sau:
 ```json
 {
   "compilerOptions": {
-    "target": "es2016",
-    "module": "commonjs",
-    "outDir": "dist/",
+    "target": "esnext",
+    "module": "nodenext",
+    "rewriteRelativeImportExtensions": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
     "strict": true,
-    "sourceMap": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "skipLibCheck": true
   },
-  "include": ["src/**/*", "server.ts", "index.d.ts"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "exclude": ["node_modules"]
 }
 ```
+
+#### Bước 5: Tạo `App.ts` Express
+
 
 Tạo File app.ts
 
 ```ts
-import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
 const app: Express = express();
-dotenv.config();
 
 const PORT = process.env.PORT || 9000;
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({ message: "Express + TypeScript Server" });
@@ -161,6 +169,8 @@ app.listen(PORT, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
 });
 ```
+
+#### Bước 6: Thêm script chạy dự án vào package.json
 
 Cấu hình lại package.json
 
@@ -172,24 +182,60 @@ Cấu hình lại package.json
   },
 ```
 
-Tạo file .env ở thư mục gốc dự án, dùng để chứa các thông số bảo mật, biến môi trường
 
-```env
-NODE_ENV= development
-PORT= 8080
-```
 
-> Tìm hiểu: Tạo sai phải tạo file .env trong ứng dụng NodeJs ?
-
-Khởi chạy dự án
+#### Bước 7: Khởi chạy dự án
 
 ```bash
-yarn dev
+pnpm dev
 # hoặc
 npm run dev
 ```
 
----
+#### Bước 8: Cấu hình biến môi trường
+
+Cài đặt dotenv để quản lý biến môi trường
+
+```bash
+npm i dotenv
+#hoặc
+pnpm add dotenv
+```
+
+Tạo file `.env` ở thư mục gốc dự án, dùng để chứa các thông số bảo mật, biến môi trường
+
+```env
+NODE_ENV=development
+PORT=8080
+```
+
+Sau đó sửa file app.ts để import dotenv
+
+```ts
+import express, { Express, Request, Response } from "express";
+import dotenv from "dotenv"; //thêm dòng này
+dotenv.config(); //thêm dòng này
+
+const app: Express = express();
+
+const PORT = process.env.PORT || 9000;
+
+app.get("/", (req: Request, res: Response) => {
+  res.status(200).json({ message: "Express + TypeScript Server" });
+});
+
+app.listen(PORT, () => {
+  console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
+});
+```
+
+Kết quả bạn thấy nếu chạy lệnh `pnpm dev` sẽ thấy log ra PORT=8080 như trong file .env
+
+
+> Tìm hiểu: Tạo sai phải tạo file .env trong ứng dụng NodeJs ?
+
+
+#### Bước 9: Refactor lại cấu trúc dự án
 
 Nhưng theo đề xuất thì nên tách server ra riêng và app ra riêng như sau:
 
@@ -198,9 +244,6 @@ Sửa File src/App.ts
 ```ts
 import express, { Express, Request, Response } from "express";
 const app: Express = express();
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({ message: "Express + TypeScript Server" });
@@ -224,7 +267,7 @@ app.listen(PORT, () => {
 });
 ```
 
-Cấu hình lại package.json
+Cấu hình lại file khởi chạy ở `package.json`
 
 ```json
  "scripts": {
@@ -234,9 +277,19 @@ Cấu hình lại package.json
   },
 ```
 
+Thử chạy lại lệnh `pnpm dev` sẽ thấy log ra PORT=8080 như trong file .env với cấu trúc dự án mới.
+
+---
+
 ### 🔶 Follow cách hoạt động của mô hình cấu trúc dự án
 
+Trước khi đi vào code một endpoint API, bạn cần hiểu cách hoạt động của mô hình cấu trúc dự án. Dưới đây là sơ đồ minh họa:
+
 ![follow](img/flow.png)
+
+
+---
+
 
 ### 🔶 Tạo một API đầu tiên
 
@@ -296,10 +349,10 @@ Sử dụng thư viện `http-errors` để bắt các lỗi từ request, hệ 
 
 ```bash
 npm i http-errors
-yarn add http-errors
+pnpm add http-errors
 
 npm i @types/http-errors --save-dev
-yarn add @types/http-errors --save-dev
+pnpm add @types/http-errors --save-dev
 ```
 
 Tại App.ts import vào
@@ -327,6 +380,8 @@ app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
   res.status(statusCode).json({ statusCode: statusCode, message: err.message });
 });
 ```
+
+---
 
 ## 💛 Tìm hiểu `gitignore`
 
@@ -419,6 +474,8 @@ Thumbs.db
 
 - **Kiểm tra trạng thái**: Để kiểm tra xem các tệp đã bị bỏ qua hay chưa, bạn có thể sử dụng lệnh `git status`.
 
+---
+
 ## 💛 Đọc thêm - Biến môi trường
 
 ### Giải thích khái niệm
@@ -438,8 +495,8 @@ Dưới đây là một số bước để làm việc với biến môi trườ
 
 2. **Đọc tệp .env**: Để đọc các biến môi trường từ tệp `.env`, bạn cần thực hiện các bước sau:
 
-   - Tạo một tệp `package.json` (nếu chưa có) bằng cách chạy lệnh `yarn init -y`.
-   - Cài đặt gói `dotenv` bằng lệnh `yarn add  dotenv`.
+   - Tạo một tệp `package.json` (nếu chưa có) bằng cách chạy lệnh `pnpm init -y`.
+   - Cài đặt gói `dotenv` bằng lệnh `pnpm add  dotenv`.
    - Trong mã nguồn của ứng dụng, import `dotenv`:
 
      ```javascript
@@ -472,6 +529,8 @@ Dưới đây là một số bước để làm việc với biến môi trườ
 5. **Hỗ trợ việc triển khai**: Khi bạn triển khai ứng dụng lên các môi trường khác nhau (như máy chủ thực tế, máy chủ thử nghiệm, máy chủ phát triển), việc sử dụng biến môi trường giúp đảm bảo rằng ứng dụng hoạt động đúng cách với cấu hình tương ứng.
 
 Tóm lại, sử dụng biến môi trường giúp bạn quản lý cấu hình ứng dụng một cách an toàn, linh hoạt và dễ dàng. 🌟
+
+---
 
 ## 💛  Cách sử dụng Biome.js cho Node.js TypeScript
 

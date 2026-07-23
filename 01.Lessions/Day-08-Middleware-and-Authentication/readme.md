@@ -197,87 +197,63 @@ Sau khi bạn nắm được cách xử lý của middleware, chúng ta tìm hi�
 
 **Bước 1:** Chúng ta cần tạo một Middleware để handle validate `src\middlewares\validateSchema.middleware.ts`
 
-Sử dụng thư viện `joi` để validate
 
-Chi tiết cách sử dụng joi xem ở [link sau](joi.md)
+> Sử dụng thư viện `joi` để validate xem ở [link sau](./joi.md)
+> Sử dụng thư viện `yup` để validate xem ở [link sau](./yup.md)
 
-```js
-import Joi from 'joi';
-import _ from 'lodash';
-import{ NextFunction, Request, Response } from 'express';
+Trong ví dụ này chúng ta sẽ sử dụng `zod` để validate
 
-const validateSchema = (schema: object) => (req: Request, res: Response, next: NextFunction) => {
-  const pickSchema = _.pick(schema, ['params', 'body', 'query']);
-  const object = _.pick(req, Object.keys(pickSchema));
-  const { value, error } = Joi.compile(pickSchema)
-    .prefs({
-      errors: {
-        label: 'key',
-      },
-
-      abortEarly: false,
-    })
-    .validate(object);
-  if (error) {
-    const errorMessage = error.details
-      .map((detail: any) => detail.message)
-      .join(', ');
-    return res.status(400).json({
-      status: 400,
-      message: errorMessage,
-      typeError: 'validateSchema'
-    });
-
-  }
-  Object.assign(req, value);
-  return next();
-};
-export default validateSchema
+```bash
+npm install zod
+pnpm install zod
 ```
 
-Sử dụng thư viện `yup` để validate
+Code một middleware validateSchema.middleware.ts
 
 ```ts
-import {AnySchema, ValidationError} from 'yup';
+import { z, ZodError, ZodTypeAny } from 'zod';
 import { NextFunction, Request, Response } from 'express';
 
-const validateSchemaYup = (schema: AnySchema) => async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  try {
-    await schema.validate({
-      body: req.body,
-      query: req.query,
-      params: req.params,
-    }, 
-    { 
-      abortEarly: false, // abortEarly: false để lấy tất cả lỗi thay vì chỉ lấy lỗi đầu tiên
-    }  
-  );
+const validateSchema = (schema: ZodTypeAny) => (req: Request, res: Response, next: NextFunction): void => {
+ try {
+  const result = schema.safeParse({
+   body: req.body,
+   query: req.query,
+   params: req.params,
+  });
+
+  if (!result.success) {
+   res.status(400).json({
+    statusCode: 400,
+    message: result.error.issues.map((issue) => issue.message),
+    typeError: 'validateSchema',
+   });
+   return;
+  }
 
   next();
-
-  } catch (err) {
-    //console.log(err);
-    if (err instanceof ValidationError) {
-      //console.error(err);
-      res.status(400).json({
-        statusCode: 400,
-        message: err.errors, // err.errors chứa tất cả các thông điệp lỗi
-        typeError: 'validateSchema'
-      });
-      return;
-    }
-
-    res.status(500).json({
-      statusCode: 500,
-      message: 'validate Yup Error',
-      typeError: 'validateSchemaUnknown'
-    });
+ } catch (err) {
+  if (err instanceof ZodError) {
+   res.status(400).json({
+    statusCode: 400,
+    message: err.issues.map((issue) => issue.message),
+    typeError: 'validateSchema',
+   });
+   return;
   }
+
+  res.status(500).json({
+   statusCode: 500,
+   message: 'validate Zod Error',
+   typeError: 'validateSchemaUnknown',
+  });
+ }
 };
 
-export default validateSchemaYup;
-
+export default validateSchema;
 ```
+
+
 
 **Bước 2:** Tạo các Schema Validation
 
@@ -285,45 +261,17 @@ Tạo folder `src/validations`
 
 Trong folder này tạo file `category.validation.ts
 
-```js
-import Joi from 'joi';
+```ts
+import { z } from 'zod';
 
-const getCategoryById = {
-  params: Joi.object().keys({
-    id: Joi.number().required(),
-  }),
-};
-
-export default {
-  getCategoryById
-};
-```
-
-Giải thích: chúng ta Cần validate cho sự kiện getCategoryById khi gọi
-
-```code
-localhost:8686/api/v1/categories/:id
-```
-
-Validate `id` phải được truyền vào yêu cầu là số
-
-Chúng ta lần lượt tạo thêm các Schema cho từng route của category Resources
-
-Với Yup Schema
-
-Trong folder này tạo file `categoryYup.validation.ts`
-
-```js
-const getCategoryById = yup
-  .object({
-    query: yup.object({
-      id: yup.number().required().positive().integer().required(),
-    }),
-  })
-  .required();
+const getCategoryById = z.object({
+ params: z.object({
+  id: z.coerce.number().int().positive(),
+ }),
+});
 
 export default {
-  getCategoryById
+ getCategoryById,
 };
 ```
 

@@ -79,3 +79,69 @@ try {
 catch (err) { }
 
 ```
+
+### Middleware validateSchema with Joi
+
+
+```js
+import Joi from 'joi';
+import _ from 'lodash';
+import{ NextFunction, Request, Response } from 'express';
+
+const validateSchema = (schema: object) => (req: Request, res: Response, next: NextFunction) => {
+  const pickSchema = _.pick(schema, ['params', 'body', 'query']);
+  const object = _.pick(req, Object.keys(pickSchema));
+  const { value, error } = Joi.compile(pickSchema)
+    .prefs({
+      errors: {
+        label: 'key',
+      },
+
+      abortEarly: false,
+    })
+    .validate(object);
+  if (error) {
+    const errorMessage = error.details
+      .map((detail: any) => detail.message)
+      .join(', ');
+    return res.status(400).json({
+      status: 400,
+      message: errorMessage,
+      typeError: 'validateSchema'
+    });
+
+  }
+  Object.assign(req, value);
+  return next();
+};
+export default validateSchema
+```
+
+
+## Tạo các Schema Validation
+
+Tạo folder `src/validations`
+
+Trong folder này tạo file `category.validation.ts`
+
+```ts
+import Joi from 'joi';
+
+const getCategoryById = {
+  params: Joi.object().keys({
+    id: Joi.number().integer().positive().required(),
+  }),
+};
+
+const createCategory = {
+  body: Joi.object().keys({
+    name: Joi.string().trim().min(1).required(),
+    description: Joi.string().allow('').optional(),
+  }),
+};
+
+export default {
+  getCategoryById,
+  createCategory,
+};
+```

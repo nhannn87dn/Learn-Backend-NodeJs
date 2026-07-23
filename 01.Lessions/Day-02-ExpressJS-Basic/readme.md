@@ -30,7 +30,7 @@ ExpressJS Rất dễ học, chỉ cần bạn biết JavaScript, bạn sẽ khô
 ```bash
 npm init
 #hoặc
-yarn init
+pnpm init
 ```
 Để khởi tạo file package.json
 
@@ -39,7 +39,7 @@ yarn init
 ```bash
 npm install express  --save
 #hoặc
-yarn add express 
+pnpm add express 
 ```
 
 Với TypeScript cần Cài thêm
@@ -47,7 +47,7 @@ Với TypeScript cần Cài thêm
 ```bash
 npm i -D typescript  @types/express @types/node ts-node-dev
 #or
-yarn add -D typescript  @types/express @types/node ts-node-dev
+pnpm add --save-dev typescript @types/express @types/node
 ```
 
 #### Bước 3 - Cấu hình Typescript
@@ -62,14 +62,14 @@ Sau đó mở file tsconfig.json và tìm sửa lại những thông tin sau:
 ```json
 {
   "compilerOptions": {
-    "target": "es2016",
-    "module": "commonjs",
-    "outDir": "dist/",
+    "target": "esnext",
+    "module": "nodenext",
+    "rewriteRelativeImportExtensions": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
     "strict": true,
-    "sourceMap": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "skipLibCheck": true
   }
 }
 

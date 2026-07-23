@@ -1,0 +1,24 @@
+
+GET http://localhost:3000/api/v1/categories?page=1&keyword=laptop
+
+###
+
+POST http://localhost:3000/api/v1/categories
+Content-Type: application/json
+
+# body
+{
+    "name": "Tablet"
+}
+
+### Update
+PUT http://localhost:3000/api/v1/categories/1
+Content-Type: application/json
+
+# body
+{
+    "name": "Accessories"
+}
+
+### delete
+DELETE http://localhost:3000/api/v1/categories/1

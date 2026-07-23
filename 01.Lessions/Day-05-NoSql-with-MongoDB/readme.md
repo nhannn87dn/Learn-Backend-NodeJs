@@ -1,51 +1,74 @@
-# MongoDB and Mongoose
+# Giới Thiệu Tổng Quan Về MongoDB
 
-## 💛 Xử lý bất đồng bộ với Promises and Async/Await
+## 💛 1. MongoDB Là Gì?
 
-[Xem ở đây](2.Async-Await/readme.md)
+**MongoDB** là một hệ quản trị cơ sở dữ liệu NoSQL (Not Only SQL) mã nguồn mở phổ biến, hoạt động theo mô hình **hướng tài liệu (Document-Oriented)**.
 
-### Promises là gì ?
+Thay vì lưu trữ dữ liệu dưới dạng các bảng (tables) và dòng (rows) có cấu trúc cố định như các hệ cơ sở dữ liệu quan hệ (RDBMS) truyền thống (MySQL, PostgreSQL, SQL Server), MongoDB lưu trữ dữ liệu dưới dạng các bản ghi gọi là **Document** theo định dạng **BSON** (Binary JSON).
 
-Xem ở đây [Promises](2.Async-Await/Promises.md)
+### Các khái niệm cơ bản trong MongoDB:
 
-### and Async/Await là gì ?
-
-Xem ở đây [Async/Await](2.Async-Await/async-await.md)
-
----
-
-## 💛 MongoDB là gì ?
-
-- MongoDB là một hệ quản trị cơ sở dữ liệu mã nguồn mở, là CSDL thuộc NoSql và được hàng triệu người sử dụng.
-- MongoDB là một database hướng tài liệu (document), các dữ liệu được lưu trữ trong document kiểu JSON thay vì dạng bảng như CSDL quan hệ nên truy vấn sẽ rất nhanh.
-- Với CSDL quan hệ chúng ta có khái niệm bảng, các cơ sở dữ liệu quan hệ (như MySQL hay SQL Server...) sử dụng các bảng để lưu dữ liệu thì với MongoDB chúng ta sẽ dùng khái niệm là collection thay vì bảng
-- So với RDBMS thì trong MongoDB collection ứng với table, còn document sẽ ứng với row , MongoDB sẽ dùng các document thay cho row trong RDBMS.
-- Các collection trong MongoDB được cấu trúc rất linh hoạt, cho phép các dữ liệu lưu trữ không cần tuân theo một cấu trúc nhất định.
-- Thông tin liên quan được lưu trữ cùng nhau để truy cập truy vấn nhanh thông qua ngôn ngữ truy vấn MongoDB
-
-## 💛 Ưu điểm của mongoDB
-
-- Dữ liệu lưu trữ phi cấu trúc, không có tính ràng buộc, toàn vẹn nên tính sẵn sàng cao, hiệu suất lớn và dễ dàng mở rộng lưu trữ.
-- Dữ liệu được caching (ghi đệm) lên RAM, hạn chế truy cập vào ổ cứng nên tốc độ đọc và ghi cao
-
-## 💛 Nhược điểm của MongoDB
-
-- Không ứng dụng được cho các mô hình giao dịch nào có yêu cầu độ chính xác cao do không có ràng buộc.
-- Không có cơ chế transaction (giao dịch) để phục vụ các ứng dụng ngân hàng.
-- Dữ liệu lấy RAM làm trọng tâm hoạt động vì vậy khi hoạt động yêu cầu một bộ nhớ RAM lớn.
-- Mọi thay đổi về dữ liệu mặc định đều chưa được ghi xuống ổ cứng ngay lập tức vì vậy khả năng bị mất dữ liệu từ nguyên nhân mất điện đột xuất là rất cao.
+* **Database:** Tương tự cơ sở dữ liệu trong SQL, chứa tập hợp các Collection.
+* **Collection:** Tương đương với **Table** trong SQL, chứa tập hợp các Document.
+* **Document:** Tương đương với **Row** trong SQL, lưu trữ theo bộ khóa - giá trị (key-value).
+* **Field:** Tương đương với **Column** trong SQL, đại diện cho tên trường và giá trị tương ứng.
 
 ---
 
-## 💛 Khi nào sử dụng MongoDB?
+## 💛 2. Ưu Điểm Và Nhược Điểm Của MongoDB
 
-- Quản lý và truyền tải content – Quản lý đa dạng nhiều product của content chỉ trong một kho lưu trữ data cho phép thay đổi và phản hồi nhanh chóng mà không chịu thêm phức tạp thêm từ hệ thống content.
-- Cấu trúc Mobile và Social – MongoDB cung cấp một platform có sẵn, phản xạ nhanh, và dễ mở rộng cho phép rất nhiều khả năng đột phá, phân tích real-time, và hỗ trợ toàn cầu.
-- Quản lý data khách hàng – Tận dụng khả năng query nhanh chóng cho phân tích real-time trên cơ sở dữ liệu người dùng cực lớn vớ các mô hình data phức tạp bằng các schema linh hoạt và tự động sharding cho mở rộng chiều ngang.
+### 🟢 Ưu Điểm (Pros)
+
+| Ưu điểm | Chi tiết |
+| --- | --- |
+| **Schema linh hoạt (Dynamic Schema)** | Không bắt buộc khai báo cấu trúc cố định trước. Các document trong cùng collection có thể có các trường dữ liệu khác nhau, rất dễ mở rộng khi ứng dụng thay đổi tính năng. |
+| **Khả năng mở rộng ngang (Horizontal Scaling)** | Hỗ trợ tính năng **Sharding** phân tán dữ liệu ra nhiều máy chủ khác nhau, giúp xử lý khối lượng dữ liệu khổng lồ mà không bị nghẽn hệ thống. |
+| **Tính sẵn sàng cao (High Availability)** | Sử dụng cơ chế **Replica Sets** để tự động sao lưu dữ liệu. Khi máy chủ chính (Primary) gặp sự cố, hệ thống sẽ tự động thăng cấp máy chủ phụ (Secondary) lên thay thế. |
+| **Tốc độ đọc/ghi cao** | Dữ liệu liên quan thường được nhúng trực tiếp trong cùng một document (Embedded Documents) giúp giảm thiểu các câu lệnh Join phức tạp, kết hợp với cơ chế tối ưu RAM giúp truy xuất nhanh. |
+| **Gần gũi với lập trình viên** | Định dạng BSON/JSON tương thích tự nhiên với cấu trúc Đối tượng (Object) trong hầu hết các ngôn ngữ lập trình hiện đại (Node.js, Python, Java, Go...). |
+
+### 🔴 Nhược Điểm (Cons)
+
+* **Tiêu tốn bộ nhớ (RAM & Disk):** Tên trường (field name) được lặp lại trong từng document, kết hợp với việc phi chuẩn hóa dữ liệu (denormalization) khiến MongoDB ngốn nhiều RAM và dung lượng đĩa hơn so với cơ sở dữ liệu quan hệ.
+* **Hạn chế với các truy vấn Join phức tạp:** Mặc dù cung cấp toán tử `$lookup` để nối dữ liệu giữa các collection, nhưng thao tác này chậm và tốn nhiều tài nguyên hơn so với phép `JOIN` trong RDBMS.
+* **Giới hạn kích thước Document:** Mỗi document đơn lẻ bị giới hạn tối đa **16MB**. (Nếu cần lưu tập tin lớn hơn, phải sử dụng cơ chế GridFS).
+* **Quản lý Transaction tốn tài nguyên:** Dù từ bản 4.0 MongoDB đã hỗ trợ ACID Multi-document Transactions, việc lạm dụng transaction sẽ làm giảm đáng kể hiệu năng hệ thống.
 
 ---
 
-## 💛 Cài đặt MongoDB
+## 💛 3. Khi Nào Nên Và Không Nên Sử Dụng MongoDB?
+
+### 🎯 Khi Nào Nên Sử Dụng MongoDB?
+
+> **Quy tắc chung:** Chọn MongoDB khi bạn cần xử lý dữ liệu bán cấu trúc/không cấu trúc, thay đổi liên tục, hoặc hệ thống yêu cầu mở rộng linh hoạt theo quy mô lớn.
+
+* **Hệ thống E-commerce / Quản lý sản phẩm:** Mỗi loại sản phẩm có vô số thuộc tính khác nhau (ví dụ: Quần áo có *Size, Màu sắc*; Điện thoại có *RAM, Bộ nhớ, Chip*). Sử dụng MongoDB giúp bạn thêm thuộc tính mới mà không cần sửa lại Schema.
+* **Ứng dụng Big Data & Real-time Analytics:** Hệ thống cần ghi dữ liệu với tần suất cực lớn như log hệ thống, thông số cảm biến IoT, tracking hành vi người dùng theo thời gian thực.
+* **Hệ thống Quản lý nội dung (CMS, Blog, Mạng xã hội):** Nơi thông tin bài viết có thể đi kèm comment, tag, media dạng mảng (array) nhúng trực tiếp trong một document.
+* **Ứng dụng phát triển theo mô hình Agile / MVP:** Cấu trúc sản phẩm chưa cố định, thường xuyên cập nhật tính năng mới mà không muốn mất thời gian migrate dữ liệu.
+* **Stack phát triển ứng dụng MERN / MEAN:** Sự kết hợp hoàn hảo giữa MongoDB, Express, React/Angular, và Node.js giúp đồng bộ dữ liệu dạng JSON từ Client đến Database.
+
+### ⚠️ Khi Nào Không Nên Sử Dụng MongoDB?
+
+* **Hệ thống Tài chính - Ngân hàng - Kế toán:** Nơi sự chính xác tuyệt đối của từng giao dịch (ACID) và toàn vẹn dữ liệu được đặt lên hàng đầu.
+* **Ứng dụng có mô hình dữ liệu quan hệ phức tạp:** Các hệ thống cần liên kết nhiều-nhiều (Many-to-Many) liên tục và phụ thuộc nặng vào tính năng `JOIN` dữ liệu.
+* **Hệ thống bị hạn chế tài nguyên phần cứng:** Nếu máy chủ giới hạn bộ nhớ RAM, MongoDB sẽ bị giảm hiệu năng rõ rệt.
+
+---
+
+## 💛 4. Bảng So Sánh Nhanh: MongoDB vs RDBMS (SQL)
+
+| Tiêu chí | MongoDB (NoSQL) | RDBMS (MySQL, PostgreSQL, SQL Server) |
+| --- | --- | --- |
+| **Mô hình dữ liệu** | Hướng tài liệu (BSON / JSON) | Cấu trúc Bảng (Dòng & Cột) |
+| **Schema (Cấu trúc)** | Linh hoạt, không cố định | Cố định, phải định nghĩa trước |
+| **Mở rộng (Scalability)** | Mở rộng ngang (Sharding) | Mở rộng dọc (Nâng cấp RAM, CPU máy chủ) |
+| **Phép nối (Join)** | Hạn chế (Dùng `$lookup`) | Hỗ trợ rất mạnh mẽ |
+| **Toàn vẹn dữ liệu (ACID)** | Hỗ trợ tốt ở mức đơn document (Multi-document ở mức vừa phải) | Tuân thủ tuyệt đối chuẩn ACID |
+
+---
+
+## 💛 5. Cài đặt MongoDB
 
 To be able to experiment with the code examples, you will need access to a MongoDB database.
 
@@ -73,7 +96,7 @@ PaaS: Get started right away with a MongoDB cloud service at <https://www.mongod
 
 ---
 
-## 💛 Hướng dẫn sử dụng MongoDB Compass và MongoDB for VsCode
+## 💛  6. Hướng dẫn sử dụng MongoDB Compass và MongoDB for VsCode
 
 ### MongoDB Compass
 
@@ -93,7 +116,7 @@ PaaS: Get started right away with a MongoDB cloud service at <https://www.mongod
 
 ---
 
-## 💛 Tích hợp MongoDB vào NodeJs
+## 💛 7. Tích hợp MongoDB vào NodeJs
 
 Sử dụng MongoDB qua thư viện Mongoose (Database ORM) giúp thao tác dễ hơn về mặt cú pháp
 
@@ -104,7 +127,7 @@ yarn add mongoose --save
 
 ---
 
-## 💛 Kết nối với Database
+## 💛 8.  Kết nối với Database
 
 Chi tiết xem: <https://mongoosejs.com/docs/connections.html>
 
@@ -136,7 +159,7 @@ Tips: Bạn có thể đưa đoạn code khởi tạo server của Express vào 
 
 ---
 
-## 💛 Mongoose SchemaTypes
+## 💛 9. Mongoose SchemaTypes
 
 - String
 - Number
@@ -154,7 +177,7 @@ Chi tiết cách sử dụng các kiểu dữ liệu: <https://mongoosejs.com/do
 
 ---
 
-## 💛Tạo một Model Schema với Mongoose
+## 💛 10. Tạo một Model Schema với Mongoose
 
 Doc: <https://mongoosejs.com/docs/models.html>
 
@@ -225,7 +248,7 @@ const Test = model<ITest>('Test', testSchema);
 export default Test;
 ```
 
-## 💛 Data Model Design
+## 💛 11. Data Model Design
 
 Trong NoSQL, khái niệm bảng được thay thế bằng khái niệm collection (tập hợp). Một collection trong NoSQL tương đương với một bảng trong hệ quản trị cơ sở dữ liệu quan hệ (RDBMS).
 
@@ -715,3 +738,17 @@ Sử dụng <https://next.fakerjs.dev/>
 ## 💛 Homeworks Guide
 
 Hướng dẫn làm bài tập về nhà
+
+
+## 💛 Xử lý bất đồng bộ với Promises and Async/Await
+
+[Xem ở đây](2.Async-Await/readme.md)
+
+### Promises là gì ?
+
+Xem ở đây [Promises](2.Async-Await/Promises.md)
+
+### and Async/Await là gì ?
+
+Xem ở đây [Async/Await](2.Async-Await/async-await.md)
+
