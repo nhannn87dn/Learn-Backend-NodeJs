@@ -7,4 +7,27 @@ GET {{baseUrl}}/api/v1/categories
 ###
 
 # get category by id
-GET {{baseUrl}}/api/v1/categories/1
+GET {{baseUrl}}/api/v1/categories/123
+
+### create new a category
+POST {{baseUrl}}/api/v1/categories
+Content-Type: application/json
+
+{
+    "name": "laptop",
+    "description": "Laptop gia re"
+}
+
+
+### Update by ID
+PUT {{baseUrl}}/api/v1/categories/1
+Content-Type: application/json
+
+{
+    "name": "mobile",
+    "description": "Mobile gia re"
+}
+
+
+### Delete by ID
+DELETE  {{baseUrl}}/api/v1/categories/1
