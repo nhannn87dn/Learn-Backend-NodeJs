@@ -10,7 +10,7 @@ GET {{baseUrl}}/api/v2/categories
 ###
 
 # get category by id
-GET {{baseUrl}}/api/v1/categories/1
+GET {{baseUrl}}/api/v1/categories/2
 
 ### create new a category
 POST {{baseUrl}}/api/v1/categories
@@ -27,7 +27,7 @@ PUT {{baseUrl}}/api/v1/categories/3
 Content-Type: application/json
 
 {
-    "name": "Watch"
+    "name": "Tablet"
 }
 
 
