@@ -3,3 +3,30 @@
 
 # get categories
 GET {{baseUrl}}/api/v1/brands
+
+###
+
+# get brand by id
+GET {{baseUrl}}/api/v1/brands/2
+
+### create new a brand
+POST {{baseUrl}}/api/v1/brands
+Content-Type: application/json
+
+{
+	"brand_name": "Oppo",
+	"description": "Brand giá tốt"
+}
+
+
+### Update by ID
+PUT {{baseUrl}}/api/v1/brands/3
+Content-Type: application/json
+
+{
+	"brand_name": "Xiaomi new"
+}
+
+
+### Delete by ID
+DELETE  {{baseUrl}}/api/v1/brands/4

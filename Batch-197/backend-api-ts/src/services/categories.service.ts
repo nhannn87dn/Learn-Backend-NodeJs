@@ -2,7 +2,7 @@ import { readFile, writeFile } from '../helpers/file.helper';
 import { TCategory } from '../types/category';
 
 
-const fileName = 'src/database/data.json';
+const fileName = 'src/database/category.json';
 
 
 //Get All Categories
