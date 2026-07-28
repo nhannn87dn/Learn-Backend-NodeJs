@@ -119,9 +119,9 @@ pnpm add express
 Cài thêm để code với Typescript
 
 ```bash
-npm i -D typescript  @types/express @types/node ts-node-dev
+npm i -D typescript  @types/express @types/node tsx
 #or
-pnpm add -D typescript  @types/express @types/node ts-node-dev
+pnpm add -D typescript  @types/express @types/node tsx
 ```
 
 #### Bước 4: Cấu hình TypeScript
@@ -139,10 +139,12 @@ Sau đó mở file tsconfig.json và tìm sửa lại những thông tin sau:
   "compilerOptions": {
     "target": "esnext",
     "module": "nodenext",
+    "outDir": "dist/",
+    "rootDir": "src",
     "rewriteRelativeImportExtensions": true,
     "erasableSyntaxOnly": true,
-    "verbatimModuleSyntax": true,
-    "noEmit": true,
+    "verbatimModuleSyntax": false,
+    "noEmit": false,
     "strict": true,
     "skipLibCheck": true
   },
@@ -176,9 +178,7 @@ Cấu hình lại package.json
 
 ```json
  "scripts": {
-    "build": "npx tsc -p",
-    "start": "node app.ts",
-    "dev": "ts-node-dev --respawn --transpile-only app.ts"
+    "dev": "tsx watch src/app.ts"
   },
 ```
 
@@ -271,9 +271,9 @@ Cấu hình lại file khởi chạy ở `package.json`
 
 ```json
  "scripts": {
-    "build": "npx tsc -p",
-    "start": "node server.ts",
-    "dev": "ts-node-dev --respawn --transpile-only server.ts"
+   "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "tsx watch src/server.ts",
   },
 ```
 

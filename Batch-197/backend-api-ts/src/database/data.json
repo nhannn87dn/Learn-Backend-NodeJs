@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name": "Laptop",
+    "description": "Laptop giá rẻ"
+  },
+  {
+    "id": 2,
+    "name": "Mobile",
+    "description": "Mobile giá rẻ"
+  },
+  {
+    "id": 3,
+    "name": "Watch",
+    "description": "Tablet giá rẻ"
+  }
+]
