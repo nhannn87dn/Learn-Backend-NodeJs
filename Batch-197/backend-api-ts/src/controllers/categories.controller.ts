@@ -2,10 +2,10 @@ import { type Request, type Response } from 'express';
 import categoriesService from '../services/categories.service';
 import { sendJsonSuccess, SUCCESS } from '../helpers/response.helper';
 //Get All Categories
-const getAllCategories = (req: Request, res: Response) => {
+const getAllCategories = async(req: Request, res: Response) => {
 
     //Kết nối với service để lấy dữ liệu categories
-   const categories = categoriesService.findAll();
+   const categories = await categoriesService.findAll();
 
     // res
     // .status(200)
@@ -34,12 +34,12 @@ const getCategoryById = (req: Request, res: Response) => {
 };
 
 //create a new category
-const createCategory = (req: Request, res: Response) => {
+const createCategory = async(req: Request, res: Response) => {
     // Lấy dữ liệu từ body của request
     const payload = req.body;
     console.log('<<=== 🚀 payload ===>>',payload);
 
-    const category = categoriesService.create(payload);
+    const category = await categoriesService.create(payload);
     //response lại cho client
 
     // res

@@ -1,17 +1,20 @@
 import { readFile, writeFile } from '../helpers/file.helper';
 import { TCategory } from '../types/category';
-
+import Category from '../models/category.model';
 
 const fileName = 'src/database/category.json';
 
 
 //Get All Categories
-const findAll = ()=>{
+const findAll = async()=>{
      // Lấy dữ liệu từ file data.json
     // const data = fs.readFileSync(fileName, { encoding: 'utf-8', flag: 'r' });
     // const categories: TCategory[] = JSON.parse(data);
-    const categories: TCategory[] = readFile(fileName);
-    console.log('<<=== 🚀 categories ===>>',categories);
+    //const categories: TCategory[] = readFile(fileName);
+    //console.log('<<=== 🚀 categories ===>>',categories);
+
+    const categories = await Category.find();
+
     return categories;
 }
 //Get Category by ID'
@@ -34,23 +37,32 @@ const findById = (id: number)=>{
 }
 
 //create a new category
-const create = (payload: TCategory)=>{
+const create = async(payload: TCategory)=>{
     // Lấy dữ liệu từ file data.json
-    const categories: TCategory[] = readFile(fileName);
+    //const categories: TCategory[] = readFile(fileName);
 
     //thêm category mới vào mảng categories
-    const newCategory: TCategory = {
-        id: categories.length + 1, //tự động tăng id
-        name: payload.name,
-        description: payload.description
-    };
-    categories.push(newCategory);
+    // const newCategory: TCategory = {
+    //     id: categories.length + 1, //tự động tăng id
+    //     name: payload.name,
+    //     description: payload.description
+    // };
+    // categories.push(newCategory);
     
 
     // Ghi dữ liệu mới vào file data.json
     //fs.writeFileSync(fileName, JSON.stringify(categories, null, 2), { encoding: 'utf-8' });
-    writeFile(fileName, categories);
-    return newCategory
+    //writeFile(fileName, categories);
+
+    //create a new category in database
+    const newCategory = new Category({
+        category_name: payload.category_name,
+        description: payload.description,
+    });
+    const result = await newCategory.save();
+    console.log("New category created:", result);
+
+    return result
 }
 
 //update a category by id
@@ -73,7 +85,7 @@ const updateById = (id: number, payload: TCategory)=>{
             if (c.id === id) {
                 return {
                     ...c,
-                    name: payload.name || c.name,
+                    name: payload.category_name || c.category_name,
                     description: payload.description || c.description,
                 };
             }

@@ -17,7 +17,7 @@ POST {{baseUrl}}/api/v1/categories
 Content-Type: application/json
 
 {
-    "name": "Accessories",
+    "category_name": "Accessories",
     "description": "Accessories gia re"
 }
 
