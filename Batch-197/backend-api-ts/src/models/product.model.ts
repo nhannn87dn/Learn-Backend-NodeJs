@@ -1,37 +1,64 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-// Define the comment interface
-const commentSchema = new Schema({
-    content: {
-        type: String, // Kiểu dữ liệu
-        required: true, // yêu cầu điền
-    },
-})
-
 
 // Define the Comment interface
 const productSchema = new Schema({
-    product_name: {
-        type: String, // Kiểu dữ liệu
-        required: true, // yêu cầu điền
-        minLength: 3, // Độ dài tối thiểu
-        maxLength: 100, // Độ dài tối đa
-        unique: true, // Giá trị phải duy nhất
+     product_name: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+        minLength: [3, 'Tên sản phẩm ít nhất 3 ký tự'],
+        maxLength: [255, 'Tên sản phẩm tối đa 255 ký tự']
     },
     price: {
-        type: Number, // Kiểu dữ liệu
-        required: true, // yêu cầu điền
-        min: 0, // Giá trị tối thiểu
-        default: 0, // Giá trị mặc định
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, 'Giá sản phẩm không được nhỏ hơn 0']
     },
-    //quan hệ theo kiểu reference với category
+    discount: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: [0, 'Giảm giá không được nhỏ hơn 0'],
+        max: [70, 'Giảm giá không được vượt quá 70%']
+    },
     category: {
-        type: mongoose.Schema.Types.ObjectId, // Kiểu dữ liệu   
+        type: Schema.Types.ObjectId,
         ref: 'Category', // Tham chiếu đến model Category
-        required: true, // yêu cầu điền
+        required: true
     },
-    // embedded document comments
-    comments: [commentSchema], // Mảng các comment
+    brand: {
+        type: Schema.Types.ObjectId,
+        ref: 'Brand', // Tham chiếu đến model Brand
+        required: true
+    },
+    description: {
+        type: String,
+        default: null
+    },
+    model_year: {
+        type: Number,
+        default: null
+    },
+    slug: {
+        type: String,
+        unique: true,
+        minLength: [3, 'Slug ít nhất 3 ký tự'],
+        maxLength: [255, 'Slug tối đa 255 ký tự'],
+        default: null
+    },
+    thumbnail: {
+        type: String,
+        maxLength: [255, 'Thumbnail tối đa 255 ký tự'],
+        default: null
+    },
+    stock: {
+        type: Number,
+        default: 0,
+        min: [0, 'Số lượng tồn kho không được nhỏ hơn 0']
+    },
 
 },{
     timestamps: true, // Tự động thêm createdAt và updatedAt
