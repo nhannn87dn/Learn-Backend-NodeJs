@@ -1,49 +1,74 @@
-import { type Request, type Response } from 'express';
+import { type NextFunction, type Request, type Response } from 'express';
 import brandsService from '../services/brands.service';
 import { sendJsonSuccess, SUCCESS } from '../helpers/response.helper';
 
 //Get All Brands
-const getAllBrands = (req: Request, res: Response) => {
-    const brands = brandsService.findAll();
+const getAllBrands = async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const brands = brandsService.findAll();
 
-    sendJsonSuccess(res, brands)
+        sendJsonSuccess(res, brands)
+    }
+    catch (error) {
+        next(error)
+    }
 };
 
 //Get Brand by ID
-const getBrandById = (req: Request, res: Response) => {
-    const { id } = req.params;
+const getBrandById = async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
 
-    const brand = brandsService.findById(parseInt(id as string));
+        const brand = brandsService.findById(parseInt(id as string));
 
-    sendJsonSuccess(res, brand)
+        sendJsonSuccess(res, brand)
+    }
+    catch (error) {
+        next(error)
+    }
 };
 
 //create a new brand
-const createBrand = (req: Request, res: Response) => {
-    const payload = req.body;
+const createBrand = async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const payload = req.body;
 
-    const brand = brandsService.create(payload);
+        const brand = brandsService.create(payload);
 
-    sendJsonSuccess(res, brand, SUCCESS.CREATED)
+        sendJsonSuccess(res, brand, SUCCESS.CREATED)
+    }
+    catch (error) {
+        next(error)
+    }
 };
 
 //update a brand by id
-const updateBrandById = (req: Request, res: Response) => {
-    const { id } = req.params;
-    const payload = req.body;
+const updateBrandById = async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+        const payload = req.body;
 
-    const brandUpdated = brandsService.updateById(parseInt(id as string), payload);
+        const brandUpdated = brandsService.updateById(parseInt(id as string), payload);
 
-    sendJsonSuccess(res, brandUpdated)
+        sendJsonSuccess(res, brandUpdated)
+    }
+    catch (error) {
+        next(error)
+    }
 };
 
 //delete a brand by id
-const deleteBrandById = (req: Request, res: Response) => {
-    const { id } = req.params;
+const deleteBrandById = async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
 
-    const brand = brandsService.deleteById(parseInt(id as string));
+        const brand = brandsService.deleteById(parseInt(id as string));
 
-    sendJsonSuccess(res, brand)
+        sendJsonSuccess(res, brand)
+    }
+    catch (error) {
+        next(error)
+    }
 };
 
 export default {

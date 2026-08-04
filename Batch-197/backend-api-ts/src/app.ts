@@ -2,6 +2,7 @@ import express, { type NextFunction, type Express, type Request, type Response }
 import categoriesRouter from "./routes/v1/categories.route"
 import categoriesRouterV2 from "./routes/v2/categories.route"
 import brandsRouter from "./routes/v1/brands.route"
+import productsRouter from "./routes/v1/products.route"
 import createError from 'http-errors';
 
 const app: Express = express();
@@ -19,6 +20,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api/v1/categories', categoriesRouter);
 app.use('/api/v2/categories', categoriesRouterV2);
 app.use('/api/v1/brands', brandsRouter);
+app.use('/api/v1/products', productsRouter);
 /** END ROUTES */
 
 

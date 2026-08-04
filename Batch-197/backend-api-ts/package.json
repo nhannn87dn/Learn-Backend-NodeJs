@@ -24,7 +24,8 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "http-errors": "^2.0.1",
-    "mongoose": "^9.8.1"
+    "mongoose": "^9.8.1",
+    "slugify": "^1.6.9"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.5.0",

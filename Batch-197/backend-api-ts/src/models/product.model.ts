@@ -13,13 +13,13 @@ const productSchema = new Schema({
     },
     price: {
         type: Number,
-        required: true,
+        required: false,
         default: 0,
         min: [0, 'Giá sản phẩm không được nhỏ hơn 0']
     },
     discount: {
         type: Number,
-        required: true,
+        required: false,
         default: 0,
         min: [0, 'Giảm giá không được nhỏ hơn 0'],
         max: [70, 'Giảm giá không được vượt quá 70%']
@@ -40,14 +40,14 @@ const productSchema = new Schema({
     },
     model_year: {
         type: Number,
-        default: null
+        required: true,
     },
     slug: {
         type: String,
+        required: true,
         unique: true,
         minLength: [3, 'Slug ít nhất 3 ký tự'],
         maxLength: [255, 'Slug tối đa 255 ký tự'],
-        default: null
     },
     thumbnail: {
         type: String,
