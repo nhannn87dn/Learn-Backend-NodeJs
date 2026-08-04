@@ -106,6 +106,12 @@ const update = async (id: string, updateProductDto: UpdateProductDto) => {
 
   //step 2: update product
   //merge thay đổi vào product
+  
+  // Nếu product_name được cập nhật và slug không được cung cấp, tự động tạo slug từ product_name mới
+  if(updateProductDto.product_name && !updateProductDto.slug){
+    updateProductDto.slug = buildSlug(updateProductDto.product_name.toLowerCase());
+  }
+  
   Object.assign(product, updateProductDto);
 
   //step 3: save product
