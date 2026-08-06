@@ -1,4 +1,4 @@
-import { ZodError, ZodIssue, ZodTypeAny } from 'zod';
+import { ZodError, ZodType} from 'zod';
 import { NextFunction, Request, Response } from 'express';
 
 type ValidationErrorItem = {
@@ -8,7 +8,7 @@ type ValidationErrorItem = {
 };
 
 
-const mapZodIssues = (issues: ZodIssue[]): ValidationErrorItem[] => {
+const mapZodIssues = (issues: ZodError['issues']): ValidationErrorItem[] => {
  return issues.map((issue) => ({
   field: issue.path.length > 0 ? issue.path.join('.') : 'request',
   message: issue.message,
@@ -16,7 +16,7 @@ const mapZodIssues = (issues: ZodIssue[]): ValidationErrorItem[] => {
  }));
 };
 
-const validateSchema = (schema: ZodTypeAny) => (req: Request, res: Response, next: NextFunction): void => {
+const validateSchema = (schema: ZodType) => (req: Request, res: Response, next: NextFunction): void => {
  try {
   const result = schema.safeParse({
    body: req.body,

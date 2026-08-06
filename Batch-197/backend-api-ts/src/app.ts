@@ -3,6 +3,8 @@ import categoriesRouter from "./routes/v1/categories.route"
 import categoriesRouterV2 from "./routes/v2/categories.route"
 import brandsRouter from "./routes/v1/brands.route"
 import productsRouter from "./routes/v1/products.route"
+import staffsRouter from "./routes/v1/staffs.route"
+import authRouter from "./routes/v1/auth.route"
 import createError from 'http-errors';
 import { appMiddleware } from './middleware/appMiddleware.middleware';
 
@@ -24,6 +26,8 @@ app.use('/api/v1/categories', categoriesRouter);
 app.use('/api/v2/categories', categoriesRouterV2);
 app.use('/api/v1/brands', brandsRouter);
 app.use('/api/v1/products', productsRouter);
+app.use('/api/v1/staffs', staffsRouter);
+app.use('/api/v1/auth', authRouter);
 /** END ROUTES */
 
 

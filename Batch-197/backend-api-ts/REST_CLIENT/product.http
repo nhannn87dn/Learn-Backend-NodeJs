@@ -33,4 +33,4 @@ Content-Type: application/json
 
 
 ### Delete by ID
-DELETE  {{baseUrl}}/api/v1/products/6a71cd96a1ed8d94625238c0
+DELETE  {{baseUrl}}/api/v1/products/6a71cbde6d01c903b1348762

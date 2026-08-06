@@ -1,0 +1,33 @@
+# Cấu hình domain chung
+@baseUrl=http://localhost:9000
+
+# get staffs
+GET {{baseUrl}}/api/v1/staffs?page=1&limit=10
+
+###
+
+# get staff by id
+GET {{baseUrl}}/api/v1/staffs/6a748070285a8e5f454e1358
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTc0ODA3MDI4NWE4ZTVmNDU0ZTEzNTgiLCJyb2xlIjoic3RhZmYiLCJlbWFpbCI6InN0YWZmMUBleGFtcGxlLmNvbSIsIm5hbWUiOiJOZ3V5ZW4gVmFuIEEiLCJpYXQiOjE3ODYwMjIxNjIsImV4cCI6MTc4NjAyNTc2Mn0.EDjfb60Azh04bs1BzcoCTTqACaxFYc_VyRLuLv_WjOA
+
+### create new a staff
+POST {{baseUrl}}/api/v1/staffs
+Content-Type: application/json
+
+{
+	"name": "Nguyen Van A",
+	"email": "staff1@example.com",
+	"password": "12345678",
+	"role": "staff"
+}
+
+### Update by ID
+PUT {{baseUrl}}/api/v1/staffs/6a748070285a8e5f454e1358
+Content-Type: application/json
+
+{
+	"password": "123456789"
+}
+
+### Delete by ID
+DELETE {{baseUrl}}/api/v1/staffs/6a747f12d50af2095b9543ad
