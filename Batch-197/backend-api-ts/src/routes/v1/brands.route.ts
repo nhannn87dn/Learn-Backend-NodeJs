@@ -1,10 +1,15 @@
 import express from 'express';
 import brandsController from '../../controllers/brands.controller';
-
+import { routeMiddleware } from '../../middleware/routeMiddleware.middleware';
 const router = express.Router();
 
+//Cách dùng 1: gắp trước all các route của resource brands
+//router.use(routeMiddleware);
+
+//Cách dùng 2: gắn vào một endpoint cụ thể
+
 // GET /api/v1/brands
-router.get('/', brandsController.getAllBrands);
+router.get('/', routeMiddleware, brandsController.getAllBrands);
 // GET /api/v1/brands/:id
 router.get('/:id', brandsController.getBrandById);
 // POST /api/v1/brands - create a new brand

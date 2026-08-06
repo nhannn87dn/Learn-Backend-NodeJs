@@ -4,6 +4,7 @@ import categoriesRouterV2 from "./routes/v2/categories.route"
 import brandsRouter from "./routes/v1/brands.route"
 import productsRouter from "./routes/v1/products.route"
 import createError from 'http-errors';
+import { appMiddleware } from './middleware/appMiddleware.middleware';
 
 const app: Express = express();
 
@@ -11,6 +12,8 @@ const app: Express = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+//Middleware cấp độ ứng dụng (Application-level middleware)
+app.use(appMiddleware);
 
 /** BEGIN ROUTES */
 app.get('/', (req: Request, res: Response) => {
@@ -39,6 +42,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
   res.status(err.status || 500);
   res.json({
+    success: false,
     message: err.message,
     statusCode: err.status || 500,
   });

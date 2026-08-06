@@ -5,7 +5,7 @@ import { sendJsonSuccess, SUCCESS } from '../helpers/response.helper';
 //Get All Brands
 const getAllBrands = async(req: Request, res: Response, next: NextFunction) => {
     try {
-        const brands = brandsService.findAll();
+        const brands = await brandsService.findAll(req.query);
 
         sendJsonSuccess(res, brands)
     }
@@ -19,7 +19,7 @@ const getBrandById = async(req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
 
-        const brand = brandsService.findById(parseInt(id as string));
+        const brand = await brandsService.findById(String(id));
 
         sendJsonSuccess(res, brand)
     }
@@ -33,7 +33,7 @@ const createBrand = async(req: Request, res: Response, next: NextFunction) => {
     try {
         const payload = req.body;
 
-        const brand = brandsService.create(payload);
+        const brand = await brandsService.create(payload);
 
         sendJsonSuccess(res, brand, SUCCESS.CREATED)
     }
@@ -48,7 +48,7 @@ const updateBrandById = async(req: Request, res: Response, next: NextFunction) =
         const { id } = req.params;
         const payload = req.body;
 
-        const brandUpdated = brandsService.updateById(parseInt(id as string), payload);
+        const brandUpdated = await brandsService.updateById(String(id), payload);
 
         sendJsonSuccess(res, brandUpdated)
     }
@@ -62,7 +62,7 @@ const deleteBrandById = async(req: Request, res: Response, next: NextFunction) =
     try {
         const { id } = req.params;
 
-        const brand = brandsService.deleteById(parseInt(id as string));
+        const brand = await brandsService.deleteById(String(id));
 
         sendJsonSuccess(res, brand)
     }

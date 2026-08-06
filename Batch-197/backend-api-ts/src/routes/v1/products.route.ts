@@ -1,12 +1,14 @@
 import express from 'express';
 import productsController from '../../controllers/products.controller';
+import validateSchema from '../../middleware/validateSchema.middleware';
+import productSchemaValidation from '../../validations/product.validation';
 
 const router = express.Router();
 
 // GET /api/v1/products
-router.get('/', productsController.getAllProducts);
+router.get('/', validateSchema(productSchemaValidation.getAllProducts), productsController.getAllProducts);
 // GET /api/v1/products/:id
-router.get('/:id', productsController.findProductById);
+router.get('/:id', validateSchema(productSchemaValidation.getProductById), productsController.findProductById);
 
 router.post('/', productsController.createProduct);
 

@@ -6,7 +6,7 @@ const getAllCategories = async(req: Request, res: Response, next: NextFunction) 
     try {
 
         //Kết nối với service để lấy dữ liệu categories
-       const categories = await categoriesService.findAll();
+       const categories = await categoriesService.findAll(req.query);
 
         // res
         // .status(200)
@@ -27,7 +27,7 @@ const getCategoryById = async(req: Request, res: Response, next: NextFunction) =
     try {
         const { id } = req.params;
 
-       const category = categoriesService.findById(parseInt(id as string));
+       const category = await categoriesService.findById(String(id));
 
         // res
         // .status(200)
@@ -76,7 +76,7 @@ const updateCategoryById = async(req: Request, res: Response, next: NextFunction
         // Lấy dữ liệu từ body của request
         const payload = req.body;
         console.log('<<=== 🚀 payload ===>>',payload);
-        const categoryUpdated = categoriesService.updateById(parseInt(id as string), payload);
+        const categoryUpdated = await categoriesService.updateById(String(id), payload);
         
        sendJsonSuccess(res, categoryUpdated)
     }
@@ -90,7 +90,7 @@ const deleteCategoryById = async(req: Request, res: Response, next: NextFunction
     try {
         const { id } = req.params;
 
-        const category = categoriesService.deleteById(parseInt(id as string));
+        const category = await categoriesService.deleteById(String(id));
         
         sendJsonSuccess(res, category)
     }

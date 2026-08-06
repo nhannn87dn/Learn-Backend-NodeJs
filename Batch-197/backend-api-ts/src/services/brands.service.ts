@@ -1,85 +1,102 @@
-import { readFile, writeFile } from '../helpers/file.helper';
-import { TBrand } from '../types/brand';
+import createError from 'http-errors';
+import { buildSlug } from '../helpers/buildSlug.helper';
+import Brand from '../models/brand.model';
+import { CreateBrandDto, UpdateBrandDto } from '../types/brand';
 
-
-const fileName = 'src/database/brand.json';
-
+type QueryParams = {
+    limit?: number | string;
+    page?: number | string;
+    search?: string;
+    sortBy?: string;
+    sortType?: 'asc' | 'desc';
+};
 
 //Get All Brands
-const findAll = () => {
-    const brands: TBrand[] = readFile(fileName);
-    return brands;
-}
+const findAll = async (query: QueryParams = {}) => {
+    const limit = Number(query.limit) > 0 ? Number(query.limit) : 10;
+    const page = Number(query.page) > 0 ? Number(query.page) : 1;
+    const search = typeof query.search === 'string' ? query.search.trim() : '';
+    const sortType = query.sortType === 'asc' ? 'asc' : 'desc';
+    const sortBy = typeof query.sortBy === 'string' && query.sortBy.trim() !== ''
+        ? query.sortBy
+        : 'createdAt';
 
-//Get Brand by ID
-const findById = (id: number) => {
-    const brands: TBrand[] = readFile(fileName);
-
-    const brand = brands.find((b) => b.id === id);
-
-    if (!brand) {
-        throw new Error(`Brand with id ${id} not found`);
+    let filter = {};
+    if (search !== '') {
+        filter = { ...filter, brand_name: { $regex: search, $options: 'i' } };
     }
 
-    return brand;
-}
+    const sortOptions: Record<string, 1 | -1> = {};
+    sortOptions[sortBy] = sortType === 'asc' ? 1 : -1;
 
-//create a new brand
-const create = (payload: Omit<TBrand, 'id'>) => {
-    const brands: TBrand[] = readFile(fileName);
+    const brands = await Brand.find({
+        ...filter,
+    })
+        .select('-__v -createdAt -updatedAt')
+        .limit(limit)
+        .skip((page - 1) * limit)
+        .sort({
+            ...sortOptions,
+        });
 
-    const newBrand: TBrand = {
-        id: brands.length + 1,
-        brand_name: payload.brand_name,
-        description: payload.description,
-    };
-
-    brands.push(newBrand);
-    writeFile(fileName, brands);
-
-    return newBrand;
-}
-
-//update a brand by id
-const updateById = (id: number, payload: Partial<Omit<TBrand, 'id'>>) => {
-    const brands: TBrand[] = readFile(fileName);
-
-    const brand = brands.find((b) => b.id === id);
-    if (!brand) {
-        throw new Error(`Brand with id ${id} not found`);
-    }
-
-    const updatedBrands = brands.map((b) => {
-        if (b.id === id) {
-            return {
-                ...b,
-                brand_name: payload.brand_name || b.brand_name,
-                description: payload.description || b.description,
-            };
-        }
-        return b;
+    const total = await Brand.countDocuments({
+        ...filter,
     });
 
-    writeFile(fileName, updatedBrands);
+    return {
+        records: brands,
+        metadata: {
+            limit,
+            page,
+            totalRecords: total,
+            totalPages: Math.ceil(total / limit),
+        },
+    };
+};
 
-    const brandUpdated = updatedBrands.find((b) => b.id === id);
-    return brandUpdated;
-}
+//Get Brand by ID
+const findById = async (id: string) => {
+    const brand = await Brand.findById(id);
 
-//delete a brand by id
-const deleteById = (id: number) => {
-    const brands: TBrand[] = readFile(fileName);
-
-    const brand = brands.find((b) => b.id === id);
     if (!brand) {
-        throw new Error(`Brand with id ${id} not found`);
+        throw createError(400, `Brand with id ${id} not found`);
     }
 
-    const updatedBrands = brands.filter((b) => b.id !== id);
-
-    writeFile(fileName, updatedBrands);
     return brand;
-}
+};
+
+//create a new brand
+const create = async (createBrandDto: CreateBrandDto) => {
+    if (!createBrandDto.slug) {
+        createBrandDto.slug = buildSlug(createBrandDto.brand_name.toLowerCase());
+    }
+
+    const brand = new Brand(createBrandDto);
+    await brand.save();
+    return brand;
+};
+
+//update a brand by id
+const updateById = async (id: string, updateBrandDto: UpdateBrandDto) => {
+    const brand = await findById(id);
+
+    if (updateBrandDto.brand_name && !updateBrandDto.slug) {
+        updateBrandDto.slug = buildSlug(updateBrandDto.brand_name.toLowerCase());
+    }
+
+    Object.assign(brand, updateBrandDto);
+
+    await brand.save();
+    return brand;
+};
+
+//delete a brand by id
+const deleteById = async (id: string) => {
+    const brand = await findById(id);
+
+    await brand.deleteOne();
+    return brand;
+};
 
 
 export default {

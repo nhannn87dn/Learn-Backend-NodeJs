@@ -1,15 +1,15 @@
 # Cấu hình domain chung
 @baseUrl=http://localhost:9000
 
-# get categories
+# get products
 GET {{baseUrl}}/api/v1/products?page=1&limit=10
 
 ###
 
-# get brand by id
-GET {{baseUrl}}/api/v1/products/6a71cd96a1ed8d94625238c0
+# get product by id
+GET {{baseUrl}}/api/v1/products/6a71cbde6d01c903b1348700
 
-### create new a brand
+### create new a product
 POST {{baseUrl}}/api/v1/products
 Content-Type: application/json
 

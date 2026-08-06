@@ -1,0 +1,5 @@
+# Cấu hình domain chung
+@baseUrl=http://localhost:9000
+
+# get home
+GET {{baseUrl}}/
