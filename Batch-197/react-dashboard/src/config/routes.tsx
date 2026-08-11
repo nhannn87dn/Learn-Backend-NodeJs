@@ -1,3 +1,4 @@
+import CategoriesPage from '@/app/categories/page'
 import { lazy } from 'react'
 import { Navigate } from 'react-router-dom'
 
@@ -199,6 +200,11 @@ export const routes: RouteConfig[] = [
   {
     path: "/settings/connections",
     element: <ConnectionSettings />,
+    protected: true
+  },
+  {
+    path: "/categories",
+    element: <CategoriesPage />,
     protected: true
   },
 

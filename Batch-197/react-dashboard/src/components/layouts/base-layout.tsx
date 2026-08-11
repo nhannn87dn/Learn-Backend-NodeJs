@@ -99,7 +99,7 @@ export function BaseLayout({ children, title, description }: BaseLayoutProps) {
         open={themeCustomizerOpen} 
         onOpenChange={setThemeCustomizerOpen} 
       />
-      <UpgradeToProButton />
+      {/* <UpgradeToProButton /> */}
     </SidebarProvider>
   )
 }

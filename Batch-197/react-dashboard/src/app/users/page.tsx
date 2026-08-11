@@ -76,7 +76,7 @@ export default function UsersPage() {
         <div className="@container/main px-4 lg:px-6 mt-8 lg:mt-12">
          
           <DataTable 
-            users={queryUser.data.data.records}
+            users={queryUser?.data?.data.records || []}
             onDeleteUser={handleDeleteUser}
             onEditUser={handleEditUser}
             onAddUser={handleAddUser}

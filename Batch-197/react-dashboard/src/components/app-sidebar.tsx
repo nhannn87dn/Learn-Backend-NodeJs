@@ -82,6 +82,11 @@ const data = {
           url: "/users",
           icon: Users,
         },
+        {
+          title: "Categories",
+          url: "/categories",
+          icon: Users,
+        },
       ],
     },
     {
@@ -235,8 +240,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         ))}
       </SidebarContent>
       <SidebarFooter>
-        <SidebarNotification />
-        <NavUser user={data.user} />
+        {/* <SidebarNotification /> */}
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   )
