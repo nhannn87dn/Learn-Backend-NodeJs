@@ -6,18 +6,14 @@ import { StatCards } from "./components/stat-cards"
 import { DataTable } from "./components/data-table"
 
 import initialUsersData from "./data.json"
+import { useQuery } from "@tanstack/react-query"
+import axiosClient from "@/lib/axiosClient"
 
 interface User {
-  id: number
+  _id: string
   name: string
   email: string
-  avatar: string
   role: string
-  plan: string
-  billing: string
-  status: string
-  joinedDate: string
-  lastLogin: string
 }
 
 interface UserFormValues {
@@ -29,8 +25,13 @@ interface UserFormValues {
   status: string
 }
 
+const fetchUsers = async()=>{
+ const response = await axiosClient.get('v1/staffs')
+ return response.data
+}
+
 export default function UsersPage() {
-  const [users, setUsers] = useState<User[]>(initialUsersData)
+ 
 
   const generateAvatar = (name: string) => {
     const names = name.split(" ")
@@ -41,23 +42,11 @@ export default function UsersPage() {
   }
 
   const handleAddUser = (userData: UserFormValues) => {
-    const newUser: User = {
-      id: Math.max(...users.map(u => u.id)) + 1,
-      name: userData.name,
-      email: userData.email,
-      avatar: generateAvatar(userData.name),
-      role: userData.role,
-      plan: userData.plan,
-      billing: userData.billing,
-      status: userData.status,
-      joinedDate: new Date().toISOString().split('T')[0],
-      lastLogin: new Date().toISOString().split('T')[0],
-    }
-    setUsers(prev => [newUser, ...prev])
+    console.log("Add user:", userData)
   }
 
   const handleDeleteUser = (id: number) => {
-    setUsers(prev => prev.filter(user => user.id !== id))
+      console.log("Edit user:", id)
   }
 
   const handleEditUser = (user: User) => {
@@ -65,6 +54,14 @@ export default function UsersPage() {
     // In a real app, you'd open an edit dialog
     console.log("Edit user:", user)
   }
+
+  //Gọi API Để lấy User qua React Query
+  const queryUser = useQuery({
+    queryFn: ()=>fetchUsers(),
+    queryKey: ['users']
+  })
+
+  console.log('<<=== 🚀 queryUser ===>>',queryUser.data);
 
   return (
     <BaseLayout 
@@ -79,7 +76,7 @@ export default function UsersPage() {
         <div className="@container/main px-4 lg:px-6 mt-8 lg:mt-12">
          
           <DataTable 
-            users={users}
+            users={queryUser.data.data.records}
             onDeleteUser={handleDeleteUser}
             onEditUser={handleEditUser}
             onAddUser={handleAddUser}

@@ -38,6 +38,7 @@ const axiosClient: AxiosInstance = axios.create({
  */
 axiosClient.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
+        // Lấy accessToken từ Zustand store
         const { accessToken } = useAuthStore.getState()
 
         if (accessToken) {
