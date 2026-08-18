@@ -87,6 +87,11 @@ const data = {
           url: "/categories",
           icon: Users,
         },
+         {
+          title: "Products",
+          url: "/products",
+          icon: Users,
+        },
       ],
     },
     {

@@ -1,5 +1,5 @@
 import axiosClient from "@/lib/axiosClient"
-import type { ICategory } from "./type"
+import type { ICategory, ICategoryOption } from "./type"
 import type { ApiResponse } from "@/types/response"
 
 interface CategoryListResponse {
@@ -12,9 +12,21 @@ interface CategoryListResponse {
     }
 }
 
+type QueryParams = {
+    limit?: number | string;
+    page?: number | string;
+    search?: string;
+    sortBy?: string;
+    sortType?: 'asc' | 'desc';
+};
+
 export const categoriesService = {
-    getCategories: async (): Promise<ApiResponse<CategoryListResponse>> => {
-        const response = await axiosClient.get('/v1/categories')
+    getCategories: async (params?: QueryParams): Promise<ApiResponse<CategoryListResponse>> => {
+        const response = await axiosClient.get('/v1/categories', { params })
+        return response.data
+    },
+    getCategoriesSelect: async (): Promise<ApiResponse<ICategoryOption[]>> => {
+        const response = await axiosClient.get('/v1/categories/select-options')
         return response.data
     },
     getCategoryById: async (id: string): Promise<ApiResponse<ICategory>> => {

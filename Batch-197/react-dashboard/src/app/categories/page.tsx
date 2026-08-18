@@ -7,13 +7,39 @@ import { categoriesService } from "./categories.service"
 import type { ICategory } from "./type"
 import { StatCards } from "./components/stat-cards"
 import { CategoryTable } from "./components/data-table"
+import { useSearchParams } from "react-router-dom"
 
 const CategoriesPage = () => {
   const queryClient = useQueryClient()
 
+  //get search from url
+  const [params, setParams] = useSearchParams()
+  //search query
+  const searchQuery = params.get("search") || ""
+  const pageQuery = params.get("page") || "1"
+  const limitQuery = params.get("limit") || "10"
+
+  const handleSearch = (value: string) => {
+    const nextParams = new URLSearchParams(params)
+    const nextSearch = value.trim()
+
+    if (nextSearch) {
+      nextParams.set("search", nextSearch)
+    } else {
+      nextParams.delete("search")
+    }
+
+    nextParams.set("page", "1")
+    setParams(nextParams)
+  }
+
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["categories"],
-    queryFn: categoriesService.getCategories,
+    queryKey: ["categories", searchQuery, pageQuery, limitQuery],
+    queryFn: () => categoriesService.getCategories({
+      search: searchQuery,
+      page: Number(pageQuery),
+      limit: Number(limitQuery)
+    }),
   })
 
   const categories = useMemo(() => {
@@ -81,6 +107,8 @@ const CategoriesPage = () => {
           ) : (
             <CategoryTable
               categories={categories}
+              searchQuery={searchQuery}
+              onSearch={handleSearch}
               onDelete={handleDeleteCategory}
               onEdit={handleEditCategory}
               onAdd={handleAddCategory}

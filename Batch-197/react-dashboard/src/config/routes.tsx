@@ -1,4 +1,5 @@
 import CategoriesPage from '@/app/categories/page'
+import ProductsPage from '@/app/products/page'
 import { lazy } from 'react'
 import { Navigate } from 'react-router-dom'
 
@@ -205,6 +206,11 @@ export const routes: RouteConfig[] = [
   {
     path: "/categories",
     element: <CategoriesPage />,
+    protected: true
+  },
+   {
+    path: "/products",
+    element: <ProductsPage />,
     protected: true
   },
 

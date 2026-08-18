@@ -1,19 +1,16 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import {
   type ColumnDef,
-  type ColumnFiltersState,
   type SortingState,
-  type VisibilityState,
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ChevronDown, EllipsisVertical, Pencil, Search, Trash2 } from "lucide-react"
+import { EllipsisVertical, Pencil, Search, Trash2, X } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -25,14 +22,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import {
   Table,
   TableBody,
@@ -46,17 +35,21 @@ import type { ICategory } from "@/app/categories/type"
 
 interface CategoryTableProps {
   categories: ICategory[]
+  searchQuery: string
+  onSearch: (value: string) => void
   onDelete: (id: string) => void
   onEdit: (category: ICategory) => void
   onAdd: (values: { category_name: string; description: string; slug: string }) => void
 }
 
-export function CategoryTable({ categories, onDelete, onEdit, onAdd }: CategoryTableProps) {
+export function CategoryTable({ categories, searchQuery, onSearch, onDelete, onEdit, onAdd }: CategoryTableProps) {
   const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
-  const [globalFilter, setGlobalFilter] = useState("")
+  const [searchValue, setSearchValue] = useState(searchQuery)
+
+  useEffect(() => {
+    setSearchValue(searchQuery)
+  }, [searchQuery])
 
   const columns = useMemo<ColumnDef<ICategory>[]>(() => [
     {
@@ -128,82 +121,63 @@ export function CategoryTable({ categories, onDelete, onEdit, onAdd }: CategoryT
     data: categories,
     columns,
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    onGlobalFilterChange: setGlobalFilter,
     state: {
       sorting,
-      columnFilters,
-      columnVisibility,
       rowSelection,
-      globalFilter,
     },
   })
-
-  const slugFilter = table.getColumn("slug")?.getFilterValue() as string
 
   return (
     <div className="w-full space-y-4">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            placeholder="Search categories..."
-            value={globalFilter ?? ""}
-            onChange={(event) => setGlobalFilter(String(event.target.value))}
-            className="pl-9"
-          />
-        </div>
+        <form
+          className="flex flex-1 max-w-sm items-center gap-2"
+          onSubmit={(event) => {
+            event.preventDefault()
+            onSearch(searchValue)
+          }}
+        >
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Search categories..."
+              value={searchValue}
+              onChange={(event) => {
+                const nextValue = String(event.target.value)
+                setSearchValue(nextValue)
+
+                if (!nextValue.trim() && searchQuery) {
+                  onSearch("")
+                }
+              }}
+              className="pl-9 pr-9"
+            />
+            {!!searchValue && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2 cursor-pointer"
+                onClick={() => {
+                  setSearchValue("")
+                  onSearch("")
+                }}
+              >
+                <X className="size-4" />
+                <span className="sr-only">Clear search</span>
+              </Button>
+            )}
+          </div>
+          <Button type="submit" variant="outline" className="cursor-pointer">
+            Search
+          </Button>
+        </form>
         <div className="flex items-center gap-2">
           <CategoryFormDialog onSubmit={onAdd} submitLabel="Create Category" />
-        </div>
-      </div>
-
-      <div className="grid gap-2 sm:grid-cols-2 sm:gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="slug-filter" className="text-sm font-medium">
-            Slug
-          </Label>
-          <Select
-            value={slugFilter || ""}
-            onValueChange={(value) => table.getColumn("slug")?.setFilterValue(value === "all" ? "" : value)}
-          >
-            <SelectTrigger className="cursor-pointer w-full" id="slug-filter">
-              <SelectValue placeholder="Select slug" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Slugs</SelectItem>
-              {Array.from(new Set(categories.map((category) => category.slug))).map((slug) => (
-                <SelectItem key={slug} value={slug}>
-                  {slug}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="column-visibility" className="text-sm font-medium">
-            Column Visibility
-          </Label>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild id="column-visibility">
-              <Button variant="outline" className="cursor-pointer w-full">
-                Columns <ChevronDown className="ml-2 size-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {table.getAllLeafColumns().map((column) => (
-                <DropdownMenuItem key={column.id} className="cursor-pointer" onClick={() => column.toggleVisibility(!column.getIsVisible())}>
-                  {column.columnDef.header as string}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
       </div>
 
