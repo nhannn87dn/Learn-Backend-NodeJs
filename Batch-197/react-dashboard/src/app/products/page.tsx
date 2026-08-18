@@ -20,6 +20,7 @@ import SearchProduct from "./components/SearchProduct"
 import { brandsService } from "../brands/brands.service"
 import type { IBrandOption } from "../brands/type"
 import { AddProductForm } from "./components/AddProductForm"
+import { RoleGuard } from "@/components/auth/RoleGuard"
 
 const getVisiblePages = (currentPage: number, totalPages: number) => {
   if (totalPages <= 5) {
@@ -153,8 +154,13 @@ const ProductsPage = () => {
       </BaseLayout>
     )
   }
+  //Phân quyền view page
+
   return (
-    <BaseLayout title="Products" description="Manage your products">
+    <RoleGuard allowedRoles={["admin", "staff"]} fallback={ <BaseLayout title="Products" description="Manage your products">
+    <p>Bạn không có quyền truy cập vào trang này.</p>
+    </BaseLayout>}>
+        <BaseLayout title="Products" description="Manage your products">
         <div className="@container/main px-4 lg:px-6 ">
             {isLoading ? <ProductTableSkeleton /> : (
                 <div className="flex flex-col gap-4">
@@ -167,7 +173,9 @@ const ProductsPage = () => {
                             brandQuery={brandQuery}
                             onSearch={handleSearch}
                         />
-                        <AddProductForm />
+                        <RoleGuard allowedRoles={["admin"]}>
+                          <AddProductForm />
+                        </RoleGuard>
                     </div>
                     <ProductTable data={records} />
                     {totalPages > 1 && (
@@ -224,6 +232,7 @@ const ProductsPage = () => {
                 </div>)}
         </div>
     </BaseLayout>
+    </RoleGuard>
   )
 }
 

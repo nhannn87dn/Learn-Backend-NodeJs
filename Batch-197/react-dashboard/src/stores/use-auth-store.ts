@@ -3,11 +3,13 @@ import { create } from 'zustand'
 import { persist, devtools, createJSONStorage } from 'zustand/middleware'
 
 
-interface IAuthUser {
+export type AuthRole = 'admin' | 'staff'
+
+export interface IAuthUser {
     id: string
     name: string
     email: string
-    role: string
+    role: AuthRole
 }
 
 export interface AuthState {

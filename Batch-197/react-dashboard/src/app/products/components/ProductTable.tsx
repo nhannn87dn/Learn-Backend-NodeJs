@@ -18,6 +18,7 @@ import {
 import type { IProduct } from "../type"
 import { UpdateProductForm } from "./UpdateProductForm"
 import { DeleteProduct } from "./DeleteProduct"
+import { RoleGuard } from "@/components/auth/RoleGuard"
 
 
 interface ProductTableProps {
@@ -65,8 +66,12 @@ export function ProductTable({ data }: ProductTableProps) {
 			header: "Action",
 			cell: ({ row }) => (
 				<div className="flex items-center gap-2">
-					<UpdateProductForm product={row.original} />
-					<DeleteProduct product={row.original} />
+					<RoleGuard allowedRoles={["admin", "staff"]}>
+						<UpdateProductForm product={row.original} />
+					</RoleGuard>
+                    <RoleGuard allowedRoles={["admin"]}>
+						<DeleteProduct product={row.original} />
+					</RoleGuard>
 				</div>
 			),
 		},

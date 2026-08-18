@@ -2,6 +2,7 @@
 
 import axiosClient from "@/lib/axiosClient"
 import { useAuthStore } from "@/stores/use-auth-store"
+import type { AuthRole } from "@/stores/use-auth-store"
 
 export const useAuth = () => {
     const { user, accessToken, refreshToken, setAuth } = useAuthStore()
@@ -33,6 +34,11 @@ export const useAuth = () => {
     const logout = () => {
         setAuth(null, null, null)
     }
+    const hasRoles = (roles: readonly AuthRole[], mode: 'some' | 'every' = 'some') => {
+        if (!user || !user.role) return false
+        const userRoles = [user.role]
+        return userRoles[mode]((role) => roles.includes(role))
+    }
 
     return {
         user,
@@ -40,6 +46,7 @@ export const useAuth = () => {
         accessToken,
         refreshToken,
         login,
-        logout
+        logout,
+        hasRoles
     }
 }

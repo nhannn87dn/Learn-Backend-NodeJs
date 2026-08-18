@@ -15,13 +15,15 @@ import {
   CreditCard,
   LayoutTemplate,
   Users,
+  type LucideIcon,
 } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Logo } from "@/components/logo"
-import { SidebarNotification } from "@/components/sidebar-notification"
 
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
+import { useAuth } from "@/hooks/use-auth"
+import type { AuthRole } from "@/stores/use-auth-store"
 import {
   Sidebar,
   SidebarContent,
@@ -32,7 +34,25 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-const data = {
+type SidebarNavItem = {
+  title: string
+  url: string
+  icon?: LucideIcon
+  target?: "_blank"
+  roles?: readonly AuthRole[]
+  items?: {
+    title: string
+    url: string
+    isActive?: boolean
+  }[]
+}
+
+type SidebarNavGroup = {
+  label: string
+  items: SidebarNavItem[]
+}
+
+const data: { user: { name: string; email: string; avatar: string }; navGroups: SidebarNavGroup[] } = {
   user: {
     name: "ShadcnStore",
     email: "store@example.com",
@@ -91,6 +111,7 @@ const data = {
           title: "Products",
           url: "/products",
           icon: Users,
+          roles: ["admin", "staff"],
         },
       ],
     },
@@ -220,6 +241,12 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { hasRoles } = useAuth()
+  const navGroups = data.navGroups.map((group) => ({
+    ...group,
+    items: group.items.filter((item) => !item.roles || hasRoles(item.roles)),
+  }))
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -240,12 +267,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        {data.navGroups.map((group) => (
+        {navGroups.map((group) => (
           <NavMain key={group.label} label={group.label} items={group.items} />
         ))}
       </SidebarContent>
       <SidebarFooter>
-        {/* <SidebarNotification /> */}
         <NavUser />
       </SidebarFooter>
     </Sidebar>
