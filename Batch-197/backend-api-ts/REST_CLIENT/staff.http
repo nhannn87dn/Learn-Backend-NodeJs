@@ -15,18 +15,18 @@ POST {{baseUrl}}/api/v1/staffs
 Content-Type: application/json
 
 {
-	"name": "Nguyen Van A",
-	"email": "staff1@example.com",
+	"name": "Administrator",
+	"email": "admin@example.com",
 	"password": "12345678",
-	"role": "staff"
+	"role": "admin"
 }
 
 ### Update by ID
-PUT {{baseUrl}}/api/v1/staffs/6a748070285a8e5f454e1358
+PUT {{baseUrl}}/api/v1/staffs/6a7b0aa9f591315f4efa30c4
 Content-Type: application/json
 
 {
-	"password": "123456789"
+	"password": "Abc34@56789"
 }
 
 ### Delete by ID

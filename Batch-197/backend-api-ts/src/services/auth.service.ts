@@ -26,6 +26,12 @@ const login = async (email: string, password: string) => {
     const accessToken = createToken(payloadToken, '1h');
     const refreshToken = createToken(payloadToken, '7d');
     return {
+        user: {
+            id: staff._id,
+            name: staff.name,
+            email: staff.email,
+            role: staff.role,
+        },
         accessToken,
         refreshToken,
     };

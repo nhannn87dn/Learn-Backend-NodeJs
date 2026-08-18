@@ -2,6 +2,8 @@ import express from 'express';
 import categoriesController from '../../controllers/categories.controller';
 
 const router = express.Router();
+//GET /api/v1/categories/select-options
+router.get('/select-options', categoriesController.getAllCategoriesSelect);
 // GET /api/v1/categories
 router.get('/', categoriesController.getAllCategories);
 // GET /api/v1/categories/:id

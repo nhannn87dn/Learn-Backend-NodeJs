@@ -11,6 +11,12 @@ type QueryParams = {
     sortType?: 'asc' | 'desc';
 };
 
+//get brans for select options
+const getAllBrandsSelect = async () => {
+    const brands = await Brand.find().select('brand_name');
+    return brands;
+}
+
 //Get All Brands
 const findAll = async (query: QueryParams = {}) => {
     const limit = Number(query.limit) > 0 ? Number(query.limit) : 10;
@@ -104,5 +110,6 @@ export default {
     findById,
     create,
     updateById,
-    deleteById
+    deleteById,
+    getAllBrandsSelect
 }

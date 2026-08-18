@@ -8,6 +8,9 @@ const router = express.Router();
 
 //Cách dùng 2: gắn vào một endpoint cụ thể
 
+//GET /api/v1/brands/select-options
+router.get('/select-options', brandsController.getAllBrandsSelect);
+
 // GET /api/v1/brands
 router.get('/', routeMiddleware, brandsController.getAllBrands);
 // GET /api/v1/brands/:id

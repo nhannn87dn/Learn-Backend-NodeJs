@@ -99,10 +99,22 @@ const deleteCategoryById = async(req: Request, res: Response, next: NextFunction
     }
 };
 
+//get all categories for select options
+const getAllCategoriesSelect = async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const categories = await categoriesService.getAllCategoriesSelect();
+        sendJsonSuccess(res, categories)
+    }
+    catch (error) {
+        next(error)
+    }
+};
+
 export default {
     getAllCategories,
     getCategoryById,
     createCategory,
     updateCategoryById,
-    deleteCategoryById
+    deleteCategoryById,
+    getAllCategoriesSelect
 }

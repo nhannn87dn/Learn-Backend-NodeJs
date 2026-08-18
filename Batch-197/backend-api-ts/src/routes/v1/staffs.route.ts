@@ -7,7 +7,7 @@ import { authenticateToken } from '../../middleware/auth.middleware';
 const router = express.Router();
 
 // GET /api/v1/staffs
-router.get('/', validateSchema(staffSchemaValidation.getAllStaffs), staffsController.getAllStaffs);
+router.get('/', authenticateToken, validateSchema(staffSchemaValidation.getAllStaffs), staffsController.getAllStaffs);
 // GET /api/v1/staffs/:id
 router.get('/:id', authenticateToken, validateSchema(staffSchemaValidation.getStaffById), staffsController.getStaffById);
 // POST /api/v1/staffs

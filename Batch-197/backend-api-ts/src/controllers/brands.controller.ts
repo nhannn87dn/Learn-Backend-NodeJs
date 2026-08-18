@@ -71,10 +71,21 @@ const deleteBrandById = async(req: Request, res: Response, next: NextFunction) =
     }
 };
 
+const getAllBrandsSelect = async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const brands = await brandsService.getAllBrandsSelect();
+
+        sendJsonSuccess(res, brands)
+    }
+    catch (error) {
+        next(error)
+    }
+};
 export default {
     getAllBrands,
     getBrandById,
     createBrand,
     updateBrandById,
-    deleteBrandById
+    deleteBrandById,
+    getAllBrandsSelect
 }

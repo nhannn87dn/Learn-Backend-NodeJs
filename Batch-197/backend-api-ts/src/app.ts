@@ -7,12 +7,16 @@ import staffsRouter from "./routes/v1/staffs.route"
 import authRouter from "./routes/v1/auth.route"
 import createError from 'http-errors';
 import { appMiddleware } from './middleware/appMiddleware.middleware';
+import cors from 'cors';
 
 const app: Express = express();
 
 // Middleware để parse JSON body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+//enable cors
+app.use(cors());
 
 //Middleware cấp độ ứng dụng (Application-level middleware)
 app.use(appMiddleware);

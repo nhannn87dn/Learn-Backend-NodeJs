@@ -4,7 +4,9 @@
 # get brands
 GET {{baseUrl}}/api/v1/brands
 
-###
+### get brands select options
+GET {{baseUrl}}/api/v1/brands/select-options
+
 
 # get brand by id
 GET {{baseUrl}}/api/v1/brands/2

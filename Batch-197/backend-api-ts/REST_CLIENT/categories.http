@@ -2,8 +2,10 @@
 @baseUrl=http://localhost:9000
 
 # get categories
-GET {{baseUrl}}/api/v1/categories
+GET {{baseUrl}}/api/v1/categories?search=book
 
+### get categories select options
+GET {{baseUrl}}/api/v1/categories/select-options
 
 ###
 GET {{baseUrl}}/api/v2/categories

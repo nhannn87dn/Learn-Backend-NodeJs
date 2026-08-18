@@ -10,6 +10,11 @@ type QueryParams = {
     sortBy?: string;
     sortType?: 'asc' | 'desc';
 };
+//get all categories for select options
+const getAllCategoriesSelect = async () => {
+    const categories = await Category.find().select('category_name');
+    return categories;
+};
 
 //Get All Categories
 const findAll = async (query: QueryParams = {}) => {
@@ -105,5 +110,6 @@ export default {
     findById,
     create,
     updateById,
-    deleteById
+    deleteById,
+    getAllCategoriesSelect,
 }

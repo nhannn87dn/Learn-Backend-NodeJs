@@ -49,6 +49,8 @@ const findAll = async (query: QueryParams) => {
     ...filter,
   })
     .select("-__v -createdAt -updatedAt") // loại bỏ trường __v khỏi kết quả
+    .populate("category", "category_name") // populate category_name từ collection categories
+    .populate("brand", "brand_name") // populate brand_name từ collection brands
     .limit(limit)
     .skip((page - 1) * limit)
     .sort({
