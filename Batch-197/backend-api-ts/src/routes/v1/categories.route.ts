@@ -3,6 +3,14 @@ import categoriesController from '../../controllers/categories.controller';
 import { authenticateToken } from '../../middleware/auth.middleware';
 
 const router = express.Router();
+
+//====== PUBLIC ROUTES ====== 
+//GET /api/v1/categories/public/categories-tree
+router.get('/public/categories-tree', categoriesController.getCategoriesTree);
+//GET /api/v1/categories/public/:categoryId/home-products?limit=5
+router.get('/public/:categoryId/home-products', categoriesController.getCategoryHomeProducts);
+
+//====== PRIVATE ROUTES ====== 
 //GET /api/v1/categories/select-options
 router.get('/select-options',  authenticateToken, categoriesController.getAllCategoriesSelect);
 // GET /api/v1/categories

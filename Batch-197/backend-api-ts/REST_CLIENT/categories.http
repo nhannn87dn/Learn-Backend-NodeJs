@@ -1,9 +1,16 @@
 # Cấu hình domain chung
 @baseUrl=http://localhost:9000
 
-# get categories
-GET {{baseUrl}}/api/v1/categories?search=book
+### categories tree
+GET {{baseUrl}}/api/v1/categories/public/categories-tree
 
+
+### get 5 products by categoryId
+GET {{baseUrl}}/api/v1/categories/public/6a6dd690b74b5aeea306dd71/home-products?limit=5
+
+### get categories
+GET {{baseUrl}}/api/v1/categories?search=book
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTdiMGFhOWY1OTEzMTVmNGVmYTMwYzQiLCJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJpYXQiOjE3ODcyMjU4ODMsImV4cCI6MTc4NzIyOTQ4M30.RsU-_HDZukrdBPAWsZq6mUOsmhWN96po7RJeK8fNrHE
 ### get categories select options
 GET {{baseUrl}}/api/v1/categories/select-options
 

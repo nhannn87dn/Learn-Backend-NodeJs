@@ -1,6 +1,8 @@
 import createError from 'http-errors';
 import { buildSlug } from '../helpers/buildSlug.helper';
 import Category from '../models/category.model';
+import productsService from './products.service';
+
 import { CreateCategoryDto, UpdateCategoryDto } from '../types/category';
 
 type QueryParams = {
@@ -15,6 +17,11 @@ const getAllCategoriesSelect = async () => {
     const categories = await Category.find().select('category_name');
     return categories;
 };
+
+const getCategoriesTree = async () => {
+    const categories = await Category.find().select('category_name slug');
+     return categories;
+}
 
 //Get All Categories
 const findAll = async (query: QueryParams = {}) => {
@@ -104,6 +111,17 @@ const deleteById = async (id: string) => {
     return category;
 };
 
+const getCategoryHomeProducts = async (categoryId: string, limit: number) => {
+    //bước 1 check tồn tại categoryId
+    const category = await findById(categoryId);
+    //bước 2 lấy sp theo categoryId và limit
+    const products = await productsService.getHomeProductsByCategory(category._id.toString(), limit);
+    return {
+        category,
+        products
+    };
+}
+
 
 export default {
     findAll,
@@ -112,4 +130,6 @@ export default {
     updateById,
     deleteById,
     getAllCategoriesSelect,
+    getCategoriesTree,
+    getCategoryHomeProducts
 }

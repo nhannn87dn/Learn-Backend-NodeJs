@@ -130,10 +130,19 @@ const deleteRecord = async (id: string) => {
   return product;
 };
 
+const getHomeProductsByCategory = async (categoryId: string, limit: number) => {
+  const products = await Product.
+  find({ category: categoryId })
+  .select("-__v -createdAt -updatedAt -description -stock")
+  .limit(limit);
+  return products;
+};
+
 export default {
   findAll,
   findById,
   create,
   update,
   deleteRecord,
+  getHomeProductsByCategory
 };

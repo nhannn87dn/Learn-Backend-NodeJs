@@ -110,11 +110,36 @@ const getAllCategoriesSelect = async(req: Request, res: Response, next: NextFunc
     }
 };
 
+/** Public */
+const getCategoriesTree = async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const categories = await categoriesService.getCategoriesTree();
+        sendJsonSuccess(res, categories)
+    }
+    catch (error) {
+        next(error)
+    }
+};
+const getCategoryHomeProducts = async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { categoryId } = req.params;
+        const { limit=5 } = req.query;
+        const products = await categoriesService.getCategoryHomeProducts(String(categoryId), Number(limit));
+        sendJsonSuccess(res, products)
+    }
+    catch (error) {
+        next(error)
+    }
+};
+
+
 export default {
     getAllCategories,
     getCategoryById,
     createCategory,
     updateCategoryById,
     deleteCategoryById,
-    getAllCategoriesSelect
+    getAllCategoriesSelect,
+    getCategoriesTree,
+    getCategoryHomeProducts
 }
