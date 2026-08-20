@@ -132,6 +132,17 @@ const getCategoryHomeProducts = async(req: Request, res: Response, next: NextFun
     }
 };
 
+const getCategoryProducts = async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { slug } = req.params;
+        //const { limit=20, page=1, sortBy='createdAt', sortType='desc' } = req.query;
+        const products = await categoriesService.getCategoryProducts(slug,req.query);
+        sendJsonSuccess(res, products)
+    }
+    catch (error) {
+        next(error)
+    }
+};
 
 export default {
     getAllCategories,
@@ -141,5 +152,6 @@ export default {
     deleteCategoryById,
     getAllCategoriesSelect,
     getCategoriesTree,
-    getCategoryHomeProducts
+    getCategoryHomeProducts,
+    getCategoryProducts
 }

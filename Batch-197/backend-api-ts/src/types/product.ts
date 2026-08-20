@@ -26,3 +26,14 @@ export type CreateProductDto = {
 }
 
 export type UpdateProductDto = Partial<CreateProductDto>;
+
+
+export type QueryParams = {
+  limit?: number;
+  page?: number;
+  search?: string;
+  category?: string;
+  brand?: string;
+  sortBy?: string;
+  sortType?: "asc" | "desc";
+};

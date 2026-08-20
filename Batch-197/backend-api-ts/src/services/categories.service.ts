@@ -122,6 +122,20 @@ const getCategoryHomeProducts = async (categoryId: string, limit: number) => {
     };
 }
 
+const getCategoryProducts = async(slug: string, query: QueryParams)=>{
+    //const { limit=20, page=1, sortBy='createdAt', sortType='desc' } = query;
+    //bước 1 check tồn tại categoryId
+    const category = await Category.findOne({slug});
+    if(!category){
+        throw createError(400, `Category with slug ${slug} not found`);
+    }
+    //bước 2 lấy sp theo slug và limit
+    const products = await productsService.getProductsByCategoryId(category._id.toString(), query);
+    return {
+        category,
+        products
+    };
+}
 
 export default {
     findAll,
@@ -131,5 +145,6 @@ export default {
     deleteById,
     getAllCategoriesSelect,
     getCategoriesTree,
-    getCategoryHomeProducts
+    getCategoryHomeProducts,
+    getCategoryProducts
 }

@@ -9,6 +9,8 @@ const router = express.Router();
 router.get('/public/categories-tree', categoriesController.getCategoriesTree);
 //GET /api/v1/categories/public/:categoryId/home-products?limit=5
 router.get('/public/:categoryId/home-products', categoriesController.getCategoryHomeProducts);
+//GET /api/v1/categories/public/:slug/products?limit=20&page=1&sortBy=price&sortType=asc
+router.get('/public/:slug/products', categoriesController.getCategoryProducts);
 
 //====== PRIVATE ROUTES ====== 
 //GET /api/v1/categories/select-options
