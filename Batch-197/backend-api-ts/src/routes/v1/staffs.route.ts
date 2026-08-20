@@ -11,10 +11,10 @@ router.get('/', authenticateToken, validateSchema(staffSchemaValidation.getAllSt
 // GET /api/v1/staffs/:id
 router.get('/:id', authenticateToken, validateSchema(staffSchemaValidation.getStaffById), staffsController.getStaffById);
 // POST /api/v1/staffs
-router.post('/', validateSchema(staffSchemaValidation.createStaff), staffsController.createStaff);
+router.post('/', authenticateToken, validateSchema(staffSchemaValidation.createStaff), staffsController.createStaff);
 // PUT /api/v1/staffs/:id
-router.put('/:id', validateSchema(staffSchemaValidation.updateStaff), staffsController.updateStaffById);
+router.put('/:id', authenticateToken, validateSchema(staffSchemaValidation.updateStaff), staffsController.updateStaffById);
 // DELETE /api/v1/staffs/:id
-router.delete('/:id', validateSchema(staffSchemaValidation.deleteStaffById), staffsController.deleteStaffById);
+router.delete('/:id', authenticateToken, validateSchema(staffSchemaValidation.deleteStaffById), staffsController.deleteStaffById);
 
 export default router;

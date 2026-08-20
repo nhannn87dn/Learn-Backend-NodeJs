@@ -1,9 +1,9 @@
 # Cấu hình domain chung
 @baseUrl=http://localhost:9000
-
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTc0ODA3MDI4NWE4ZTVmNDU0ZTEzNTgiLCJyb2xlIjoic3RhZmYiLCJlbWFpbCI6InN0YWZmMUBleGFtcGxlLmNvbSIsIm5hbWUiOiJOZ3V5ZW4gVmFuIEEiLCJpYXQiOjE3ODcwNTg0MzIsImV4cCI6MTc4NzA2MjAzMn0.Hk8EGyA9_LbReleAt8RKAP138p35jn496LytMjN-4EY
 # get products
 GET {{baseUrl}}/api/v1/products?page=1&limit=10
-
+Authorization: Bearer {{accessToken}}
 ###
 
 # get product by id

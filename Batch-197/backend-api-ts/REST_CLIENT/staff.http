@@ -1,9 +1,10 @@
 # Cấu hình domain chung
 @baseUrl=http://localhost:9000
 
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTc0ODA3MDI4NWE4ZTVmNDU0ZTEzNTgiLCJyb2xlIjoic3RhZmYiLCJlbWFpbCI6InN0YWZmMUBleGFtcGxlLmNvbSIsIm5hbWUiOiJOZ3V5ZW4gVmFuIEEiLCJpYXQiOjE3ODcwNTg5MjEsImV4cCI6MTc4NzA2MjUyMX0.-UgRCyl46x9VjG2t2YEZqDwHKmtLEWD334aSC2zRoRw
 # get staffs
 GET {{baseUrl}}/api/v1/staffs?page=1&limit=10
-
+Authorization: Bearer {{accessToken}}
 ###
 
 # get staff by id

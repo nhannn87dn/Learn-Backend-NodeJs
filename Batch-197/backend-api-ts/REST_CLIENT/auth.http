@@ -1,7 +1,17 @@
 # Cấu hình domain chung
 @baseUrl=http://localhost:9000
 
-# login
+# login Admin
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@example.com",
+	"password": "Abc34@56789"
+}
+
+
+### login Staff
 POST {{baseUrl}}/api/v1/auth/login
 Content-Type: application/json
 
@@ -9,3 +19,4 @@ Content-Type: application/json
     "email": "staff1@example.com",
 	"password": "123456789"
 }
+
