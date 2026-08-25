@@ -1,0 +1,68 @@
+# Cấu hình domain chung
+@baseUrl=http://localhost:9000
+
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTdiMGFhOWY1OTEzMTVmNGVmYTMwYzQiLCJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJpYXQiOjE3ODc2NjEzOTksImV4cCI6MTc4NzY2NDk5OX0.TUebjTnBCI_Ux4SHCP42KGeenObhguury1dSOfSo7O0
+@customerId=6a8d8c9b606edfd88e240de5
+
+# Get all customers
+GET {{baseUrl}}/api/v1/customers?page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Search customers
+GET {{baseUrl}}/api/v1/customers?page=1&limit=10&search=nguyen&sortBy=createdAt&sortType=desc
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Get customer by ID
+GET {{baseUrl}}/api/v1/customers/{{customerId}}
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Create customer
+POST {{baseUrl}}/api/v1/customers
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "firstName": "Nguyen",
+  "lastName": "Van B",
+  "email": "customerb@example.com",
+  "phone": "0901234567",
+  "street": "12 Nguyen Trai",
+  "city": "Ho Chi Minh City",
+  "state": "Vietnam",
+  "password": "12345678"
+}
+
+###
+
+# Update customer by ID
+PUT {{baseUrl}}/api/v1/customers/{{customerId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "phone": "0912345678",
+  "street": "25 Le Loi"
+}
+
+###
+
+# Update customer password
+PUT {{baseUrl}}/api/v1/customers/{{customerId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "password": "Abc34@56789"
+}
+
+###
+
+# Delete customer by ID
+DELETE {{baseUrl}}/api/v1/customers/{{customerId}}
+Authorization: Bearer {{accessToken}}

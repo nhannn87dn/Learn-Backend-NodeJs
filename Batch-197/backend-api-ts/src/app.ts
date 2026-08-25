@@ -5,6 +5,8 @@ import brandsRouter from "./routes/v1/brands.route"
 import productsRouter from "./routes/v1/products.route"
 import staffsRouter from "./routes/v1/staffs.route"
 import authRouter from "./routes/v1/auth.route"
+import customersRouter from "./routes/v1/customers.route"
+import ordersRouter from "./routes/v1/orders.route"
 import createError from 'http-errors';
 import { appMiddleware } from './middleware/appMiddleware.middleware';
 import cors from 'cors';
@@ -32,6 +34,8 @@ app.use('/api/v1/brands', brandsRouter);
 app.use('/api/v1/products', productsRouter);
 app.use('/api/v1/staffs', staffsRouter);
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/customers', customersRouter);
+app.use('/api/v1/orders', ordersRouter);
 /** END ROUTES */
 
 

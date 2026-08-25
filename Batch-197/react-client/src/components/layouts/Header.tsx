@@ -2,6 +2,7 @@ import { Link, NavLink } from 'react-router';
 import { Mountain } from 'lucide-react'; // Icon giả lập cho Logo
 import { cn } from '@/lib/utils'; // Utility function quen thuộc của shadcn
 import { buttonVariants } from '@/components/ui/button';
+import Cart from '../blocks/Cart';
 
 // Tách config ra ngoài để dễ quản lý và mở rộng
 const NAV_LINKS = [
@@ -46,7 +47,9 @@ export const Header = () => {
               {link.name}
             </NavLink>
           ))}
-          
+          <Link to="/shopping-cart">
+            <Cart />
+          </Link>
           {/* Có thể thêm các nút Call to Action hoặc Theme Toggle ở đây */}
           {/* <Button size="sm" className="ml-4">Đăng nhập</Button> */}
         </nav>

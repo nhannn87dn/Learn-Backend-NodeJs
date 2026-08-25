@@ -1,8 +1,11 @@
 import { ShoppingCart } from "lucide-react";
 import { Button } from "../ui/button";
 import type { IProduct } from "@/types/products";
+import { Link } from "react-router";
+import { useShoppingCartStore } from "@/stores/shopping-cart-store";
 
 const ProductCard = ({ product }: {product: IProduct}) => {
+  const {addItem} = useShoppingCartStore();
   // Hàm format tiền tệ VNĐ
   const formatPrice = (price: number) =>
     new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
@@ -10,6 +13,7 @@ const ProductCard = ({ product }: {product: IProduct}) => {
   return (
     <div className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm transition-all hover:shadow-md">
       {/* Phần Ảnh: Tỷ lệ 1:1, hiệu ứng zoom nhẹ khi hover */}
+      <Link to={`/products/${product.slug}`}>
       <div className="relative aspect-square overflow-hidden bg-muted">
         <img
           src={product.thumbnail}
@@ -19,14 +23,15 @@ const ProductCard = ({ product }: {product: IProduct}) => {
         />
         
       </div>
-
+      </Link>
       {/* Phần Thông tin */}
       <div className="flex flex-1 flex-col p-4">
         {/* Tên sản phẩm: truncate để không bị rớt dòng làm hỏng layout grid */}
+        <Link to={`/products/${product.slug}`}>
         <h3 className="line-clamp-2 min-h-[2.5rem] text-sm font-medium leading-tight text-foreground transition-colors hover:text-primary cursor-pointer">
           {product.product_name}
         </h3>
-
+        </Link>
 
         {/* Giá */}
         <div className="mt-3 flex items-center gap-2">
@@ -37,7 +42,14 @@ const ProductCard = ({ product }: {product: IProduct}) => {
 
         {/* Nút Thêm vào giỏ (Đẩy xuống đáy nhờ flex-1 ở container) */}
         <div className="mt-auto pt-4">
-          <Button variant="outline" className="w-full gap-2">
+          <Button onClick={()=>{
+            addItem({
+              id: product._id,
+              name: product.product_name,
+              price: product.price,
+              quantity: 1
+            })
+          }} variant="outline" className="w-full gap-2">
             <ShoppingCart className="h-4 w-4" />
             Thêm vào giỏ
           </Button>

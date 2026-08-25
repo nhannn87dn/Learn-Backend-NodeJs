@@ -1,0 +1,184 @@
+# Cấu hình domain chung
+@baseUrl=http://localhost:9000
+
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTdiMGFhOWY1OTEzMTVmNGVmYTMwYzQiLCJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJpYXQiOjE3ODc2NjEzOTksImV4cCI6MTc4NzY2NDk5OX0.TUebjTnBCI_Ux4SHCP42KGeenObhguury1dSOfSo7O0
+@customerId=6a8d8c9b606edfd88e240de5
+@productId=6a6ddfbe20cd45a87527086c
+@orderId=YOUR_ORDER_ID
+
+@emailNew=demo1@example.com
+@phoneNew=0988777666
+@demoOrderId=
+@existingCustomerOrderId=
+
+# Demo guest checkout: the service finds or creates the customer
+POST {{baseUrl}}/api/v1/orders
+Content-Type: application/json
+
+{
+  "customer": {
+    "firstName": "Demo",
+    "lastName": "Guest",
+    "email": "{{emailNew}}",
+    "phone": "{{phoneNew}}",
+    "street": "100 Demo Street",
+    "city": "Ho Chi Minh City",
+    "state": "Vietnam"
+  },
+  "items": [
+    {
+      "productId": "{{productId}}",
+      "product_name": "Demo product",
+      "price": 100000,
+      "quantity": 2,
+      "subtotal": 200000
+    }
+  ],
+  "shippingAddress": {
+    "firstName": "Demo",
+    "lastName": "Customer",
+    "phone": "{{phoneNew}}",
+    "street": "100 Demo Street",
+    "city": "Ho Chi Minh City",
+    "state": "Vietnam"
+  },
+  "shippingFee": 30000,
+  "discount": 10000,
+  "paymentMethod": "cod"
+}
+
+###
+
+# Verify the newly created order
+GET {{baseUrl}}/api/v1/orders/{{demoOrderId}}
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Demo existing customer: same email and phone, different name and shipping address
+POST {{baseUrl}}/api/v1/orders
+Content-Type: application/json
+
+{
+  "customer": {
+    "firstName": "Tran",
+    "lastName": "Thi C",
+    "email": "{{emailNew}}",
+    "phone": "{{phoneNew}}",
+    "street": "88 Tran Hung Dao",
+    "city": "Da Nang",
+    "state": "Vietnam"
+  },
+  "items": [
+    {
+      "productId": "{{productId}}",
+      "product_name": "Demo product",
+      "price": 150000,
+      "quantity": 1,
+      "subtotal": 150000
+    }
+  ],
+  "shippingAddress": {
+    "firstName": "Le",
+    "lastName": "Van D",
+    "phone": "{{phoneNew}}",
+    "street": "45 Bach Dang",
+    "city": "Da Nang",
+    "state": "Vietnam"
+  },
+  "shippingFee": 25000,
+  "discount": 0,
+  "paymentMethod": "cod"
+}
+
+
+###
+
+# Verify the order for the existing customer
+GET {{baseUrl}}/api/v1/orders/{{existingCustomerOrderId}}
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Get all orders
+GET {{baseUrl}}/api/v1/orders?page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Filter orders by status and customer
+GET {{baseUrl}}/api/v1/orders?page=1&limit=10&status=pending&customerId={{customerId}}&sortBy=createdAt&sortType=desc
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Get order by ID
+GET {{baseUrl}}/api/v1/orders/{{orderId}}
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Create order
+POST {{baseUrl}}/api/v1/orders
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "customerId": "{{customerId}}",
+  "items": [
+    {
+      "productId": "{{productId}}",
+      "product_name": "Sample product",
+      "price": 100000,
+      "quantity": 2,
+      "subtotal": 200000
+    }
+  ],
+  "shippingAddress": {
+    "firstName": "Nguyen",
+    "lastName": "Van B",
+    "phone": "0912345678",
+    "street": "25 Le Loi",
+    "city": "Ho Chi Minh City",
+    "state": "Vietnam"
+  },
+  "shippingFee": 30000,
+  "discount": 10000,
+  "paymentMethod": "cod"
+}
+
+###
+
+# Update order status
+PUT {{baseUrl}}/api/v1/orders/{{orderId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "status": "confirmed",
+  "paymentStatus": "paid"
+}
+
+###
+
+# Update shipping information
+PUT {{baseUrl}}/api/v1/orders/{{orderId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "shippingAddress": {
+    "firstName": "Nguyen",
+    "lastName": "Van B",
+    "phone": "0912345678",
+    "street": "25 Le Loi",
+    "city": "Ho Chi Minh City",
+    "state": "Vietnam"
+  }
+}
+
+###
+
+# Delete order by ID
+DELETE {{baseUrl}}/api/v1/orders/{{orderId}}
+Authorization: Bearer {{accessToken}}
