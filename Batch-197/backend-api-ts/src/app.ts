@@ -7,16 +7,21 @@ import staffsRouter from "./routes/v1/staffs.route"
 import authRouter from "./routes/v1/auth.route"
 import customersRouter from "./routes/v1/customers.route"
 import ordersRouter from "./routes/v1/orders.route"
+import uploadRouter from "./routes/v1/upload.route"
+import emailRouter from "./routes/v1/mail.route"
 import createError from 'http-errors';
 import { appMiddleware } from './middleware/appMiddleware.middleware';
 import cors from 'cors';
+import path from 'node:path';
+import multer from 'multer';
 
 const app: Express = express();
 
 // Middleware để parse JSON body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
+//Cấu hình tài nguyên tĩnh
+app.use(express.static(path.join(__dirname, '../public')));
 //enable cors
 app.use(cors());
 
@@ -36,6 +41,8 @@ app.use('/api/v1/staffs', staffsRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/customers', customersRouter);
 app.use('/api/v1/orders', ordersRouter);
+app.use('/api/v1/uploads', uploadRouter);
+app.use('/api/v1/mail', emailRouter);
 /** END ROUTES */
 
 
@@ -52,12 +59,23 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     console.error('err.stack: ', err.stack);
   }
 
-  res.status(err.status || 500);
-  res.json({
+  // 1. Ưu tiên lấy status/statusCode truyền vào
+  let statusCode = err.status || err.statusCode;
+
+  // 2. Nếu là lỗi do chính Multer bắt (ví dụ: Vượt quá 2MB - LIMIT_FILE_SIZE)
+  if (err instanceof multer.MulterError) {
+    statusCode = 400;
+  }
+
+  // 3. Fallback về 500 nếu không xác định được status
+  statusCode = statusCode || 500;
+
+  res.status(statusCode).json({
     success: false,
     message: err.message,
-    statusCode: err.status || 500,
+    statusCode: statusCode,
   });
+ 
 });
 
 export default app;

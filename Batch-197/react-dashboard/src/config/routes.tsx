@@ -1,5 +1,6 @@
 import CategoriesPage from '@/app/categories/page'
 import ProductsPage from '@/app/products/page'
+import UploadsPage from '@/app/uploads/page'
 import { lazy } from 'react'
 import { Navigate } from 'react-router-dom'
 
@@ -213,6 +214,12 @@ export const routes: RouteConfig[] = [
     element: <ProductsPage />,
     protected: true
   },
+   {
+    path: "/uploads",
+    element: <UploadsPage />,
+    protected: true
+  },
+
 
   // Catch-all route for 404
   {

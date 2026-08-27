@@ -113,6 +113,12 @@ const data: { user: { name: string; email: string; avatar: string }; navGroups: 
           icon: Users,
           roles: ["admin", "staff"],
         },
+         {
+          title: "Uploads",
+          url: "/uploads",
+          icon: Users,
+          roles: ["admin", "staff"],
+        },
       ],
     },
     {
