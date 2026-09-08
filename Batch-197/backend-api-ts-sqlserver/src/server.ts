@@ -1,7 +1,9 @@
 
+import 'reflect-metadata';
 import app from './app';
 import {ENV} from './config/env';
 import { myDataSource } from './data-source';
+
 
 const PORT = ENV.PORT || 3000;
 

@@ -15,6 +15,12 @@ import cors from 'cors';
 import path from 'node:path';
 import multer from 'multer';
 
+import { myDataSource } from './data-source';
+import {User} from './entities/user.entity';
+
+//tạo user repo
+const userRepository = myDataSource.getRepository(User);
+
 const app: Express = express();
 
 // Middleware để parse JSON body
@@ -32,6 +38,12 @@ app.use(appMiddleware);
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
 });
+
+app.get('/users', (req: Request, res: Response) => {
+  const users = userRepository.find();
+  res.json(users);
+});
+
 //Khai báo route cho categories
 // app.use('/api/v1/categories', categoriesRouter);
 // app.use('/api/v2/categories', categoriesRouterV2);

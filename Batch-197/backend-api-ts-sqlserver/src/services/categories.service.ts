@@ -1,6 +1,7 @@
 import createError from 'http-errors';
 import { buildSlug } from '../helpers/buildSlug.helper';
-import Category from '../models/category.model';
+import { myDataSource } from '../data-source';
+import { Category } from '../entities/categories.entity';
 import productsService from './products.service';
 
 import { CreateCategoryDto, UpdateCategoryDto } from '../types/category';
@@ -12,15 +13,20 @@ type QueryParams = {
     sortBy?: string;
     sortType?: 'asc' | 'desc';
 };
+
+const categoryRepository = myDataSource.getRepository(Category);
+
 //get all categories for select options
 const getAllCategoriesSelect = async () => {
-    const categories = await Category.find().select('category_name');
-    return categories;
+    return categoryRepository.find({
+        select: ['id', 'category_name'],
+    });
 };
 
 const getCategoriesTree = async () => {
-    const categories = await Category.find().select('category_name slug');
-     return categories;
+    return categoryRepository.find({
+        select: ['id', 'category_name', 'slug'],
+    });
 }
 
 //Get All Categories
@@ -33,27 +39,25 @@ const findAll = async (query: QueryParams = {}) => {
         ? query.sortBy
         : 'createdAt';
 
-    let filter = {};
+    const queryBuilder = categoryRepository.createQueryBuilder('category');
+
     if (search !== '') {
-        filter = { ...filter, category_name: { $regex: search, $options: 'i' } };
+        queryBuilder.where('LOWER(category.category_name) LIKE LOWER(:search)', {
+            search: `%${search}%`,
+        });
     }
 
-    const sortOptions: Record<string, 1 | -1> = {};
-    sortOptions[sortBy] = sortType === 'asc' ? 1 : -1;
-
-    const categories = await Category.find({
-        ...filter,
-    })
-        .select('-__v -createdAt -updatedAt')
-        .limit(limit)
+    const sortableFields: Record<string, string> = {
+        id: 'category.id',
+        category_name: 'category.category_name',
+        slug: 'category.slug',
+    };
+    queryBuilder
+        .orderBy(sortableFields[sortBy] ?? 'category.id', sortType === 'asc' ? 'ASC' : 'DESC')
         .skip((page - 1) * limit)
-        .sort({
-            ...sortOptions,
-        });
+        .take(limit);
 
-    const total = await Category.countDocuments({
-        ...filter,
-    });
+    const [categories, total] = await queryBuilder.getManyAndCount();
 
     return {
         records: categories,
@@ -68,7 +72,10 @@ const findAll = async (query: QueryParams = {}) => {
 
 //Get Category by ID
 const findById = async (id: string) => {
-    const category = await Category.findById(id);
+    const categoryId = Number(id);
+    const category = Number.isInteger(categoryId)
+        ? await categoryRepository.findOneBy({ id: categoryId })
+        : null;
 
     if (!category) {
         throw createError(400, `Category with id ${id} not found`);
@@ -79,12 +86,14 @@ const findById = async (id: string) => {
 
 //create a new category
 const create = async (createCategoryDto: CreateCategoryDto) => {
-    if (!createCategoryDto.slug) {
-        createCategoryDto.slug = buildSlug(createCategoryDto.category_name.toLowerCase());
-    }
+    const slug = createCategoryDto.slug
+        ?? buildSlug(createCategoryDto.category_name.toLowerCase());
 
-    const category = new Category(createCategoryDto);
-    await category.save();
+    const category = categoryRepository.create({
+        ...createCategoryDto,
+        slug,
+    });
+    await categoryRepository.save(category);
 
     return category;
 };
@@ -99,7 +108,7 @@ const updateById = async (id: string, updateCategoryDto: UpdateCategoryDto) => {
 
     Object.assign(category, updateCategoryDto);
 
-    await category.save();
+    await categoryRepository.save(category);
     return category;
 };
 
@@ -107,7 +116,7 @@ const updateById = async (id: string, updateCategoryDto: UpdateCategoryDto) => {
 const deleteById = async (id: string) => {
     const category = await findById(id);
 
-    await category.deleteOne();
+    await categoryRepository.remove(category);
     return category;
 };
 
@@ -115,7 +124,7 @@ const getCategoryHomeProducts = async (categoryId: string, limit: number) => {
     //bước 1 check tồn tại categoryId
     const category = await findById(categoryId);
     //bước 2 lấy sp theo categoryId và limit
-    const products = await productsService.getHomeProductsByCategory(category._id.toString(), limit);
+    const products = await productsService.getHomeProductsByCategory(category.id.toString(), limit);
     return {
         category,
         products
@@ -125,12 +134,16 @@ const getCategoryHomeProducts = async (categoryId: string, limit: number) => {
 const getCategoryProducts = async(slug: string, query: QueryParams)=>{
     //const { limit=20, page=1, sortBy='createdAt', sortType='desc' } = query;
     //bước 1 check tồn tại categoryId
-    const category = await Category.findOne({slug});
+    const category = await categoryRepository.findOneBy({ slug });
     if(!category){
         throw createError(400, `Category with slug ${slug} not found`);
     }
     //bước 2 lấy sp theo slug và limit
-    const products = await productsService.getProductsByCategoryId(category._id.toString(), query);
+    const products = await productsService.getProductsByCategoryId(category.id.toString(), {
+        ...query,
+        limit: Number(query.limit) || 20,
+        page: Number(query.page) || 1,
+    });
     return {
         category,
         products
