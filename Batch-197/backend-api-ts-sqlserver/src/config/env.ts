@@ -16,5 +16,14 @@ export const ENV = {
         HOST: process.env.MAIL_HOST || 'smtp.gmail.com',
         PORT: Number(process.env.MAIL_PORT) || 587,
         SECURE: process.env.MAIL_SECURE === 'true',
+    },
+    DB: {
+        NAME: process.env.DB_NAME,
+        HOST: process.env.DB_HOST,
+        USER_NAME: process.env.DB_USER_NAME,
+        PASS: process.env.DB_PASS,
+        PORT: Number(process.env.DB_PORT) || 1433,
+        TYPE: process.env.DB_TYPE || 'mssql',
+        SYNCHRONIZE: process.env.DB_SYNCHRONIZE === 'true',
     }
 };
