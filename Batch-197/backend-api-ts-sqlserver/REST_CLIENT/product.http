@@ -1,0 +1,36 @@
+# Cấu hình domain chung
+@baseUrl=http://localhost:9000
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTdiMGFhOWY1OTEzMTVmNGVmYTMwYzQiLCJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJpYXQiOjE3ODc2NjEzOTksImV4cCI6MTc4NzY2NDk5OX0.TUebjTnBCI_Ux4SHCP42KGeenObhguury1dSOfSo7O0
+# get products
+GET {{baseUrl}}/api/v1/products?page=1&limit=10
+Authorization: Bearer {{accessToken}}
+###
+
+# get product by id
+GET {{baseUrl}}/api/v1/products/6a71cbde6d01c903b1348700
+
+### create new a product
+POST {{baseUrl}}/api/v1/products
+Content-Type: application/json
+
+{
+	"product_name": "Iphone 19 64GB",
+	"description": "Iphone 19 64GB gia re",
+	"price": 9000,
+	"model_year": 2029,
+	"category": "6a6dd690b74b5aeea306dd70",
+	"brand": "6a6dd83f24d3bcd55ff21c7f"
+}
+
+
+### Update by ID
+PUT {{baseUrl}}/api/v1/products/6a71cd96a1ed8d94625238c0
+Content-Type: application/json
+
+{
+	"model_year": 2019
+}
+
+
+### Delete by ID
+DELETE  {{baseUrl}}/api/v1/products/6a71cbde6d01c903b1348762

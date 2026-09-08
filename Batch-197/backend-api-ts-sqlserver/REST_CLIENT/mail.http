@@ -1,0 +1,12 @@
+# Cấu hình domain chung
+@baseUrl=http://localhost:9000
+
+### get home
+POST  {{baseUrl}}/api/v1/mail/send
+Content-Type: application/json
+
+{   
+    "to": "nhannn87dn@gmail.com",
+    "subject": "test gui mail voi nodemailer",
+    "content": "Xin chao  nodemailer"
+}
