@@ -7,8 +7,7 @@ Authorization: Bearer {{accessToken}}
 ###
 
 # get product by id
-GET {{baseUrl}}/api/v1/products/6a71cbde6d01c903b1348700
-
+GET {{baseUrl}}/api/v1/products/2
 ### create new a product
 POST {{baseUrl}}/api/v1/products
 Content-Type: application/json
@@ -18,8 +17,7 @@ Content-Type: application/json
 	"description": "Iphone 19 64GB gia re",
 	"price": 9000,
 	"model_year": 2029,
-	"category": "6a6dd690b74b5aeea306dd70",
-	"brand": "6a6dd83f24d3bcd55ff21c7f"
+	"category": 2
 }
 
 
