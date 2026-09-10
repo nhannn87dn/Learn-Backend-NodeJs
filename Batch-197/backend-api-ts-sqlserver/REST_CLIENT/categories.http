@@ -18,11 +18,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTdiMGFhO
 GET {{baseUrl}}/api/v1/categories/select-options
 
 ###
-GET {{baseUrl}}/api/v2/categories
+GET {{baseUrl}}/api/v1/categories
 ###
 
 # get category by id
-GET {{baseUrl}}/api/v1/categories/2
+GET {{baseUrl}}/api/v1/categories/1
 
 ### create new a category
 POST {{baseUrl}}/api/v1/categories
@@ -35,13 +35,13 @@ Content-Type: application/json
 
 
 ### Update by ID
-PUT {{baseUrl}}/api/v1/categories/3
+PUT {{baseUrl}}/api/v1/categories/1
 Content-Type: application/json
 
 {
-    "name": "Tablet"
+    "category_name": "Tablet"
 }
 
 
 ### Delete by ID
-DELETE  {{baseUrl}}/api/v1/categories/4
+DELETE  {{baseUrl}}/api/v1/categories/1

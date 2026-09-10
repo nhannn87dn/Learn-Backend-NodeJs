@@ -27,12 +27,12 @@ export class Product {
   discount!: number;
 
   //Quan hệ NHIỀU MỘT
-  @ManyToOne(() => Category, { onDelete: 'RESTRICT' })
+  @ManyToOne(() => Category,)
   @JoinColumn({ name: 'id' })
   category!: Category;
 
-//   @ManyToOne(() => Brand, { onDelete: 'RESTRICT' })
-//   @JoinColumn({ name: 'brand_id' })
+//   @ManyToOne(() => Brand)
+//   @JoinColumn({ name: 'id' })
 //   brand: Brand;
 
   @Column({ type: 'nvarchar', length: 'MAX', nullable: true, default: null })

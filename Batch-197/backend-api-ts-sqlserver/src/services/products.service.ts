@@ -1,64 +1,66 @@
-import { buildSlug } from "../helpers/buildSlug.helper";
-import Product from "../models/product.model";
-import { CreateProductDto, QueryParams, UpdateProductDto } from "../types/product";
-import createError from "http-errors";
-/**
- * Lấy tất cả sản phẩm
- * @returns
- */
+import createError from 'http-errors';
+import { Like } from 'typeorm';
+import { buildSlug } from '../helpers/buildSlug.helper';
+import { myDataSource } from '../data-source';
+import { Category } from '../entities/categories.entity';
+import { Product } from '../entities/products.entity';
+import { CreateProductDto, QueryParams, UpdateProductDto } from '../types/product';
 
+const productRepository = myDataSource.getRepository(Product);
+const categoryRepository = myDataSource.getRepository(Category);
 
+const findAll = async (query: QueryParams = {}) => {
+  const limit = Number(query.limit) > 0 ? Number(query.limit) : 10;
+  const page = Number(query.page) > 0 ? Number(query.page) : 1;
+  const search = typeof query.search === 'string' ? query.search.trim() : '';
+  const sortType = query.sortType === 'asc' ? 'ASC' : 'DESC';
+  const sortFields: Record<string, string> = {
+    id: 'id',
+    product_name: 'productName',
+    productName: 'productName',
+    price: 'price',
+    discount: 'discount',
+    model_year: 'modelYear',
+    modelYear: 'modelYear',
+    stock: 'stock',
+    slug: 'slug',
+  };
+  const sortBy = sortFields[query.sortBy || ''] || 'id';
+  const where = {
+    ...(search ? { productName: Like(`%${search}%`) } : {}),
+    ...(query.category ? { category: { id: Number(query.category) } } : {}),
+  };
 
-const findAll = async (query: QueryParams) => {
-  console.log("<<=== 🚀 query ===>>", query);
-  const { limit = 10, page = 1, search = "" } = query;
-
-  let filter = {};
-  // Tìm kiếm theo tên sản phẩm (product_name) nếu có tham số search
-  if (search && search.trim() !== "") {
-    filter = { ...filter, product_name: { $regex: search, $options: "i" } };
-  }
-  // Lọc theo category nếu có tham số category
-  if (query.category && query.category.trim() !== "") {
-    filter = { ...filter, category: query.category };
-  }
-
-  // Lọc theo brand nếu có tham số brand
-  if (query.brand && query.brand.trim() !== "") {
-    filter = { ...filter, brand: query.brand };
-  }
-  // TODO: Thêm những điều kiện lọc khác nếu cần thiết
-
-  //Sắp xếp dựa vào sortType, sortBy nếu có trong query, mặc định sắp xếp theo ngày tạo giảm dần (mới nhất trước)
-  const sortType = query.sortType || "desc";
-  const sortBy = query.sortBy || "createdAt";
-
-  const sortOptions: Record<string, 1 | -1> = {};
-  sortOptions[sortBy] = sortType === "asc" ? 1 : -1;
-
-  //Truy vấn cơ sở dữ liệu với các điều kiện lọc, phân trang và sắp xếp
-  const products = await Product.find({
-    ...filter,
-  })
-    .select("-__v -createdAt -updatedAt") // loại bỏ trường __v khỏi kết quả
-    .populate("category", "category_name") // populate category_name từ collection categories
-    .populate("brand", "brand_name") // populate brand_name từ collection brands
-    .limit(limit)
-    .skip((page - 1) * limit)
-    .sort({
-      ...sortOptions,
-    }); // sắp xếp theo ngay tạo giảm dần (mới nhất trước)
-
-    //Đếm tổng số sản phẩm thỏa mãn điều kiện lọc để tính toán phân trang
-  const total = await Product.countDocuments({
-    ...filter,
+  const [products, total] = await productRepository.findAndCount({
+    //chọn trường cần lấy
+    select: {
+      id: true,
+      productName: true,
+      price: true,
+      discount: true,
+      modelYear: true,
+      stock: true,
+      thumbnail: true,
+      slug: true,
+      category: {
+        category_name: true,
+      }
+    },
+    // điều kiện where
+    where,
+    // join với table nào
+    relations: { category: true },
+    order: { [sortBy]: sortType },
+    //phân trang
+    skip: (page - 1) * limit,
+    take: limit,
   });
 
   return {
     records: products,
     metadata: {
-      limit: Number(limit),
-      page: Number(page),
+      limit,
+      page,
       totalRecords: total,
       totalPages: Math.ceil(total / limit),
     },
@@ -68,118 +70,80 @@ const findAll = async (query: QueryParams) => {
 /** Lấy sản phẩm theo id */
 
 const findById = async (id: string) => {
-  const product = await Product.findById(id);
+  const product = await productRepository.findOne({
+    where: { id: Number(id) },
+    relations: { category: true }, // join với category
+  });
   if (!product) {
-    throw createError(400, `Product with id ${id} not found`);
+    throw createError(404, `Product with id ${id} not found`);
   }
   return product;
 };
 
 /** create new product */
 const create = async (createProductDto: CreateProductDto) => {
-  /*
-    Tự động tạo slug từ product_name nếu slug không được cung cấp trong createProductDto.
-    Nếu slug được cung cấp, sử dụng slug đó.
-    */
-  if (!createProductDto.slug) {
-    createProductDto.slug = buildSlug(
-      createProductDto.product_name.toLowerCase(),
-    );
+  //Đảm bao tính toàn vẹn dữ liệu thì để check category tồn tại hay không trước khi tạo product
+  const category = await categoryRepository.findOneBy({ id: Number(createProductDto.category) });
+  if (!category) {
+    throw createError(400, `Category with id ${createProductDto.category} not found`);
   }
 
-  const product = new Product(createProductDto);
-  await product.save();
-  return product;
+  const product = productRepository.create({
+    productName: createProductDto.product_name,
+    description: createProductDto.description,
+    price: createProductDto.price,
+    discount: createProductDto.discount,
+    category: category,
+    modelYear: createProductDto.model_year,
+    slug: createProductDto.slug || buildSlug(createProductDto.product_name),
+    thumbnail: createProductDto.thumbnail,
+    stock: createProductDto.stock,
+  });
+  return productRepository.save(product);
 };
 
 /** update product */
 
 const update = async (id: string, updateProductDto: UpdateProductDto) => {
-  //step 1: check product exist
   const product = await findById(id);
+  const productName = updateProductDto.product_name;
 
-  //step 2: update product
-  //merge thay đổi vào product
-  
-  // Nếu product_name được cập nhật và slug không được cung cấp, tự động tạo slug từ product_name mới
-  if(updateProductDto.product_name && !updateProductDto.slug){
-    updateProductDto.slug = buildSlug(updateProductDto.product_name.toLowerCase());
+  if (productName !== undefined) product.productName = productName;
+  if (updateProductDto.description !== undefined) product.description = updateProductDto.description;
+  if (updateProductDto.price !== undefined) product.price = updateProductDto.price;
+  if (updateProductDto.discount !== undefined) product.discount = updateProductDto.discount;
+  if (updateProductDto.model_year !== undefined) product.modelYear = updateProductDto.model_year;
+  if (updateProductDto.thumbnail !== undefined) product.thumbnail = updateProductDto.thumbnail;
+  if (updateProductDto.stock !== undefined) product.stock = updateProductDto.stock;
+  if (updateProductDto.category !== undefined) {
+    //Đảm bao tính toàn vẹn dữ liệu thì để check category tồn tại hay không trước khi tạo product
+    const category = await categoryRepository.findOneBy({ id: Number(updateProductDto.category) });
+    if (!category) {
+      throw createError(400, `Category with id ${updateProductDto.category} not found`);
+    }
+    product.category = category;
   }
-  
-  Object.assign(product, updateProductDto);
+  product.slug = updateProductDto.slug || (productName ? buildSlug(productName) : product.slug);
 
-  //step 3: save product
-  await product.save();
-  return product;
+  return productRepository.save(product);
 };
 
 /** delete product */
 const deleteRecord = async (id: string) => {
-  //step 1: check product exist
   const product = await findById(id);
-  //step 2: delete product
-  await product.deleteOne();
-  return product;
+  return productRepository.remove(product);
 };
 
 const getHomeProductsByCategory = async (categoryId: string, limit: number) => {
-  const products = await Product.
-  find({ category: categoryId })
-  .select("-__v -createdAt -updatedAt -description -stock")
-  .limit(limit);
-  return products;
+  return productRepository.find({
+    where: { category: { id: Number(categoryId) } },
+    relations: { category: true },
+    take: limit,
+  });
 };
 
 const getProductsByCategoryId = async (catId: string, query: QueryParams) => {
-  const { limit = 20, page = 1, sortBy = "createdAt", sortType = "desc", search='' } = query;
-  let filter = {
-    category: catId,
-  };
-  // Tìm kiếm theo tên sản phẩm (product_name) nếu có tham số search
-  if (search && search.trim() !== "") {
-    filter = { ...filter, product_name: { $regex: search, $options: "i" } };
-  }
- 
-  // Lọc theo brand nếu có tham số brand
-  if (query.brand && query.brand.trim() !== "") {
-    filter = { ...filter, brand: query.brand };
-  }
-  // TODO: Thêm những điều kiện lọc khác nếu cần thiết
-
-  //Sắp xếp dựa vào sortType, sortBy nếu có trong query, mặc định sắp xếp theo ngày tạo giảm dần (mới nhất trước)
-  const sortTypeFilter = sortType || "desc";
-  const sortByFilter = sortBy || "createdAt";
-
-  const sortOptions: Record<string, 1 | -1> = {};
-  sortOptions[sortByFilter] = sortTypeFilter === "asc" ? 1 : -1;
-
-  //Truy vấn cơ sở dữ liệu với các điều kiện lọc, phân trang và sắp xếp
-  const products = await Product.find({
-    ...filter,
-  })
-    .select("-__v -createdAt -updatedAt") // loại bỏ trường __v khỏi kết quả
-    .populate("category", "category_name") // populate category_name từ collection categories
-    .populate("brand", "brand_name") // populate brand_name từ collection brands
-    .limit(limit)
-    .skip((page - 1) * limit)
-    .sort({
-      ...sortOptions,
-    }); // sắp xếp theo ngay tạo giảm dần (mới nhất trước)
-
-    //Đếm tổng số sản phẩm thỏa mãn điều kiện lọc để tính toán phân trang
-  const total = await Product.countDocuments({
-    ...filter,
-  });
-
-  return {
-    records: products,
-    metadata: {
-      limit: Number(limit),
-      page: Number(page),
-      totalRecords: total,
-      totalPages: Math.ceil(total / limit),
-    },
-  };
+  return findAll({ ...query, category: catId, limit: query.limit || 20 });
 };
 
 export default {

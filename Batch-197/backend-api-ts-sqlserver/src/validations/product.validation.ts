@@ -14,8 +14,7 @@ const getAllProducts = z.object({
 
 const getProductById = z.object({
   params: z.object({
-    //id match objectId pattern
-    id: z.string().regex(/^[0-9a-fA-F]{24}$/, "Invalid product ID format"),
+    id: z.coerce.number().int().positive(),
   }),
 });
 
@@ -111,7 +110,7 @@ const updateProduct = z.object({
 const deleteProductById = z.object({
   params: z.object({
     //id match objectId pattern
-    id: z.string().regex(/^[0-9a-fA-F]{24}$/, "Invalid product ID format"),
+    id: z.coerce.number().int().positive(),
   }),
 });
 
