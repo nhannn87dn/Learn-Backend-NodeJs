@@ -587,8 +587,8 @@ Còn với TypeScript, Để định nghĩa và sử dụng module trong Node.js
 Trước tiên, bạn cần phải cài đặt TypeScript và các phụ thuộc cần thiết. Mở terminal và chạy lệnh sau:
 
 ```bash
-yarn init -y
-yarn add -D typescript @types/node ts-node
+pnpm init
+pnpm add -D typescript @types/node tsx
 ```
 
 **Bước 2: Cấu Hình TypeScript**
@@ -604,14 +604,31 @@ Nội dung mặc định của file `tsconfig.json` sẽ trông như sau, bạn 
 ```json
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "commonjs",
-    "rootDir": "./src",
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "./dist",
+    "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"]
+}
+```
+
+Mở tệp `package.json`, thêm dòng "type": "module" và cập nhật mục scripts:
+
+```json
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
   }
 }
 ```
@@ -670,17 +687,24 @@ Chạy file `dist/index.js` bằng Node.js:
 node dist/index.js
 ```
 
-**Sử Dụng `ts-node` để Chạy Trực Tiếp Mã TypeScript**
+**Chạy Mã TypeScript Với với lệnh**
+
+```bash
+pnpm run dev
+```
+
+
+**Chạy Trực Tiếp Mã TypeScript với Phiên bản Node.js 22.6+**
 
 Thay vì biên dịch mã TypeScript rồi mới chạy, bạn có thể sử dụng `ts-node` để chạy trực tiếp mã TypeScript:
 
 ```bash
-npx ts-node src/index.ts
+node --experimental-strip-types src/index.ts
 ```
 
 **\*Kết Quả**
 
-Kết quả khi chạy `node dist/index.js` hoặc `npx ts-node src/index.ts` sẽ là:
+Kết quả khi chạy `node dist/index.js` hoặc `node --experimental-strip-types src/index.ts` sẽ là:
 
 ```
 Add: 8
