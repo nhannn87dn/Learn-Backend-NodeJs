@@ -1,8 +1,10 @@
 # Cấu hình domain chung
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YWE0YzE2NWQxNjcyNzc1OGFjMmJkNGQiLCJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJpYXQiOjE3ODkxODI4NTYsImV4cCI6MTc4OTE4NjQ1Nn0.rzVyulfdSj4_GohAfqL9Z35D2h2HKaNeNwlWm9bQ5KM
 @baseUrl=http://localhost:9000
 
 # get brands
 GET {{baseUrl}}/api/v1/brands
+Authorization: Bearer {{accessToken}}
 
 ### get brands select options
 GET {{baseUrl}}/api/v1/brands/select-options
