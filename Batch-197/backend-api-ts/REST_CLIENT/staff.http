@@ -16,10 +16,10 @@ POST {{baseUrl}}/api/v1/staffs
 Content-Type: application/json
 
 {
-	"name": "Administrator",
-	"email": "admin@example.com",
+	"name": "Staff 1",
+	"email": "staff1@example.com",
 	"password": "12345678",
-	"role": "admin"
+	"role": "staff"
 }
 
 ### Update by ID

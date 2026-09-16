@@ -6,8 +6,8 @@ import productsService from './products.service';
 import { CreateCategoryDto, UpdateCategoryDto } from '../types/category';
 
 type QueryParams = {
-    limit?: number | string;
-    page?: number | string;
+    limit?: number;
+    page?: number;
     search?: string;
     sortBy?: string;
     sortType?: 'asc' | 'desc';

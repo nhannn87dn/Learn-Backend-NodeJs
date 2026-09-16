@@ -130,11 +130,17 @@ const getHomeProductsByCategory = async (categoryId: string, limit: number) => {
   return products;
 };
 
+interface FilterParams {
+  category: string;
+  brand?: string;
+  product_name?: { $regex: string; $options: string };
+}
+
 const getProductsByCategoryId = async (catId: string, query: QueryParams) => {
   const { limit = 20, page = 1, sortBy = "createdAt", sortType = "desc", search='' } = query;
   let filter = {
     category: catId,
-  };
+  } as FilterParams;
   // Tìm kiếm theo tên sản phẩm (product_name) nếu có tham số search
   if (search && search.trim() !== "") {
     filter = { ...filter, product_name: { $regex: search, $options: "i" } };

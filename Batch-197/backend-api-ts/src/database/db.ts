@@ -23,20 +23,20 @@ mongoose.connect(ENV.MONGODB_URI, {
 // Function to create a new category
 const runDB = async () => {
     //random 5 categories
-    // for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 5; i++) {
 
-    //     const category_name  = faker.commerce.department() + ' ' + i;
-    //     // Create a new category instance 1
-    //     // create-a-new-category-instance-1
+        const category_name  = faker.commerce.department() + ' ' + i;
+        // Create a new category instance 1
+        // create-a-new-category-instance-1
 
-    //     const category = new Category({
-    //         category_name: category_name,
-    //         description: faker.lorem.sentence(),
-    //         slug: faker.helpers.slugify(category_name).toLowerCase(),
-    //     });
-    //     await category.save();
-    //     console.log(`Fake brand ${i} success`);
-    // }
+        const category = new Category({
+            category_name: category_name,
+            description: faker.lorem.sentence(),
+            slug: faker.helpers.slugify(category_name).toLowerCase(),
+        });
+        await category.save();
+        console.log(`Fake brand ${i} success`);
+    }
 
     //random 5 brands
     for (let i = 0; i < 5; i++) {
