@@ -1,0 +1,25 @@
+# Create new Blog
+POST http://localhost:3000/blog
+Content-Type: application/json
+
+{
+    "title": "tin tuc"
+}
+
+### getAll Blog
+GET http://localhost:3000/blog?page=1
+
+### Get Singe Blog
+GET http://localhost:3000/blog/2fdfd
+
+
+### Update Blog
+PUT http://localhost:3000/blog/1
+Content-Type: application/json
+
+{
+    "title": "tin tuc new"
+}
+
+### Delete Blog
+DELETE  http://localhost:3000/blog/1
