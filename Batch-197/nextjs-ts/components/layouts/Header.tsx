@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 const Header = () => {
+  console.log('Header');
   return (
     <header className="bg-indigo-500 text-white shadow-md">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
