@@ -1,0 +1,2 @@
+# Lấy danh sách students
+GET http://localhost:8000/students
