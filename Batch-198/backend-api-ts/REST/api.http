@@ -1,2 +1,29 @@
 # Lấy danh sách students
-GET http://localhost:8000/students
+GET http://localhost:8000/api/students
+
+### get single student
+GET http://localhost:8000/api/students/123
+
+
+### create new student
+POST http://localhost:8000/api/students
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "age": 20,
+  "email": "john.doe@example.com"
+}
+
+### Update student
+PUT http://localhost:8000/api/students/123
+Content-Type: application/json
+
+{
+  "name": "Jane Doe",
+  "age": 21,
+  "email": "jane.doe@example.com"
+}
+
+### Delete student
+DELETE http://localhost:8000/api/students/1234
