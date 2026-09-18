@@ -9,7 +9,6 @@ const PORT = ENV.PORT;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({ message: "Express + TypeScript Server" });
 });
