@@ -24,11 +24,11 @@ Content-Type: application/json
 
 
 ### Update by ID
-PUT {{baseUrl}}/api/v1/products/6a71cd96a1ed8d94625238c0
+PUT {{baseUrl}}/api/v1/products/6aa4c12de3add9ceb3bf65c1
 Content-Type: application/json
 
 {
-	"model_year": 2019
+	"price": 2020
 }
 
 

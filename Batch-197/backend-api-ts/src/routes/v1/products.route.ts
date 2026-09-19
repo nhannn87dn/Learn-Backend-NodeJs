@@ -7,14 +7,14 @@ import { authenticateToken } from '../../middleware/auth.middleware';
 const router = express.Router();
 
 // GET /api/v1/products
-router.get('/', authenticateToken, validateSchema(productSchemaValidation.getAllProducts), productsController.getAllProducts);
+router.get('/', validateSchema(productSchemaValidation.getAllProducts), productsController.getAllProducts);
 // GET /api/v1/products/:id
-router.get('/:id', authenticateToken, validateSchema(productSchemaValidation.getProductById), productsController.findProductById);
+router.get('/:id',  validateSchema(productSchemaValidation.getProductById), productsController.findProductById);
 
-router.post('/', authenticateToken, productsController.createProduct);
+router.post('/',  productsController.createProduct);
 
-router.put('/:id', authenticateToken, productsController.updateProductById);
+router.put('/:id',  productsController.updateProductById);
 
-router.delete('/:id',  authenticateToken, productsController.deleteProductById);
+router.delete('/:id',productsController.deleteProductById);
 
 export default router;
