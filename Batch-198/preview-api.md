@@ -69,7 +69,7 @@ project-express/
 
 ##### B. Expected Responses
 
-* **GET `/api/articles**` (200 OK)
+* **GET `/api/articles`** (200 OK)
 ```json
 {
   "message": "Lấy danh sách bài viết thành công",
@@ -87,7 +87,7 @@ project-express/
 ```
 
 
-* **GET `/api/articles/1**` (200 OK)
+* **GET `/api/articles/1`** (200 OK)
 ```json
 {
   "message": "Lấy chi tiết bài viết thành công",
@@ -107,7 +107,7 @@ project-express/
 ```
 
 
-* **POST `/api/articles**` (201 Created)
+* **POST `/api/articles`** (201 Created)
 ```json
 {
   "message": "Tạo bài viết mới thành công",
@@ -127,7 +127,7 @@ project-express/
 ```
 
 
-* **PUT `/api/articles/1**` (200 OK)
+* **PUT `/api/articles/1`** (200 OK)
 ```json
 {
   "message": "Cập nhật bài viết ID 1 thành công",
@@ -147,7 +147,7 @@ project-express/
 ```
 
 
-* **DELETE `/api/articles/1**` (200 OK)
+* **DELETE `/api/articles/1`** (200 OK)
 ```json
 {
   "message": "Xóa bài viết ID 1 thành công",
@@ -178,7 +178,7 @@ project-express/
 
 ##### B. Expected Responses
 
-* **GET `/api/blogs**` (200 OK)
+* **GET `/api/blogs`** (200 OK)
 ```json
 {
   "message": "Lấy danh sách blog thành công",
@@ -196,7 +196,7 @@ project-express/
 ```
 
 
-* **GET `/api/blogs/1**` (200 OK)
+* **GET `/api/blogs/1`** (200 OK)
 ```json
 {
   "message": "Lấy chi tiết blog thành công",
@@ -215,7 +215,7 @@ project-express/
 ```
 
 
-* **POST `/api/blogs**` (201 Created)
+* **POST `/api/blogs`** (201 Created)
 ```json
 {
   "message": "Tạo blog mới thành công",
@@ -234,7 +234,7 @@ project-express/
 ```
 
 
-* **PUT `/api/blogs/1**` (200 OK)
+* **PUT `/api/blogs/1`** (200 OK)
 ```json
 {
   "message": "Cập nhật blog ID 1 thành công",
@@ -252,7 +252,7 @@ project-express/
 ```
 
 
-* **DELETE `/api/blogs/1**` (200 OK)
+* **DELETE `/api/blogs/1`** (200 OK)
 ```json
 {
   "message": "Xóa bài blog ID 1 thành công",
@@ -283,7 +283,7 @@ project-express/
 
 ##### B. Expected Responses
 
-* **GET `/api/users**` (200 OK)
+* **GET `/api/users`** (200 OK)
 ```json
 {
   "message": "Lấy danh sách người dùng thành công",
@@ -302,7 +302,7 @@ project-express/
 ```
 
 
-* **GET `/api/users/1**` (200 OK)
+* **GET `/api/users/1`** (200 OK)
 ```json
 {
   "message": "Lấy thông tin người dùng thành công",
@@ -321,7 +321,7 @@ project-express/
 ```
 
 
-* **POST `/api/users**` (201 Created)
+* **POST `/api/users`** (201 Created)
 ```json
 {
   "message": "Thêm người dùng mới thành công",
@@ -340,7 +340,7 @@ project-express/
 ```
 
 
-* **PUT `/api/users/1**` (200 OK)
+* **PUT `/api/users/1`** (200 OK)
 ```json
 {
   "message": "Cập nhật thông tin người dùng ID 1 thành công",
@@ -358,7 +358,7 @@ project-express/
 ```
 
 
-* **DELETE `/api/users/1**` (200 OK)
+* **DELETE `/api/users/1`** (200 OK)
 ```json
 {
   "message": "Xóa người dùng ID 1 thành công",
@@ -390,7 +390,7 @@ project-express/
 
 ##### B. Expected Responses
 
-* **GET `/api/games**` (200 OK)
+* **GET `/api/games`** (200 OK)
 ```json
 {
   "message": "Lấy danh sách trò chơi thành công",
@@ -408,7 +408,7 @@ project-express/
 ```
 
 
-* **GET `/api/games/1**` (200 OK)
+* **GET `/api/games/1`** (200 OK)
 ```json
 {
   "message": "Lấy chi tiết trò chơi thành công",
@@ -427,7 +427,7 @@ project-express/
 ```
 
 
-* **POST `/api/games**` (201 Created)
+* **POST `/api/games`** (201 Created)
 ```json
 {
   "message": "Thêm game mới thành công",
@@ -446,7 +446,7 @@ project-express/
 ```
 
 
-* **PUT `/api/games/1**` (200 OK)
+* **PUT `/api/games/1`** (200 OK)
 ```json
 {
   "message": "Cập nhật trò chơi ID 1 thành công",
@@ -465,7 +465,7 @@ project-express/
 ```
 
 
-* **DELETE `/api/games/1**` (200 OK)
+* **DELETE `/api/games/1`** (200 OK)
 ```json
 {
   "message": "Xóa trò chơi ID 1 thành công",
