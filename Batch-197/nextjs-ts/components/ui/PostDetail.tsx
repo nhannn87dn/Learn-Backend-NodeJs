@@ -1,6 +1,19 @@
 import Link from 'next/link';
 
-export default function PostDetail({ post }) {
+type Post = {
+  id: number;
+  title: string;
+  views: number;
+  body: string;
+  tags: string[];
+  reactions: {
+    likes: number;
+    dislikes: number
+  }
+  userId: number
+}
+
+export default function PostDetail({ post }: { post: Post }) {
   if (!post) return null;
 
   return (

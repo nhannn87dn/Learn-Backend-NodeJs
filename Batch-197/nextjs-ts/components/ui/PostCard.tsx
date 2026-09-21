@@ -1,7 +1,19 @@
 import Link from "next/link";
 
+type Post = {
+  id: number;
+  title: string;
+  views: number;
+  body: string;
+  tags: string[];
+  reactions: {
+    likes: number;
+    dislikes: number
+  },
+  userId: number
+}
 // Component hiển thị 1 thẻ bài viết
-const PostCard = ({ post }) => {
+const PostCard = ({ post }: { post: Post }) => {
   return (
     <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 p-6 flex flex-col justify-between">
       <div>
