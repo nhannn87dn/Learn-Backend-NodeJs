@@ -119,7 +119,7 @@ Mỗi bạn tạo một project riêng của mình và phụ trách 1 Resource A
 
 ##### B. Output Response Mẫu
 
-* **GET `/api/articles**` `(200 OK)`
+* **GET `/api/articles`** `(200 OK)`
 
 ```json
 {
@@ -142,7 +142,7 @@ Mỗi bạn tạo một project riêng của mình và phụ trách 1 Resource A
 
 ```
 
-* **GET `/api/articles/66f000000000000000000101**` `(200 OK)`
+* **GET `/api/articles/66f000000000000000000101`** `(200 OK)`
 
 ```json
 {
@@ -164,7 +164,7 @@ Mỗi bạn tạo một project riêng của mình và phụ trách 1 Resource A
 
 ```
 
-* **POST `/api/articles**` `(201 Created)`
+* **POST `/api/articles`** `(201 Created)`
 
 ```json
 {
@@ -186,7 +186,7 @@ Mỗi bạn tạo một project riêng của mình và phụ trách 1 Resource A
 
 ```
 
-* **PUT `/api/articles/66f000000000000000000101**` `(200 OK)`
+* **PUT `/api/articles/66f000000000000000000101`** `(200 OK)`
 
 ```json
 {
@@ -208,7 +208,7 @@ Mỗi bạn tạo một project riêng của mình và phụ trách 1 Resource A
 
 ```
 
-* **DELETE `/api/articles/66f000000000000000000101**` `(200 OK)`
+* **DELETE `/api/articles/66f000000000000000000101`** `(200 OK)`
 
 ```json
 {
@@ -241,7 +241,7 @@ Mỗi bạn tạo một project riêng của mình và phụ trách 1 Resource A
 
 ##### B. Output Response Mẫu
 
-* **GET `/api/blogs**` `(200 OK)`
+* **GET `/api/blogs`** `(200 OK)`
 
 ```json
 {
@@ -263,7 +263,7 @@ Mỗi bạn tạo một project riêng của mình và phụ trách 1 Resource A
 
 ```
 
-* **GET `/api/blogs/66f000000000000000000202**` `(200 OK)`
+* **GET `/api/blogs/66f000000000000000000202`** `(200 OK)`
 
 ```json
 {
@@ -284,7 +284,7 @@ Mỗi bạn tạo một project riêng của mình và phụ trách 1 Resource A
 
 ```
 
-* **POST `/api/blogs**` `(201 Created)`
+* **POST `/api/blogs`** `(201 Created)`
 
 ```json
 {
@@ -305,7 +305,7 @@ Mỗi bạn tạo một project riêng của mình và phụ trách 1 Resource A
 
 ```
 
-* **PUT `/api/blogs/66f000000000000000000202**` `(200 OK)`
+* **PUT `/api/blogs/66f000000000000000000202`** `(200 OK)`
 
 ```json
 {
@@ -326,7 +326,7 @@ Mỗi bạn tạo một project riêng của mình và phụ trách 1 Resource A
 
 ```
 
-* **DELETE `/api/blogs/66f000000000000000000202**` `(200 OK)`
+* **DELETE `/api/blogs/66f000000000000000000202`** `(200 OK)`
 
 ```json
 {
@@ -360,7 +360,7 @@ Mỗi bạn tạo một project riêng của mình và phụ trách 1 Resource A
 
 ##### B. Output Response Mẫu
 
-* **GET `/api/games**` `(200 OK)`
+* **GET `/api/games`** `(200 OK)`
 
 ```json
 {
@@ -384,7 +384,7 @@ Mỗi bạn tạo một project riêng của mình và phụ trách 1 Resource A
 
 ```
 
-* **GET `/api/games/66f000000000000000000303**` `(200 OK)`
+* **GET `/api/games/66f000000000000000000303`** `(200 OK)`
 
 ```json
 {
@@ -406,7 +406,7 @@ Mỗi bạn tạo một project riêng của mình và phụ trách 1 Resource A
 
 ```
 
-* **POST `/api/games**` `(201 Created)`
+* **POST `/api/games`** `(201 Created)`
 
 ```json
 {
@@ -428,7 +428,7 @@ Mỗi bạn tạo một project riêng của mình và phụ trách 1 Resource A
 
 ```
 
-* **PUT `/api/games/66f000000000000000000303**` `(200 OK)`
+* **PUT `/api/games/66f000000000000000000303`** `(200 OK)`
 
 ```json
 {
@@ -450,7 +450,7 @@ Mỗi bạn tạo một project riêng của mình và phụ trách 1 Resource A
 
 ```
 
-* **DELETE `/api/games/66f000000000000000000303**` `(200 OK)`
+* **DELETE `/api/games/66f000000000000000000303`** `(200 OK)`
 
 ```json
 {
