@@ -1,24 +1,6 @@
 import {Request, Response} from "express";
 import studentsService from "../services/students.service";
 
-import fs from "node:fs";
-import path from "node:path";
-
-type Student = {
-  id: number;
-  name: string;
-  age: number;
-  email: string;
-};
-// Sử dụng path.join để tạo đường dẫn đến file students.json
-const studentsFilePath = path.join(__dirname, "../database/students.json");
-// sử dụng module fs để đọc dữ liệu từ file students.json
-let data = JSON.parse(fs.readFileSync(studentsFilePath, "utf-8")) as Student[];
-
-const saveStudents = () => {
-  fs.writeFileSync(studentsFilePath, JSON.stringify(data, null, 2), "utf-8");
-};
-
 const getAllStudents = async (req: Request, res: Response) => {
   //trả về dữ liệu đã đọc từ file students.json
   const students = await studentsService.getAllStudents();
