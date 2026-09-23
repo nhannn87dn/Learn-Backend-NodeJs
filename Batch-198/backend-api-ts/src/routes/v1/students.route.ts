@@ -1,18 +1,13 @@
 import express, { Router } from "express";
+import studentsController from "../../controllers/students.controller";
 
 const router: Router = express.Router();
 
 // GET /api/v1/students - get All Students
-router.get("/", (req, res) => {
-  res.status(200).json({ message: "List of students" });
-});
+router.get("/", studentsController.getAllStudents);
 
 // GET /api/v1/students/:id - get Student by ID
-router.get("/:id", (req, res) => {
-    //Lấy id trong params của request
-  const studentId = req.params.id;
-  res.status(200).json({ message: `Details of student with ID: ${studentId}` });
-});
+router.get("/:id", studentsController.getStudentById);
 
 // POST /api/v1/students - create a new student
 router.post("/", (req, res) => {

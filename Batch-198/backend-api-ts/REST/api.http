@@ -1,12 +1,12 @@
 # Lấy danh sách students
-GET http://localhost:8000/api/students
+GET http://localhost:8000/api/v1/students
 
 ### get single student
-GET http://localhost:8000/api/students/123
+GET http://localhost:8000/api/v1/students/1
 
 
 ### create new student
-POST http://localhost:8000/api/students
+POST http://localhost:8000/api/v1/students
 Content-Type: application/json
 
 {
@@ -16,7 +16,7 @@ Content-Type: application/json
 }
 
 ### Update student
-PUT http://localhost:8000/api/students/123
+PUT http://localhost:8000/api/v1/students/123
 Content-Type: application/json
 
 {
@@ -26,4 +26,4 @@ Content-Type: application/json
 }
 
 ### Delete student
-DELETE http://localhost:8000/api/students/1234
+DELETE http://localhost:8000/api/v1/students/1234
