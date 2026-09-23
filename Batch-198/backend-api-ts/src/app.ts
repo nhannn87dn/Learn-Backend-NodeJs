@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import { ENV } from "./config/env";
-import studentsRouter from "./routes/students.route";
+import studentsRouter from "./routes/v1/students.route";
+import studentsRouterV2 from "./routes/v2/students.route";
 
 const app: Express = express();
 const PORT = ENV.PORT;
@@ -14,7 +15,10 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 /* ==== THÊM CÁC ROUTE HERE ==== */
-app.use('/api/students', studentsRouter);
+app.use('/api/v1/students', studentsRouter);
+app.use('/api/v2/students', studentsRouterV2);
+
+
 
 app.listen(PORT, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);

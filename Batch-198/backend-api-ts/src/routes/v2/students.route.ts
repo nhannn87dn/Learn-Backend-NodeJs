@@ -2,19 +2,19 @@ import express, { Router } from "express";
 
 const router: Router = express.Router();
 
-// GET /api/students - get All Students
+// GET /api/v2/students - get All Students
 router.get("/", (req, res) => {
-  res.status(200).json({ message: "List of students" });
+  res.status(200).json({ message: "students" });
 });
 
-// GET /api/students/:id - get Student by ID
+// GET /api/v2/students/:id - get Student by ID
 router.get("/:id", (req, res) => {
     //Lấy id trong params của request
   const studentId = req.params.id;
   res.status(200).json({ message: `Details of student with ID: ${studentId}` });
 });
 
-// POST /api/students - create a new student
+// POST /api/v2/students - create a new student
 router.post("/", (req, res) => {
   // Lấy dữ liệu từ body của request
   const newStudent = req.body;
@@ -27,7 +27,7 @@ router.post("/", (req, res) => {
     });
 });
 
-// PUT /api/students/:id - update a student by ID
+// PUT /api/v2/students/:id - update a student by ID
 router.put("/:id", (req, res) => {
     // Lấy id trong params của request
   const studentId = req.params.id;
@@ -36,7 +36,7 @@ router.put("/:id", (req, res) => {
   res.status(200).json({ message: `Student with ID: ${studentId} updated`, student: updatedStudent });
 });
 
-// DELETE /api/students/:id - delete a student by ID
+// DELETE /api/v2/students/:id - delete a student by ID
 router.delete("/:id", (req, res) => {
     // Lấy id trong params của request
   const studentId = req.params.id;
