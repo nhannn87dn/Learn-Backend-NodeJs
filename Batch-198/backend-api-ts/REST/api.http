@@ -10,20 +10,18 @@ POST http://localhost:8000/api/v1/students
 Content-Type: application/json
 
 {
-  "name": "John Doe",
-  "age": 20,
-  "email": "john.doe@example.com"
+  "name": "Clark Kent",
+  "age": 18,
+  "email": "clark.kent@example.com"
 }
 
 ### Update student
-PUT http://localhost:8000/api/v1/students/123
+PUT http://localhost:8000/api/v1/students/3
 Content-Type: application/json
 
 {
-  "name": "Jane Doe",
-  "age": 21,
-  "email": "jane.doe@example.com"
+  "age": 21
 }
 
 ### Delete student
-DELETE http://localhost:8000/api/v1/students/1234
+DELETE http://localhost:8000/api/v1/students/3
