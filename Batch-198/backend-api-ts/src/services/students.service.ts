@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import Student from "../models/student.model";
 
 type Student = {
   id: number;
@@ -18,7 +19,8 @@ const saveStudents = () => {
 
 const getAllStudents = async () => {
   //trả về dữ liệu đã đọc từ file students.json
-  return data;
+  const students = await Student.find();
+  return students;
 }
 
 const getStudentById = async (id: number) => {
@@ -39,16 +41,17 @@ const createStudent = async(payload: Partial<Student>) => {
         throw new Error("Invalid student data");
       }
     
-      const newStudent: Student = {
-        //lấy id tăng lên 1 so với id lớn nhất
-        id: data.length > 0 ? Math.max(...data.map((student) => student.id)) + 1 : 1,
-        name,
-        age,
-        email,
-      };
+      // const newStudent: Student = {
+      //   //lấy id tăng lên 1 so với id lớn nhất
+      //   id: data.length > 0 ? Math.max(...data.map((student) => student.id)) + 1 : 1,
+      //   name,
+      //   age,
+      //   email,
+      // };
     
-      data.push(newStudent);
-      saveStudents();
+      // data.push(newStudent);
+      // saveStudents();
+      const newStudent = await Student.create({ name, age, email });
       return newStudent;
 }
 
