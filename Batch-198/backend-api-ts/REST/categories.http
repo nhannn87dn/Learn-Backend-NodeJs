@@ -4,7 +4,7 @@ GET http://localhost:8000/api/v1/categories
 
 ### Lấy chi tiết category theo id
 
-@categoryId = 6abf95a6008e1e9ab168bf83
+@categoryId = 6abf95a6008e1e9ab168bf84
 
 GET http://localhost:8000/api/v1/categories/{{categoryId}}
 
@@ -14,9 +14,9 @@ POST http://localhost:8000/api/v1/categories
 Content-Type: application/json
 
 {
-    "category_name": "Category 1",
-    "description": "Description for Category 1",
-    "slug": "category-1"
+    "category_name": "Category 3",
+    "description": "Description for Category 3",
+    "slug": "category-3"
 }
 
 ### create category 2

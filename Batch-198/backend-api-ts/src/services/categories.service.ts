@@ -1,5 +1,6 @@
 import Category from "../models/category.model";
 import { CategoryCreateDTO } from "../types/category";
+import createError from "http-errors";
 
 // Lấy tất cả danh mục
 const findAll = async () => {
@@ -11,7 +12,8 @@ const findAll = async () => {
 const findById = async (id: string) => {
     const category = await Category.findById(id);
     if(!category) {
-        throw new Error("Category not found");
+        // throw new Error("Category not found");
+        throw createError(400, "Category not found");
     }
     return category;
 }
