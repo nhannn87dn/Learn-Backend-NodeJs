@@ -1,0 +1,46 @@
+# Lấy danh sách categories
+GET http://localhost:8000/api/v1/categories
+
+
+### Lấy chi tiết category theo id
+
+@categoryId = 6abf95a6008e1e9ab168bf83
+
+GET http://localhost:8000/api/v1/categories/{{categoryId}}
+
+
+### create category
+POST http://localhost:8000/api/v1/categories
+Content-Type: application/json
+
+{
+    "category_name": "Category 1",
+    "description": "Description for Category 1",
+    "slug": "category-1"
+}
+
+### create category 2
+POST http://localhost:8000/api/v1/categories
+Content-Type: application/json
+
+{
+    "category_name": "Category 2",
+    "description": "Description for Category 2",
+    "slug": "category-2"
+}
+
+### update category
+@categoryIdUpdate = 6abf97867981a03bf52a5be7
+
+PUT http://localhost:8000/api/v1/categories/{{categoryIdUpdate}}
+Content-Type: application/json
+
+{
+    "category_name": "Category 2 Updated",
+    "description": "Description for Category 2 Updated",
+    "slug": "category-2-updated"
+}
+
+### delete category
+@categoryIdDelete = 6abf97867981a03bf52a5be7
+DELETE http://localhost:8000/api/v1/categories/{{categoryIdDelete}}

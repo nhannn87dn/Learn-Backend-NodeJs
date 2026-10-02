@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 
 import studentsRouter from "./routes/v1/students.route";
 import studentsRouterV2 from "./routes/v2/students.route";
+import categoriesRouter from "./routes/v1/categoriesroute";
 
 const app: Express = express();
 
@@ -17,6 +18,6 @@ app.get("/", (req: Request, res: Response) => {
 /* ==== THÊM CÁC ROUTE HERE ==== */
 app.use('/api/v1/students', studentsRouter);
 app.use('/api/v2/students', studentsRouterV2);
-
+app.use('/api/v1/categories', categoriesRouter);
 
 export default app;
