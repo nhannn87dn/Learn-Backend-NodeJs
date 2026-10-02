@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 
-//create category schema
-const categorySchema = new mongoose.Schema({
-    category_name: {
+//create brand schema
+const brandSchema = new mongoose.Schema({
+    brand_name: {
         type: String, // kieu du lieu
         required: true, // yeu cau phai dien gia tri
         maxLength: 50, // gioi han do dai
-        unique: true,
         trim: true, // cat bo khoang trang dau va cuoi chuoi
+        unique: true,
     },
     description: {
         type: String,
@@ -23,10 +23,10 @@ const categorySchema = new mongoose.Schema({
     }
 },{
     timestamps: true, // tu dong tao createdAt va updatedAt
-    collection: "categories", // ten collection trong DB
+    collection: "brands", // ten collection trong DB
     versionKey: false, // khong tao field __v
 });
 
-//create category model
-const Category = mongoose.model("Category", categorySchema);
-export default Category;
+//create brand model
+const Brand = mongoose.model("Brand", brandSchema);
+export default Brand;
