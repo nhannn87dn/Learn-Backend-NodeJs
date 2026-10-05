@@ -3,6 +3,8 @@ import createError from "http-errors";
 import studentsRouter from "./routes/v1/students.route";
 import studentsRouterV2 from "./routes/v2/students.route";
 import categoriesRouter from "./routes/v1/categoriesroute";
+import brandsRouter from "./routes/v1/brands.route";
+import productsRouter from "./routes/v1/products.route";
 import { faker } from '@faker-js/faker';
 
 const app: Express = express();
@@ -32,6 +34,8 @@ app.get("/test", (req: Request, res: Response) => {
 app.use('/api/v1/students', studentsRouter);
 app.use('/api/v2/students', studentsRouterV2);
 app.use('/api/v1/categories', categoriesRouter);
+app.use('/api/v1/brands', brandsRouter);
+app.use('/api/v1/products', productsRouter);
 
 
 

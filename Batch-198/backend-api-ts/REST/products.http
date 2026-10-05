@@ -1,0 +1,4 @@
+@baseUrl = http://localhost:8000
+
+### Lấy danh sách products
+GET {{baseUrl}}/api/v1/products

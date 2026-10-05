@@ -105,11 +105,26 @@ Quy tắc:
 2. Lỗi **bắt buộc** đi qua `next(error)` → middleware lỗi trong `app.ts`; không tự trả lỗi rải rác ở controller.
 3. Middleware lỗi phải trả đủ `success`, `statusCode`, `message`, `data: null` (code mẫu hiện chưa có `data` — cần bổ sung cho đồng nhất).
 4. Không lộ `stack trace` hay thông điệp nội bộ của MongoDB cho client với lỗi 5xx; chỉ ghi `console.error` ở môi trường `development`.
-5. `DELETE` trả về bài viết vừa xóa trong `data`.
+5. Trường trong `data` phải đúng bảng 5.1 cho từng endpoint, không thừa, không thiếu.
 
-### 5.1. Mẫu response thành công
+### 5.1. Trường dữ liệu trong `data` theo từng endpoint
 
-**GET `/api/v1/articles` — 200**
+Mỗi endpoint chỉ trả **những trường màn hình cần dùng**, không trả toàn bộ document. Đặc biệt danh sách chỉ phục vụ lưới tin tức (card) nên **không** trả `content`, `tags`, `isPublished`, `updatedAt` (nội dung dài, làm response nặng không cần thiết).
+
+| Endpoint | Mục đích hiển thị | Kiểu `data` | Các trường trong `data` |
+| --- | --- | --- | --- |
+| `GET /api/v1/articles` | Lưới tin tức (card) | Mảng | `_id`, `title`, `summary`, `author`, `category`, `createdAt` |
+| `GET /api/v1/articles/:id` | Trang chi tiết bài viết | Object | `_id`, `title`, `summary`, `content`, `author`, `category`, `tags`, `isPublished`, `createdAt`, `updatedAt` |
+| `POST /api/v1/articles` | Xác nhận tạo thành công | Object | `_id`, `title`, `summary`, `content`, `author`, `category`, `tags`, `isPublished`, `createdAt`, `updatedAt` |
+| `PUT /api/v1/articles/:id` | Xác nhận cập nhật thành công | Object | `_id`, `title`, `summary`, `content`, `author`, `category`, `tags`, `isPublished`, `createdAt`, `updatedAt` |
+| `DELETE /api/v1/articles/:id` | Xác nhận xóa thành công | Object | `_id`, `title` |
+| Mọi endpoint khi lỗi | Hiển thị thông báo lỗi | `null` | (không có) |
+
+Gợi ý triển khai: ở service dùng `.select("_id title summary author category createdAt")` cho `findAll` và sắp xếp bài mới nhất trước `.sort({ createdAt: -1 })`.
+
+### 5.2. Mẫu response thành công
+
+**GET `/api/v1/articles` — 200** (lưới tin tức)
 
 ```json
 {
@@ -121,32 +136,53 @@ Quy tắc:
       "_id": "6650f1c2a1b2c3d4e5f60001",
       "title": "Hướng dẫn tổ chức Route trong Express.js",
       "summary": "Tổng quan cách phân chia và quản lý các API endpoint hiệu quả.",
-      "content": "Nội dung chi tiết về việc sử dụng express.Router() để tách file...",
       "author": "Nguyễn Văn A",
       "category": "Lập trình Backend",
-      "tags": ["nodejs", "express", "javascript"],
-      "isPublished": true,
-      "createdAt": "2026-03-21T03:00:00.000Z",
-      "updatedAt": "2026-03-21T03:00:00.000Z"
+      "createdAt": "2026-03-21T03:00:00.000Z"
     }
   ]
 }
 ```
 
-**POST `/api/v1/articles` — 201**
+**GET `/api/v1/articles/:id` — 200** (chi tiết; `POST` 201 và `PUT` 200 có cùng cấu trúc `data`)
 
 ```json
 {
   "success": true,
-  "statusCode": 201,
-  "message": "Resource created successfully",
-  "data": { "_id": "6650f1c2a1b2c3d4e5f60002", "title": "Hướng dẫn tổ chức Route trong Express.js", "...": "..." }
+  "statusCode": 200,
+  "message": "Success",
+  "data": {
+    "_id": "6650f1c2a1b2c3d4e5f60001",
+    "title": "Hướng dẫn tổ chức Route trong Express.js",
+    "summary": "Tổng quan cách phân chia và quản lý các API endpoint hiệu quả.",
+    "content": "Nội dung chi tiết về việc sử dụng express.Router() để tách file...",
+    "author": "Nguyễn Văn A",
+    "category": "Lập trình Backend",
+    "tags": ["nodejs", "express", "javascript"],
+    "isPublished": true,
+    "createdAt": "2026-03-21T03:00:00.000Z",
+    "updatedAt": "2026-03-21T03:00:00.000Z"
+  }
 }
 ```
 
-**GET `/:id` / PUT `/:id` / DELETE `/:id` — 200**: cùng khung như trên, `data` là object bài viết (với `DELETE` là bài viết đã xóa).
+**POST `/api/v1/articles` — 201**: `message` là `Resource created successfully`, `data` như response chi tiết ở trên.
 
-### 5.2. Mẫu response lỗi
+**DELETE `/api/v1/articles/:id` — 200**
+
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "Success",
+  "data": {
+    "_id": "6650f1c2a1b2c3d4e5f60001",
+    "title": "Hướng dẫn tổ chức Route trong Express.js"
+  }
+}
+```
+
+### 5.3. Mẫu response lỗi
 
 ```json
 {
