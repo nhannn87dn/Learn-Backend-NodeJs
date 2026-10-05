@@ -3,6 +3,7 @@ import createError from "http-errors";
 import studentsRouter from "./routes/v1/students.route";
 import studentsRouterV2 from "./routes/v2/students.route";
 import categoriesRouter from "./routes/v1/categoriesroute";
+import { faker } from '@faker-js/faker';
 
 const app: Express = express();
 
@@ -14,6 +15,18 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({ message: "Express + TypeScript Server" });
 });
+
+app.get("/test", (req: Request, res: Response) => {
+
+  const randomName = faker.person.fullName(); // Rowan Nikolaus
+  const productNameRandom = faker.commerce.productName(); // Ergonomic Cotton Keyboard
+  res.status(200).json({
+    name: randomName,
+    productName: productNameRandom,
+    message: "Test route is working!"
+  });
+});
+
 
 /* ==== THÊM CÁC ROUTE HERE ==== */
 app.use('/api/v1/students', studentsRouter);
