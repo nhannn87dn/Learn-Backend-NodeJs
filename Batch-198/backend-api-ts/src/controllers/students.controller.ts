@@ -2,6 +2,7 @@ import {Request, Response} from "express";
 import studentsService from "../services/students.service";
 
 const getAllStudents = async (req: Request, res: Response) => {
+  console.log('Getting all students');
   //trả về dữ liệu đã đọc từ file students.json
   const students = await studentsService.getAllStudents();
   res.status(200).json(students);

@@ -1,5 +1,5 @@
 # Lấy danh sách students
-GET http://localhost:8000/api/v1/students
+GET http://localhost:8000/api/v1/students?page=1&limit=10&sortBy=name&sortOrder=asc
 
 ### get single student
 GET http://localhost:8000/api/v1/students/1
@@ -16,7 +16,7 @@ Content-Type: application/json
 }
 
 ### Update student
-PUT http://localhost:8000/api/v1/students/3
+PUT http://localhost:8000/api/v1/students/1
 Content-Type: application/json
 
 {

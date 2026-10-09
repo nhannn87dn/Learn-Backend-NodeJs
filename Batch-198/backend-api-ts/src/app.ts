@@ -6,6 +6,7 @@ import categoriesRouter from "./routes/v1/categoriesroute";
 import brandsRouter from "./routes/v1/brands.route";
 import productsRouter from "./routes/v1/products.route";
 import { faker } from '@faker-js/faker';
+import { appMiddlewareExample } from "./middlewares/app.middleware";
 
 const app: Express = express();
 
@@ -14,6 +15,12 @@ const app: Express = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Middleware ví dụ
+//Chạy khi có request đến server, trước khi đi vào các route handler
+app.use(appMiddlewareExample);
+
+
+//route bắt đầu từ đây
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({ message: "Express + TypeScript Server" });
 });

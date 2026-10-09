@@ -1,8 +1,14 @@
 import express, { Router } from "express";
 import studentsController from "../../controllers/students.controller";
+import { routeLevelMiddlewareExample, routeLevelMiddlewareExample2 } from "../../middlewares/routeLevel.middleware";
 const router: Router = express.Router();
+
+//Gắp middleware vào trước các route
+//router.use(routeLevelMiddlewareExample)
+
+
 // GET /api/v1/students - get All Students
-router.get("/", studentsController.getAllStudents);
+router.get("/", routeLevelMiddlewareExample, routeLevelMiddlewareExample2,  studentsController.getAllStudents);
 // GET /api/v1/students/:id - get Student by ID
 router.get("/:id", studentsController.getStudentById);
 // POST /api/v1/students - create a new student
