@@ -2,7 +2,7 @@
 GET http://localhost:8000/api/v1/students?page=1&limit=10&sortBy=name&sortOrder=asc
 
 ### get single student
-GET http://localhost:8000/api/v1/students/1
+GET http://localhost:8000/api/v1/students/abc
 
 
 ### create new student
@@ -10,9 +10,9 @@ POST http://localhost:8000/api/v1/students
 Content-Type: application/json
 
 {
-  "name": "Clark Kent",
+  "name": "abc",
   "age": 18,
-  "email": "clark.kent@example.com"
+  "email": "clark.kent2@example.com"
 }
 
 ### Update student

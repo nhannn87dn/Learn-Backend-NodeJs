@@ -2,7 +2,7 @@ import express, { Express, Request, Response, NextFunction } from "express";
 import createError from "http-errors";
 import studentsRouter from "./routes/v1/students.route";
 import studentsRouterV2 from "./routes/v2/students.route";
-import categoriesRouter from "./routes/v1/categoriesroute";
+import categoriesRouter from "./routes/v1/categories.route";
 import brandsRouter from "./routes/v1/brands.route";
 import productsRouter from "./routes/v1/products.route";
 import { faker } from '@faker-js/faker';
