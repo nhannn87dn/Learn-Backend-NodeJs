@@ -1,0 +1,50 @@
+@baseUrl = http://localhost:8000
+@staffId = 6accca34feb778ff051ba0d7
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YWNjY2E1MWZlYjc3OGZmMDUxYmEwZDgiLCJuYW1lIjoiTmd1eWVuIFZhbiBBZG1pbiIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3OTE4MDgxMjAsImV4cCI6MTc5MjQxMjkyMH0.v_EKl_GX0UhUFrDlPH-aiEE9liMVQkBgjXmvolIjx8w
+
+### Lấy danh sách staffs
+GET {{baseUrl}}/api/v1/staffs
+Authorization: Bearer {{accessToken}}
+
+### Lấy chi tiết staff theo id
+GET {{baseUrl}}/api/v1/staffs/{{staffId}}
+Authorization: Bearer {{accessToken}}
+
+### Tạo staff mới
+POST {{baseUrl}}/api/v1/staffs
+Content-Type: application/json
+
+{
+	"name": "Nguyen Van Staff",
+	"avatar": "https://example.com/avatar.png",
+	"email": "staff01@example.com",
+	"password": "Password123!",
+	"isActive": true,
+	"role": "staff"
+}
+
+
+### Tạo staff mới role admin
+POST {{baseUrl}}/api/v1/staffs
+Content-Type: application/json
+
+{
+	"name": "Nguyen Van Admin",
+	"avatar": "https://example.com/avatar.png",
+	"email": "admin@example.com",
+	"password": "Password123!",
+	"isActive": true,
+	"role": "admin"
+
+}
+
+### Cập nhật staff
+PUT {{baseUrl}}/api/v1/staffs/{{staffId}}
+Content-Type: application/json
+
+{
+	"name": "Nguyen Van Staff Updated"
+}
+
+### Xóa staff
+DELETE {{baseUrl}}/api/v1/staffs/{{staffId}}

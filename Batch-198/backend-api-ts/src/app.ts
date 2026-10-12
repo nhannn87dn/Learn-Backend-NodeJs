@@ -3,8 +3,10 @@ import createError from "http-errors";
 import studentsRouter from "./routes/v1/students.route";
 import studentsRouterV2 from "./routes/v2/students.route";
 import categoriesRouter from "./routes/v1/categories.route";
+import staffsRouter from "./routes/v1/staffs.route";
 import brandsRouter from "./routes/v1/brands.route";
 import productsRouter from "./routes/v1/products.route";
+import authRouter from "./routes/v1/auth.route";
 import { faker } from '@faker-js/faker';
 import { appMiddlewareExample } from "./middlewares/app.middleware";
 
@@ -41,9 +43,10 @@ app.get("/test", (req: Request, res: Response) => {
 app.use('/api/v1/students', studentsRouter);
 app.use('/api/v2/students', studentsRouterV2);
 app.use('/api/v1/categories', categoriesRouter);
+app.use('/api/v1/staffs', staffsRouter);
 app.use('/api/v1/brands', brandsRouter);
 app.use('/api/v1/products', productsRouter);
-
+app.use('/api/v1/auth', authRouter);
 
 
 

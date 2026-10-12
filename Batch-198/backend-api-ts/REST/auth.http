@@ -1,0 +1,10 @@
+@baseUrl = http://localhost:8000
+
+### Đăng nhập
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@example.com",
+    "password": "Password123!"
+}
