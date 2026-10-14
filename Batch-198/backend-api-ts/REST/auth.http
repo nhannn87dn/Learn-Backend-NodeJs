@@ -1,10 +1,27 @@
 @baseUrl = http://localhost:8000
 
-### Đăng nhập
+### Đăng nhập admin
+
 POST {{baseUrl}}/api/v1/auth/login
 Content-Type: application/json
 
 {
     "email": "admin@example.com",
     "password": "Password123!"
+}
+
+### Get Profile
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YWNjY2E1MWZlYjc3OGZmMDUxYmEwZDgiLCJuYW1lIjoiTmd1eWVuIFZhbiBBZG1pbiIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3OTE5NzcxMjcsImV4cCI6MTc5MjU4MTkyN30.c-weXdqD329Lv0uiPD8TP3HeAE5qUelPgQbxwlKATL8
+GET {{baseUrl}}/api/v1/auth/profile
+Authorization: Bearer {{accessToken}}
+
+
+### Đăng nhập Staff
+
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email": "staff01@example.com",
+	"password": "Password123!"
 }

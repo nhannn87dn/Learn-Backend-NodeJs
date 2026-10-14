@@ -47,7 +47,11 @@ export const authorize = (roles: string[] = []) => {
     }
 
     return (req: Request, res: Response, next: NextFunction) => {
-      if (roles.length && res.locals.staff.role && !roles.includes(res.locals.staff.role)) {
+
+      const staff = res.locals.staff;
+      console.log("staff: ", staff);
+
+      if (roles.length && staff.role && !roles.includes(staff.role)) {
         return next(createError(403, 'Forbidden'));
       }
         // authentication and authorization successful

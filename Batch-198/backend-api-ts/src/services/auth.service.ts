@@ -24,7 +24,7 @@ const login = async (email: string, password: string) => {
         _id: staff._id,
         name: staff.name,
         email: staff.email,
-        role: staff.role
+        role: staff.role // vai trò của user
     }
     const accessToken = createToken(payload, '7d');
     const refreshToken = createToken(payload, '30d');
@@ -35,6 +35,18 @@ const login = async (email: string, password: string) => {
     }
 }
 
+const profile = async (staffId: string) => {
+    //Step 1: Find staff by id
+    const staff = await Staff.findById(staffId);
+    if(!staff){
+        throw createError(404, "Staff not found");
+    }
+    //Step 2: Return staff profile without password
+    const { password, ...staffProfile } = staff.toObject();
+    return staffProfile;
+}
+
 export default {
-    login
+    login,
+    profile
 }

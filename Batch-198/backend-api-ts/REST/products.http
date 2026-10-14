@@ -2,3 +2,14 @@
 
 ### Lấy danh sách products
 GET {{baseUrl}}/api/v1/products
+
+
+### Update product by ID
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YWNjY2EzNGZlYjc3OGZmMDUxYmEwZDciLCJuYW1lIjoiTmd1eWVuIFZhbiBTdGFmZiIsImVtYWlsIjoic3RhZmYwMUBleGFtcGxlLmNvbSIsInJvbGUiOiJzdGFmZiIsImlhdCI6MTc5MTk3NzQ5OSwiZXhwIjoxNzkyNTgyMjk5fQ.aipFQzZaZ1_-LKHxaoxDwI-VETFT6gKG3Cdnk-v9Xww
+PUT {{baseUrl}}/api/v1/products/6ac38766b274076f661b06e0
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "price": 15.99
+}

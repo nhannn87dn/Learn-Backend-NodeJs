@@ -18,6 +18,23 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
+//get Profile
+const profile = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // Lấy thông tin người dùng từ request (được thêm bởi middleware xác thực)
+    const staff = res.locals.staff;
+    // Gọi service để lấy thông tin profile
+    const user = await authService.profile(staff._id);
+    // Trả về thông tin người dùng cho client
+    sendJsonSuccess(res, user, { statusCode: 200, message: "Profile fetched successfully" });
+  }
+  catch (error) {
+    // Nếu có lỗi, trả về lỗi cho client
+    next(error);
+  }
+}
+
 export default {
   login,
+  profile
 };
