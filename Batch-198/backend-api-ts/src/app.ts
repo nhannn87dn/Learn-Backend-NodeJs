@@ -9,6 +9,7 @@ import productsRouter from "./routes/v1/products.route";
 import authRouter from "./routes/v1/auth.route";
 import { faker } from '@faker-js/faker';
 import { appMiddlewareExample } from "./middlewares/app.middleware";
+import cors from "cors";
 
 const app: Express = express();
 
@@ -16,6 +17,9 @@ const app: Express = express();
 //Parse JSON và URL-encoded data từ request body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+//cors
+app.use(cors())
 
 // Middleware ví dụ
 //Chạy khi có request đến server, trước khi đi vào các route handler
