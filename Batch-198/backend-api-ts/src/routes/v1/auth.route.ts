@@ -10,4 +10,7 @@ router.post("/login", authController.login);
 //GET /api/v1/auth/profile - profile route
 router.get("/profile", authenticateToken, authController.profile);
 
+//POST /api/v1/auth/refresh - refresh token
+
+
 export default router;
