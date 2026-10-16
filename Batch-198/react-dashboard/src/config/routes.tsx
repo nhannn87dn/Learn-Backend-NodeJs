@@ -1,4 +1,5 @@
 import CategoriesPage from '@/app/categories/page'
+import ProductsPage from '@/app/products/page'
 // import ProductsPage from '@/app/products/page'
 // import UploadsPage from '@/app/uploads/page'
 import { lazy } from 'react'
@@ -107,6 +108,11 @@ export const routes: RouteConfig[] = [
   {
     path: "/categories",
     element: <CategoriesPage />,
+    protected: false
+  },
+  {
+    path: "/products",
+    element: <ProductsPage />,
     protected: false
   },
 

@@ -14,7 +14,7 @@ interface QueryParams {
 const findAll = async (query: QueryParams) => {
 
     console.log('<<=== 🚀 query ===>>',query);
-    const { page = 1, limit = 10, sortBy = "price", order = "desc", ...filters } = query;
+    const { page = 1, limit = 10, sortBy = "createdAt", order = "desc", ...filters } = query;
 
     //filter by search keyword
     let where = {};

@@ -107,7 +107,12 @@ const data: { user: { name: string; email: string; avatar: string }; navGroups: 
           title: "Categories",
           url: "/categories",
           icon: Users,
-        }
+        },
+        {
+          title: "Products",
+          url: "/products",
+          icon: Users,
+        },
         
       ],
     },
